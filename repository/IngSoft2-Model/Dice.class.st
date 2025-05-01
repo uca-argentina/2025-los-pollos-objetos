@@ -9,8 +9,18 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
+Dice class >> isAPositiveInteger: numberOfFaces [
+
+	(numberOfFaces isInteger and: [ numberOfFaces > 0 ]) ifFalse: [
+		Error signal: 'Number of faces must be a positive integer.' ]
+]
+
+{ #category : 'as yet unclassified' }
 Dice class >> withATotalNumberOfFacesOf: numberOfFaces [
-	^ self new initializeWith: numberOfFaces.
+
+	self isAPositiveInteger: numberOfFaces.
+
+	^ self new initializeWith: numberOfFaces
 ]
 
 { #category : 'initialization' }
