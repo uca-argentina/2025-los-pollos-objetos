@@ -24,6 +24,24 @@ BoardTest >> testWhenBoardCreatedWithInvalidNumberOfCellsThenItFails [
 ]
 
 { #category : 'tests' }
+BoardTest >> testWhenBoardCreatedWithNonIntegerThenItFails [
+
+	self
+		should: [Board withATotalNumberOfCellsOf: 'uno']
+		raise: Error
+		withMessageText: 'Number of cells must be a positive integer.'.
+]
+
+{ #category : 'tests' }
+BoardTest >> testWhenBoardCreatedWithZeroCellsThenItFails [
+
+	self
+		should: [Board withATotalNumberOfCellsOf: 0]
+		raise: Error
+		withMessageText: 'Number of cells must be a positive integer.'.
+]
+
+{ #category : 'tests' }
 BoardTest >> testWhenBoardIsCreatedWithOneCellThenHasCell [
 
 	| aBoard |

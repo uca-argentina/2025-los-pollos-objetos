@@ -9,13 +9,18 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-Board class >> withATotalNumberOfCellsOf: aNumberOfCells [ 
+Board class >> isAPositiveInteger: aNumberOfCells [
 
-	
-	(aNumberOfCells isInteger and: [ aNumberOfCells positive  ])
-	ifFalse: [  Error signal: 'Number of cells must be a positive integer.' ].
+	(aNumberOfCells isInteger and: [ aNumberOfCells > 0 ]) ifFalse: [
+		Error signal: 'Number of cells must be a positive integer.' ]
+]
 
-	^ (self new) initializeWith: aNumberOfCells.
+{ #category : 'as yet unclassified' }
+Board class >> withATotalNumberOfCellsOf: aNumberOfCells [
+
+	self isAPositiveInteger: aNumberOfCells.
+
+	^ self new initializeWith: aNumberOfCells
 ]
 
 { #category : 'initialization' }
