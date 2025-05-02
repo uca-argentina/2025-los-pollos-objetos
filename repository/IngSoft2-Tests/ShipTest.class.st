@@ -47,9 +47,23 @@ ShipTest >> testWhenShipIsCreatedWithNoNameThenCreationFails [
 ShipTest >> testWhenShipThrowsADiceThenDiceIsThrownAndANumberIsReturned [
 
 	
-	| aShip aDice |
+	| aShip aDice dices |
 	aShip := Ship named: 'USS Enterprise'.
 	aDice := Dice withATotalNumberOfFacesOf: 6.
+	dices := OrderedCollection with: aDice.
 	
-	self assert: (aShip throw: aDice) equals: 1.
+	"self assert: (aShip throw: aDice) equals: 1."
+	self assert: (aShip throw: dices) isInteger.
+]
+
+{ #category : 'tests' }
+ShipTest >> testWhenShipThrowsMoreThanOneDiceThenTheDicesAreThrownAndANumberIsReturned [
+
+	| aShip oneDice anotherDice dices |
+	aShip := Ship named: 'Slave I'.
+	oneDice := Dice withATotalNumberOfFacesOf: 6.
+	anotherDice := Dice withATotalNumberOfFacesOf: 4.
+	dices := OrderedCollection with: oneDice with: anotherDice.
+	
+	self assert: (aShip throw: dices) isInteger.
 ]

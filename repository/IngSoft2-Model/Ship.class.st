@@ -39,7 +39,10 @@ Ship >> name [
 ]
 
 { #category : 'as yet unclassified' }
-Ship >> throw: aDice [ 
-	
-	^ 1.
+Ship >> throw: dices [
+
+  ^ (dices collect: [ :eachDice |
+      (1 to: eachDice sizeOfTheDice) atRandom
+  ]) sum.
+
 ]
