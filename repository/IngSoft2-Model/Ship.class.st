@@ -2,7 +2,8 @@ Class {
 	#name : 'Ship',
 	#superclass : 'Object',
 	#instVars : [
-		'shipsName'
+		'shipsName',
+		'shipsCurrentCell'
 	],
 	#classInstVars : [
 		'shipsName'
@@ -12,9 +13,29 @@ Class {
 }
 
 { #category : 'instance creation' }
-Ship class >> named: aName [ 
+Ship class >> named: aName [
+
+	self shipHasAValidName: aName.
+
+	^ (self new initializeWith: aName) atStartingPosition.
+]
+
+{ #category : 'instance creation' }
+Ship class >> shipHasAValidName: aName [
+
+	(aName isEmpty or: [ aName isNil ]) ifTrue: [
+		Error signal: 'Ship must be initialized with a name.' ]
+]
+
+{ #category : 'accessing' }
+Ship >> atStartingPosition [
 	
-	^ (Ship new) initializeWith: aName.
+	shipsCurrentCell := 0.
+]
+
+{ #category : 'as yet unclassified' }
+Ship >> fly: aNumberOfCells [ 
+	shipsCurrentCell := shipsCurrentCell + aNumberOfCells.
 ]
 
 { #category : 'accessing' }
@@ -27,4 +48,24 @@ Ship >> initializeWith: aName [
 Ship >> name [
 
 	^ shipsName.
+]
+
+{ #category : 'accessing' }
+Ship >> position [
+	
+	^ shipsCurrentCell.
+]
+
+{ #category : 'as yet unclassified' }
+Ship >> throw: dices [
+
+	| positionsToMove |
+	positionsToMove := (dices collect: [ :eachDice |
+      (1 to: eachDice sizeOfTheDice) atRandom
+  ]) sum.
+
+	self fly: positionsToMove.
+
+  ^ positionsToMove.
+
 ]
