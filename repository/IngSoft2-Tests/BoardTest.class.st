@@ -43,6 +43,15 @@ BoardTest >> testWhenBlackHoleEntryIsNonIntegerThenItFails [
 ]
 
 { #category : 'tests' }
+BoardTest >> testWhenBlackHoleExitIsBiggerThanEntryThenItPass [
+
+	self
+		should: [Board withATotalNumberOfCellsOf: 10 withABlackHoleIn: 6  wichOutIs: 2.]
+		raise: Error
+		withMessageText: 'The exit of the Black-Hole must be bigger than the entry.'.
+]
+
+{ #category : 'tests' }
 BoardTest >> testWhenBlackHoleExitIsInTheSixthCellThenItPass [
 
 	| aBoard |
