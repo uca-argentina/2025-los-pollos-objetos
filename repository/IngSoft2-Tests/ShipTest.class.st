@@ -6,6 +6,15 @@ Class {
 }
 
 { #category : 'tests' }
+ShipTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMessage [ 
+
+	self
+		should: anErrorBlock
+		raise: anErrorClass
+		withExceptionDo: [:error | self assert: (error messageText ) equals: errorMessage]
+]
+
+{ #category : 'tests' }
 ShipTest >> testWhenNewShipIsCreatedThenItHasAName [
 
 	| aShip |
@@ -22,4 +31,25 @@ ShipTest >> testWhenNewShipIsInstancedWithANameThenItHasAName [
 	aShip := Ship named: 'The Batwing'.
 	
 	self assert: (aShip name) equals: 'The Batwing'
+]
+
+{ #category : 'tests' }
+ShipTest >> testWhenShipIsCreatedWithNoNameThenCreationFails [
+
+	self
+		should: [Ship named: '']
+		raise: Error
+		withMessageText: 'Ship must be initialized with a name.'
+	
+]
+
+{ #category : 'tests' }
+ShipTest >> testWhenShipThrowsADiceThenDiceIsThrownAndANumberIsReturned [
+
+	
+	| aShip aDice |
+	aShip := Ship named: 'USS Enterprise'.
+	aDice := Dice withATotalNumberOfFacesOf: 6.
+	
+	self assert: (aShip throw: aDice) equals: 1.
 ]

@@ -12,9 +12,18 @@ Class {
 }
 
 { #category : 'instance creation' }
-Ship class >> named: aName [ 
-	
-	^ (Ship new) initializeWith: aName.
+Ship class >> named: aName [
+
+	self shipHasAValid: aName.
+
+	^ self new initializeWith: aName
+]
+
+{ #category : 'instance creation' }
+Ship class >> shipHasAValid: aName [
+
+	(aName isEmpty or: [ aName isNil ]) ifTrue: [
+		Error signal: 'Ship must be initialized with a name.' ]
 ]
 
 { #category : 'accessing' }
@@ -27,4 +36,10 @@ Ship >> initializeWith: aName [
 Ship >> name [
 
 	^ shipsName.
+]
+
+{ #category : 'as yet unclassified' }
+Ship >> throw: aDice [ 
+	
+	^ 1.
 ]
