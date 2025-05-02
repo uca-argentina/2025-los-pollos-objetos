@@ -25,13 +25,6 @@ Board class >> theCell: position isOutOfRange: range [
 ]
 
 { #category : 'as yet unclassified' }
-Board class >> theExit: exit isBiggerThan: entry [
-
-	( entry > exit ) ifTrue: [
-		Error signal: 'The exit of the Black-Hole must be bigger than the entry.' ].
-]
-
-{ #category : 'as yet unclassified' }
 Board class >> withATotalNumberOfCellsOf: aNumberOfCells [
 
 	(self isAPositiveInteger: aNumberOfCells).
@@ -49,9 +42,6 @@ Board class >> withATotalNumberOfCellsOf: numberOfCells withABlackHoleIn: blackH
 	self theCell: blackHoleOutIndex isOutOfRange: numberOfCells.
 	self theCell: blackHoleIndex isOutOfRange: numberOfCells.	
 	
-	self theExit: blackHoleOutIndex  isBiggerThan: blackHoleIndex.
-	
-
 	
 	^ self new  initializeWith: numberOfCells
 	blackHoleAt: blackHoleIndex 
