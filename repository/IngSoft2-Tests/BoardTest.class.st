@@ -15,7 +15,17 @@ BoardTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMess
 ]
 
 { #category : 'tests' }
-BoardTest >> testWhenBlackHoleCreatedWithNegativeEntryThenItFails [
+BoardTest >> testWhenBlackHoleEntryIsInTheSeccondCellThenItPass [
+
+	| aBoard |
+	
+	aBoard := Board withATotalNumberOfCellsOf: 10 withABlackHoleIn: 2  wichOutIs: 6.
+	
+	self assert: (aBoard blackHoleEntry) equals: 2.
+]
+
+{ #category : 'tests' }
+BoardTest >> testWhenBlackHoleEntryIsNegativeThenItFails [
 
 	self
 		should: [Board withATotalNumberOfCellsOf: 10 withABlackHoleIn: -2  wichOutIs: 6.]
@@ -24,16 +34,7 @@ BoardTest >> testWhenBlackHoleCreatedWithNegativeEntryThenItFails [
 ]
 
 { #category : 'tests' }
-BoardTest >> testWhenBlackHoleCreatedWithNegativeExitThenItFails [
-
-	self
-		should: [Board withATotalNumberOfCellsOf: 10 withABlackHoleIn: 2  wichOutIs: -6.]
-		raise: Error
-		withMessageText: 'Number of cells must be a positive integer.'.
-]
-
-{ #category : 'tests' }
-BoardTest >> testWhenBlackHoleCreatedWithNonIntegerEntryThenItFails [
+BoardTest >> testWhenBlackHoleEntryIsNonIntegerThenItFails [
 
 	self
 		should: [Board withATotalNumberOfCellsOf: 10 withABlackHoleIn: '2'  wichOutIs: 6.]
@@ -42,32 +43,31 @@ BoardTest >> testWhenBlackHoleCreatedWithNonIntegerEntryThenItFails [
 ]
 
 { #category : 'tests' }
-BoardTest >> testWhenBlackHoleCreatedWithNonIntegerExitThenItFails [
+BoardTest >> testWhenBlackHoleExitIsInTheSixthCellThenItPass [
+
+	| aBoard |
+	
+	aBoard := Board withATotalNumberOfCellsOf: 10 withABlackHoleIn: 2  wichOutIs: 6.
+	
+	self assert: (aBoard blackHoleExit ) equals: 6.
+]
+
+{ #category : 'tests' }
+BoardTest >> testWhenBlackHoleExitIsNegativeThenItFails [
 
 	self
-		should: [Board withATotalNumberOfCellsOf: 10 withABlackHoleIn: 2  wichOutIs: '6'.]
+		should: [Board withATotalNumberOfCellsOf: 10 withABlackHoleIn: 2  wichOutIs: -6.]
 		raise: Error
 		withMessageText: 'Number of cells must be a positive integer.'.
 ]
 
 { #category : 'tests' }
-BoardTest >> testWhenBlackHoleIsAddInTheSeccondCellThenItPass [
+BoardTest >> testWhenBlackHoleExitIsNonIntegeThenItFails [
 
-	| aBoard |
-	
-	aBoard := Board withATotalNumberOfCellsOf: 10 withABlackHoleIn: 2  wichOutIs: 6.
-	
-	self assert: (aBoard blackHoleIsIn) equals: 2.
-]
-
-{ #category : 'tests' }
-BoardTest >> testWhenBlackHoleOutIsInTheSixthCellThenItPass [
-
-	| aBoard |
-	
-	aBoard := Board withATotalNumberOfCellsOf: 10 withABlackHoleIn: 2  wichOutIs: 6.
-	
-	self assert: (aBoard blackHoleOutIsIn) equals: 6.
+	self
+		should: [Board withATotalNumberOfCellsOf: 10 withABlackHoleIn: 2  wichOutIs: '6'.]
+		raise: Error
+		withMessageText: 'Number of cells must be a positive integer.'.
 ]
 
 { #category : 'tests' }

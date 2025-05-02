@@ -36,12 +36,12 @@ Board class >> withATotalNumberOfCellsOf: numberOfCells withABlackHoleIn: blackH
 ]
 
 { #category : 'as yet unclassified' }
-Board >> blackHoleIsIn [
+Board >> blackHoleEntry [
 	^ blackHoleIndex.
 ]
 
 { #category : 'as yet unclassified' }
-Board >> blackHoleOutIsIn [
+Board >> blackHoleExit [
 	^ blackHoleOutIndex .
 ]
 
