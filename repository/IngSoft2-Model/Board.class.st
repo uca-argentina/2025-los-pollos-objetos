@@ -11,22 +11,25 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-Board class >> isAPositiveInteger: aNumberOfCells [
+Board class >> isAPositiveInteger: aNumber [
 
-	(aNumberOfCells isInteger and: [ aNumberOfCells > 0 ]) ifFalse: [
-		Error signal: 'Number of cells must be a positive integer.' ]
+	(aNumber isInteger and: [ aNumber > 0 ]) ifFalse: [
+		Error signal: 'Number of cells must be a positive integer.' ].
 ]
 
 { #category : 'as yet unclassified' }
 Board class >> withATotalNumberOfCellsOf: aNumberOfCells [
 
-	self isAPositiveInteger: aNumberOfCells.
-
+	(self isAPositiveInteger: aNumberOfCells).
 	^ self new initializeWith: aNumberOfCells
 ]
 
 { #category : 'as yet unclassified' }
-Board class >> withATotalNumberOfCellsOf: numberOfCells withABlackHoleIn: blackHoleIndex wichOutIs: blackHoleOutIndex [ 
+Board class >> withATotalNumberOfCellsOf: numberOfCells withABlackHoleIn: blackHoleIndex wichOutIs: blackHoleOutIndex [
+ 	self isAPositiveInteger: numberOfCells.
+	self isAPositiveInteger: blackHoleIndex .
+	self isAPositiveInteger: blackHoleOutIndex .
+	
 	^ self new  initializeWith: numberOfCells
 	blackHoleAt: blackHoleIndex 
 	withExitAt: blackHoleOutIndex .
