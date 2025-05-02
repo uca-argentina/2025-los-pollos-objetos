@@ -18,6 +18,13 @@ Board class >> isAPositiveInteger: aNumber [
 ]
 
 { #category : 'as yet unclassified' }
+Board class >> theCell: position isOutOfRange: range [
+
+	( position > range ) ifTrue: [
+		Error signal: 'The cells of the Black-Hole must in the board.' ].
+]
+
+{ #category : 'as yet unclassified' }
 Board class >> theExit: exit isBiggerThan: entry [
 
 	( entry > exit ) ifTrue: [
@@ -33,11 +40,18 @@ Board class >> withATotalNumberOfCellsOf: aNumberOfCells [
 
 { #category : 'as yet unclassified' }
 Board class >> withATotalNumberOfCellsOf: numberOfCells withABlackHoleIn: blackHoleIndex wichOutIs: blackHoleOutIndex [
- 	self isAPositiveInteger: numberOfCells.
+ 
+		
+	self isAPositiveInteger: numberOfCells.
 	self isAPositiveInteger: blackHoleIndex .
 	self isAPositiveInteger: blackHoleOutIndex .
 	
+	self theCell: blackHoleOutIndex isOutOfRange: numberOfCells.
+	self theCell: blackHoleIndex isOutOfRange: numberOfCells.	
+	
 	self theExit: blackHoleOutIndex  isBiggerThan: blackHoleIndex.
+	
+
 	
 	^ self new  initializeWith: numberOfCells
 	blackHoleAt: blackHoleIndex 

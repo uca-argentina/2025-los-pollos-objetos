@@ -15,6 +15,15 @@ BoardTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMess
 ]
 
 { #category : 'tests' }
+BoardTest >> testWhenBlackHoleEntryIsBiggerThanBoardCellsThenItPass [
+
+	self
+		should: [Board withATotalNumberOfCellsOf: 10 withABlackHoleIn: 16  wichOutIs: 2.]
+		raise: Error
+		withMessageText: 'The cells of the Black-Hole must in the board.'.
+]
+
+{ #category : 'tests' }
 BoardTest >> testWhenBlackHoleEntryIsInTheSeccondCellThenItPass [
 
 	| aBoard |
@@ -40,6 +49,15 @@ BoardTest >> testWhenBlackHoleEntryIsNonIntegerThenItFails [
 		should: [Board withATotalNumberOfCellsOf: 10 withABlackHoleIn: '2'  wichOutIs: 6.]
 		raise: Error
 		withMessageText: 'Number of cells must be a positive integer.'.
+]
+
+{ #category : 'tests' }
+BoardTest >> testWhenBlackHoleExitIsBiggerThanBoardCellsThenItPass [
+
+	self
+		should: [Board withATotalNumberOfCellsOf: 10 withABlackHoleIn: 16  wichOutIs: 2.]
+		raise: Error
+		withMessageText: 'The cells of the Black-Hole must in the board.'.
 ]
 
 { #category : 'tests' }
