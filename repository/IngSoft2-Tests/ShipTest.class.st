@@ -34,6 +34,15 @@ ShipTest >> testWhenNewShipIsInstancedWithANameThenItHasAName [
 ]
 
 { #category : 'tests' }
+ShipTest >> testWhenShipIsCreatedThenItStarsAtCellZero [
+
+	| aShip |
+	aShip := Ship named: 'Discovery One'.
+	
+	self assert: (aShip position) equals: 0.
+]
+
+{ #category : 'tests' }
 ShipTest >> testWhenShipIsCreatedWithNoNameThenCreationFails [
 
 	self
@@ -41,6 +50,16 @@ ShipTest >> testWhenShipIsCreatedWithNoNameThenCreationFails [
 		raise: Error
 		withMessageText: 'Ship must be initialized with a name.'
 	
+]
+
+{ #category : 'tests' }
+ShipTest >> testWhenShipMovesOnePositionFromCellZeroThenItMovesAccordingly [
+
+	| aShip |
+	aShip := Ship named: 'Discovery One'.
+	aShip fly: 1.
+	
+	self assert: (aShip position) equals: 1.
 ]
 
 { #category : 'tests' }
