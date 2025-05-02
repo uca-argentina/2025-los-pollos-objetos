@@ -15,6 +15,26 @@ BoardTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMess
 ]
 
 { #category : 'tests' }
+BoardTest >> testWhenBlackHoleIsAddInTheSeccondCellThenItPass [
+
+	| aBoard |
+	
+	aBoard := Board withATotalNumberOfCellsOf: 10 withABlackHoleIn: 2  wichOutIs: 6.
+	
+	self assert: (aBoard blackHoleIsIn) equals: 2.
+]
+
+{ #category : 'tests' }
+BoardTest >> testWhenBlackHoleOutIsInTheSixthCellThenItPass [
+
+	| aBoard |
+	
+	aBoard := Board withATotalNumberOfCellsOf: 10 withABlackHoleIn: 2  wichOutIs: 6.
+	
+	self assert: (aBoard blackHoleOutIsIn) equals: 6.
+]
+
+{ #category : 'tests' }
 BoardTest >> testWhenBoardCreatedWithInvalidNumberOfCellsThenItFails [
 
 	self

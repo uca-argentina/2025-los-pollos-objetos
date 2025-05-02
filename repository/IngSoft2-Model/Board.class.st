@@ -2,7 +2,9 @@ Class {
 	#name : 'Board',
 	#superclass : 'Object',
 	#instVars : [
-		'totalBoardCells'
+		'totalBoardCells',
+		'blackHoleIndex',
+		'blackHoleOutIndex'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -23,6 +25,23 @@ Board class >> withATotalNumberOfCellsOf: aNumberOfCells [
 	^ self new initializeWith: aNumberOfCells
 ]
 
+{ #category : 'as yet unclassified' }
+Board class >> withATotalNumberOfCellsOf: numberOfCells withABlackHoleIn: blackHoleIndex wichOutIs: blackHoleOutIndex [ 
+	^ self new  initializeWith: numberOfCells
+	blackHoleAt: blackHoleIndex 
+	withExitAt: blackHoleOutIndex .
+]
+
+{ #category : 'as yet unclassified' }
+Board >> blackHoleIsIn [
+	^ blackHoleIndex.
+]
+
+{ #category : 'as yet unclassified' }
+Board >> blackHoleOutIsIn [
+	^ blackHoleOutIndex .
+]
+
 { #category : 'initialization' }
 Board >> initializeWith: aNumberOfCells [
 
@@ -30,6 +49,13 @@ Board >> initializeWith: aNumberOfCells [
 	
 
 
+]
+
+{ #category : 'accessing' }
+Board >> initializeWith: numberOfCells blackHoleAt: blackHoleEntry withExitAt: blackHoleOut [
+	totalBoardCells := numberOfCells.
+	blackHoleIndex :=blackHoleEntry.
+	blackHoleOutIndex :=blackHoleOut.
 ]
 
 { #category : 'initialization' }
