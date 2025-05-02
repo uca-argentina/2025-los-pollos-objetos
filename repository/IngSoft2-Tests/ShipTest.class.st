@@ -65,7 +65,6 @@ ShipTest >> testWhenShipMovesOnePositionFromCellZeroThenItMovesAccordingly [
 { #category : 'tests' }
 ShipTest >> testWhenShipThrowsADiceThenDiceIsThrownAndANumberIsReturned [
 
-	
 	| aShip aDice dices |
 	aShip := Ship named: 'USS Enterprise'.
 	aDice := Dice withATotalNumberOfFacesOf: 6.
@@ -73,6 +72,20 @@ ShipTest >> testWhenShipThrowsADiceThenDiceIsThrownAndANumberIsReturned [
 	
 	"self assert: (aShip throw: aDice) equals: 1."
 	self assert: (aShip throw: dices) isInteger.
+]
+
+{ #category : 'tests' }
+ShipTest >> testWhenShipThrowsDicesThenItMovesAsMuchPositionAsTheResultOfTheThrowIs [
+
+	
+	| aShip aDice dices throwResult |
+	aShip := Ship named: 'Nebuchadnezzar'.
+	aDice := Dice withATotalNumberOfFacesOf: 6.
+	dices := OrderedCollection with: aDice.
+	
+	throwResult := aShip throw: dices.
+	
+	self assert: (aShip position) equals: throwResult.
 ]
 
 { #category : 'tests' }

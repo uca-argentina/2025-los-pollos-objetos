@@ -15,13 +15,13 @@ Class {
 { #category : 'instance creation' }
 Ship class >> named: aName [
 
-	self shipHasAValid: aName.
+	self shipHasAValidName: aName.
 
 	^ (self new initializeWith: aName) atStartingPosition.
 ]
 
 { #category : 'instance creation' }
-Ship class >> shipHasAValid: aName [
+Ship class >> shipHasAValidName: aName [
 
 	(aName isEmpty or: [ aName isNil ]) ifTrue: [
 		Error signal: 'Ship must be initialized with a name.' ]
@@ -59,8 +59,13 @@ Ship >> position [
 { #category : 'as yet unclassified' }
 Ship >> throw: dices [
 
-  ^ (dices collect: [ :eachDice |
+	| positionsToMove |
+	positionsToMove := (dices collect: [ :eachDice |
       (1 to: eachDice sizeOfTheDice) atRandom
   ]) sum.
+
+	self fly: positionsToMove.
+
+  ^ positionsToMove.
 
 ]
