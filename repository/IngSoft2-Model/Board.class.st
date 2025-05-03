@@ -20,6 +20,14 @@ Board class >> isAPositiveInteger: aNumber [
 ]
 
 { #category : 'as yet unclassified' }
+Board class >> the: firstEntrance isDifferentFrom: secondEntrance [
+
+	(firstEntrance = secondEntrance) ifTrue: [
+		Error signal:
+			'The entrances of the Black-Hole must be in different cells.' ]
+]
+
+{ #category : 'as yet unclassified' }
 Board class >> theCell: position isOutOfRange: range [
 
 	( position > range ) ifTrue: [
@@ -42,6 +50,8 @@ Board class >> withATotalNumberOfCellsOf: numberOfCells andABlackHoleBetweenCell
 	
 	self theCell: firstEntrance isOutOfRange: numberOfCells.
 	self theCell: secondEntrance isOutOfRange: numberOfCells.	
+		
+	self the: firstEntrance isDifferentFrom: secondEntrance.
 	
 	
 	^ self new  initializeWith: numberOfCells
