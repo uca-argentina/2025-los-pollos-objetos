@@ -15,6 +15,15 @@ BoardTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMess
 ]
 
 { #category : 'tests' }
+BoardTest >> testWhenBlackHolesFirstEntranceAndSecondEntranceAreEqualThenCreationFails [
+
+	self
+		should: [Board withATotalNumberOfCellsOf: 10 andABlackHoleBetweenCells: 1  and: 1.]
+		raise: Error
+		withMessageText: 'The entrances of the Black-Hole must be in different cells.'.
+]
+
+{ #category : 'tests' }
 BoardTest >> testWhenBlackHolesFirstEntranceIsANegativeCellThenCreationFails [
 
 	self
