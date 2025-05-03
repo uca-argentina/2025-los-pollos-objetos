@@ -23,12 +23,21 @@ Dice class >> withATotalNumberOfFacesOf: numberOfFaces [
 	^ self new initializeWith: numberOfFaces
 ]
 
+{ #category : 'as yet unclassified' }
+Dice >> beThrown [
+	
+	^ (1 to: self sizeOfTheDice) atRandom.
+	
+]
+
 { #category : 'initialization' }
 Dice >> initializeWith: numberOfFaces [ 
+
 	numberOfFacesOfTheDice := numberOfFaces
 ]
 
 { #category : 'as yet unclassified' }
 Dice >> sizeOfTheDice [
+
 	^ numberOfFacesOfTheDice .
 ]
