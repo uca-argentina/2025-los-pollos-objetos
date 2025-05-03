@@ -32,29 +32,30 @@ Board class >> withATotalNumberOfCellsOf: aNumberOfCells [
 ]
 
 { #category : 'as yet unclassified' }
-Board class >> withATotalNumberOfCellsOf: numberOfCells withABlackHoleIn: blackHoleIndex wichOutIs: blackHoleOutIndex [
+Board class >> withATotalNumberOfCellsOf: numberOfCells andABlackHoleBetweenCells: blackHoleIndex and: blackHoleOutIndex [
  
-		
 	self isAPositiveInteger: numberOfCells.
-	self isAPositiveInteger: blackHoleIndex .
-	self isAPositiveInteger: blackHoleOutIndex .
+	self isAPositiveInteger: blackHoleIndex.
+	self isAPositiveInteger: blackHoleOutIndex.
 	
 	self theCell: blackHoleOutIndex isOutOfRange: numberOfCells.
 	self theCell: blackHoleIndex isOutOfRange: numberOfCells.	
 	
 	
 	^ self new  initializeWith: numberOfCells
-	blackHoleAt: blackHoleIndex 
-	withExitAt: blackHoleOutIndex .
+		andABlackHoleBeweenCells: blackHoleIndex 
+		and: blackHoleOutIndex.
 ]
 
 { #category : 'as yet unclassified' }
-Board >> blackHoleEntry [
+Board >> blackHolesFirstEntrance [
+
 	^ blackHoleIndex.
 ]
 
 { #category : 'as yet unclassified' }
-Board >> blackHoleExit [
+Board >> blackHolesSecondEntrance [
+
 	^ blackHoleOutIndex .
 ]
 
@@ -68,9 +69,10 @@ Board >> initializeWith: aNumberOfCells [
 ]
 
 { #category : 'accessing' }
-Board >> initializeWith: numberOfCells blackHoleAt: blackHoleEntry withExitAt: blackHoleOut [
+Board >> initializeWith: numberOfCells andABlackHoleBeweenCells: blackHoleEntry and: blackHoleOut [
+
 	totalBoardCells := numberOfCells.
-	blackHoleIndex :=blackHoleEntry.
+	blackHoleIndex := blackHoleEntry.
 	blackHoleOutIndex :=blackHoleOut.
 ]
 
