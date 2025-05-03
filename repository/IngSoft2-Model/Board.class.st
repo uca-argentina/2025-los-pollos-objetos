@@ -4,7 +4,9 @@ Class {
 	#instVars : [
 		'totalBoardCells',
 		'blackHoleIndex',
-		'blackHoleOutIndex'
+		'blackHoleOutIndex',
+		'blackHolesFirstEntrance',
+		'blackHolesSecondEntrance'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -32,31 +34,31 @@ Board class >> withATotalNumberOfCellsOf: aNumberOfCells [
 ]
 
 { #category : 'as yet unclassified' }
-Board class >> withATotalNumberOfCellsOf: numberOfCells andABlackHoleBetweenCells: blackHoleIndex and: blackHoleOutIndex [
+Board class >> withATotalNumberOfCellsOf: numberOfCells andABlackHoleBetweenCells: firstEntrance and: secondEntrance [
  
 	self isAPositiveInteger: numberOfCells.
-	self isAPositiveInteger: blackHoleIndex.
-	self isAPositiveInteger: blackHoleOutIndex.
+	self isAPositiveInteger: firstEntrance.
+	self isAPositiveInteger: secondEntrance.
 	
-	self theCell: blackHoleOutIndex isOutOfRange: numberOfCells.
-	self theCell: blackHoleIndex isOutOfRange: numberOfCells.	
+	self theCell: firstEntrance isOutOfRange: numberOfCells.
+	self theCell: secondEntrance isOutOfRange: numberOfCells.	
 	
 	
 	^ self new  initializeWith: numberOfCells
-		andABlackHoleBeweenCells: blackHoleIndex 
-		and: blackHoleOutIndex.
+		andABlackHoleBeweenCells: firstEntrance 
+		and: secondEntrance.
 ]
 
 { #category : 'as yet unclassified' }
 Board >> blackHolesFirstEntrance [
 
-	^ blackHoleIndex.
+	^ blackHolesFirstEntrance.
 ]
 
 { #category : 'as yet unclassified' }
 Board >> blackHolesSecondEntrance [
 
-	^ blackHoleOutIndex .
+	^ blackHolesSecondEntrance.
 ]
 
 { #category : 'initialization' }
@@ -69,11 +71,11 @@ Board >> initializeWith: aNumberOfCells [
 ]
 
 { #category : 'accessing' }
-Board >> initializeWith: numberOfCells andABlackHoleBeweenCells: blackHoleEntry and: blackHoleOut [
+Board >> initializeWith: numberOfCells andABlackHoleBeweenCells: firstEntrance and: secondEntrance [
 
 	totalBoardCells := numberOfCells.
-	blackHoleIndex := blackHoleEntry.
-	blackHoleOutIndex :=blackHoleOut.
+	blackHolesFirstEntrance := firstEntrance.
+	blackHolesSecondEntrance := secondEntrance.
 ]
 
 { #category : 'initialization' }
