@@ -23,8 +23,9 @@ Game class >> named: aName with: aBoard and: dices and: ships [
 
 { #category : 'as yet unclassified' }
 Game >> determineTheConsequencesOfTheThrowIn: aNewPosition forShip: aShip [
-
-	(aNewPosition = winningCell ) ifTrue: [ ^ 'The game has ended, you won!' ].
+	
+	(aNewPosition = winningCell ) ifTrue: [ ^ aShip name , ' won the Game!' ].
+	
 	(aNewPosition = blackHolesFirstEntrance) ifTrue: [ aShip fly: distanceFromBlackHolesFirstEntranceToSecondEntrance ].
 	(aNewPosition = blackHoleSecondEntrance ) ifTrue: [ aShip fly: (distanceFromBlackHolesFirstEntranceToSecondEntrance * (-1))].	
 ]

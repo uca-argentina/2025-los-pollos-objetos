@@ -162,5 +162,30 @@ GameTest >> testWhenOneShipGetsToTheWinningCellThenTheGameFinishes [
 	aShip throw: dices.
 	newPosition := aShip position. 
 	
-	self assert: (aGame determineTheConsequencesOfTheThrowIn: newPosition forShip: aShip) equals: 'The game has ended, you won!'
+	"self assert: (aGame determineTheConsequencesOfTheThrowIn: newPosition forShip: aShip) equals: 'The game has ended, you won!'"
+	self assert: (aGame determineTheConsequencesOfTheThrowIn: newPosition forShip: aShip) equals: 'Apolo won the Game!'
+]
+
+{ #category : 'tests' }
+GameTest >> testWhenOneShipGetsToTheWinningCellThenYouCanKnowWhichShipWon [
+
+	| aGame aBoard aShip  ships oneDice  dices newPosition |
+	aBoard := OneCellBoard withOneCell. 
+
+	aShip := Ship named: 'Venture'.
+	ships := OrderedCollection with: aShip.
+
+	oneDice := OneFaceDice withOneFace. 
+	dices := OrderedCollection with: oneDice.
+
+	aGame := Game
+		named: 'Juego Asombroso'
+		with: aBoard
+		and: dices
+		and: ships.
+		
+	aShip throw: dices.
+	newPosition := aShip position. 
+	
+	self assert: (aGame determineTheConsequencesOfTheThrowIn: newPosition forShip: aShip) equals: 'Venture won the Game!'
 ]
