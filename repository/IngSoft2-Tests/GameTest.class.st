@@ -123,7 +123,7 @@ GameTest >> testWhenOneShipGetsToTheBlackHolesSecondEntranceThenItIsForwardedToT
 	aShip := Ship named: 'Elysium'.
 	ships := OrderedCollection with: aShip.
 
-	oneDice := TwoFacesDiceTrickedToAlwaysReturn2WhenThrown withTwoFaces. 
+	oneDice := TwoFacesDiceTrickedToAlwaysReturnTwoWhenThrown withTwoFaces. 
 	dices := OrderedCollection with: oneDice.
 
 	aGame := Game

@@ -32,8 +32,8 @@ OneCellBoard >> blackHolesSecondEntrance [
 OneCellBoard >> initializeWith: aNumberOfCells [
 
 	totalBoardCells := aNumberOfCells.
-	blackHolesFirstEntrance := 0.
-	blackHolesSecondEntrance := 0.
+	blackHolesFirstEntrance := -1.
+	blackHolesSecondEntrance := -1.
 ]
 
 { #category : 'initialization' }

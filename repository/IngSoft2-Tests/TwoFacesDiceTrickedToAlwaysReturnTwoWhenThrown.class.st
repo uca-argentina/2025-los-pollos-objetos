@@ -1,5 +1,5 @@
 Class {
-	#name : 'TwoFacesDiceTrickedToAlwaysReturn2WhenThrown',
+	#name : 'TwoFacesDiceTrickedToAlwaysReturnTwoWhenThrown',
 	#superclass : 'Object',
 	#instVars : [
 		'numberOfFacesOfTheDice'
@@ -9,25 +9,25 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-TwoFacesDiceTrickedToAlwaysReturn2WhenThrown class >> withTwoFaces [
+TwoFacesDiceTrickedToAlwaysReturnTwoWhenThrown class >> withTwoFaces [
 
 	^ self new initializeWith: 2.
 ]
 
 { #category : 'initialization' }
-TwoFacesDiceTrickedToAlwaysReturn2WhenThrown >> beThrown [
+TwoFacesDiceTrickedToAlwaysReturnTwoWhenThrown >> beThrown [
 	
 	^ 2.
 ]
 
 { #category : 'initialization' }
-TwoFacesDiceTrickedToAlwaysReturn2WhenThrown >> initializeWith: numberOfFaces [ 
+TwoFacesDiceTrickedToAlwaysReturnTwoWhenThrown >> initializeWith: numberOfFaces [ 
 
 	numberOfFacesOfTheDice := numberOfFaces.
 ]
 
 { #category : 'initialization' }
-TwoFacesDiceTrickedToAlwaysReturn2WhenThrown >> sizeOfTheDice [
+TwoFacesDiceTrickedToAlwaysReturnTwoWhenThrown >> sizeOfTheDice [
 
 	^ numberOfFacesOfTheDice .
 ]

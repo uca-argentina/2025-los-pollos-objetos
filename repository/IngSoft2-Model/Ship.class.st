@@ -35,6 +35,7 @@ Ship >> atStartingPosition [
 
 { #category : 'as yet unclassified' }
 Ship >> fly: aNumberOfCells [ 
+
 	shipsCurrentCell := shipsCurrentCell + aNumberOfCells.
 ]
 
