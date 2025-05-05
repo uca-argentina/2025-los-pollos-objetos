@@ -35,6 +35,7 @@ Ship >> atStartingPosition [
 
 { #category : 'as yet unclassified' }
 Ship >> fly: aNumberOfCells [ 
+
 	shipsCurrentCell := shipsCurrentCell + aNumberOfCells.
 ]
 
@@ -61,7 +62,7 @@ Ship >> throw: dices [
 
 	| positionsToMove |
 	positionsToMove := (dices collect: [ :eachDice |
-      (1 to: eachDice sizeOfTheDice) atRandom
+      eachDice beThrown 
   ]) sum.
 
 	self fly: positionsToMove.

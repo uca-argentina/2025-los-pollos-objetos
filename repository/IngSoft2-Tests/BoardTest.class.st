@@ -20,7 +20,7 @@ BoardTest >> testWhenBlackHolesFirstEntranceAndSecondEntranceAreEqualThenCreatio
 	self
 		should: [Board withATotalNumberOfCellsOf: 10 andABlackHoleBetweenCells: 1  and: 1.]
 		raise: Error
-		withMessageText: 'The entrances of the Black-Hole must be in different cells.'.
+		withMessageText: 'The entrances of the Black Hole must be in different cells.'.
 ]
 
 { #category : 'tests' }
@@ -47,7 +47,16 @@ BoardTest >> testWhenBlackHolesFirstEntranceIsOutOfBoardsRangeThenCreationFails 
 	self
 		should: [Board withATotalNumberOfCellsOf: 10 andABlackHoleBetweenCells: 11  and: 2.]
 		raise: Error
-		withMessageText: 'The cells of the Black-Hole must in the board.'.
+		withMessageText: 'The cells of the Black Hole must in the board.'.
+]
+
+{ #category : 'tests' }
+BoardTest >> testWhenBlackHolesSecondEntranceCellIsSmallerThanBlackHolesFirstEntranceCellThenCreationFails [
+
+	self
+		should: [Board withATotalNumberOfCellsOf: 10 andABlackHoleBetweenCells: 6  and: 1.]
+		raise: Error
+		withMessageText: 'The First Entrance of Black Hole must come before the Second Entrance.'.
 ]
 
 { #category : 'tests' }
@@ -72,9 +81,9 @@ BoardTest >> testWhenBlackHolesSecondEntranceIsNonIntegerThenCreationFails [
 BoardTest >> testWhenBlackHolesSecondEntrnaceIsOutOfBoardsRangeThenCreationFails [
 
 	self
-		should: [Board withATotalNumberOfCellsOf: 10 andABlackHoleBetweenCells: 11  and: 2.]
+		should: [Board withATotalNumberOfCellsOf: 10 andABlackHoleBetweenCells: 2 and: 11.]
 		raise: Error
-		withMessageText: 'The cells of the Black-Hole must in the board.'.
+		withMessageText: 'The cells of the Black Hole must in the board.'.
 ]
 
 { #category : 'tests' }

@@ -24,14 +24,22 @@ Board class >> the: firstEntrance isDifferentFrom: secondEntrance [
 
 	(firstEntrance = secondEntrance) ifTrue: [
 		Error signal:
-			'The entrances of the Black-Hole must be in different cells.' ]
+			'The entrances of the Black Hole must be in different cells.' ]
+]
+
+{ #category : 'as yet unclassified' }
+Board class >> the: secondEntrance isSmallerThan: firstEntrance [
+
+	(firstEntrance > secondEntrance) ifTrue: [
+		Error signal:
+			'The First Entrance of Black Hole must come before the Second Entrance.' ]
 ]
 
 { #category : 'as yet unclassified' }
 Board class >> theCell: position isOutOfRange: range [
 
 	( position > range ) ifTrue: [
-		Error signal: 'The cells of the Black-Hole must in the board.' ].
+		Error signal: 'The cells of the Black Hole must in the board.' ].
 ]
 
 { #category : 'as yet unclassified' }
@@ -52,7 +60,7 @@ Board class >> withATotalNumberOfCellsOf: numberOfCells andABlackHoleBetweenCell
 	self theCell: secondEntrance isOutOfRange: numberOfCells.	
 		
 	self the: firstEntrance isDifferentFrom: secondEntrance.
-	
+	self the: secondEntrance isSmallerThan: firstEntrance.
 	
 	^ self new  initializeWith: numberOfCells
 		andABlackHoleBeweenCells: firstEntrance 

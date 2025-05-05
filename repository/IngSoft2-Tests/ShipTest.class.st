@@ -34,7 +34,7 @@ ShipTest >> testWhenNewShipIsInstancedWithANameThenItHasAName [
 ]
 
 { #category : 'tests' }
-ShipTest >> testWhenShipIsCreatedThenItStarsAtCellZero [
+ShipTest >> testWhenShipIsCreatedThenItStarsAtStartingPosition [
 
 	| aShip |
 	aShip := Ship named: 'Discovery One'.
@@ -53,7 +53,7 @@ ShipTest >> testWhenShipIsCreatedWithNoNameThenCreationFails [
 ]
 
 { #category : 'tests' }
-ShipTest >> testWhenShipMovesOnePositionFromCellZeroThenItMovesAccordingly [
+ShipTest >> testWhenShipMovesOnePositionFromStartingPositionThenItMovesAccordingly [
 
 	| aShip |
 	aShip := Ship named: 'Discovery One'.
@@ -85,7 +85,7 @@ ShipTest >> testWhenShipThrowsDicesThenItMovesAsMuchPositionAsTheResultOfTheThro
 	
 	throwResult := aShip throw: dices.
 	
-	self assert: (aShip position) equals: throwResult.
+	self assert: (aShip position) equals: (throwResult).
 ]
 
 { #category : 'tests' }

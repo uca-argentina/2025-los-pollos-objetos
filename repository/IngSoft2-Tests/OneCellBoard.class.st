@@ -2,7 +2,9 @@ Class {
 	#name : 'OneCellBoard',
 	#superclass : 'Object',
 	#instVars : [
-		'totalBoardCells'
+		'totalBoardCells',
+		'blackHolesFirstEntrance',
+		'blackHolesSecondEntrance'
 	],
 	#category : 'IngSoft2-Tests',
 	#package : 'IngSoft2-Tests'
@@ -15,9 +17,23 @@ OneCellBoard class >> withOneCell [
 ]
 
 { #category : 'initialization' }
+OneCellBoard >> blackHolesFirstEntrance [
+
+	^ blackHolesFirstEntrance.
+]
+
+{ #category : 'initialization' }
+OneCellBoard >> blackHolesSecondEntrance [
+
+	^ blackHolesSecondEntrance.
+]
+
+{ #category : 'initialization' }
 OneCellBoard >> initializeWith: aNumberOfCells [
 
 	totalBoardCells := aNumberOfCells.
+	blackHolesFirstEntrance := -1.
+	blackHolesSecondEntrance := -1.
 ]
 
 { #category : 'initialization' }
