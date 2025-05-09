@@ -50,7 +50,7 @@ BoardBuilder >> isAPositiveInteger: aNumber [
 BoardBuilder >> isWithinBoardsRangeThe: secondEntrance [
 
 	secondEntrance > numberOfCells ifTrue: [
-		Error signal: 'The cells of the Black Hole must be in the board.' ]
+		Error signal: 'The Black Hole entrance must be within the valid range of board cells (1 to ', 			numberOfCells asString, ').' ]
 ]
 
 { #category : 'initialization' }
@@ -98,5 +98,6 @@ BoardBuilder >> withBlackHoleFrom: firstEntrance to: secondEntrance [
 { #category : 'initialization' }
 BoardBuilder >> withCells: aNumberOfCells [
 
+	self isAPositiveInteger: aNumberOfCells.
 	numberOfCells := aNumberOfCells .
 ]

@@ -123,7 +123,7 @@ BoardTest >> testWhenBlackHolesSecondEntranceIsOutOfBoardsRangeThenCreationFails
 			builder build.
 		]
 		raise: Error
-		withMessageText: 'The cells of the Black Hole must be in the board.'.
+		withMessageText: 'The Black Hole entrance must be within the valid range of board cells (1 to 10).'.
 
 ]
 
