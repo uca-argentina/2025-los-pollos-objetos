@@ -16,26 +16,29 @@ BoardBuilderTest >> should: anErrorBlock raise: anErrorClass withMessageText: er
 
 { #category : 'tests' }
 BoardBuilderTest >> testWhenBoardBuilderIsSetToBuildABoardWithAGivenNumberOfCellsThenItBuildsIt [
-	| builder board |
+
+	| builder aBoard |
 	builder := BoardBuilder new.
 	builder withCells: 5.
-	board := builder build.
-	self assert: board numberOfCells equals: 5.
+	aBoard := builder build.
+	self assert: aBoard numberOfCells equals: 5.
 ]
 
 { #category : 'tests' }
 BoardBuilderTest >> testWhenBoardBuilderIsSetWithBlackHoleThenABoardWithBlackHolesIsCreated [
-	| builder board |
+
+	| builder aBoard |
 	builder := BoardBuilder new.
 	builder withCells: 10.
 	builder withBlackHoleFrom: 3 to: 8.
-	board := builder build.
-	self assert: board blackHolesFirstEntrance equals: 3.
-	self assert: board blackHolesSecondEntrance equals: 8.
+	aBoard := builder build.
+	self assert: aBoard blackHolesFirstEntrance equals: 3.
+	self assert: aBoard blackHolesSecondEntrance equals: 8.
 ]
 
 { #category : 'tests' }
 BoardBuilderTest >> testWhenBoardBuilderTriesToBuildABoardWithABlackHoleOnOneSameCellThenCreationFails [
+
 	self
 		should: [
 			(BoardBuilder new
@@ -48,6 +51,7 @@ BoardBuilderTest >> testWhenBoardBuilderTriesToBuildABoardWithABlackHoleOnOneSam
 
 { #category : 'tests' }
 BoardBuilderTest >> testWhenBoardBuilderTriesToBuildABoardWithABlackHoleOutOfRangeThenCreationFails [
+
 	self
 		should: [
 			(BoardBuilder new
@@ -61,6 +65,7 @@ BoardBuilderTest >> testWhenBoardBuilderTriesToBuildABoardWithABlackHoleOutOfRan
 
 { #category : 'tests' }
 BoardBuilderTest >> testWhenBoardBuilderTriesToBuildWithANegativeNumberOfCellsThenCreationFails [
+
 	self 
 		should: [ BoardBuilder new withCells: -3 ] 
 		raise: Error 
@@ -69,6 +74,7 @@ BoardBuilderTest >> testWhenBoardBuilderTriesToBuildWithANegativeNumberOfCellsTh
 
 { #category : 'tests' }
 BoardBuilderTest >> testWhenBoardBuilderTriesToCreateABoardWithZeroCellsThenCreationFails [
+
 	self 
 		should: [ BoardBuilder new withCells: 0 ] 
 		raise: Error 
