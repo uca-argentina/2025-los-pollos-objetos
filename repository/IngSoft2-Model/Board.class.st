@@ -15,12 +15,14 @@ Board class >> withCells: aNumberOfCells [
 
 { #category : 'initialization' }
 Board >> initializeWithCells: aNumberOfCells [
+
 	numberOfCells := aNumberOfCells.
 
 ]
 
 { #category : 'initialization' }
 Board >> numberOfCells [
+
 	^ numberOfCells.
 
 ]
