@@ -15,6 +15,15 @@ BoardBuilderTest >> should: anErrorBlock raise: anErrorClass withMessageText: er
 ]
 
 { #category : 'tests' }
+BoardBuilderTest >> testWhenADecoratorIsAddedThenNumberOfCellsDelegatesToBase [
+
+	| base decorator |
+	base := BoardBuilder new withCells: 3; build.
+	decorator := BoardDecorator new initializeOf: base.
+	self assert: decorator numberOfCells equals: 3.
+]
+
+{ #category : 'tests' }
 BoardBuilderTest >> testWhenBoardBuilderIsSetToBuildABoardWithAGivenNumberOfCellsThenItBuildsIt [
 
 	| builder aBoard |
@@ -25,7 +34,17 @@ BoardBuilderTest >> testWhenBoardBuilderIsSetToBuildABoardWithAGivenNumberOfCell
 ]
 
 { #category : 'tests' }
-BoardBuilderTest >> testWhenBoardBuilderIsSetWithBlackHoleThenABoardWithBlackHolesIsCreated [
+BoardBuilderTest >> testWhenBoardBuilderIsSetToBuildABoardWithOneCellThenItBuildsIt [
+
+	| builder board |
+	builder := BoardBuilder new.
+	builder withCells: 1.
+	board := builder build.
+	self assert: board numberOfCells equals: 1.
+]
+
+{ #category : 'tests' }
+BoardBuilderTest >> testWhenBoardBuilderIsSetWithBlackHoleThenTheBlackHoleHasAFirstEntrance [
 
 	| builder aBoard |
 	builder := BoardBuilder new.
@@ -33,7 +52,30 @@ BoardBuilderTest >> testWhenBoardBuilderIsSetWithBlackHoleThenABoardWithBlackHol
 	builder withBlackHoleFrom: 3 to: 8.
 	aBoard := builder build.
 	self assert: aBoard blackHolesFirstEntrance equals: 3.
+]
+
+{ #category : 'tests' }
+BoardBuilderTest >> testWhenBoardBuilderIsSetWithBlackHoleThenTheBlackHoleHasASecondEntrance [
+
+	| builder aBoard |
+	builder := BoardBuilder new.
+	builder withCells: 10.
+	builder withBlackHoleFrom: 3 to: 8.
+	aBoard := builder build.
 	self assert: aBoard blackHolesSecondEntrance equals: 8.
+]
+
+{ #category : 'tests' }
+BoardBuilderTest >> testWhenBoardBuilderTriesToBuildABoardWithABlackHoleAndFirstEntranceIsBiggerThanTheSecondEntranceThenCreationFails [
+
+	self
+		should: [
+			(BoardBuilder new
+				withCells: 5;
+				withBlackHoleFrom: 4 to: 1)
+				build ]
+		raise: Error
+		withMessageText: 'The First Entrance of Black Hole must come before the Second Entrance'.
 ]
 
 { #category : 'tests' }
