@@ -13,31 +13,6 @@ Class {
 { #category : 'as yet unclassified' }
 OneCellBoard class >> withOneCell [
 
-	^ self new initializeWith: 1.
-]
-
-{ #category : 'initialization' }
-OneCellBoard >> blackHolesFirstEntrance [
-
-	^ blackHolesFirstEntrance.
-]
-
-{ #category : 'initialization' }
-OneCellBoard >> blackHolesSecondEntrance [
-
-	^ blackHolesSecondEntrance.
-]
-
-{ #category : 'initialization' }
-OneCellBoard >> initializeWith: aNumberOfCells [
-
-	totalBoardCells := aNumberOfCells.
-	blackHolesFirstEntrance := -1.
-	blackHolesSecondEntrance := -1.
-]
-
-{ #category : 'initialization' }
-OneCellBoard >> numberOfCells [
-
-	^ totalBoardCells 
+	^ BoardBuilder new withCells: 1;
+		build.
 ]

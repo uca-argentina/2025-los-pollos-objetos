@@ -11,35 +11,12 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-ThreeCellsBoardWithOneBlackHole class >> withThreeCellsAndOneBlackHole [	
+ThreeCellsBoardWithOneBlackHole class >> withThreeCellsAndOneBlackHole [
+
+	| aBuilder |
+	aBuilder := BoardBuilder new.
+	aBuilder withCells: 3.
+	aBuilder withBlackHoleFrom: 1 to: 2.
 	
-	^ self new  initializeWith: 3
-		andABlackHoleBeweenCells: 1 
-		and: 2.
-]
-
-{ #category : 'initialization' }
-ThreeCellsBoardWithOneBlackHole >> blackHolesFirstEntrance [
-
-	^ blackHolesFirstEntrance.
-]
-
-{ #category : 'initialization' }
-ThreeCellsBoardWithOneBlackHole >> blackHolesSecondEntrance [
-
-	^ blackHolesSecondEntrance.
-]
-
-{ #category : 'initialization' }
-ThreeCellsBoardWithOneBlackHole >> initializeWith: numberOfCells andABlackHoleBeweenCells: firstEntrance and: secondEntrance [
-
-	totalBoardCells := numberOfCells.
-	blackHolesFirstEntrance := firstEntrance.
-	blackHolesSecondEntrance := secondEntrance.
-]
-
-{ #category : 'initialization' }
-ThreeCellsBoardWithOneBlackHole >> numberOfCells [
-
-	^ totalBoardCells 
+	^ aBuilder build.
 ]

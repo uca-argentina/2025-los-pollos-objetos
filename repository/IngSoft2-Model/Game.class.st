@@ -8,8 +8,7 @@ Class {
 		'ships',
 		'winningCell',
 		'blackHolesFirstEntrance',
-		'blackHoleSecondEntrance',
-		'distanceFromBlackHolesFirstEntranceToSecondEntrance'
+		'blackHoleSecondEntrance'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -26,8 +25,8 @@ Game >> determineTheConsequencesOfTheThrowIn: aNewPosition forShip: aShip [
 	
 	(aNewPosition = winningCell ) ifTrue: [ ^ aShip name , ' won the Game!' ].
 	
-	(aNewPosition = blackHolesFirstEntrance) ifTrue: [ aShip fly: distanceFromBlackHolesFirstEntranceToSecondEntrance ].
-	(aNewPosition = blackHoleSecondEntrance ) ifTrue: [ aShip fly: (distanceFromBlackHolesFirstEntranceToSecondEntrance * (-1))].	
+	(aNewPosition = blackHolesFirstEntrance) ifTrue: [ aShip fly: (blackHoleSecondEntrance - blackHolesFirstEntrance)].
+	(aNewPosition = blackHoleSecondEntrance ) ifTrue: [ aShip fly: (blackHolesFirstEntrance - blackHoleSecondEntrance)].	
 ]
 
 { #category : 'initialization' }
@@ -39,8 +38,7 @@ Game >> initializeWith: gameName and: aBoard and: gameDices and: gameShips [
 	winningCell := board numberOfCells.
 	blackHolesFirstEntrance := board blackHolesFirstEntrance.
 	blackHoleSecondEntrance := board blackHolesSecondEntrance.
-	distanceFromBlackHolesFirstEntranceToSecondEntrance := blackHoleSecondEntrance - blackHolesFirstEntrance. 
-	
+
 	dices := gameDices.
 	
 	ships := gameShips. 
