@@ -33,13 +33,6 @@ BoardBuilder >> initialize [
 ]
 
 { #category : 'initialization' }
-BoardBuilder >> initializeWithCells: aNumber [
-
-    self isAPositiveInteger: aNumber.
-    numberOfCells := aNumber.
-]
-
-{ #category : 'initialization' }
 BoardBuilder >> isAPositiveInteger: aNumber [
 
 	 (aNumber isInteger and: [ aNumber > 0 ] ) ifFalse: [

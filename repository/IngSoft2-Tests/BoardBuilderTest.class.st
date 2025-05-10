@@ -19,7 +19,7 @@ BoardBuilderTest >> testWhenADecoratorIsAddedThenNumberOfCellsDelegatesToBase [
 
 	| base decorator |
 	base := BoardBuilder new withCells: 3; build.
-	decorator := BoardDecorator new initializeOf: base.
+	decorator := BoardDecorator of: base.
 	self assert: decorator numberOfCells equals: 3.
 ]
 
