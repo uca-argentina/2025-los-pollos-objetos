@@ -17,17 +17,31 @@ BoardTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMess
 { #category : 'tests' }
 BoardTest >> testWhenBlackHolesFirstEntranceAndSecondEntranceAreEqualThenCreationFails [
 
+	| builder |
+	builder := BoardBuilder new.
+
 	self
-		should: [Board withATotalNumberOfCellsOf: 10 andABlackHoleBetweenCells: 1  and: 1.]
+		should: [
+			builder withCells: 10.
+			builder withBlackHoleFrom: 1 to: 1.
+			builder build.
+		]
 		raise: Error
-		withMessageText: 'The entrances of the Black Hole must be in different cells.'.
+		withMessageText: 'The entrances of the Black Hole must be in different cells'.
 ]
 
 { #category : 'tests' }
 BoardTest >> testWhenBlackHolesFirstEntranceIsANegativeCellThenCreationFails [
 
+	| builder |
+	builder := BoardBuilder new.
+
 	self
-		should: [Board withATotalNumberOfCellsOf: 10 andABlackHoleBetweenCells: -2  and: 6.]
+		should: [
+			builder withCells: 10.
+			builder withBlackHoleFrom: -2 to: 6.
+			builder build.
+		]
 		raise: Error
 		withMessageText: 'Number of cells must be a positive integer.'.
 ]
@@ -35,35 +49,47 @@ BoardTest >> testWhenBlackHolesFirstEntranceIsANegativeCellThenCreationFails [
 { #category : 'tests' }
 BoardTest >> testWhenBlackHolesFirstEntranceIsNonIntegerThenCreationFails [
 
+	| builder |
+	builder := BoardBuilder new.
+
 	self
-		should: [Board withATotalNumberOfCellsOf: 10 andABlackHoleBetweenCells: 'dos'  and: 6.]
+		should: [
+			builder withCells: 10.
+			builder withBlackHoleFrom: 'dos' to: -10.
+			builder build.
+		]
 		raise: Error
 		withMessageText: 'Number of cells must be a positive integer.'.
 ]
 
 { #category : 'tests' }
-BoardTest >> testWhenBlackHolesFirstEntranceIsOutOfBoardsRangeThenCreationFails [
-
-	self
-		should: [Board withATotalNumberOfCellsOf: 10 andABlackHoleBetweenCells: 11  and: 2.]
-		raise: Error
-		withMessageText: 'The cells of the Black Hole must in the board.'.
-]
-
-{ #category : 'tests' }
 BoardTest >> testWhenBlackHolesSecondEntranceCellIsSmallerThanBlackHolesFirstEntranceCellThenCreationFails [
 
+	| builder |
+	builder := BoardBuilder new.
+
 	self
-		should: [Board withATotalNumberOfCellsOf: 10 andABlackHoleBetweenCells: 6  and: 1.]
+		should: [
+			builder withCells: 10.
+			builder withBlackHoleFrom: 4 to: 1.
+			builder build.
+		]
 		raise: Error
-		withMessageText: 'The First Entrance of Black Hole must come before the Second Entrance.'.
+		withMessageText: 'The First Entrance of Black Hole must come before the Second Entrance'.
 ]
 
 { #category : 'tests' }
 BoardTest >> testWhenBlackHolesSecondEntranceIsANegativeCellThenCreationFails [
 
+	| builder |
+	builder := BoardBuilder new.
+
 	self
-		should: [Board withATotalNumberOfCellsOf: 10 andABlackHoleBetweenCells: 2  and: -6.]
+		should: [
+			builder withCells: 10.
+			builder withBlackHoleFrom: 2 to: -10.
+			builder build.
+		]
 		raise: Error
 		withMessageText: 'Number of cells must be a positive integer.'.
 ]
@@ -71,65 +97,102 @@ BoardTest >> testWhenBlackHolesSecondEntranceIsANegativeCellThenCreationFails [
 { #category : 'tests' }
 BoardTest >> testWhenBlackHolesSecondEntranceIsNonIntegerThenCreationFails [
 
+	| builder |
+	builder := BoardBuilder new.
+
 	self
-		should: [Board withATotalNumberOfCellsOf: 10 andABlackHoleBetweenCells: 2  and: 'seis'.]
+		should: [
+			builder withCells: 10.
+			builder withBlackHoleFrom: 2 to: 'diez'.
+			builder build.
+		]
 		raise: Error
 		withMessageText: 'Number of cells must be a positive integer.'.
 ]
 
 { #category : 'tests' }
-BoardTest >> testWhenBlackHolesSecondEntrnaceIsOutOfBoardsRangeThenCreationFails [
+BoardTest >> testWhenBlackHolesSecondEntranceIsOutOfBoardsRangeThenCreationFails [
+
+	| builder |
+	builder := BoardBuilder new.
 
 	self
-		should: [Board withATotalNumberOfCellsOf: 10 andABlackHoleBetweenCells: 2 and: 11.]
+		should: [
+			builder withCells: 10.
+			builder withBlackHoleFrom: 2 to: 11.
+			builder build.
+		]
 		raise: Error
-		withMessageText: 'The cells of the Black Hole must in the board.'.
+		withMessageText: 'The Black Hole entrance must be within the valid range of board cells (1 to 10).'.
+
 ]
 
 { #category : 'tests' }
 BoardTest >> testWhenBoardCreatedWithInvalidNumberOfCellsThenItFails [
 
+	| builder |
+	builder := BoardBuilder new.
+	
 	self
-		should: [Board withATotalNumberOfCellsOf: -1]
-		raise: Error
+		should: [ 
+			builder withCells: -1.
+			builder build. 
+		]
+		raise: Error 
 		withMessageText: 'Number of cells must be a positive integer.'.
 ]
 
 { #category : 'tests' }
 BoardTest >> testWhenBoardCreatedWithNonIntegerThenItFails [
 
+	| builder |
+	builder := BoardBuilder new.
+	
 	self
-		should: [Board withATotalNumberOfCellsOf: 'uno']
-		raise: Error
+		should: [ 
+			builder withCells: 'dos'.
+			builder build. 
+		]
+		raise: Error 
 		withMessageText: 'Number of cells must be a positive integer.'.
 ]
 
 { #category : 'tests' }
 BoardTest >> testWhenBoardCreatedWithZeroCellsThenItFails [
 
-	self
-		should: [Board withATotalNumberOfCellsOf: 0]
-		raise: Error
+	| builder |
+	builder := BoardBuilder new.
+
+	self 
+		should: [ 
+			builder withCells: 0.
+			builder build. 
+		]
+		raise: Error 
 		withMessageText: 'Number of cells must be a positive integer.'.
 ]
 
 { #category : 'tests' }
-BoardTest >> testWhenBoardIsCreatedWithOneCellThenHasCell [
+BoardTest >> testWhenBoardIsCreatedWithOneCellThenHasOneCell [
 
-	| aBoard |
+	| aBoard aBoardBuilder |
 	"aBoard := Board new."
 	
-	aBoard := Board withATotalNumberOfCellsOf: 1.
-	
+	aBoardBuilder := BoardBuilder new.
+	aBoardBuilder withCells: 1.
+	aBoard := aBoardBuilder build.
+
 	self assert: (aBoard numberOfCells) equals: 1.
 ]
 
 { #category : 'tests' }
 BoardTest >> testWhenBoardIsCreatedWithTenCellsThenHasTenCells [
 
-	| aBoard |
+	| aBoard aBoardBuilder |
 	
-	aBoard := Board withATotalNumberOfCellsOf: 10.
+	aBoardBuilder := BoardBuilder new.
+	aBoardBuilder withCells: 10.
+	aBoard := aBoardBuilder build.
 	
 	self assert: (aBoard numberOfCells) equals: 10.
 ]
@@ -137,19 +200,25 @@ BoardTest >> testWhenBoardIsCreatedWithTenCellsThenHasTenCells [
 { #category : 'tests' }
 BoardTest >> testWhenBoardIsSetWithABlackHoleThenItHasAFirstEntrance [
 
-	| aBoard |
+	| aBoard aBoardBuilder |
 	
-	aBoard := Board withATotalNumberOfCellsOf: 10 andABlackHoleBetweenCells: 2  and: 6.
+	aBoardBuilder := BoardBuilder new.
+	aBoardBuilder withCells: 10.
+	aBoardBuilder withBlackHoleFrom: 5 to: 10.
+	aBoard := aBoardBuilder build.
 	
-	self assert: (aBoard blackHolesFirstEntrance) equals: 2.
+	self assert: (aBoard blackHolesFirstEntrance) equals: 5.
 ]
 
 { #category : 'tests' }
 BoardTest >> testWhenBoardIsSetWithABlackHoleThenItHasASecondEntrance [
 
-	| aBoard |
+	| aBoard aBoardBuilder |
 	
-	aBoard := Board withATotalNumberOfCellsOf: 10 andABlackHoleBetweenCells: 2  and: 6.
+	aBoardBuilder := BoardBuilder new.
+	aBoardBuilder withCells: 10.
+	aBoardBuilder withBlackHoleFrom: 5 to: 10.
+	aBoard := aBoardBuilder build.
 	
-	self assert: (aBoard blackHolesSecondEntrance ) equals: 6.
+	self assert: (aBoard blackHolesSecondEntrance ) equals: 10.
 ]

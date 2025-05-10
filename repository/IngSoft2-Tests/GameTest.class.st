@@ -8,14 +8,14 @@ Class {
 { #category : 'tests' }
 GameTest >> testWhenGameIsCreatedThenItHasAName [
 
-	| aGame aBoard aShip anotherShip ships oneDice anotherDice dices |
+	| aGame aBoard aShip anotherShip ships oneDice anotherDice dices aBoardBuilder |
 	
 	"aGame := Game new."
 	
-	aBoard := Board
-		          withATotalNumberOfCellsOf: 10
-		          andABlackHoleBetweenCells: 2
-		          and: 6.
+	aBoardBuilder := BoardBuilder new.
+	aBoardBuilder withCells: 10.
+	aBoardBuilder withBlackHoleFrom: 2 to: 6.
+	aBoard := aBoardBuilder build.
 
 	aShip := Ship named: 'Executor'.
 	anotherShip := Ship named: 'Axiom'.
@@ -37,11 +37,12 @@ GameTest >> testWhenGameIsCreatedThenItHasAName [
 { #category : 'tests' }
 GameTest >> testWhenGameIsCreatedWithAllThePiecesThenIsSuccesfullyCreated [
 
-	| aGame aBoard aShip anotherShip ships oneDice anotherDice dices |
-	aBoard := Board
-		          withATotalNumberOfCellsOf: 10
-		          andABlackHoleBetweenCells: 2
-		          and: 6.
+	| aGame aBoard aShip anotherShip ships oneDice anotherDice dices aBoardBuilder |
+	
+	aBoardBuilder := BoardBuilder new.
+	aBoardBuilder withCells: 10.
+	aBoardBuilder withBlackHoleFrom: 2 to: 6.
+	aBoard := aBoardBuilder build.
 
 	aShip := Ship named: 'Executor'.
 	anotherShip := Ship named: 'Axiom'.
@@ -63,11 +64,12 @@ GameTest >> testWhenGameIsCreatedWithAllThePiecesThenIsSuccesfullyCreated [
 { #category : 'tests' }
 GameTest >> testWhenGameIsStartedThenItSuccesfullyStarts [
 
-	| aGame aBoard aShip anotherShip ships oneDice anotherDice dices |
-	aBoard := Board
-		          withATotalNumberOfCellsOf: 10
-		          andABlackHoleBetweenCells: 2
-		          and: 6.
+	| aGame aBoard aShip anotherShip ships oneDice anotherDice dices aBoardBuilder |
+	
+	aBoardBuilder := BoardBuilder new.
+	aBoardBuilder withCells: 10.
+	aBoardBuilder withBlackHoleFrom: 2 to: 6.
+	aBoard := aBoardBuilder build.
 
 	aShip := Ship named: 'Executor'.
 	anotherShip := Ship named: 'Axiom'.
@@ -118,6 +120,7 @@ GameTest >> testWhenOneShipGetsToTheBlackHolesFirstEntranceThenItIsForwardedToTh
 GameTest >> testWhenOneShipGetsToTheBlackHolesSecondEntranceThenItIsForwardedToTheFirstEntranceOfTheBlackHole [
 
 	| aGame aBoard aShip  ships oneDice  dices newPosition positionAfterDetermination blackHolesFirstEntrance |
+	
 	aBoard := ThreeCellsBoardWithOneBlackHole withThreeCellsAndOneBlackHole. 
 
 	aShip := Ship named: 'Elysium'.
@@ -145,6 +148,7 @@ GameTest >> testWhenOneShipGetsToTheBlackHolesSecondEntranceThenItIsForwardedToT
 GameTest >> testWhenOneShipGetsToTheWinningCellThenTheGameFinishes [
 
 	| aGame aBoard aShip  ships oneDice  dices newPosition |
+	
 	aBoard := OneCellBoard withOneCell. 
 
 	aShip := Ship named: 'Apolo'.
@@ -170,6 +174,7 @@ GameTest >> testWhenOneShipGetsToTheWinningCellThenTheGameFinishes [
 GameTest >> testWhenOneShipGetsToTheWinningCellThenYouCanKnowWhichShipWon [
 
 	| aGame aBoard aShip  ships oneDice  dices newPosition |
+	
 	aBoard := OneCellBoard withOneCell. 
 
 	aShip := Ship named: 'Venture'.
