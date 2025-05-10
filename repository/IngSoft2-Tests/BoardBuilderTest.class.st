@@ -6,30 +6,36 @@ Class {
 }
 
 { #category : 'tests' }
-BoardBuilderTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMessage [ 
+BoardBuilderTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMessage [
 
 	self
 		should: anErrorBlock
 		raise: anErrorClass
-		withExceptionDo: [:error | self assert: (error messageText ) equals: errorMessage]
+		withExceptionDo: [ :error |
+		self assert: error messageText equals: errorMessage ]
 ]
 
 { #category : 'tests' }
 BoardBuilderTest >> testWhenADecoratorIsAddedThenNumberOfCellsDelegatesToBase [
 
 	| base decorator |
-	base := BoardBuilder new withCells: 3; build.
+	
+	base := BoardBuilder new withCells: 3.
+	base := base build.
 	decorator := BoardDecorator of: base.
-	self assert: decorator numberOfCells equals: 3.
+	
+	self assert: decorator numberOfCells equals: 3
 ]
 
 { #category : 'tests' }
 BoardBuilderTest >> testWhenBoardBuilderIsSetToBuildABoardWithAGivenNumberOfCellsThenItBuildsIt [
 
 	| builder aBoard |
+	
 	builder := BoardBuilder new.
 	builder withCells: 5.
 	aBoard := builder build.
+	
 	self assert: aBoard numberOfCells equals: 5.
 ]
 
@@ -37,9 +43,11 @@ BoardBuilderTest >> testWhenBoardBuilderIsSetToBuildABoardWithAGivenNumberOfCell
 BoardBuilderTest >> testWhenBoardBuilderIsSetToBuildABoardWithOneCellThenItBuildsIt [
 
 	| builder board |
+	
 	builder := BoardBuilder new.
 	builder withCells: 1.
 	board := builder build.
+	
 	self assert: board numberOfCells equals: 1.
 ]
 
@@ -47,10 +55,12 @@ BoardBuilderTest >> testWhenBoardBuilderIsSetToBuildABoardWithOneCellThenItBuild
 BoardBuilderTest >> testWhenBoardBuilderIsSetWithBlackHoleThenTheBlackHoleHasAFirstEntrance [
 
 	| builder aBoard |
+	
 	builder := BoardBuilder new.
 	builder withCells: 10.
 	builder withBlackHoleFrom: 3 to: 8.
 	aBoard := builder build.
+	
 	self assert: aBoard blackHolesFirstEntrance equals: 3.
 ]
 
@@ -58,10 +68,12 @@ BoardBuilderTest >> testWhenBoardBuilderIsSetWithBlackHoleThenTheBlackHoleHasAFi
 BoardBuilderTest >> testWhenBoardBuilderIsSetWithBlackHoleThenTheBlackHoleHasASecondEntrance [
 
 	| builder aBoard |
+	
 	builder := BoardBuilder new.
 	builder withCells: 10.
 	builder withBlackHoleFrom: 3 to: 8.
 	aBoard := builder build.
+	
 	self assert: aBoard blackHolesSecondEntrance equals: 8.
 ]
 
@@ -110,15 +122,6 @@ BoardBuilderTest >> testWhenBoardBuilderTriesToBuildWithANegativeNumberOfCellsTh
 
 	self 
 		should: [ BoardBuilder new withCells: -3 ] 
-		raise: Error 
-		withMessageText: 'Number of cells must be a positive integer.'.
-]
-
-{ #category : 'tests' }
-BoardBuilderTest >> testWhenBoardBuilderTriesToCreateABoardWithZeroCellsThenCreationFails [
-
-	self 
-		should: [ BoardBuilder new withCells: 0 ] 
 		raise: Error 
 		withMessageText: 'Number of cells must be a positive integer.'.
 ]

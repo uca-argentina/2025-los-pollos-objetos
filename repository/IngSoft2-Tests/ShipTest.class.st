@@ -6,18 +6,20 @@ Class {
 }
 
 { #category : 'tests' }
-ShipTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMessage [ 
+ShipTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMessage [
 
 	self
 		should: anErrorBlock
 		raise: anErrorClass
-		withExceptionDo: [:error | self assert: (error messageText ) equals: errorMessage]
+		withExceptionDo: [ :error |
+		self assert: error messageText equals: errorMessage ]
 ]
 
 { #category : 'tests' }
 ShipTest >> testWhenNewShipIsCreatedThenItHasAName [
 
 	| aShip |
+	
 	"aShip := Ship new."
 	aShip := Ship named: 'Millenium Falcon'.
 	
@@ -28,6 +30,7 @@ ShipTest >> testWhenNewShipIsCreatedThenItHasAName [
 ShipTest >> testWhenNewShipIsInstancedWithANameThenItHasAName [
 
 	| aShip |
+	
 	aShip := Ship named: 'The Batwing'.
 	
 	self assert: (aShip name) equals: 'The Batwing'
@@ -37,6 +40,7 @@ ShipTest >> testWhenNewShipIsInstancedWithANameThenItHasAName [
 ShipTest >> testWhenShipIsCreatedThenItStarsAtStartingPosition [
 
 	| aShip |
+	
 	aShip := Ship named: 'Discovery One'.
 	
 	self assert: (aShip position) equals: 0.
@@ -56,6 +60,7 @@ ShipTest >> testWhenShipIsCreatedWithNoNameThenCreationFails [
 ShipTest >> testWhenShipMovesOnePositionFromStartingPositionThenItMovesAccordingly [
 
 	| aShip |
+	
 	aShip := Ship named: 'Discovery One'.
 	aShip fly: 1.
 	
@@ -66,6 +71,7 @@ ShipTest >> testWhenShipMovesOnePositionFromStartingPositionThenItMovesAccording
 ShipTest >> testWhenShipThrowsADiceThenDiceIsThrownAndANumberIsReturned [
 
 	| aShip aDice dices |
+	
 	aShip := Ship named: 'USS Enterprise'.
 	aDice := Dice withATotalNumberOfFacesOf: 6.
 	dices := OrderedCollection with: aDice.
@@ -79,6 +85,7 @@ ShipTest >> testWhenShipThrowsDicesThenItMovesAsMuchPositionAsTheResultOfTheThro
 
 	
 	| aShip aDice dices throwResult |
+	
 	aShip := Ship named: 'Nebuchadnezzar'.
 	aDice := Dice withATotalNumberOfFacesOf: 6.
 	dices := OrderedCollection with: aDice.
@@ -92,6 +99,7 @@ ShipTest >> testWhenShipThrowsDicesThenItMovesAsMuchPositionAsTheResultOfTheThro
 ShipTest >> testWhenShipThrowsMoreThanOneDiceThenTheDicesAreThrownAndANumberIsReturned [
 
 	| aShip oneDice anotherDice dices |
+	
 	aShip := Ship named: 'Slave I'.
 	oneDice := Dice withATotalNumberOfFacesOf: 6.
 	anotherDice := Dice withATotalNumberOfFacesOf: 4.
