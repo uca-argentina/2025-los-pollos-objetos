@@ -84,7 +84,6 @@ GameTest >> testWhenGameIsStartedThenItSuccesfullyStarts [
 		with: aBoard
 		and: dices
 		and: ships.
-		
 
 	self assert: (aGame start) equals: 'The Game Has Started'
 ]
@@ -93,6 +92,7 @@ GameTest >> testWhenGameIsStartedThenItSuccesfullyStarts [
 GameTest >> testWhenOneShipGetsToTheBlackHolesFirstEntranceThenItIsForwardedToTheSecondEntranceOfTheBlackHole [
 
 	| aGame aBoard aShip  ships oneDice  dices newPosition positionAfterDetermination blackHolesSecondEntrance |
+	
 	aBoard := ThreeCellsBoardWithOneBlackHole withThreeCellsAndOneBlackHole. 
 
 	aShip := Ship named: 'Serenity'.

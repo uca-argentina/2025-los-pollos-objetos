@@ -11,8 +11,8 @@ DiceTest >> should: anErrorBlock raise: anErroClass withMessageText: errorMessag
 	self
 		should: anErrorBlock
 		raise: anErroClass
-		withExceptionDo: [ :error | self assert: (error messageText ) equals: errorMessage ]
-	
+		withExceptionDo: [ :error |
+		self assert: error messageText equals: errorMessage ]
 ]
 
 { #category : 'tests' }
@@ -37,6 +37,7 @@ DiceTest >> testWhenDiceIsCreatedWithNonIntergerAmountOfFacesThenCreationFails [
 DiceTest >> testWhenDiceIsCreatedWithOneFaceThenHasOneFace [
 
 	| aDice |
+	
 	"aDice:= Dice new."
 	aDice:= Dice withATotalNumberOfFacesOf: 1.
 	
@@ -47,6 +48,7 @@ DiceTest >> testWhenDiceIsCreatedWithOneFaceThenHasOneFace [
 DiceTest >> testWhenDiceIsCreatedWithTenFacesThenHasTenFaces [
 
 	| aDice |
+	
 	aDice:= Dice withATotalNumberOfFacesOf: 10.
 	
 	self assert: (aDice sizeOfTheDice) equals: 10.

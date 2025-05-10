@@ -18,16 +18,17 @@ BoardTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMess
 BoardTest >> testWhenBlackHolesFirstEntranceAndSecondEntranceAreEqualThenCreationFails [
 
 	| builder |
+	
 	builder := BoardBuilder new.
 
 	self
 		should: [
 			builder withCells: 10.
 			builder withBlackHoleFrom: 1 to: 1.
-			builder build.
-		]
+			builder build ]
 		raise: Error
-		withMessageText: 'The entrances of the Black Hole must be in different cells'.
+		withMessageText:
+		'The entrances of the Black Hole must be in different cells'
 ]
 
 { #category : 'tests' }
@@ -40,16 +41,16 @@ BoardTest >> testWhenBlackHolesFirstEntranceIsANegativeCellThenCreationFails [
 		should: [
 			builder withCells: 10.
 			builder withBlackHoleFrom: -2 to: 6.
-			builder build.
-		]
+			builder build ]
 		raise: Error
-		withMessageText: 'Number of cells must be a positive integer.'.
+		withMessageText: 'Number of cells must be a positive integer.'
 ]
 
 { #category : 'tests' }
 BoardTest >> testWhenBlackHolesFirstEntranceIsNonIntegerThenCreationFails [
 
 	| builder |
+	
 	builder := BoardBuilder new.
 
 	self
@@ -66,6 +67,7 @@ BoardTest >> testWhenBlackHolesFirstEntranceIsNonIntegerThenCreationFails [
 BoardTest >> testWhenBlackHolesSecondEntranceCellIsSmallerThanBlackHolesFirstEntranceCellThenCreationFails [
 
 	| builder |
+	
 	builder := BoardBuilder new.
 
 	self
@@ -82,6 +84,7 @@ BoardTest >> testWhenBlackHolesSecondEntranceCellIsSmallerThanBlackHolesFirstEnt
 BoardTest >> testWhenBlackHolesSecondEntranceIsANegativeCellThenCreationFails [
 
 	| builder |
+	
 	builder := BoardBuilder new.
 
 	self
@@ -98,6 +101,7 @@ BoardTest >> testWhenBlackHolesSecondEntranceIsANegativeCellThenCreationFails [
 BoardTest >> testWhenBlackHolesSecondEntranceIsNonIntegerThenCreationFails [
 
 	| builder |
+	
 	builder := BoardBuilder new.
 
 	self
@@ -114,6 +118,7 @@ BoardTest >> testWhenBlackHolesSecondEntranceIsNonIntegerThenCreationFails [
 BoardTest >> testWhenBlackHolesSecondEntranceIsOutOfBoardsRangeThenCreationFails [
 
 	| builder |
+	
 	builder := BoardBuilder new.
 
 	self
@@ -131,6 +136,7 @@ BoardTest >> testWhenBlackHolesSecondEntranceIsOutOfBoardsRangeThenCreationFails
 BoardTest >> testWhenBoardCreatedWithInvalidNumberOfCellsThenItFails [
 
 	| builder |
+	
 	builder := BoardBuilder new.
 	
 	self
@@ -146,6 +152,7 @@ BoardTest >> testWhenBoardCreatedWithInvalidNumberOfCellsThenItFails [
 BoardTest >> testWhenBoardCreatedWithNonIntegerThenItFails [
 
 	| builder |
+	
 	builder := BoardBuilder new.
 	
 	self
@@ -161,6 +168,7 @@ BoardTest >> testWhenBoardCreatedWithNonIntegerThenItFails [
 BoardTest >> testWhenBoardCreatedWithZeroCellsThenItFails [
 
 	| builder |
+	
 	builder := BoardBuilder new.
 
 	self 
