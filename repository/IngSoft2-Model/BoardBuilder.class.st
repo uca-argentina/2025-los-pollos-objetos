@@ -83,9 +83,10 @@ BoardBuilder >> validateBlackHoleFrom: firstEntrance to: secondEntrance [
 { #category : 'initialization' }
 BoardBuilder >> withBlackHoleFrom: firstEntrance to: secondEntrance [
 
-    self validateBlackHoleFrom: firstEntrance to: secondEntrance.
-    blackHolesFirstEntrance := firstEntrance.
-    blackHolesSecondEntrance := secondEntrance.
+	self validateBlackHoleFrom: firstEntrance to: secondEntrance.
+	blackHolesFirstEntrance := firstEntrance.
+	blackHolesSecondEntrance := secondEntrance.
+	^ self
 ]
 
 { #category : 'initialization' }
@@ -93,4 +94,5 @@ BoardBuilder >> withCells: aNumberOfCells [
 
 	self isAPositiveInteger: aNumberOfCells.
 	numberOfCells := aNumberOfCells .
+	^ self.
 ]
