@@ -18,7 +18,8 @@ BoardBuilderTest >> should: anErrorBlock raise: anErrorClass withMessageText: er
 BoardBuilderTest >> testWhenADecoratorIsAddedThenNumberOfCellsDelegatesToBase [
 
 	| base decorator |
-	base := BoardBuilder new withCells: 3; build.
+	base := BoardBuilder new withCells: 3. 
+	base := base build. 
 	decorator := BoardDecorator of: base.
 	self assert: decorator numberOfCells equals: 3.
 ]

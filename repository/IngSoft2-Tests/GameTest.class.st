@@ -194,3 +194,30 @@ GameTest >> testWhenOneShipGetsToTheWinningCellThenYouCanKnowWhichShipWon [
 	
 	self assert: (aGame determineTheConsequencesOfTheThrowIn: newPosition forShip: aShip) equals: 'Venture won the Game!'
 ]
+
+{ #category : 'tests' }
+GameTest >> testWhenOneShipWinsThenYouCanKnowThePositionOfEachShipInTheGame [
+
+	| aGame aBoard aShip  ships oneDice  dices newPosition anotherShip |
+	
+	aBoard := OneCellBoard withOneCell. 
+
+	aShip := Ship named: 'Venture'.
+	anotherShip := Ship named: 'Axiom'.
+	ships := OrderedCollection with: aShip with: anotherShip.
+
+	oneDice := OneFaceDice withOneFace. 
+	dices := OrderedCollection with: oneDice.
+
+	aGame := Game
+		named: 'Juego Maravilloso'
+		with: aBoard
+		and: dices
+		and: ships.
+		
+	aShip throw: dices.
+	newPosition := aShip position. 
+	
+	self assert: (aShip position) equals: 1.
+	self assert: (anotherShip position) equals: 0.
+]
