@@ -17,8 +17,20 @@ Class {
 
 { #category : 'as yet unclassified' }
 Game class >> named: aName with: aBoard and: dices and: ships [ 
+
+	| totalMax |
+	totalMax := dices inject: 0 into: [ :sum :diceInList| sum + (diceInList sizeOfTheDice ) ].
 	
-	^ (self new) initializeWith: aName and: aBoard and: dices and: ships.   
+	self numberOfCellsIn: aBoard IsBiggerThan: totalMax.
+	
+	^ (self new) initializeWith: aName with: aBoard with: dices with: ships.   
+]
+
+{ #category : 'as yet unclassified' }
+Game class >> numberOfCellsIn: aBoard IsBiggerThan: totalMax [
+
+	(aBoard numberOfCells >= totalMax ) ifFalse: [ Error signal: 'The maximum possible sum of all dice must be less than the number of cells on the board.' ].
+
 ]
 
 { #category : 'as yet unclassified' }
@@ -38,7 +50,7 @@ Game >> determineTheConsequencesOfTheThrowIn: aNewPosition forShip: aShip [
 ]
 
 { #category : 'initialization' }
-Game >> initializeWith: gameName and: aBoard and: gameDices and: gameShips [ 
+Game >> initializeWith: gameName with: aBoard with: gameDices with: gameShips [ 
 
 	name := gameName.
 	

@@ -33,3 +33,9 @@ ChargedDice >> initializeWith: numberOfFaces [
 
 	numberOfFacesOfTheDice := numberOfFaces.
 ]
+
+{ #category : 'as yet unclassified' }
+ChargedDice >> sizeOfTheDice [
+
+	^ numberOfFacesOfTheDice .
+]
