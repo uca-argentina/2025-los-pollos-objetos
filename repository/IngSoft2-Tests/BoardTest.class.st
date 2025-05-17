@@ -90,7 +90,7 @@ BoardTest >> testWhenBlackHolesSecondEntrnaceIsOutOfBoardsRangeThenCreationFails
 BoardTest >> testWhenBoardCreatedWithInvalidNumberOfCellsThenItFails [
 
 	self
-		should: [Board withATotalNumberOfCellsOf: -1]
+		should: [Board  withATotalNumberOfCellsOf: -1 andABlackHoleBetweenCells: 2 and: 11.]
 		raise: Error
 		withMessageText: 'Number of cells must be a positive integer.'.
 ]
@@ -99,7 +99,7 @@ BoardTest >> testWhenBoardCreatedWithInvalidNumberOfCellsThenItFails [
 BoardTest >> testWhenBoardCreatedWithNonIntegerThenItFails [
 
 	self
-		should: [Board withATotalNumberOfCellsOf: 'uno']
+		should: [Board  withATotalNumberOfCellsOf: 'uno' andABlackHoleBetweenCells: 2 and: 11.]
 		raise: Error
 		withMessageText: 'Number of cells must be a positive integer.'.
 ]
@@ -108,7 +108,7 @@ BoardTest >> testWhenBoardCreatedWithNonIntegerThenItFails [
 BoardTest >> testWhenBoardCreatedWithZeroCellsThenItFails [
 
 	self
-		should: [Board withATotalNumberOfCellsOf: 0]
+		should: [Board  withATotalNumberOfCellsOf: 0 andABlackHoleBetweenCells: 2 and: 11.]
 		raise: Error
 		withMessageText: 'Number of cells must be a positive integer.'.
 ]

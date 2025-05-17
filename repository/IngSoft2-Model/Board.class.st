@@ -43,13 +43,6 @@ Board class >> theCell: position isOutOfRange: range [
 ]
 
 { #category : 'as yet unclassified' }
-Board class >> withATotalNumberOfCellsOf: aNumberOfCells [
-
-	(self isAPositiveInteger: aNumberOfCells).
-	^ self new initializeWith: aNumberOfCells
-]
-
-{ #category : 'as yet unclassified' }
 Board class >> withATotalNumberOfCellsOf: numberOfCells andABlackHoleBetweenCells: firstEntrance and: secondEntrance [
  
 	self isAPositiveInteger: numberOfCells.

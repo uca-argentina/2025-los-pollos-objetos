@@ -198,12 +198,12 @@ GameTest >> testWhenOneShipGetsToTheWinningCellThenYouCanKnowWhichShipWon [
 { #category : 'tests' }
 GameTest >> testWhenOneShipMakesOneMoveThenItIsForwardedToTheNewPosition [
 	| aGame aBoard aShip  ships oneDice  dices  resultOfThrowingTheDices intialShipPosition |
-	aBoard := ThreeCellsBoardWithOneBlackHole withThreeCellsAndOneBlackHole. 
+	aBoard := Board withATotalNumberOfCellsOf: 20 andABlackHoleBetweenCells: 16 and: 19.
 
 	aShip := Ship named: 'Serenity'.
 	ships := OrderedCollection with: aShip.
 
-	oneDice := OneFaceDice withOneFace. 
+	oneDice := Dice withATotalNumberOfFacesOf: 15. 
 	dices := OrderedCollection with: oneDice.
 
 	aGame := Game
@@ -216,16 +216,8 @@ GameTest >> testWhenOneShipMakesOneMoveThenItIsForwardedToTheNewPosition [
 		
 	resultOfThrowingTheDices := 0.
 	dices do: [ :diceInList | resultOfThrowingTheDices := resultOfThrowingTheDices + (diceInList beThrown ) ].
-		
-	"aShip throw: dices."
-	aShip moveTo: resultOfThrowingTheDices + aShip position .
 	
-	"
-	newPosition := aShip position. 
-	aGame determineTheConsequencesOfTheThrowIn: newPosition forShip: aShip.
-	positionAfterDetermination := aShip position.
-	blackHolesSecondEntrance := aBoard blackHolesSecondEntrance.
-	"
+	aShip moveTo: resultOfThrowingTheDices + aShip position .
 	
 	self assert: aShip position equals: intialShipPosition + resultOfThrowingTheDices .
 ]
@@ -259,8 +251,8 @@ GameTest >> testWhenOneShipWinsThenYouCanKnowThePositionOfEachShipInTheGame [
 
 { #category : 'tests' }
 GameTest >> testWhenTwoShipMakesOneMoveThenAllOfThemAreForwardedToTheNewPositions [
-	| aGame aBoard aShip  ships aDice  dices  resultOfThrowingTheDices intialShipPosition anotherShip anotherDice intialShipPositions |
-	aBoard := ThreeCellsBoardWithOneBlackHole withThreeCellsAndOneBlackHole. 
+	| aGame aBoard aShip  ships aDice  dices   anotherShip anotherDice intialShipPositions |
+	aBoard := aBoard := Board withATotalNumberOfCellsOf: 20 andABlackHoleBetweenCells: 16 and: 19.
 
 	aShip := Ship named: 'Serenity'.
 	ships := OrderedCollection with: aShip.
