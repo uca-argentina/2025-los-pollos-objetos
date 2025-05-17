@@ -79,15 +79,6 @@ Board >> blackHolesSecondEntrance [
 	^ blackHolesSecondEntrance.
 ]
 
-{ #category : 'initialization' }
-Board >> initializeWith: aNumberOfCells [
-
-	totalBoardCells := aNumberOfCells.
-	
-
-
-]
-
 { #category : 'accessing' }
 Board >> initializeWith: numberOfCells andABlackHoleBeweenCells: firstEntrance and: secondEntrance [
 

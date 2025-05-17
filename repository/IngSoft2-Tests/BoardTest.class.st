@@ -119,19 +119,13 @@ BoardTest >> testWhenBoardIsCreatedWithOneCellThenHasCell [
 	| aBoard |
 	"aBoard := Board new."
 	
-	aBoard := Board withATotalNumberOfCellsOf: 1.
+	"aBoard := Board withATotalNumberOfCellsOf: 1.
+	Se elimino esta froma de instanciar"
 	
-	self assert: (aBoard numberOfCells) equals: 1.
-]
-
-{ #category : 'tests' }
-BoardTest >> testWhenBoardIsCreatedWithTenCellsThenHasTenCells [
-
-	| aBoard |
+	aBoard := Board withATotalNumberOfCellsOf: 2 andABlackHoleBetweenCells: 1 and: 2.
 	
-	aBoard := Board withATotalNumberOfCellsOf: 10.
 	
-	self assert: (aBoard numberOfCells) equals: 10.
+	self assert: (aBoard numberOfCells) equals: 2.
 ]
 
 { #category : 'tests' }
