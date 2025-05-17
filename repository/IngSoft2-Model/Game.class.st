@@ -26,8 +26,15 @@ Game >> determineTheConsequencesOfTheThrowIn: aNewPosition forShip: aShip [
 	
 	(aNewPosition = winningCell ) ifTrue: [ ^ aShip name , ' won the Game!' ].
 	
+	"
 	(aNewPosition = blackHolesFirstEntrance) ifTrue: [ aShip fly: distanceFromBlackHolesFirstEntranceToSecondEntrance ].
 	(aNewPosition = blackHoleSecondEntrance ) ifTrue: [ aShip fly: (distanceFromBlackHolesFirstEntranceToSecondEntrance * (-1))].	
+	"
+	
+	(aNewPosition = blackHolesFirstEntrance) ifTrue: [ aShip moveTo: blackHoleSecondEntrance ].
+	(aNewPosition = blackHoleSecondEntrance ) ifTrue: [ aShip moveTo: blackHolesFirstEntrance ].	
+	
+	
 ]
 
 { #category : 'initialization' }

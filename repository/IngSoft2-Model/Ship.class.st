@@ -33,12 +33,6 @@ Ship >> atStartingPosition [
 	shipsCurrentCell := 0.
 ]
 
-{ #category : 'as yet unclassified' }
-Ship >> fly: aNumberOfCells [ 
-
-	shipsCurrentCell := shipsCurrentCell + aNumberOfCells.
-]
-
 { #category : 'accessing' }
 Ship >> initializeWith: aName [
 
@@ -61,18 +55,4 @@ Ship >> name [
 Ship >> position [
 	
 	^ shipsCurrentCell.
-]
-
-{ #category : 'as yet unclassified' }
-Ship >> throw: dices [
-
-	| positionsToMove |
-	positionsToMove := (dices collect: [ :eachDice |
-      eachDice beThrown 
-  ]) sum.
-
-	self fly: positionsToMove.
-
-  ^ positionsToMove.
-
 ]
