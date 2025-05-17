@@ -45,6 +45,12 @@ Ship >> initializeWith: aName [
 	shipsName := aName.
 ]
 
+{ #category : 'path commands' }
+Ship >> moveTo:  newPosition [ 
+
+	shipsCurrentCell := newPosition .
+]
+
 { #category : 'accessing' }
 Ship >> name [
 
