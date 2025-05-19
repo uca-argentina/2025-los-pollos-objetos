@@ -15,135 +15,183 @@ BoardTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMess
 ]
 
 { #category : 'tests' }
-BoardTest >> testWhenBlackHolesFirstEntranceAndSecondEntranceAreEqualThenCreationFails [
+BoardTest >> testAWhenBlackHolesFirstEntranceAndSecondEntranceAreEqualThenCreationFails [
 
-	self
-		should: [Board withATotalNumberOfCellsOf: 10 andABlackHoleBetweenCells: 1  and: 1.]
+	|  squares  numberOfSquares |
+	
+	numberOfSquares := 8.
+	
+	squares := OrderedCollection  new.
+	
+	1 to: numberOfSquares do: [:i |squares add: (Square new) ].
+	
+	self should: [squares addBlackHoleAt: 4 and: 4 ]  
 		raise: Error
 		withMessageText: 'The entrances of the Black Hole must be in different cells.'.
+		
 ]
 
 { #category : 'tests' }
-BoardTest >> testWhenBlackHolesFirstEntranceIsANegativeCellThenCreationFails [
+BoardTest >> testAWhenBlackHolesFirstEntranceIsOutOfBoardsRangeThenCreationFails [
 
-	self
-		should: [Board withATotalNumberOfCellsOf: 10 andABlackHoleBetweenCells: -2  and: 6.]
+	|  squares  numberOfSquares |
+	
+	numberOfSquares := 8.
+	
+	squares := OrderedCollection  new.
+	
+	1 to: numberOfSquares do: [:i |squares add: (Square new) ].
+	
+	self should: [squares addBlackHoleAt: 9 and: 19 ]  
 		raise: Error
-		withMessageText: 'Number of cells must be a positive integer.'.
+		withMessageText: 'The entrances of the black hole must be in the board'.
+
 ]
 
 { #category : 'tests' }
-BoardTest >> testWhenBlackHolesFirstEntranceIsNonIntegerThenCreationFails [
-
-	self
-		should: [Board withATotalNumberOfCellsOf: 10 andABlackHoleBetweenCells: 'dos'  and: 6.]
-		raise: Error
-		withMessageText: 'Number of cells must be a positive integer.'.
-]
-
-{ #category : 'tests' }
-BoardTest >> testWhenBlackHolesFirstEntranceIsOutOfBoardsRangeThenCreationFails [
-
-	self
-		should: [Board withATotalNumberOfCellsOf: 10 andABlackHoleBetweenCells: 11  and: 2.]
-		raise: Error
-		withMessageText: 'The cells of the Black Hole must in the board.'.
-]
-
-{ #category : 'tests' }
-BoardTest >> testWhenBlackHolesSecondEntranceCellIsSmallerThanBlackHolesFirstEntranceCellThenCreationFails [
-
-	self
-		should: [Board withATotalNumberOfCellsOf: 10 andABlackHoleBetweenCells: 6  and: 1.]
+BoardTest >> testAWhenBlackHolesSecondEntranceCellIsSmallerThanBlackHolesFirstEntranceCellThenCreationFails [
+	|  squares  numberOfSquares |
+	
+	numberOfSquares := 8.
+	
+	squares := OrderedCollection  new.
+	
+	1 to: numberOfSquares do: [:i |squares add: (Square new) ].
+	
+	self should: [squares addBlackHoleAt: 7 and: 4 ]  
 		raise: Error
 		withMessageText: 'The First Entrance of Black Hole must come before the Second Entrance.'.
+
 ]
 
 { #category : 'tests' }
-BoardTest >> testWhenBlackHolesSecondEntranceIsANegativeCellThenCreationFails [
+BoardTest >> testAWhenBlackHolesSecondEntrnaceIsOutOfBoardsRangeThenCreationFails [
+	|  squares  numberOfSquares |
+	
+	numberOfSquares := 8.
+	
+	squares := OrderedCollection  new.
+	
+	1 to: numberOfSquares do: [:i |squares add: (Square new) ].
+	
+	self should: [squares addBlackHoleAt: 1 and: 9 ]  
+		raise: Error
+		withMessageText: 'The entrances of the black hole must be in the board'.
 
+]
+
+{ #category : 'tests' }
+BoardTest >> testAWhenBoardCreatedWithZeroCellsThenItFails [
+
+	| aSquare squares |
+	aSquare := Square new.
+	squares := OrderedCollection  new.
+	
 	self
-		should: [Board withATotalNumberOfCellsOf: 10 andABlackHoleBetweenCells: 2  and: -6.]
+		should: [Board   withSquares: squares .]
 		raise: Error
 		withMessageText: 'Number of cells must be a positive integer.'.
+		"HAY QUE CAMBIAR EL CELLS POR SQUARES"
 ]
 
 { #category : 'tests' }
-BoardTest >> testWhenBlackHolesSecondEntranceIsNonIntegerThenCreationFails [
+BoardTest >> testAWhenBoardIsCreatedWithOneCellThenHasCell [
 
-	self
-		should: [Board withATotalNumberOfCellsOf: 10 andABlackHoleBetweenCells: 2  and: 'seis'.]
+	| aBoard aSquare squares |
+	
+	aSquare := Square new.
+	squares := OrderedCollection  new.
+	squares add: aSquare.
+	
+	aBoard := Board withSquares: squares.
+	
+	
+	self assert: (aBoard numberOfSquares) equals: 1.
+]
+
+{ #category : 'tests' }
+BoardTest >> testAWhenBoardIsSetWithABlackHoleThenTheBoardHasTwoBlackHolesSquares [
+	| aBoard  squares  numberOfSquares |
+	
+	numberOfSquares := 8.
+	
+	squares := OrderedCollection  new.
+	
+	1 to: numberOfSquares do: [:i |squares add: (Square new) ].
+	
+	squares addBlackHoleAt: 1 and: 2.
+	
+	aBoard := Board withSquares: squares.
+	
+	self assert: (aBoard blackHolesIndexes anySatisfy: [ :index | index = 1]).
+	self assert: (aBoard blackHolesIndexes anySatisfy: [ :index | index = 2]).
+	
+]
+
+{ #category : 'tests' }
+BoardTest >> testAWhenBoardIsSetWithABlackHoleWithAnCharFirstEntranceThenTheCreationFailed [
+	|  squares  numberOfSquares |
+	
+	numberOfSquares := 8.
+	
+	squares := OrderedCollection  new.
+	
+	1 to: numberOfSquares do: [:i |squares add: (Square new) ].
+	
+	self should: [squares addBlackHoleAt: '1' and:2 ]  
 		raise: Error
-		withMessageText: 'Number of cells must be a positive integer.'.
+		withMessageText: 'The entrance of the black hole must be a positive integer'.
+
+	
 ]
 
 { #category : 'tests' }
-BoardTest >> testWhenBlackHolesSecondEntrnaceIsOutOfBoardsRangeThenCreationFails [
-
-	self
-		should: [Board withATotalNumberOfCellsOf: 10 andABlackHoleBetweenCells: 2 and: 11.]
+BoardTest >> testAWhenBoardIsSetWithABlackHoleWithAnCharSecondEntranceThenTheCreationFailed [
+	|  squares  numberOfSquares |
+	
+	numberOfSquares := 8.
+	
+	squares := OrderedCollection  new.
+	
+	1 to: numberOfSquares do: [:i |squares add: (Square new) ].
+	
+	self should: [squares addBlackHoleAt: 1 and: '2' ]  
 		raise: Error
-		withMessageText: 'The cells of the Black Hole must in the board.'.
+		withMessageText: 'The entrance of the black hole must be a positive integer'.
+
+	
 ]
 
 { #category : 'tests' }
-BoardTest >> testWhenBoardCreatedWithInvalidNumberOfCellsThenItFails [
-
-	self
-		should: [Board  withATotalNumberOfCellsOf: -1 andABlackHoleBetweenCells: 2 and: 11.]
+BoardTest >> testAWhenBoardIsSetWithABlackHoleWithAnInvalidFirstEntranceThenTheCreationFailed [
+	|  squares  numberOfSquares |
+	
+	numberOfSquares := 8.
+	
+	squares := OrderedCollection  new.
+	
+	1 to: numberOfSquares do: [:i |squares add: (Square new) ].
+	
+	self should: [squares addBlackHoleAt: -1 and:2 ]  
 		raise: Error
-		withMessageText: 'Number of cells must be a positive integer.'.
+		withMessageText: 'The entrance of the black hole must be a positive integer'.
+
+	
 ]
 
 { #category : 'tests' }
-BoardTest >> testWhenBoardCreatedWithNonIntegerThenItFails [
-
-	self
-		should: [Board  withATotalNumberOfCellsOf: 'uno' andABlackHoleBetweenCells: 2 and: 11.]
+BoardTest >> testAWhenBoardIsSetWithABlackHoleWithAnInvalidSecondEntranceThenTheCreationFailed [
+	|  squares  numberOfSquares |
+	
+	numberOfSquares := 8.
+	
+	squares := OrderedCollection  new.
+	
+	1 to: numberOfSquares do: [:i |squares add: (Square new) ].
+	
+	self should: [squares addBlackHoleAt: 1 and: -2 ]  
 		raise: Error
-		withMessageText: 'Number of cells must be a positive integer.'.
-]
+		withMessageText: 'The entrance of the black hole must be a positive integer'.
 
-{ #category : 'tests' }
-BoardTest >> testWhenBoardCreatedWithZeroCellsThenItFails [
-
-	self
-		should: [Board  withATotalNumberOfCellsOf: 0 andABlackHoleBetweenCells: 2 and: 11.]
-		raise: Error
-		withMessageText: 'Number of cells must be a positive integer.'.
-]
-
-{ #category : 'tests' }
-BoardTest >> testWhenBoardIsCreatedWithOneCellThenHasCell [
-
-	| aBoard |
-	"aBoard := Board new."
 	
-	"aBoard := Board withATotalNumberOfCellsOf: 1.
-	Se elimino esta froma de instanciar"
-	
-	aBoard := Board withATotalNumberOfCellsOf: 2 andABlackHoleBetweenCells: 1 and: 2.
-	
-	
-	self assert: (aBoard numberOfCells) equals: 2.
-]
-
-{ #category : 'tests' }
-BoardTest >> testWhenBoardIsSetWithABlackHoleThenItHasAFirstEntrance [
-
-	| aBoard |
-	
-	aBoard := Board withATotalNumberOfCellsOf: 10 andABlackHoleBetweenCells: 2  and: 6.
-	
-	self assert: (aBoard blackHolesFirstEntrance) equals: 2.
-]
-
-{ #category : 'tests' }
-BoardTest >> testWhenBoardIsSetWithABlackHoleThenItHasASecondEntrance [
-
-	| aBoard |
-	
-	aBoard := Board withATotalNumberOfCellsOf: 10 andABlackHoleBetweenCells: 2  and: 6.
-	
-	self assert: (aBoard blackHolesSecondEntrance ) equals: 6.
 ]

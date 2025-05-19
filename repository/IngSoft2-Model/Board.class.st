@@ -6,82 +6,109 @@ Class {
 		'blackHoleIndex',
 		'blackHoleOutIndex',
 		'blackHolesFirstEntrance',
-		'blackHolesSecondEntrance'
+		'blackHolesSecondEntrance',
+		'squares'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'as yet unclassified' }
-Board class >> isAPositiveInteger: aNumber [
+Board class >> isAPositiveInteger: arg1 [
 
-	(aNumber isInteger and: [ aNumber > 0 ]) ifFalse: [
-		Error signal: 'Number of cells must be a positive integer.' ].
+	(arg1 isInteger and: [ arg1 > 0 ]) ifFalse: [
+		Error signal: 'Number of cells must be a positive integer.' ]
 ]
 
 { #category : 'as yet unclassified' }
-Board class >> the: firstEntrance isDifferentFrom: secondEntrance [
+Board class >> the: arg1 isDifferentFrom: arg2 [
 
-	(firstEntrance = secondEntrance) ifTrue: [
+	arg1 = arg2 ifTrue: [
 		Error signal:
 			'The entrances of the Black Hole must be in different cells.' ]
 ]
 
 { #category : 'as yet unclassified' }
-Board class >> the: secondEntrance isSmallerThan: firstEntrance [
+Board class >> the: arg1 isSmallerThan: arg2 [
 
-	(firstEntrance > secondEntrance) ifTrue: [
+	arg2 > arg1 ifTrue: [
 		Error signal:
 			'The First Entrance of Black Hole must come before the Second Entrance.' ]
 ]
 
 { #category : 'as yet unclassified' }
-Board class >> theCell: position isOutOfRange: range [
+Board class >> theCell: arg1 isOutOfRange: arg2 [
 
-	( position > range ) ifTrue: [
-		Error signal: 'The cells of the Black Hole must in the board.' ].
+	arg1 > arg2 ifTrue: [
+		Error signal: 'The cells of the Black Hole must in the board.' ]
 ]
 
 { #category : 'as yet unclassified' }
-Board class >> withATotalNumberOfCellsOf: numberOfCells andABlackHoleBetweenCells: firstEntrance and: secondEntrance [
- 
-	self isAPositiveInteger: numberOfCells.
-	self isAPositiveInteger: firstEntrance.
-	self isAPositiveInteger: secondEntrance.
-	
-	self theCell: firstEntrance isOutOfRange: numberOfCells.
-	self theCell: secondEntrance isOutOfRange: numberOfCells.	
-		
-	self the: firstEntrance isDifferentFrom: secondEntrance.
-	self the: secondEntrance isSmallerThan: firstEntrance.
-	
-	^ self new  initializeWith: numberOfCells
-		andABlackHoleBeweenCells: firstEntrance 
-		and: secondEntrance.
+Board class >> withATotalNumberOfCellsOf: arg1 andABlackHoleBetweenCells: arg2 and: arg3 [
+
+	self
+		isAPositiveInteger: arg1;
+		isAPositiveInteger: arg2;
+		isAPositiveInteger: arg3;
+		theCell: arg2 isOutOfRange: arg1;
+		theCell: arg3 isOutOfRange: arg1;
+		the: arg2 isDifferentFrom: arg3;
+		the: arg3 isSmallerThan: arg2.
+	^ self new
+		  initializeWith: arg1
+		  andABlackHoleBeweenCells: arg2
+		  and: arg3
+]
+
+{ #category : 'as yet unclassified' }
+Board class >> withSquares: aCollectionOfSquares [ 
+	self isAPositiveInteger: aCollectionOfSquares size.
+	^self new initializeWithSquareCollection: aCollectionOfSquares .
 ]
 
 { #category : 'as yet unclassified' }
 Board >> blackHolesFirstEntrance [
 
-	^ blackHolesFirstEntrance.
+	^ blackHolesFirstEntrance
+]
+
+{ #category : 'as yet unclassified' }
+Board >> blackHolesIndexes [
+
+	| blackHolesIndexs |
+	blackHolesIndexs := OrderedCollection new.
+
+	squares withIndexDo: [ :each :i | (each isKindOf: BalckHole ) ifTrue:[blackHolesIndexs add:i]].
+	
+	^ blackHolesIndexs .
 ]
 
 { #category : 'as yet unclassified' }
 Board >> blackHolesSecondEntrance [
 
-	^ blackHolesSecondEntrance.
+	^ blackHolesSecondEntrance
 ]
 
 { #category : 'accessing' }
-Board >> initializeWith: numberOfCells andABlackHoleBeweenCells: firstEntrance and: secondEntrance [
+Board >> initializeWith: arg1 andABlackHoleBeweenCells: arg2 and: arg3 [
 
-	totalBoardCells := numberOfCells.
-	blackHolesFirstEntrance := firstEntrance.
-	blackHolesSecondEntrance := secondEntrance.
+	totalBoardCells := arg1.
+	blackHolesFirstEntrance := arg2.
+	blackHolesSecondEntrance := arg3
+]
+
+{ #category : 'initialization' }
+Board >> initializeWithSquareCollection: aCollection [ 
+	squares := aCollection .
 ]
 
 { #category : 'initialization' }
 Board >> numberOfCells [
 
-	^ totalBoardCells 
+	^ totalBoardCells
+]
+
+{ #category : 'as yet unclassified' }
+Board >> numberOfSquares [
+	^squares size.
 ]
