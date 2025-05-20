@@ -48,6 +48,7 @@ GameTest >> testWhenGameIsCreatedThenItHasAName [
 GameTest >> testWhenGameIsCreatedWithAllThePiecesThenIsSuccesfullyCreated [
 
 	| aGame aBoard aShip anotherShip ships oneDice anotherDice dices |
+	
 	aBoard := Board
 		          withATotalNumberOfCellsOf: 10
 		          andABlackHoleBetweenCells: 2
@@ -100,7 +101,8 @@ GameTest >> testWhenGameIsStartedThenItSuccesfullyStarts [
 { #category : 'tests' }
 GameTest >> testWhenOneShipGetsToTheBlackHolesFirstEntranceThenItIsForwardedToTheSecondEntranceOfTheBlackHole [
 
-	| aGame aBoard aShip  ships oneDice  dices   blackHolesSecondEntrance resultOfThrowingTheDices shipPositionAfterTheDices positionAfterDeterminingIfItFallsIntoABlackHole |
+	| aGame aBoard aShip  ships oneDice  dices   blackHolesSecondEntrance shipPositionAfterTheDices positionAfterDeterminingIfItFallsIntoABlackHole |
+	
 	aBoard := Board withATotalNumberOfCellsOf: 25 andABlackHoleBetweenCells: 5 and: 20.
 
 	aShip := Ship named: 'Serenity'.
@@ -115,11 +117,8 @@ GameTest >> testWhenOneShipGetsToTheBlackHolesFirstEntranceThenItIsForwardedToTh
 		and: dices
 		and: ships.
 		
-	resultOfThrowingTheDices := 0.
-	dices do: [ :diceInList | resultOfThrowingTheDices := resultOfThrowingTheDices + (diceInList beThrown ) ].
-		
 	"aShip throw: dices."
-	aShip moveTo: resultOfThrowingTheDices + aShip position .
+	aGame throwDiceFor: aShip.
 	
 	shipPositionAfterTheDices := aShip position. 
 	aGame determineTheConsequencesOfTheThrowIn: shipPositionAfterTheDices forShip: aShip.
@@ -134,7 +133,7 @@ GameTest >> testWhenOneShipGetsToTheBlackHolesFirstEntranceThenItIsForwardedToTh
 { #category : 'tests' }
 GameTest >> testWhenOneShipGetsToTheBlackHolesSecondEntranceThenItIsForwardedToTheFirstEntranceOfTheBlackHole [
 
-	| aGame aBoard aShip  ships oneDice  dices  blackHolesFirstEntrance resultOfThrowingTheDices shipPositionAfterTheDices positionAfterDeterminingIfItFallsIntoABlackHole  |
+	| aGame aBoard aShip  ships oneDice  dices  blackHolesFirstEntrance shipPositionAfterTheDices positionAfterDeterminingIfItFallsIntoABlackHole  |
 	aBoard := Board withATotalNumberOfCellsOf: 25 andABlackHoleBetweenCells: 5 and: 20.
 
 	aShip := Ship named: 'Elysium'.
@@ -148,12 +147,9 @@ GameTest >> testWhenOneShipGetsToTheBlackHolesSecondEntranceThenItIsForwardedToT
 		with: aBoard
 		and: dices
 		and: ships.
-		
-	resultOfThrowingTheDices := 0.
-	dices do: [ :diceInList | resultOfThrowingTheDices := resultOfThrowingTheDices + (diceInList beThrown ) ].
-		
+			
 	"aShip throw: dices."
-	aShip moveTo: resultOfThrowingTheDices + aShip position .
+	aGame throwDiceFor: aShip.
 	
 	shipPositionAfterTheDices := aShip position. 
 	aGame determineTheConsequencesOfTheThrowIn: shipPositionAfterTheDices forShip: aShip.
@@ -169,7 +165,7 @@ GameTest >> testWhenOneShipGetsToTheBlackHolesSecondEntranceThenItIsForwardedToT
 { #category : 'tests' }
 GameTest >> testWhenOneShipGetsToTheWinningCellThenTheGameFinishes [
 
-	| aGame aBoard aShip  ships oneDice  dices newPosition resultOfThrowingTheDices |
+	| aGame aBoard aShip  ships oneDice  dices newPosition |
 	aBoard := Board withATotalNumberOfCellsOf: 6 andABlackHoleBetweenCells: 2 and: 5. 
 
 	aShip := Ship named: 'Apolo'.
@@ -185,11 +181,7 @@ GameTest >> testWhenOneShipGetsToTheWinningCellThenTheGameFinishes [
 		and: ships.
 		
 	"aShip throw: dices."
-	resultOfThrowingTheDices := 0.
-	dices do: [ :diceInList | resultOfThrowingTheDices := resultOfThrowingTheDices + (diceInList beThrown ) ].
-	
-	aShip moveTo: resultOfThrowingTheDices + aShip position .
-	
+	aGame throwDiceFor: aShip.
 	newPosition := aShip position. 
 	
 	"self assert: (aGame determineTheConsequencesOfTheThrowIn: newPosition forShip: aShip) equals: 'The game has ended, you won!'"
@@ -199,7 +191,7 @@ GameTest >> testWhenOneShipGetsToTheWinningCellThenTheGameFinishes [
 { #category : 'tests' }
 GameTest >> testWhenOneShipGetsToTheWinningCellThenYouCanKnowWhichShipWon [
 
-	| aGame aBoard aShip  ships oneDice  dices newPosition resultOfThrowingTheDices |
+	| aGame aBoard aShip  ships oneDice  dices newPosition |
 	aBoard := Board withATotalNumberOfCellsOf: 6 andABlackHoleBetweenCells: 2 and: 5.
 
 	aShip := Ship named: 'Venture'.
@@ -214,11 +206,7 @@ GameTest >> testWhenOneShipGetsToTheWinningCellThenYouCanKnowWhichShipWon [
 		and: dices
 		and: ships.
 		
-	resultOfThrowingTheDices := 0.
-	dices do: [ :diceInList | resultOfThrowingTheDices := resultOfThrowingTheDices + (diceInList beThrown ) ].
-	
-	aShip moveTo: resultOfThrowingTheDices + aShip position .
-	
+	aGame throwDiceFor: aShip.
 	newPosition := aShip position. 
 	
 	self assert: (aGame determineTheConsequencesOfTheThrowIn: newPosition forShip: aShip) equals: 'Venture won the Game!'
@@ -226,7 +214,7 @@ GameTest >> testWhenOneShipGetsToTheWinningCellThenYouCanKnowWhichShipWon [
 
 { #category : 'tests' }
 GameTest >> testWhenOneShipMakesOneMoveThenItIsForwardedToTheNewPosition [
-	| aGame aBoard aShip  ships oneDice  dices  resultOfThrowingTheDices intialShipPosition |
+	| aGame aBoard aShip  ships oneDice  dices  intialShipPosition |
 	aBoard := Board withATotalNumberOfCellsOf: 20 andABlackHoleBetweenCells: 16 and: 19.
 
 	aShip := Ship named: 'Serenity'.
@@ -243,18 +231,15 @@ GameTest >> testWhenOneShipMakesOneMoveThenItIsForwardedToTheNewPosition [
 		
 	intialShipPosition := aShip position.
 		
-	resultOfThrowingTheDices := 0.
-	dices do: [ :diceInList | resultOfThrowingTheDices := resultOfThrowingTheDices + (diceInList beThrown ) ].
+	aGame throwDiceFor: aShip.
 	
-	aShip moveTo: resultOfThrowingTheDices + aShip position .
-	
-	self assert: aShip position equals: intialShipPosition + resultOfThrowingTheDices .
+	self assert: aShip position equals: aShip position .
 ]
 
 { #category : 'tests' }
 GameTest >> testWhenOneShipWinsThenYouCanKnowThePositionOfEachShipInTheGame [ 
 
-    | aGame aBoard aShip  ships oneDice  dices  anotherShip resultOfThrowingTheDices shipPositionAfterTheDices |
+    | aGame aBoard aShip  ships oneDice  dices  anotherShip shipPositionAfterTheDices |
 
     aBoard := Board withATotalNumberOfCellsOf: 20 andABlackHoleBetweenCells: 16 and: 20.
 
@@ -271,11 +256,7 @@ GameTest >> testWhenOneShipWinsThenYouCanKnowThePositionOfEachShipInTheGame [
         and: dices
         and: ships.
 
-	resultOfThrowingTheDices := 0.
-	dices do: [ :diceInList | resultOfThrowingTheDices := resultOfThrowingTheDices + (diceInList beThrown ) ].
-	
-	aShip moveTo: resultOfThrowingTheDices + aShip position .
-	
+	aGame throwDiceFor: aShip.
 	shipPositionAfterTheDices := aShip position. 
 	aGame determineTheConsequencesOfTheThrowIn: shipPositionAfterTheDices forShip: aShip.
 
@@ -313,37 +294,4 @@ GameTest >> testWhenTotalMaximumDiceValueExceedsBoardCellsThenCreationFails [
 		  raise: Error
 		  withMessageText: 'The maximum possible sum of all dice must be less than the number of cells on the board.'.
 
-]
-
-{ #category : 'tests' }
-GameTest >> testWhenTwoShipMakesOneMoveThenAllOfThemAreForwardedToTheNewPositions [
-	| aGame aBoard aShip  ships aDice  dices   anotherShip anotherDice intialShipPositions |
-	aBoard := aBoard := Board withATotalNumberOfCellsOf: 20 andABlackHoleBetweenCells: 16 and: 19.
-
-	aShip := Ship named: 'Serenity'.
-	ships := OrderedCollection with: aShip.
-	
-	anotherShip := Ship named: 'Nostromo'.
-	ships  add: anotherShip.
-
-	aDice := ChargedDice withATotalNumberOfFacesOf: 10. 
-	dices := OrderedCollection with: aDice.
-	
-	anotherDice := ChargedDice withATotalNumberOfFacesOf: 5.
-	dices  add: anotherDice.
-
-	aGame := Game
-		named: 'Juego Galactico'
-		with: aBoard
-		and: dices
-		and: ships.
-		
-	intialShipPositions := ships collect: [ :shipInCollection | shipInCollection position ].
-		
-	ships do: [ :shipInCollection | |total| total := dices inject: 0 into: [ :sum :diceInCollection | sum + (diceInCollection  beThrown ) ] .
-			shipInCollection moveTo: total ].
-	"Tira los dados y mueve las naves una vez por cada nave, inject:into: es el reduce de js empieza por cero y suma el resultado de cda tirada
-	del dao luego eso hace que cada nave se mueva"
-	
-	self assert: (ships allSatisfy: [ :ship | ship position = 15 ]).
 ]

@@ -76,3 +76,13 @@ Game >> start [
 
 	^ 'The Game Has Started'
 ]
+
+{ #category : 'as yet unclassified' }
+Game >> throwDiceFor: aShip [
+
+	| resultOfTheThrow |
+	resultOfTheThrow := (dices collect: [ :dice | dice beThrown ]) sum.
+	
+	aShip moveTo: (resultOfTheThrow + aShip position).
+
+]
