@@ -47,7 +47,9 @@ DiceTest >> testWhenDiceIsCreatedWithOneFaceThenHasOneFace [
 DiceTest >> testWhenDiceIsCreatedWithTenFacesThenHasTenFaces [
 
 	| aDice |
+	
 	aDice:= Dice withATotalNumberOfFacesOf: 10.
+	
 	self assert: (aDice sizeOfTheDice) equals: 10.
 ]
 
