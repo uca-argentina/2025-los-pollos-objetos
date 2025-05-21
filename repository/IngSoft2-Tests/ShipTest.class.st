@@ -57,6 +57,7 @@ ShipTest >> testWhenShipMovesOnePositionFromStartingPositionThenItMovesAccording
 
 	| aShip |
 	aShip := Ship named: 'Discovery One'.
+	
 	aShip moveTo: 1.
 	
 	self assert: (aShip position) equals: 1.
