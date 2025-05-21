@@ -6,18 +6,20 @@ Class {
 }
 
 { #category : 'tests' }
-ShipTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMessage [ 
+ShipTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMessage [
 
 	self
 		should: anErrorBlock
 		raise: anErrorClass
-		withExceptionDo: [:error | self assert: (error messageText ) equals: errorMessage]
+		withExceptionDo: [ :error |
+		self assert: error messageText equals: errorMessage ]
 ]
 
 { #category : 'tests' }
 ShipTest >> testWhenNewShipIsCreatedThenItHasAName [
 
 	| aShip |
+	
 	"aShip := Ship new."
 	aShip := Ship named: 'Millenium Falcon'.
 	
@@ -28,6 +30,7 @@ ShipTest >> testWhenNewShipIsCreatedThenItHasAName [
 ShipTest >> testWhenNewShipIsInstancedWithANameThenItHasAName [
 
 	| aShip |
+	
 	aShip := Ship named: 'The Batwing'.
 	
 	self assert: (aShip name) equals: 'The Batwing'
@@ -37,6 +40,7 @@ ShipTest >> testWhenNewShipIsInstancedWithANameThenItHasAName [
 ShipTest >> testWhenShipIsCreatedThenItStarsAtStartingPosition [
 
 	| aShip |
+	
 	aShip := Ship named: 'Discovery One'.
 	
 	self assert: (aShip position) equals: 0.

@@ -18,14 +18,14 @@ GameTest >> should: anErrorBlock raise: anErroClass withMessageText: errorMessag
 { #category : 'tests' }
 GameTest >> testWhenGameIsCreatedThenItHasAName [
 
-	| aGame aBoard aShip anotherShip ships oneDice anotherDice dices |
+	| aGame aBoard aShip anotherShip ships oneDice anotherDice dices aBoardBuilder |
 	
 	"aGame := Game new."
 	
-	aBoard := Board
-		          withATotalNumberOfCellsOf: 10
-		          andABlackHoleBetweenCells: 2
-		          and: 6.
+	aBoardBuilder := BoardBuilder new.
+	aBoardBuilder withCells: 10.
+	aBoardBuilder withBlackHoleFrom: 2 to: 6.
+	aBoard := aBoardBuilder build.
 
 	aShip := Ship named: 'Executor'.
 	anotherShip := Ship named: 'Axiom'.
