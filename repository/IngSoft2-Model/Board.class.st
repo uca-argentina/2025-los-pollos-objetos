@@ -83,5 +83,5 @@ Board >> initializeWith: numberOfCells andABlackHoleBeweenCells: firstEntrance a
 { #category : 'initialization' }
 Board >> numberOfCells [
 
-	^ totalBoardCells 
+	^ totalBoardCells.
 ]
