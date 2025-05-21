@@ -93,7 +93,6 @@ GameTest >> testWhenGameIsStartedThenItSuccesfullyStarts [
 		with: aBoard
 		and: dices
 		and: ships.
-		
 
 	self assert: (aGame start) equals: 'The Game Has Started'
 ]
@@ -122,7 +121,6 @@ GameTest >> testWhenOneShipGetsToTheBlackHolesFirstEntranceThenItIsForwardedToTh
 	
 	shipPositionAfterTheDices := aShip position. 
 	aGame determineTheConsequencesOfTheThrowIn: shipPositionAfterTheDices forShip: aShip.
-	
 	
 	positionAfterDeterminingIfItFallsIntoABlackHole := aShip position.
 	blackHolesSecondEntrance := aBoard blackHolesSecondEntrance.
@@ -153,7 +151,6 @@ GameTest >> testWhenOneShipGetsToTheBlackHolesSecondEntranceThenItIsForwardedToT
 	
 	shipPositionAfterTheDices := aShip position. 
 	aGame determineTheConsequencesOfTheThrowIn: shipPositionAfterTheDices forShip: aShip.
-	
 	
 	positionAfterDeterminingIfItFallsIntoABlackHole := aShip position.	
 	
