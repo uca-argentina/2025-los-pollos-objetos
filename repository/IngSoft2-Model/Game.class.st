@@ -17,11 +17,6 @@ Class {
 
 { #category : 'as yet unclassified' }
 Game class >> named: aName with: aBoard and: dices and: ships [ 
-
-	| totalMax |
-	totalMax := dices inject: 0 into: [ :sum :diceInList| sum + (diceInList sizeOfTheDice ) ].
-	
-	self numberOfCellsIn: aBoard IsBiggerThan: totalMax.
 	
 	^ (self new) initializeWith: aName with: aBoard with: dices with: ships.   
 ]

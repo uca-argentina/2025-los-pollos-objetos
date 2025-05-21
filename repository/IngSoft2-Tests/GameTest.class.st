@@ -260,35 +260,3 @@ GameTest >> testWhenOneShipWinsThenYouCanKnowThePositionOfEachShipInTheGame [
     self assert: (aShip position) equals: 20.
     self assert: (anotherShip position) equals: 0.
 ]
-
-{ #category : 'tests' }
-GameTest >> testWhenTotalMaximumDiceValueExceedsBoardCellsThenCreationFails [
-
-
-	| aGame aBoard aShip anotherShip ships oneDice anotherDice dices |
-	
-	"aGame := Game new."
-	
-	aBoard := Board
-		          withATotalNumberOfCellsOf: 10
-		          andABlackHoleBetweenCells: 2
-		          and: 6.
-
-	aShip := Ship named: 'Executor'.
-	anotherShip := Ship named: 'Axiom'.
-	ships := OrderedCollection with: aShip with: anotherShip.
-
-	oneDice := Dice withATotalNumberOfFacesOf: 6.
-	anotherDice := Dice withATotalNumberOfFacesOf: 12.
-	dices := OrderedCollection with: oneDice with: anotherDice.
-
-	self should:[aGame := Game
-		         		named: 'Juego 1'
-		         		with: aBoard
-		         		and: dices
-		         		and: ships
-					]
-		  raise: Error
-		  withMessageText: 'The maximum possible sum of all dice must be less than the number of cells on the board.'.
-
-]
