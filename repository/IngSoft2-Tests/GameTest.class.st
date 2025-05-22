@@ -5,100 +5,109 @@ Class {
 	#package : 'IngSoft2-Tests'
 }
 
+{ #category : 'asserting' }
+GameTest >> should: anErrorBlock raise: anErroClass withMessageText: errorMessage [
+
+	self
+		should: anErrorBlock
+		raise: anErroClass
+		withExceptionDo: [ :error | self assert: (error messageText ) equals: errorMessage ]
+	
+]
+
 { #category : 'tests' }
 GameTest >> testWhenGameIsCreatedThenItHasAName [
 
-	| aGame aBoard aShip anotherShip ships oneDice anotherDice dices aBoardBuilder |
-	
-	"aGame := Game new."
-	
-	aBoardBuilder := BoardBuilder new.
-	aBoardBuilder withCells: 10.
-	aBoardBuilder withBlackHoleFrom: 2 to: 6.
-	aBoard := aBoardBuilder build.
+    | aGame aBoard aShip anotherShip ships oneDice anotherDice dices |
 
-	aShip := Ship named: 'Executor'.
-	anotherShip := Ship named: 'Axiom'.
-	ships := OrderedCollection with: aShip with: anotherShip.
+    "aGame := Game new."
 
-	oneDice := Dice withATotalNumberOfFacesOf: 6.
-	anotherDice := Dice withATotalNumberOfFacesOf: 4.
-	dices := OrderedCollection with: oneDice with: anotherDice.
+    aBoard := Board
+                  withATotalNumberOfCellsOf: 10
+                  andABlackHoleBetweenCells: 2
+                  and: 6.
 
-	aGame := Game
-		         named: 'Juego 1'
-		         with: aBoard
-		         and: dices
-		         and: ships.
+    aShip := Ship named: 'Executor'.
+    anotherShip := Ship named: 'Axiom'.
+    ships := OrderedCollection with: aShip with: anotherShip.
 
-	self assert: aGame name equals: 'Juego 1'
+    oneDice := Dice withATotalNumberOfFacesOf: 6.
+    anotherDice := Dice withATotalNumberOfFacesOf: 4.
+    dices := OrderedCollection with: oneDice with: anotherDice.
+
+    aGame := Game
+                 named: 'Juego 1'
+                 with: aBoard
+                 and: dices
+                 and: ships.
+
+    self assert: aGame name equals: 'Juego 1'
 ]
 
 { #category : 'tests' }
 GameTest >> testWhenGameIsCreatedWithAllThePiecesThenIsSuccesfullyCreated [
 
-	| aGame aBoard aShip anotherShip ships oneDice anotherDice dices aBoardBuilder |
-	
-	aBoardBuilder := BoardBuilder new.
-	aBoardBuilder withCells: 10.
-	aBoardBuilder withBlackHoleFrom: 2 to: 6.
-	aBoard := aBoardBuilder build.
+    | aGame aBoard aShip anotherShip ships oneDice anotherDice dices |
 
-	aShip := Ship named: 'Executor'.
-	anotherShip := Ship named: 'Axiom'.
-	ships := OrderedCollection with: aShip with: anotherShip.
+    aBoard := Board
+                  withATotalNumberOfCellsOf: 10
+                  andABlackHoleBetweenCells: 2
+                  and: 6.
 
-	oneDice := Dice withATotalNumberOfFacesOf: 6.
-	anotherDice := Dice withATotalNumberOfFacesOf: 4.
-	dices := OrderedCollection with: oneDice with: anotherDice.
+    aShip := Ship named: 'Executor'.
+    anotherShip := Ship named: 'Axiom'.
+    ships := OrderedCollection with: aShip with: anotherShip.
 
-	aGame := Game
-		named: 'Juego 2'
-		with: aBoard
-		and: dices
-		and: ships.
+    oneDice := Dice withATotalNumberOfFacesOf: 6.
+    anotherDice := Dice withATotalNumberOfFacesOf: 4.
+    dices := OrderedCollection with: oneDice with: anotherDice.
 
-	self assert: aGame name equals: 'Juego 2'
+    aGame := Game
+        named: 'Juego 2'
+        with: aBoard
+        and: dices
+        and: ships.
+
+    self assert: aGame name equals: 'Juego 2'
 ]
 
 { #category : 'tests' }
 GameTest >> testWhenGameIsStartedThenItSuccesfullyStarts [
 
-	| aGame aBoard aShip anotherShip ships oneDice anotherDice dices aBoardBuilder |
-	
-	aBoardBuilder := BoardBuilder new.
-	aBoardBuilder withCells: 10.
-	aBoardBuilder withBlackHoleFrom: 2 to: 6.
-	aBoard := aBoardBuilder build.
+    | aGame aBoard aShip anotherShip ships oneDice anotherDice dices |
+    aBoard := Board
+                  withATotalNumberOfCellsOf: 10
+                  andABlackHoleBetweenCells: 2
+                  and: 6.
 
-	aShip := Ship named: 'Executor'.
-	anotherShip := Ship named: 'Axiom'.
-	ships := OrderedCollection with: aShip with: anotherShip.
+    aShip := Ship named: 'Executor'.
+    anotherShip := Ship named: 'Axiom'.
+    ships := OrderedCollection with: aShip with: anotherShip.
 
-	oneDice := Dice withATotalNumberOfFacesOf: 6.
-	anotherDice := Dice withATotalNumberOfFacesOf: 4.
-	dices := OrderedCollection with: oneDice with: anotherDice.
+    oneDice := Dice withATotalNumberOfFacesOf: 6.
+    anotherDice := Dice withATotalNumberOfFacesOf: 4.
+    dices := OrderedCollection with: oneDice with: anotherDice.
 
-	aGame := Game
-		named: 'Juego 2'
-		with: aBoard
-		and: dices
-		and: ships.
+    aGame := Game
+        named: 'Juego 2'
+        with: aBoard
+        and: dices
+        and: ships.
 
-	self assert: (aGame start) equals: 'The Game Has Started'
+    self assert: (aGame start) equals: 'The Game Has Started'
 ]
 
 { #category : 'tests' }
 GameTest >> testWhenOneShipGetsToTheBlackHolesFirstEntranceThenItIsForwardedToTheSecondEntranceOfTheBlackHole [
 
-	| aGame aBoard aShip  ships oneDice  dices newPosition positionAfterDetermination blackHolesSecondEntrance |
+	| aGame aBoard aShip  ships oneDice  dices   blackHolesSecondEntrance shipPositionAfterTheDices positionAfterDeterminingIfItFallsIntoABlackHole |
 	
-	aBoard := ThreeCellsBoardWithOneBlackHole withThreeCellsAndOneBlackHole. 
+	aBoard := Board withATotalNumberOfCellsOf: 25 andABlackHoleBetweenCells: 5 and: 20.
 
 	aShip := Ship named: 'Serenity'.
 	ships := OrderedCollection with: aShip.
 
-	oneDice := OneFaceDice withOneFace. 
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 5. 
 	dices := OrderedCollection with: oneDice.
 
 	aGame := Game
@@ -107,26 +116,28 @@ GameTest >> testWhenOneShipGetsToTheBlackHolesFirstEntranceThenItIsForwardedToTh
 		and: dices
 		and: ships.
 		
-	aShip throw: dices.
-	newPosition := aShip position. 
-	aGame determineTheConsequencesOfTheThrowIn: newPosition forShip: aShip.
-	positionAfterDetermination := aShip position.
+	"aShip throw: dices."
+	aGame throwDiceFor: aShip.
+	
+	shipPositionAfterTheDices := aShip position. 
+	aGame determineTheConsequencesOfTheThrowIn: shipPositionAfterTheDices forShip: aShip.
+	
+	positionAfterDeterminingIfItFallsIntoABlackHole := aShip position.
 	blackHolesSecondEntrance := aBoard blackHolesSecondEntrance.
 	
-	self assert: positionAfterDetermination equals: blackHolesSecondEntrance.
+	self assert: positionAfterDeterminingIfItFallsIntoABlackHole equals: blackHolesSecondEntrance.
 ]
 
 { #category : 'tests' }
 GameTest >> testWhenOneShipGetsToTheBlackHolesSecondEntranceThenItIsForwardedToTheFirstEntranceOfTheBlackHole [
 
-	| aGame aBoard aShip  ships oneDice  dices newPosition positionAfterDetermination blackHolesFirstEntrance |
-	
-	aBoard := ThreeCellsBoardWithOneBlackHole withThreeCellsAndOneBlackHole. 
+	| aGame aBoard aShip  ships oneDice  dices  blackHolesFirstEntrance shipPositionAfterTheDices positionAfterDeterminingIfItFallsIntoABlackHole  |
+	aBoard := Board withATotalNumberOfCellsOf: 25 andABlackHoleBetweenCells: 5 and: 20.
 
 	aShip := Ship named: 'Elysium'.
 	ships := OrderedCollection with: aShip.
 
-	oneDice := TwoFacesDiceTrickedToAlwaysReturnTwoWhenThrown withTwoFaces. 
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 20. 
 	dices := OrderedCollection with: oneDice.
 
 	aGame := Game
@@ -134,27 +145,30 @@ GameTest >> testWhenOneShipGetsToTheBlackHolesSecondEntranceThenItIsForwardedToT
 		with: aBoard
 		and: dices
 		and: ships.
-		
-	aShip throw: dices.
-	newPosition := aShip position. 
-	aGame determineTheConsequencesOfTheThrowIn: newPosition forShip: aShip.
-	positionAfterDetermination := aShip position.
+			
+	"aShip throw: dices."
+	aGame throwDiceFor: aShip.
+	
+	shipPositionAfterTheDices := aShip position. 
+	aGame determineTheConsequencesOfTheThrowIn: shipPositionAfterTheDices forShip: aShip.
+	
+	positionAfterDeterminingIfItFallsIntoABlackHole := aShip position.	
+	
 	blackHolesFirstEntrance := aBoard blackHolesFirstEntrance.
 	
-	self assert: positionAfterDetermination equals: blackHolesFirstEntrance.
+	self assert: positionAfterDeterminingIfItFallsIntoABlackHole equals: blackHolesFirstEntrance.
 ]
 
 { #category : 'tests' }
 GameTest >> testWhenOneShipGetsToTheWinningCellThenTheGameFinishes [
 
 	| aGame aBoard aShip  ships oneDice  dices newPosition |
-	
-	aBoard := OneCellBoard withOneCell. 
+	aBoard := Board withATotalNumberOfCellsOf: 6 andABlackHoleBetweenCells: 2 and: 5. 
 
 	aShip := Ship named: 'Apolo'.
 	ships := OrderedCollection with: aShip.
 
-	oneDice := OneFaceDice withOneFace. 
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 6. 
 	dices := OrderedCollection with: oneDice.
 
 	aGame := Game
@@ -163,7 +177,8 @@ GameTest >> testWhenOneShipGetsToTheWinningCellThenTheGameFinishes [
 		and: dices
 		and: ships.
 		
-	aShip throw: dices.
+	"aShip throw: dices."
+	aGame throwDiceFor: aShip.
 	newPosition := aShip position. 
 	
 	"self assert: (aGame determineTheConsequencesOfTheThrowIn: newPosition forShip: aShip) equals: 'The game has ended, you won!'"
@@ -174,13 +189,12 @@ GameTest >> testWhenOneShipGetsToTheWinningCellThenTheGameFinishes [
 GameTest >> testWhenOneShipGetsToTheWinningCellThenYouCanKnowWhichShipWon [
 
 	| aGame aBoard aShip  ships oneDice  dices newPosition |
-	
-	aBoard := OneCellBoard withOneCell. 
+	aBoard := Board withATotalNumberOfCellsOf: 6 andABlackHoleBetweenCells: 2 and: 5.
 
 	aShip := Ship named: 'Venture'.
 	ships := OrderedCollection with: aShip.
 
-	oneDice := OneFaceDice withOneFace. 
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 6. 
 	dices := OrderedCollection with: oneDice.
 
 	aGame := Game
@@ -189,35 +203,60 @@ GameTest >> testWhenOneShipGetsToTheWinningCellThenYouCanKnowWhichShipWon [
 		and: dices
 		and: ships.
 		
-	aShip throw: dices.
+	aGame throwDiceFor: aShip.
 	newPosition := aShip position. 
 	
 	self assert: (aGame determineTheConsequencesOfTheThrowIn: newPosition forShip: aShip) equals: 'Venture won the Game!'
 ]
 
 { #category : 'tests' }
-GameTest >> testWhenOneShipWinsThenYouCanKnowThePositionOfEachShipInTheGame [
+GameTest >> testWhenOneShipMakesOneMoveThenItIsForwardedToTheNewPosition [
+    | aGame aBoard aShip  ships oneDice  dices  intialShipPosition |
+    aBoard := Board withATotalNumberOfCellsOf: 20 andABlackHoleBetweenCells: 16 and: 19.
 
-	| aGame aBoard aShip  ships oneDice  dices newPosition anotherShip |
-	
-	aBoard := OneCellBoard withOneCell. 
+    aShip := Ship named: 'Serenity'.
+    ships := OrderedCollection with: aShip.
 
-	aShip := Ship named: 'Venture'.
-	anotherShip := Ship named: 'Axiom'.
-	ships := OrderedCollection with: aShip with: anotherShip.
+    oneDice := Dice withATotalNumberOfFacesOf: 15. 
+    dices := OrderedCollection with: oneDice.
 
-	oneDice := OneFaceDice withOneFace. 
-	dices := OrderedCollection with: oneDice.
+    aGame := Game
+        named: 'Juego Galactico'
+        with: aBoard
+        and: dices
+        and: ships.
 
-	aGame := Game
-		named: 'Juego Maravilloso'
-		with: aBoard
-		and: dices
-		and: ships.
-		
-	aShip throw: dices.
-	newPosition := aShip position. 
-	
-	self assert: (aShip position) equals: 1.
-	self assert: (anotherShip position) equals: 0.
+    intialShipPosition := aShip position.
+
+    aGame throwDiceFor: aShip.
+
+    self assert: aShip position equals: aShip position .
+]
+
+{ #category : 'tests' }
+GameTest >> testWhenOneShipWinsThenYouCanKnowThePositionOfEachShipInTheGame [ 
+
+    | aGame aBoard aShip  ships oneDice  dices  anotherShip shipPositionAfterTheDices |
+
+    aBoard := Board withATotalNumberOfCellsOf: 20 andABlackHoleBetweenCells: 16 and: 20.
+
+    aShip := Ship named: 'Venture'.
+    anotherShip := Ship named: 'Axiom'.
+    ships := OrderedCollection with: aShip with: anotherShip.
+
+    oneDice := ChargedDice withATotalNumberOfFacesOf: 16.  
+    dices := OrderedCollection with: oneDice.
+
+    aGame := Game
+        named: 'Juego Maravilloso'
+        with: aBoard
+        and: dices
+        and: ships.
+
+	aGame throwDiceFor: aShip.
+	shipPositionAfterTheDices := aShip position. 
+	aGame determineTheConsequencesOfTheThrowIn: shipPositionAfterTheDices forShip: aShip.
+
+    self assert: (aShip position) equals: 20.
+    self assert: (anotherShip position) equals: 0.
 ]

@@ -60,50 +60,9 @@ ShipTest >> testWhenShipIsCreatedWithNoNameThenCreationFails [
 ShipTest >> testWhenShipMovesOnePositionFromStartingPositionThenItMovesAccordingly [
 
 	| aShip |
-	
 	aShip := Ship named: 'Discovery One'.
-	aShip fly: 1.
+	
+	aShip moveTo: 1.
 	
 	self assert: (aShip position) equals: 1.
-]
-
-{ #category : 'tests' }
-ShipTest >> testWhenShipThrowsADiceThenDiceIsThrownAndANumberIsReturned [
-
-	| aShip aDice dices |
-	
-	aShip := Ship named: 'USS Enterprise'.
-	aDice := Dice withATotalNumberOfFacesOf: 6.
-	dices := OrderedCollection with: aDice.
-	
-	"self assert: (aShip throw: aDice) equals: 1."
-	self assert: (aShip throw: dices) isInteger.
-]
-
-{ #category : 'tests' }
-ShipTest >> testWhenShipThrowsDicesThenItMovesAsMuchPositionAsTheResultOfTheThrowIs [
-
-	
-	| aShip aDice dices throwResult |
-	
-	aShip := Ship named: 'Nebuchadnezzar'.
-	aDice := Dice withATotalNumberOfFacesOf: 6.
-	dices := OrderedCollection with: aDice.
-	
-	throwResult := aShip throw: dices.
-	
-	self assert: (aShip position) equals: (throwResult).
-]
-
-{ #category : 'tests' }
-ShipTest >> testWhenShipThrowsMoreThanOneDiceThenTheDicesAreThrownAndANumberIsReturned [
-
-	| aShip oneDice anotherDice dices |
-	
-	aShip := Ship named: 'Slave I'.
-	oneDice := Dice withATotalNumberOfFacesOf: 6.
-	anotherDice := Dice withATotalNumberOfFacesOf: 4.
-	dices := OrderedCollection with: oneDice with: anotherDice.
-	
-	self assert: (aShip throw: dices) isInteger.
 ]
