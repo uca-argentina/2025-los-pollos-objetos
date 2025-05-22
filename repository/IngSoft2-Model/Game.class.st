@@ -22,12 +22,6 @@ Game class >> named: aName with: aBoard and: dices and: ships [
 ]
 
 { #category : 'as yet unclassified' }
-Game class >> numberOfCellsIn: aBoard IsBiggerThan: totalMax [
-
-    (aBoard numberOfCells >= totalMax ) ifFalse: [ Error signal: 'The maximum possible sum of all dice must be less than the number of cells on the board.' ].
-]
-
-{ #category : 'as yet unclassified' }
 Game >> determineTheConsequencesOfTheThrowIn: aNewPosition forShip: aShip [
 	
 	(aNewPosition = winningCell ) ifTrue: [ ^ aShip name , ' won the Game!' ].
