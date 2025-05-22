@@ -8,7 +8,8 @@ Class {
 		'ships',
 		'winningCell',
 		'blackHolesFirstEntrance',
-		'blackHoleSecondEntrance'
+		'blackHoleSecondEntrance',
+		'distanceFromBlackHolesFirstEntranceToSecondEntrance'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -23,8 +24,7 @@ Game class >> named: aName with: aBoard and: dices and: ships [
 { #category : 'as yet unclassified' }
 Game class >> numberOfCellsIn: aBoard IsBiggerThan: totalMax [
 
-	(aBoard numberOfCells >= totalMax ) ifFalse: [ Error signal: 'The maximum possible sum of all dice must be less than the number of cells on the board.' ].
-
+    (aBoard numberOfCells >= totalMax ) ifFalse: [ Error signal: 'The maximum possible sum of all dice must be less than the number of cells on the board.' ].
 ]
 
 { #category : 'as yet unclassified' }
@@ -46,17 +46,17 @@ Game >> determineTheConsequencesOfTheThrowIn: aNewPosition forShip: aShip [
 { #category : 'initialization' }
 Game >> initializeWith: gameName with: aBoard with: gameDices with: gameShips [ 
 
-	name := gameName.
-	
-	board := aBoard.
-	winningCell := board numberOfCells.
-	blackHolesFirstEntrance := board blackHolesFirstEntrance.
-	blackHoleSecondEntrance := board blackHolesSecondEntrance.
-	distanceFromBlackHolesFirstEntranceToSecondEntrance := blackHoleSecondEntrance - blackHolesFirstEntrance. 
-	
-	dices := gameDices.
-	
-	ships := gameShips. 
+    name := gameName.
+
+    board := aBoard.
+    winningCell := board numberOfCells.
+    blackHolesFirstEntrance := board blackHolesFirstEntrance.
+    blackHoleSecondEntrance := board blackHolesSecondEntrance.
+
+    dices := gameDices.
+
+    ships := gameShips.
+
 ]
 
 { #category : 'accessing' }
