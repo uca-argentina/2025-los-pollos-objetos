@@ -164,13 +164,60 @@ ShipTest >> testWhenShipIsCreatedWithNoNameThenCreationFails [
 ]
 
 { #category : 'tests' }
+ShipTest >> testWhenShipIsInitializedThenItHasNotCompletedAnyLaps [
+
+	| aShip |
+	aShip := Ship named: 'Venture'.
+	
+	self assert: (aShip currentLap) equals: 0.
+]
+
+{ #category : 'tests' }
+ShipTest >> testWhenShipIsToldToUpdateLapThenItIncreasesOneLap [
+
+	| aShip previousLap newLap |
+	aShip := Ship named: 'Venture'.
+	
+	previousLap := aShip currentLap.
+	aShip updateLapOn: 1.
+	newLap := aShip currentLap.
+	
+	self assert: (newLap) equals: previousLap + 1.
+]
+
+{ #category : 'tests' }
 ShipTest >> testWhenShipMovesOnePositionFromStartingPositionThenItMovesAccordingly [
 
 	| aShip |
 	aShip := Ship named: 'Discovery One'.
-	aShip chargeFuelUpTo: 1.
+	aShip chargeFuelUpTo: 5.
 	
-	aShip moveTo: 1.
+	aShip moveTo: 1 andConsume: 1.
 	
 	self assert: (aShip position) equals: 1.
+]
+
+{ #category : 'tests' }
+ShipTest >> testWhenShipRunsOutOfFuelAnsRestoresItThenItFillsUpTheTank [
+
+	| aShip |
+	aShip := Ship named: 'Apolo'.
+	aShip chargeFuelUpTo: 5.
+	
+	aShip moveTo: 5 andConsume: 5.
+	aShip restoreFuel.
+	
+	self assert: (aShip currentCharge) equals: 5.
+]
+
+{ #category : 'tests' }
+ShipTest >> testWhenShipRunsOutOfFuelThenItStaysAtCurrentPosition [
+
+	| aShip |
+	aShip := Ship named: 'Axiom'.
+	aShip chargeFuelUpTo: 1.
+	
+	aShip moveTo: 1 andConsume: 1.
+	
+	self assert: (aShip position) equals: 0.
 ]

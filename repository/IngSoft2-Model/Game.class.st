@@ -10,16 +10,17 @@ Class {
 		'blackHolesFirstEntrance',
 		'blackHoleSecondEntrance',
 		'distanceFromBlackHolesFirstEntranceToSecondEntrance',
-		'chargeOfFuel'
+		'chargeOfFuel',
+		'winningLaps'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'as yet unclassified' }
-Game class >> named: aName with: aBoard and: dices and: ships [ 
+Game class >> completedAtLap: aNumberOfLap with: aBoard and: dices and: ships [ 
 	
-	^ (self new) initializeWith: aName with: aBoard with: dices with: ships.   
+	^ (self new) initializeWith: aNumberOfLap with: aBoard with: dices with: ships.   
 ]
 
 { #category : 'as yet unclassified' }
@@ -33,26 +34,29 @@ Game >> chargeFuelToShipsUpTo: aChargeOfFuel [
 { #category : 'as yet unclassified' }
 Game >> determineTheConsequencesOfTheThrowIn: aNewPosition forShip: aShip [
 	
-	(aNewPosition = winningCell ) ifTrue: [ ^ aShip name , ' won the Game!' ].
+	| aShipCurrentLap |
+
+	aShipCurrentLap := aShip currentLap.
+	(aShipCurrentLap = winningLaps ) ifTrue: [ ^ aShip name , ' won the Game!' ].
 	
 	"
 	(aNewPosition = blackHolesFirstEntrance) ifTrue: [ aShip fly: distanceFromBlackHolesFirstEntranceToSecondEntrance ].
 	(aNewPosition = blackHoleSecondEntrance ) ifTrue: [ aShip fly: (distanceFromBlackHolesFirstEntranceToSecondEntrance * (-1))].	
 	"
 	
-	(aNewPosition = blackHolesFirstEntrance) ifTrue: [ aShip moveTo: blackHoleSecondEntrance ].
-	(aNewPosition = blackHoleSecondEntrance ) ifTrue: [ aShip moveTo: blackHolesFirstEntrance ].	
+	(aNewPosition = blackHolesFirstEntrance) ifTrue: [ aShip moveTo: blackHoleSecondEntrance andConsume: (blackHoleSecondEntrance - blackHolesFirstEntrance)].
+	(aNewPosition = blackHoleSecondEntrance ) ifTrue: [ aShip moveTo: blackHolesFirstEntrance andConsume: (blackHoleSecondEntrance - blackHolesFirstEntrance)].	
 	
 	
 ]
 
 { #category : 'initialization' }
-Game >> initializeWith: gameName with: aBoard with: gameDices with: gameShips [ 
+Game >> initializeWith: laps with: aBoard with: gameDices with: gameShips [ 
 
-    name := gameName.
+    winningLaps := laps.
 
     board := aBoard.
-    winningCell := board numberOfCells.
+    "winningCell := board numberOfCells."
     blackHolesFirstEntrance := board blackHolesFirstEntrance.
     blackHoleSecondEntrance := board blackHolesSecondEntrance.
 
@@ -64,12 +68,6 @@ Game >> initializeWith: gameName with: aBoard with: gameDices with: gameShips [
 	
 	 
 
-]
-
-{ #category : 'accessing' }
-Game >> name [
-
-	^ name.
 ]
 
 { #category : 'accessing' }
@@ -88,10 +86,36 @@ Game >> sumOfDiceSizes [
 
 { #category : 'as yet unclassified' }
 Game >> throwDiceFor: aShip [
+ 
+    | resultOfTheThrow totalSteps targetPosition |
+    
+    resultOfTheThrow := (dices collect: [ :dice | dice beThrown ]) sum.
+    totalSteps := aShip position + resultOfTheThrow.
 
-	| resultOfTheThrow |
-	resultOfTheThrow := (dices collect: [ :dice | dice beThrown ]) sum.
+    targetPosition := totalSteps = 0
+        ifTrue: [ 0 ]
+        ifFalse: [
+            (totalSteps \\ board numberOfCells = 0)
+                ifTrue: [ board numberOfCells ]
+                ifFalse: [ totalSteps \\ board numberOfCells ]
+        ].
+
+    aShip moveTo: targetPosition
+         andConsume: resultOfTheThrow.
+
+	 self updateLapFor: aShip withTotalSteps: totalSteps.
+
+]
+
+{ #category : 'as yet unclassified' }
+Game >> updateLapFor: aShip withTotalSteps: totalSteps [
 	
-	aShip moveTo: (resultOfTheThrow + aShip position).
+	 aShip updateLapOn: totalSteps // board numberOfCells.
 
+]
+
+{ #category : 'accessing' }
+Game >> winningLap [
+
+	^ winningLaps
 ]

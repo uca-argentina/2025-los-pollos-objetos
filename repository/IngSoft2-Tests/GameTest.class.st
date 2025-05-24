@@ -16,7 +16,7 @@ GameTest >> should: anErrorBlock raise: anErroClass withMessageText: errorMessag
 ]
 
 { #category : 'tests' }
-GameTest >> testWhenGameIsCreatedThenItHasAName [
+GameTest >> testWhenGameIsCreatedThenItHasAWinningLap [
 
     | aGame aBoard aShip anotherShip ships oneDice anotherDice dices |
 
@@ -36,12 +36,12 @@ GameTest >> testWhenGameIsCreatedThenItHasAName [
     dices := OrderedCollection with: oneDice with: anotherDice.
 
     aGame := Game
-                 named: 'Juego 1'
+                 completedAtLap: 1
                  with: aBoard
                  and: dices
                  and: ships.
 
-    self assert: aGame name equals: 'Juego 1'
+    self assert: aGame winningLap equals: 1
 ]
 
 { #category : 'tests' }
@@ -63,12 +63,12 @@ GameTest >> testWhenGameIsCreatedWithAllThePiecesThenIsSuccesfullyCreated [
     dices := OrderedCollection with: oneDice with: anotherDice.
 
     aGame := Game
-        named: 'Juego 2'
+        completedAtLap: 1
         with: aBoard
         and: dices
         and: ships.
 
-    self assert: aGame name equals: 'Juego 2'
+    self assert: aGame winningLap equals: 1
 ]
 
 { #category : 'tests' }
@@ -89,7 +89,7 @@ GameTest >> testWhenGameIsStartedThenItSuccesfullyStarts [
     dices := OrderedCollection with: oneDice with: anotherDice.
 
     aGame := Game
-        named: 'Juego 2'
+        completedAtLap: 1
         with: aBoard
         and: dices
         and: ships.
@@ -110,7 +110,7 @@ GameTest >> testWhenOneGameIsInitializedWithAMaximumThrowOfFiveThenAllShipsHaveT
     dices := OrderedCollection with: oneDice.
 
     aGame := Game
-        named: 'Juego Galactico'
+        completedAtLap: 1
         with: aBoard
         and: dices
         and: ships.
@@ -131,7 +131,7 @@ GameTest >> testWhenOneGameIsInitializedWithAMaximumThrowOfFiveThenShipsHaveTenU
     dices := OrderedCollection with: oneDice.
 
     aGame := Game
-        named: 'Juego Galactico'
+        completedAtLap: 1
         with: aBoard
         and: dices
         and: ships.
@@ -144,16 +144,16 @@ GameTest >> testWhenOneShipGetsToTheBlackHolesFirstEntranceThenItIsForwardedToTh
 
 	| aGame aBoard aShip  ships oneDice  dices   blackHolesSecondEntrance shipPositionAfterTheDices positionAfterDeterminingIfItFallsIntoABlackHole |
 	
-	aBoard := Board withATotalNumberOfCellsOf: 25 andABlackHoleBetweenCells: 5 and: 20.
+	aBoard := Board withATotalNumberOfCellsOf: 25 andABlackHoleBetweenCells: 5 and: 8.
 
 	aShip := Ship named: 'Serenity'.
 	ships := OrderedCollection with: aShip.
 
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 10. 
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 5. 
 	dices := OrderedCollection with: oneDice.
 
 	aGame := Game
-		named: 'Juego Galactico'
+		completedAtLap: 1
 		with: aBoard
 		and: dices
 		and: ships.
@@ -183,7 +183,7 @@ GameTest >> testWhenOneShipGetsToTheBlackHolesSecondEntranceThenItIsForwardedToT
 	dices := OrderedCollection with: oneDice.
 
 	aGame := Game
-		named: 'Juego Galactico'
+		completedAtLap: 1
 		with: aBoard
 		and: dices
 		and: ships.
@@ -202,7 +202,7 @@ GameTest >> testWhenOneShipGetsToTheBlackHolesSecondEntranceThenItIsForwardedToT
 ]
 
 { #category : 'tests' }
-GameTest >> testWhenOneShipGetsToTheWinningCellThenTheGameFinishes [
+GameTest >> testWhenOneShipGetsToTheWinningLapThenTheGameFinishes [
 
 	| aGame aBoard aShip  ships oneDice  dices newPosition |
 	aBoard := Board withATotalNumberOfCellsOf: 6 andABlackHoleBetweenCells: 2 and: 5. 
@@ -210,11 +210,11 @@ GameTest >> testWhenOneShipGetsToTheWinningCellThenTheGameFinishes [
 	aShip := Ship named: 'Apolo'.
 	ships := OrderedCollection with: aShip.
 
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 6. 
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 7. 
 	dices := OrderedCollection with: oneDice.
 
 	aGame := Game
-		named: 'Juego 2'
+		completedAtLap: 1
 		with: aBoard
 		and: dices
 		and: ships.
@@ -228,7 +228,7 @@ GameTest >> testWhenOneShipGetsToTheWinningCellThenTheGameFinishes [
 ]
 
 { #category : 'tests' }
-GameTest >> testWhenOneShipGetsToTheWinningCellThenYouCanKnowWhichShipWon [
+GameTest >> testWhenOneShipGetsToTheWinningLapThenYouCanKnowWhichShipWon [
 
 	| aGame aBoard aShip  ships oneDice  dices newPosition |
 	aBoard := Board withATotalNumberOfCellsOf: 6 andABlackHoleBetweenCells: 2 and: 5.
@@ -236,11 +236,11 @@ GameTest >> testWhenOneShipGetsToTheWinningCellThenYouCanKnowWhichShipWon [
 	aShip := Ship named: 'Venture'.
 	ships := OrderedCollection with: aShip.
 
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 6. 
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 7. 
 	dices := OrderedCollection with: oneDice.
 
 	aGame := Game
-		named: 'Juego Asombroso'
+		completedAtLap: 1
 		with: aBoard
 		and: dices
 		and: ships.
@@ -263,7 +263,7 @@ GameTest >> testWhenOneShipHasTwoUnitsOfFuelAndMakesOneMoveThenItConsumesOneUnit
     dices := OrderedCollection with: oneDice.
 
     aGame := Game
-        named: 'Juego Galactico'
+        completedAtLap: 1
         with: aBoard
         and: dices
         and: ships.
@@ -285,7 +285,7 @@ GameTest >> testWhenOneShipMakesOneMoveThenItIsForwardedToTheNewPosition [
     dices := OrderedCollection with: oneDice.
 
     aGame := Game
-        named: 'Juego Galactico'
+        completedAtLap: 1
         with: aBoard
         and: dices
         and: ships.
@@ -302,17 +302,17 @@ GameTest >> testWhenOneShipWinsThenYouCanKnowThePositionOfEachShipInTheGame [
 
     | aGame aBoard aShip  ships oneDice  dices  anotherShip shipPositionAfterTheDices |
 
-    aBoard := Board withATotalNumberOfCellsOf: 20 andABlackHoleBetweenCells: 16 and: 20.
+    aBoard := Board withATotalNumberOfCellsOf: 20 andABlackHoleBetweenCells: 16 and: 19.
 
     aShip := Ship named: 'Venture'.
     anotherShip := Ship named: 'Axiom'.
     ships := OrderedCollection with: aShip with: anotherShip.
 
-    oneDice := ChargedDice withATotalNumberOfFacesOf: 16.  
+    oneDice := ChargedDice withATotalNumberOfFacesOf: 20.  
     dices := OrderedCollection with: oneDice.
 
     aGame := Game
-        named: 'Juego Maravilloso'
+        completedAtLap: 1
         with: aBoard
         and: dices
         and: ships.

@@ -4,7 +4,10 @@ Class {
 	#instVars : [
 		'shipsName',
 		'shipsCurrentCell',
-		'fuelCharged'
+		'fuelCharged',
+		'maximumFuel',
+		'shipsCurrentLap',
+		'shipsPreviousCell'
 	],
 	#classInstVars : [
 		'shipsName'
@@ -32,6 +35,8 @@ Ship class >> shipHasAValidName: aName [
 Ship >> atStartingPosition [
 	
 	shipsCurrentCell := 0.
+	shipsPreviousCell := 0.
+	shipsCurrentLap := 0.
 ]
 
 { #category : 'accessing' }
@@ -39,7 +44,9 @@ Ship >> chargeFuelUpTo: aChargeOfFuel [
 
 	self isAPositiveInteger: aChargeOfFuel.
 
+	maximumFuel := aChargeOfFuel.
 	fuelCharged := aChargeOfFuel.
+	
 ]
 
 { #category : 'path commands' }
@@ -57,6 +64,12 @@ Ship >> currentCharge [
 
 	^ fuelCharged.
 	
+]
+
+{ #category : 'accessing' }
+Ship >> currentLap [
+
+	^ shipsCurrentLap.
 ]
 
 { #category : 'path commands' }
@@ -80,12 +93,20 @@ Ship >> isAPositiveInteger: aChargeOfFuel [
 		Error signal: 'Charge and consumption of fuel must be a positive amount.' ]
 ]
 
-{ #category : 'path commands' }
-Ship >> moveTo:  newPosition [ 
-
-	self consumeFuel: (newPosition - shipsCurrentCell) abs.
-	shipsCurrentCell := newPosition .
+{ #category : 'accessing' }
+Ship >> lastPosition [
 	
+	^ shipsPreviousCell .
+]
+
+{ #category : 'path commands' }
+Ship >> moveTo: newPosition andConsume: aConsumption [ 
+
+	self consumeFuel: aConsumption.
+   fuelCharged = 0 ifTrue: [ ^self ].
+
+   shipsPreviousCell := shipsCurrentCell.
+   shipsCurrentCell := newPosition.
 ]
 
 { #category : 'accessing' }
@@ -98,4 +119,22 @@ Ship >> name [
 Ship >> position [
 	
 	^ shipsCurrentCell.
+]
+
+{ #category : 'accessing' }
+Ship >> restoreFuel [
+
+	fuelCharged := maximumFuel.
+	
+]
+
+{ #category : 'accessing' }
+Ship >> updateLapOn: aNumberOfLap [
+
+	shipsCurrentLap := shipsCurrentLap + aNumberOfLap.
+
+
+
+	
+	
 ]
