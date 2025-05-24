@@ -17,17 +17,16 @@ Class {
 }
 
 { #category : 'instance creation' }
-Ship class >> named: aName [
+Ship class >> named: arg1 [
 
-	self shipHasAValidName: aName.
-
-	^ (self new initializeWith: aName) atStartingPosition.
+	self shipHasAValidName: arg1.
+	^ (self new initializeWith: arg1) atStartingPosition
 ]
 
 { #category : 'instance creation' }
-Ship class >> shipHasAValidName: aName [
+Ship class >> shipHasAValidName: arg1 [
 
-	(aName isEmpty or: [ aName isNil ]) ifTrue: [
+	(arg1 isEmpty or: [ arg1 isNil ]) ifTrue: [
 		Error signal: 'Ship must be initialized with a name.' ]
 ]
 
@@ -81,9 +80,9 @@ Ship >> hasEnoughFuel: aConsumption [
 ]
 
 { #category : 'accessing' }
-Ship >> initializeWith: aName [
+Ship >> initializeWith: arg1 [
 
-	shipsName := aName.
+	shipsName := arg1
 ]
 
 { #category : 'accessing' }
@@ -112,13 +111,13 @@ Ship >> moveTo: newPosition andConsume: aConsumption [
 { #category : 'accessing' }
 Ship >> name [
 
-	^ shipsName.
+	^ shipsName
 ]
 
 { #category : 'accessing' }
 Ship >> position [
-	
-	^ shipsCurrentCell.
+
+	^ shipsCurrentCell
 ]
 
 { #category : 'accessing' }
