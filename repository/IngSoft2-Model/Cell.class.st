@@ -2,7 +2,8 @@ Class {
 	#name : 'Cell',
 	#superclass : 'Object',
 	#instVars : [
-		'ships'
+		'ships',
+		'numberOfCell'
 	],
 	#classInstVars : [
 		'ships'
@@ -12,9 +13,18 @@ Class {
 }
 
 { #category : 'initialization' }
-Cell class >> initializeCell [
+Cell class >> initializeCellOn: aNumberOfCell [
 
-	^ (self new) setUp.
+	self isAPositiveInteger: aNumberOfCell.
+
+	^ (self new) setUpOn: aNumberOfCell.
+]
+
+{ #category : 'initialization' }
+Cell class >> isAPositiveInteger: aNumber [
+
+    (aNumber isInteger and: [ aNumber >= 0 ]) ifFalse: [
+        Error signal: 'Number of cell must be a positive integer.' ].
 ]
 
 { #category : 'as yet unclassified' }
@@ -35,8 +45,15 @@ Cell >> leaves: aShip [
 	ships remove: aShip.
 ]
 
+{ #category : 'as yet unclassified' }
+Cell >> number [
+
+	^ numberOfCell.
+]
+
 { #category : 'initialization' }
-Cell >> setUp [
+Cell >> setUpOn: aNumberOfCell [
 
 	ships := OrderedCollection new.
+	numberOfCell := aNumberOfCell.
 ]

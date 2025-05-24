@@ -23,6 +23,19 @@ Game class >> completedAtLap: aNumberOfLap with: aBoard and: dices and: ships [
 	^ (self new) initializeWith: aNumberOfLap with: aBoard with: dices with: ships.   
 ]
 
+{ #category : 'accessing' }
+Game >> calculateTargetPositionFor: totalSteps [.
+
+		^ totalSteps = 0
+        ifTrue: [ 0 ]
+        ifFalse: [
+            (totalSteps \\ board numberOfCells = 0)
+                ifTrue: [ board numberOfCells ]
+                ifFalse: [ totalSteps \\ board numberOfCells ]
+        ].
+
+]
+
 { #category : 'as yet unclassified' }
 Game >> chargeFuelToShipsUpTo: aChargeOfFuel [
 
@@ -56,6 +69,7 @@ Game >> initializeWith: laps with: aBoard with: gameDices with: gameShips [
     winningLaps := laps.
 
     board := aBoard.
+	 board getShipsIntoFirstCellOfTheBoard: gameShips.
     "winningCell := board numberOfCells."
     blackHolesFirstEntrance := board blackHolesFirstEntrance.
     blackHoleSecondEntrance := board blackHolesSecondEntrance.
@@ -68,6 +82,19 @@ Game >> initializeWith: laps with: aBoard with: gameDices with: gameShips [
 	
 	 
 
+]
+
+{ #category : 'accessing' }
+Game >> move: aShip to: targetPosition andConsume: aConsumption [
+
+	| shipsPreviousPosition shipsNewPosition |
+	aShip moveTo: targetPosition andConsume: aConsumption.
+	
+	shipsPreviousPosition := aShip lastPosition.
+	shipsNewPosition := aShip position.
+	
+	board removeShip: aShip fromCellAt: shipsPreviousPosition.
+	board addShip: aShip toCellAt: shipsNewPosition.
 ]
 
 { #category : 'accessing' }
@@ -92,15 +119,9 @@ Game >> throwDiceFor: aShip [
     resultOfTheThrow := (dices collect: [ :dice | dice beThrown ]) sum.
     totalSteps := aShip position + resultOfTheThrow.
 
-    targetPosition := totalSteps = 0
-        ifTrue: [ 0 ]
-        ifFalse: [
-            (totalSteps \\ board numberOfCells = 0)
-                ifTrue: [ board numberOfCells ]
-                ifFalse: [ totalSteps \\ board numberOfCells ]
-        ].
+    targetPosition := self calculateTargetPositionFor: totalSteps.
 
-    aShip moveTo: targetPosition
+    self move: aShip to: targetPosition  
          andConsume: resultOfTheThrow.
 
 	 self updateLapFor: aShip withTotalSteps: totalSteps.

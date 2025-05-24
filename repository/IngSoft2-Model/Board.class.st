@@ -62,6 +62,13 @@ Board class >> withATotalNumberOfCellsOf: numberOfCells andABlackHoleBetweenCell
 ]
 
 { #category : 'accessing' }
+Board >> addShip: aShip toCellAt: aPosition [
+    
+    (cells at: aPosition + 1) enters: aShip.
+
+]
+
+{ #category : 'accessing' }
 Board >> blackHolesFirstEntrance [
 
     ^ blackHolesFirstEntrance.
@@ -73,11 +80,30 @@ Board >> blackHolesSecondEntrance [
     ^ blackHolesSecondEntrance.
 ]
 
+{ #category : 'accessing' }
+Board >> cellNumber: aNumber [
+	
+    ^ cells at: aNumber + 1
+
+
+]
+
+{ #category : 'accessing' }
+Board >> getShipsIntoFirstCellOfTheBoard: shipsCollection [
+
+    | startCell |
+
+    startCell := cells first.
+    shipsCollection do: [ :aShip | startCell enters: aShip ].
+
+
+]
+
 { #category : 'initialization' }
 Board >> initializeWith: numberOfCells andABlackHoleBeweenCells: firstEntrance and: secondEntrance [
 
 	 cells := OrderedCollection new.
-    1 to: numberOfCells do: [:i | cells add: Cell initializeCell ].
+    0 to: (numberOfCells - 1) do: [:i | cells add: (Cell initializeCellOn: i) ].
     blackHolesFirstEntrance := firstEntrance.
     blackHolesSecondEntrance := secondEntrance.
 ]
@@ -86,4 +112,11 @@ Board >> initializeWith: numberOfCells andABlackHoleBeweenCells: firstEntrance a
 Board >> numberOfCells [
 
 	^ cells size.
+]
+
+{ #category : 'accessing' }
+Board >> removeShip: aShip fromCellAt: aPosition [
+    
+    (cells at: aPosition + 1) leaves: aShip.
+
 ]

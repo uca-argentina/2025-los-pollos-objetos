@@ -72,6 +72,35 @@ GameTest >> testWhenGameIsCreatedWithAllThePiecesThenIsSuccesfullyCreated [
 ]
 
 { #category : 'tests' }
+GameTest >> testWhenGameIsStartedThenAllShipsAreAtTheFirstCell [
+
+    | aGame aBoard aShip anotherShip ships oneDice anotherDice dices firstCell |
+    aBoard := Board
+                  withATotalNumberOfCellsOf: 10
+                  andABlackHoleBetweenCells: 2
+                  and: 6.
+
+    aShip := Ship named: 'Executor'.
+    anotherShip := Ship named: 'Axiom'.
+    ships := OrderedCollection with: aShip with: anotherShip.
+
+    oneDice := Dice withATotalNumberOfFacesOf: 6.
+    anotherDice := Dice withATotalNumberOfFacesOf: 4.
+    dices := OrderedCollection with: oneDice with: anotherDice.
+
+    aGame := Game
+        completedAtLap: 1
+        with: aBoard
+        and: dices
+        and: ships.
+
+	firstCell := aBoard cellNumber: 0.
+	
+	self assert: (firstCell includes: aShip) equals: true.
+	self assert: (firstCell includes: anotherShip) equals: true.
+]
+
+{ #category : 'tests' }
 GameTest >> testWhenGameIsStartedThenItSuccesfullyStarts [
 
     | aGame aBoard aShip anotherShip ships oneDice anotherDice dices |
@@ -304,6 +333,31 @@ GameTest >> testWhenOneShipMakesOneLapThenItReturnsToTheFirstCell [
 
 { #category : 'tests' }
 GameTest >> testWhenOneShipMakesOneMoveThenItIsForwardedToTheNewPosition [
+
+    | aGame aBoard aShip  ships oneDice  dices  intialShipPosition |
+    aBoard := Board withATotalNumberOfCellsOf: 20 andABlackHoleBetweenCells: 16 and: 19.
+
+    aShip := Ship named: 'Serenity'.
+    ships := OrderedCollection with: aShip.
+
+    oneDice := Dice withATotalNumberOfFacesOf: 15. 
+    dices := OrderedCollection with: oneDice.
+
+    aGame := Game
+        completedAtLap: 1
+        with: aBoard
+        and: dices
+        and: ships.
+
+    intialShipPosition := aShip position.
+
+    aGame move: aShip to: 1 andConsume: 1.
+
+    self deny: aShip position equals: intialShipPosition.
+]
+
+{ #category : 'tests' }
+GameTest >> testWhenOneShipThrowsDiceAndReturnsOneThenItIsForwardedOnePosition [
 
     | aGame aBoard aShip  ships oneDice  dices  intialShipPosition |
     aBoard := Board withATotalNumberOfCellsOf: 20 andABlackHoleBetweenCells: 16 and: 19.
