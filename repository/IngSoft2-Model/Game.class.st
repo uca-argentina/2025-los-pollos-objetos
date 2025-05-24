@@ -11,7 +11,9 @@ Class {
 		'blackHoleSecondEntrance',
 		'distanceFromBlackHolesFirstEntranceToSecondEntrance',
 		'chargeOfFuel',
-		'winningLaps'
+		'winningLaps',
+		'currentIndexForShipsTurns',
+		'penalties'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -21,6 +23,14 @@ Class {
 Game class >> completedAtLap: aNumberOfLap with: aBoard and: dices and: ships [ 
 	
 	^ (self new) initializeWith: aNumberOfLap with: aBoard with: dices with: ships.   
+]
+
+{ #category : 'as yet unclassified' }
+Game >> advanceTurn [ 
+
+	currentIndexForShipsTurns := currentIndexForShipsTurns + 1.
+	currentIndexForShipsTurns > ships size ifTrue: [ currentIndexForShipsTurns := 1 ].
+	
 ]
 
 { #category : 'accessing' }
@@ -63,6 +73,29 @@ Game >> determineTheConsequencesOfTheThrowIn: aNewPosition forShip: aShip [
 	
 ]
 
+{ #category : 'as yet unclassified' }
+Game >> executeTurn [
+	"Reviso qué nave debería jugar ahora. Si tiene una penalización activa, le descuento un turno 	de castigo y paso a la siguiente. Sigo haciendo esto hasta encontrar una nave que esté 	habilitada para jugar."
+	| ship |
+
+	[
+		ship := ships at: currentIndexForShipsTurns .
+		(penalties includesKey: ship) and: [(penalties at: ship) > 0]
+	] whileTrue: [
+		self reducePenaltyFor: ship.
+		self advanceTurn.
+	].
+
+	"Guardamos la nave que va a jugar"
+	ship := ships at: currentIndexForShipsTurns.
+
+	"Avanzamos el índice para el próximo turno"
+	self advanceTurn.
+
+	^ ship
+
+]
+
 { #category : 'initialization' }
 Game >> initializeWith: laps with: aBoard with: gameDices with: gameShips [ 
 
@@ -80,8 +113,18 @@ Game >> initializeWith: laps with: aBoard with: gameDices with: gameShips [
     ships := gameShips.
 	 self chargeFuelToShipsUpTo: chargeOfFuel.
 	
+	currentIndexForShipsTurns := 1.
+	penalties := Dictionary new.
+	
 	 
 
+]
+
+{ #category : 'testing' }
+Game >> isAPositiveInteger: numberOfFaces [
+
+	(numberOfFaces isInteger and: [ numberOfFaces > 0 ]) ifFalse: [
+		Error signal: 'The penalty must be a positive integer.' ]
 ]
 
 { #category : 'accessing' }
@@ -95,6 +138,30 @@ Game >> move: aShip to: targetPosition andConsume: aConsumption [
 	
 	board removeShip: aShip fromCellAt: shipsPreviousPosition.
 	board addShip: aShip toCellAt: shipsNewPosition.
+]
+
+{ #category : 'as yet unclassified' }
+Game >> penalize: aShip withTurns: nTurns [
+	"Busco en el diccionario apenalties si la nave esta y le agrego los turnos de castigo, si no esta 
+	la agrego al dicionario con sus respectivos castigos"
+	self isAPositiveInteger: nTurns.
+	penalties at: aShip put: (penalties at: aShip ifAbsent: [ 0 ]) + nTurns.
+
+]
+
+{ #category : 'as yet unclassified' }
+Game >> penaltyFor: aShip [ 
+	^ penalties at: aShip.
+]
+
+{ #category : 'as yet unclassified' }
+Game >> reducePenaltyFor: aShip [
+	| remaining |
+	remaining := (penalties at: aShip) - 1.
+	remaining > 0
+		ifTrue: [ penalties at: aShip put: remaining ]
+		ifFalse: [ penalties removeKey: aShip ].
+
 ]
 
 { #category : 'accessing' }

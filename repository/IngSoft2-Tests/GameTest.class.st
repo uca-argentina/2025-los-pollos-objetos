@@ -16,6 +16,179 @@ GameTest >> should: anErrorBlock raise: anErroClass withMessageText: errorMessag
 ]
 
 { #category : 'tests' }
+GameTest >> testAWhenAShipIsPenalizeWithTwoMovesThenItsIncludeInThePenalizeDictionary [
+
+	| ships aShip  aBoard oneDice dices aGame  |
+	
+	aBoard := Board withATotalNumberOfCellsOf: 6 andABlackHoleBetweenCells: 2 and: 5.
+
+	aShip := Ship named: 'Venture'.
+	ships := OrderedCollection with: aShip.
+
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 6. 
+	dices := OrderedCollection with: oneDice.
+
+    aGame := Game
+        completedAtLap: 1
+        with: aBoard
+        and: dices
+        and: ships.
+
+	aGame penalize: aShip withTurns: 2.
+
+	self assert: (aGame penaltyFor: aShip) equals: 2.
+]
+
+{ #category : 'tests' }
+GameTest >> testAWhenAShipIsPenalizedWithANonIntegerThenTestFailed [
+
+	
+	| ships aShip  aBoard oneDice dices aGame  anotherShip  |
+	
+	aBoard := Board withATotalNumberOfCellsOf: 6 andABlackHoleBetweenCells: 2 and: 5.
+
+	aShip := Ship named: 'Venture'.
+	anotherShip := Ship named: 'Adventure'.
+	
+	ships := OrderedCollection with: aShip.
+	ships add: anotherShip .
+
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 6. 
+	dices := OrderedCollection with: oneDice.
+
+    aGame := Game
+        completedAtLap: 1
+        with: aBoard
+        and: dices
+        and: ships.
+
+	
+	self should:[aGame penalize: aShip withTurns: '2']
+	raise: Error 
+	withMessageText: 'The penalty must be a positive integer.'
+	
+	
+]
+
+{ #category : 'tests' }
+GameTest >> testAWhenAShipIsPenalizedWithANonPositiveIntegerThenTestFailed [
+
+	
+	| ships aShip  aBoard oneDice dices aGame  anotherShip  |
+	
+	aBoard := Board withATotalNumberOfCellsOf: 6 andABlackHoleBetweenCells: 2 and: 5.
+
+	aShip := Ship named: 'Venture'.
+	anotherShip := Ship named: 'Adventure'.
+	
+	ships := OrderedCollection with: aShip.
+	ships add: anotherShip .
+
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 6. 
+	dices := OrderedCollection with: oneDice.
+
+    aGame := Game
+        completedAtLap: 1
+        with: aBoard
+        and: dices
+        and: ships.
+
+	
+	self should:[aGame penalize: aShip withTurns: -2]
+	raise: Error 
+	withMessageText: 'The penalty must be a positive integer.'
+	
+	
+]
+
+{ #category : 'tests' }
+GameTest >> testAWhenTheCurrentShipIsPenalizedThenItPassedToTheNextAvilable [
+
+	| ships aShip  aBoard oneDice dices aGame  anotherShip actualShipInGame |
+	
+	aBoard := Board withATotalNumberOfCellsOf: 6 andABlackHoleBetweenCells: 2 and: 5.
+
+	aShip := Ship named: 'Venture'.
+	anotherShip := Ship named: 'Adventure'.
+	
+	ships := OrderedCollection with: aShip.
+	ships add: anotherShip .
+
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 6. 
+	dices := OrderedCollection with: oneDice.
+
+    aGame := Game
+        completedAtLap: 1
+        with: aBoard
+        and: dices
+        and: ships.
+
+	
+	aGame penalize: aShip withTurns: 2.
+	
+	actualShipInGame:= aGame executeTurn. "Le toca a la que esta penalizada, paso a la siguiente"
+
+	self assert: (actualShipInGame name) equals: anotherShip name.
+]
+
+{ #category : 'tests' }
+GameTest >> testAWhenTheCurrentShipIsPenalizedThenSubtractOnePenalty [
+
+	
+	| ships aShip  aBoard oneDice dices aGame  anotherShip  |
+	
+	aBoard := Board withATotalNumberOfCellsOf: 6 andABlackHoleBetweenCells: 2 and: 5.
+
+	aShip := Ship named: 'Venture'.
+	anotherShip := Ship named: 'Adventure'.
+	
+	ships := OrderedCollection with: aShip.
+	ships add: anotherShip .
+
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 6. 
+	dices := OrderedCollection with: oneDice.
+
+    aGame := Game
+        completedAtLap: 1
+        with: aBoard
+        and: dices
+        and: ships.
+
+	
+	aGame penalize: aShip withTurns: 2.
+	
+	aGame executeTurn. "Le toca a la que esta penalizada"
+
+	self assert: (aGame penaltyFor: aShip) equals: 1.
+]
+
+{ #category : 'tests' }
+GameTest >> testAWhenTheFirstTurnIsExecuteThenTheFirstShipIsReturned [
+
+	| ships aShip  actualShipTurn aBoard oneDice dices aGame  |
+	
+	aBoard := Board withATotalNumberOfCellsOf: 6 andABlackHoleBetweenCells: 2 and: 5.
+
+	aShip := Ship named: 'Venture'.
+	ships := OrderedCollection with: aShip.
+
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 6. 
+	dices := OrderedCollection with: oneDice.
+
+    aGame := Game
+        completedAtLap: 1
+        with: aBoard
+        and: dices
+        and: ships.
+
+		
+	actualShipTurn := aGame executeTurn.
+	
+	self assert: (actualShipTurn name) equals: aShip name.
+
+]
+
+{ #category : 'tests' }
 GameTest >> testWhenGameIsCreatedThenItHasAWinningLap [
 
     | aGame aBoard aShip anotherShip ships oneDice anotherDice dices |
