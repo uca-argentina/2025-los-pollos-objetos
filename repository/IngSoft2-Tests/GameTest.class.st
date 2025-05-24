@@ -98,6 +98,28 @@ GameTest >> testWhenGameIsStartedThenItSuccesfullyStarts [
 ]
 
 { #category : 'tests' }
+GameTest >> testWhenOneGameIsInitializedWithAMaximumThrowOfFiveThenAllShipsHaveTenUnitsOfFuel [
+    | aGame aBoard aShip  ships oneDice  dices anotherShip |
+    aBoard := Board withATotalNumberOfCellsOf: 20 andABlackHoleBetweenCells: 16 and: 19.
+
+    aShip := Ship named: 'Serenity'.
+	 anotherShip := Ship named: 'The Batwing'.
+    ships := OrderedCollection with: aShip with: anotherShip.
+
+    oneDice := Dice withATotalNumberOfFacesOf: 5. 
+    dices := OrderedCollection with: oneDice.
+
+    aGame := Game
+        named: 'Juego Galactico'
+        with: aBoard
+        and: dices
+        and: ships.
+
+    self assert: aShip currentCharge equals: 10.
+	 self assert: anotherShip currentCharge equals: 10.
+]
+
+{ #category : 'tests' }
 GameTest >> testWhenOneGameIsInitializedWithAMaximumThrowOfFiveThenShipsHaveTenUnitsOfFuel [
     | aGame aBoard aShip  ships oneDice  dices |
     aBoard := Board withATotalNumberOfCellsOf: 20 andABlackHoleBetweenCells: 16 and: 19.

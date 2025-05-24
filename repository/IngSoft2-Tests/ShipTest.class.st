@@ -48,6 +48,32 @@ ShipTest >> testWhenShipHasTenUnitsOfFuelAndConsumesOneThenItHasNineUnitsOfFuel 
 ]
 
 { #category : 'tests' }
+ShipTest >> testWhenShipIsChargedWithANegativeAmountOfFuelThenItFails [
+
+	| aShip |
+	aShip := Ship named: 'Apolo'.
+	
+	self
+		should: [aShip chargeFuelUpTo: -1]
+		raise: Error
+		withMessageText: 'Ship must be charged with a positive amount of fuel.'
+	
+]
+
+{ #category : 'tests' }
+ShipTest >> testWhenShipIsChargedWithANonValidAmountOfFuelThenItFails [
+
+	| aShip |
+	aShip := Ship named: 'Elysium'.
+	
+	self
+		should: [aShip chargeFuelUpTo: 'dos']
+		raise: Error
+		withMessageText: 'Ship must be charged with a positive amount of fuel.'
+	
+]
+
+{ #category : 'tests' }
 ShipTest >> testWhenShipIsChargedWithOneFuelUnitsThenItHasOneFuelUnit [
 
 	| aShip |

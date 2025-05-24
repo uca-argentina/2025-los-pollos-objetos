@@ -37,6 +37,8 @@ Ship >> atStartingPosition [
 { #category : 'accessing' }
 Ship >> chargeFuelUpTo: aChargeOfFuel [
 
+	self isAPositiveInteger: aChargeOfFuel.
+
 	fuelCharged := aChargeOfFuel.
 ]
 
@@ -58,6 +60,13 @@ Ship >> currentCharge [
 Ship >> initializeWith: aName [
 
 	shipsName := aName.
+]
+
+{ #category : 'accessing' }
+Ship >> isAPositiveInteger: aChargeOfFuel [
+
+	(aChargeOfFuel isInteger and: [ aChargeOfFuel > 0 ]) ifFalse: [
+		Error signal: 'Ship must be charged with a positive amount of fuel.' ]
 ]
 
 { #category : 'path commands' }
