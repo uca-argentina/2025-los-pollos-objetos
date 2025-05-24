@@ -15,6 +15,33 @@ BoardTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMess
 ]
 
 { #category : 'tests' }
+BoardTest >> testWhenAShipEntersACellOfTheBoardThenItIsInThere [
+
+	| aBoard aShip firstCell |
+	aBoard := Board withATotalNumberOfCellsOf: 10 andABlackHoleBetweenCells: 2 and: 5.
+	aShip := Ship named: 'Executor'.
+	
+	aBoard addShip: aShip toCellAt: aShip position.
+	firstCell := aBoard cellNumber: 1.
+	
+	self assert: (firstCell includes: aShip) equals: true.
+]
+
+{ #category : 'tests' }
+BoardTest >> testWhenAShipLeavesACellOfTheBoardThenItIsNoLongerInThere [
+
+	| aBoard aShip firstCell |
+	aBoard := Board withATotalNumberOfCellsOf: 10 andABlackHoleBetweenCells: 2 and: 5.
+	aShip := Ship named: 'Venture'.
+	
+	aBoard addShip: aShip toCellAt: aShip position.
+	firstCell := aBoard cellNumber: 1.
+	aBoard removeShip: aShip fromCellAt: aShip lastPosition.
+	
+	self deny: (firstCell includes: aShip) equals: true.
+]
+
+{ #category : 'tests' }
 BoardTest >> testWhenBlackHolesFirstEntranceAndSecondEntranceAreEqualThenCreationFails [
 
 	self
@@ -145,4 +172,20 @@ BoardTest >> testWhenBoardIsSetWithABlackHoleThenItHasASecondEntrance [
     aBoard := Board withATotalNumberOfCellsOf: 10 andABlackHoleBetweenCells: 2  and: 6.
 
     self assert: (aBoard blackHolesSecondEntrance ) equals: 6.
+]
+
+{ #category : 'tests' }
+BoardTest >> testWhenMultipleShipsEnterACellOfTheBoardThenTheyAreInThere [
+
+	| aBoard aShip firstCell anotherShip ships |
+	aBoard := Board withATotalNumberOfCellsOf: 10 andABlackHoleBetweenCells: 2 and: 5.
+	aShip := Ship named: 'Executor'.
+	anotherShip := Ship named: 'Axiom'.
+	ships := OrderedCollection with: aShip with: anotherShip.
+	
+	aBoard getShipsIntoFirstCellOfTheBoard: ships.
+	firstCell := aBoard cellNumber: 1.
+	
+	self assert: (firstCell includes: aShip) equals: true.
+	self assert: (firstCell includes: anotherShip) equals: true.
 ]

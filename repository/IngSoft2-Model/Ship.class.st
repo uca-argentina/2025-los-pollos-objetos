@@ -3,7 +3,11 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'shipsName',
-		'shipsCurrentCell'
+		'shipsCurrentCell',
+		'fuelCharged',
+		'maximumFuel',
+		'shipsCurrentLap',
+		'shipsPreviousCell'
 	],
 	#classInstVars : [
 		'shipsName'
@@ -30,7 +34,50 @@ Ship class >> shipHasAValidName: aName [
 { #category : 'accessing' }
 Ship >> atStartingPosition [
 	
-	shipsCurrentCell := 0.
+	shipsCurrentCell := 1.
+	shipsPreviousCell := 1.
+	shipsCurrentLap := 0.
+]
+
+{ #category : 'accessing' }
+Ship >> chargeFuelUpTo: aChargeOfFuel [
+
+	self isAPositiveInteger: aChargeOfFuel.
+
+	maximumFuel := aChargeOfFuel.
+	fuelCharged := aChargeOfFuel.
+	
+]
+
+{ #category : 'path commands' }
+Ship >> consumeFuel: aConsumption [
+
+	self isAPositiveInteger: aConsumption.
+	self hasEnoughFuel: aConsumption.
+
+	fuelCharged := fuelCharged - aConsumption.
+	
+]
+
+{ #category : 'path commands' }
+Ship >> currentCharge [
+
+	^ fuelCharged.
+	
+]
+
+{ #category : 'accessing' }
+Ship >> currentLap [
+
+	^ shipsCurrentLap.
+]
+
+{ #category : 'path commands' }
+Ship >> hasEnoughFuel: aConsumption [
+
+	(aConsumption > fuelCharged) ifTrue: 
+		[Error signal: 'Ship has no enough fuel for this consumption' ]
+	
 ]
 
 { #category : 'accessing' }
@@ -39,10 +86,27 @@ Ship >> initializeWith: aName [
 	shipsName := aName.
 ]
 
-{ #category : 'path commands' }
-Ship >> moveTo:  newPosition [ 
+{ #category : 'accessing' }
+Ship >> isAPositiveInteger: aChargeOfFuel [
 
-	shipsCurrentCell := newPosition .
+	(aChargeOfFuel isInteger and: [ aChargeOfFuel > 0 ]) ifFalse: [
+		Error signal: 'Charge and consumption of fuel must be a positive amount.' ]
+]
+
+{ #category : 'accessing' }
+Ship >> lastPosition [
+	
+	^ shipsPreviousCell .
+]
+
+{ #category : 'path commands' }
+Ship >> moveTo: newPosition andConsume: aConsumption [ 
+
+	self consumeFuel: aConsumption.
+   fuelCharged = 0 ifTrue: [ ^self ].
+
+   shipsPreviousCell := shipsCurrentCell.
+   shipsCurrentCell := newPosition.
 ]
 
 { #category : 'accessing' }
@@ -55,4 +119,22 @@ Ship >> name [
 Ship >> position [
 	
 	^ shipsCurrentCell.
+]
+
+{ #category : 'accessing' }
+Ship >> restoreFuel [
+
+	fuelCharged := maximumFuel.
+	
+]
+
+{ #category : 'accessing' }
+Ship >> updateLapOn: aNumberOfLap [
+
+	shipsCurrentLap := shipsCurrentLap + aNumberOfLap.
+
+
+
+	
+	
 ]
