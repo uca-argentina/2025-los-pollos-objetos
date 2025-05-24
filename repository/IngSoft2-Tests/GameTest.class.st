@@ -99,6 +99,7 @@ GameTest >> testWhenGameIsStartedThenItSuccesfullyStarts [
 
 { #category : 'tests' }
 GameTest >> testWhenOneGameIsInitializedWithAMaximumThrowOfFiveThenAllShipsHaveTenUnitsOfFuel [
+
     | aGame aBoard aShip  ships oneDice  dices anotherShip |
     aBoard := Board withATotalNumberOfCellsOf: 20 andABlackHoleBetweenCells: 16 and: 19.
 
@@ -121,6 +122,7 @@ GameTest >> testWhenOneGameIsInitializedWithAMaximumThrowOfFiveThenAllShipsHaveT
 
 { #category : 'tests' }
 GameTest >> testWhenOneGameIsInitializedWithAMaximumThrowOfFiveThenShipsHaveTenUnitsOfFuel [
+
     | aGame aBoard aShip  ships oneDice  dices |
     aBoard := Board withATotalNumberOfCellsOf: 20 andABlackHoleBetweenCells: 16 and: 19.
 
@@ -253,6 +255,7 @@ GameTest >> testWhenOneShipGetsToTheWinningLapThenYouCanKnowWhichShipWon [
 
 { #category : 'tests' }
 GameTest >> testWhenOneShipHasTwoUnitsOfFuelAndMakesOneMoveThenItConsumesOneUnitOfFuel [
+
     | aGame aBoard aShip  ships oneDice  dices |
     aBoard := Board withATotalNumberOfCellsOf: 20 andABlackHoleBetweenCells: 16 and: 19.
 
@@ -274,7 +277,34 @@ GameTest >> testWhenOneShipHasTwoUnitsOfFuelAndMakesOneMoveThenItConsumesOneUnit
 ]
 
 { #category : 'tests' }
+GameTest >> testWhenOneShipMakesOneLapThenItReturnsToTheFirstCell [
+
+    | aGame aBoard aShip  ships oneDice  dices  anotherShip shipPositionAfterTheDices |
+
+    aBoard := Board withATotalNumberOfCellsOf: 10 andABlackHoleBetweenCells: 2 and: 6.
+
+    aShip := Ship named: 'Venture'.
+    anotherShip := Ship named: 'Axiom'.
+    ships := OrderedCollection with: aShip with: anotherShip.
+
+    oneDice := ChargedDice withATotalNumberOfFacesOf: 11.  
+    dices := OrderedCollection with: oneDice.
+
+    aGame := Game
+        completedAtLap: 1
+        with: aBoard
+        and: dices
+        and: ships.
+
+	aGame throwDiceFor: aShip.
+	shipPositionAfterTheDices := aShip position.
+
+    self assert: (aShip position) equals: 1.
+]
+
+{ #category : 'tests' }
 GameTest >> testWhenOneShipMakesOneMoveThenItIsForwardedToTheNewPosition [
+
     | aGame aBoard aShip  ships oneDice  dices  intialShipPosition |
     aBoard := Board withATotalNumberOfCellsOf: 20 andABlackHoleBetweenCells: 16 and: 19.
 

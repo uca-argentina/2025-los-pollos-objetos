@@ -219,5 +219,5 @@ ShipTest >> testWhenShipRunsOutOfFuelThenItStaysAtCurrentPosition [
 	
 	aShip moveTo: 1 andConsume: 1.
 	
-	self assert: (aShip position) equals: 0.
+	self assert: (aShip position) equals: (aShip lastPosition).
 ]
