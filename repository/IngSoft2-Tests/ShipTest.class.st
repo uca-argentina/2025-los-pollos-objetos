@@ -82,6 +82,7 @@ ShipTest >> testWhenShipMovesOnePositionFromStartingPositionThenItMovesAccording
 
 	| aShip |
 	aShip := Ship named: 'Discovery One'.
+	aShip chargeFuelUpTo: 1.
 	
 	aShip moveTo: 1.
 	

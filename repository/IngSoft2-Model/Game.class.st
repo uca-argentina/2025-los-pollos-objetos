@@ -81,7 +81,7 @@ Game >> start [
 { #category : 'as yet unclassified' }
 Game >> sumOfDiceSizes [
 
-    ^ dices inject: 0 into: [ :sum :aDie | sum + aDie size ].
+    ^ dices inject: 0 into: [ :sum :aDie | sum + aDie sizeOfTheDice ].
 
 
 ]

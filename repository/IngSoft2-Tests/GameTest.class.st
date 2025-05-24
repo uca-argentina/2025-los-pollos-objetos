@@ -210,6 +210,28 @@ GameTest >> testWhenOneShipGetsToTheWinningCellThenYouCanKnowWhichShipWon [
 ]
 
 { #category : 'tests' }
+GameTest >> testWhenOneShipHasTwoUnitsOfFuelAndMakesOneMoveThenItConsumesOneUnitOfFuel [
+    | aGame aBoard aShip  ships oneDice  dices |
+    aBoard := Board withATotalNumberOfCellsOf: 20 andABlackHoleBetweenCells: 16 and: 19.
+
+    aShip := Ship named: 'Serenity'.
+    ships := OrderedCollection with: aShip.
+
+    oneDice := ChargedDice withATotalNumberOfFacesOf: 1. 
+    dices := OrderedCollection with: oneDice.
+
+    aGame := Game
+        named: 'Juego Galactico'
+        with: aBoard
+        and: dices
+        and: ships.
+
+    aGame throwDiceFor: aShip.
+
+    self assert: aShip currentCharge equals: 1.
+]
+
+{ #category : 'tests' }
 GameTest >> testWhenOneShipMakesOneMoveThenItIsForwardedToTheNewPosition [
     | aGame aBoard aShip  ships oneDice  dices  intialShipPosition |
     aBoard := Board withATotalNumberOfCellsOf: 20 andABlackHoleBetweenCells: 16 and: 19.
@@ -230,7 +252,7 @@ GameTest >> testWhenOneShipMakesOneMoveThenItIsForwardedToTheNewPosition [
 
     aGame throwDiceFor: aShip.
 
-    self assert: aShip position equals: aShip position .
+    self deny: aShip position equals: intialShipPosition.
 ]
 
 { #category : 'tests' }
