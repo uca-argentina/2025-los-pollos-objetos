@@ -34,8 +34,8 @@ Ship class >> shipHasAValidName: aName [
 { #category : 'accessing' }
 Ship >> atStartingPosition [
 	
-	shipsCurrentCell := 0.
-	shipsPreviousCell := 0.
+	shipsCurrentCell := 1.
+	shipsPreviousCell := 1.
 	shipsCurrentLap := 0.
 ]
 

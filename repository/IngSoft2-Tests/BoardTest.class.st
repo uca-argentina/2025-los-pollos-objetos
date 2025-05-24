@@ -21,8 +21,8 @@ BoardTest >> testWhenAShipEntersACellOfTheBoardThenItIsInThere [
 	aBoard := Board withATotalNumberOfCellsOf: 10 andABlackHoleBetweenCells: 2 and: 5.
 	aShip := Ship named: 'Executor'.
 	
-	aBoard addShip: aShip toCellAt: 0.
-	firstCell := aBoard cellNumber: 0.
+	aBoard addShip: aShip toCellAt: aShip position.
+	firstCell := aBoard cellNumber: 1.
 	
 	self assert: (firstCell includes: aShip) equals: true.
 ]
@@ -34,9 +34,9 @@ BoardTest >> testWhenAShipLeavesACellOfTheBoardThenItIsNoLongerInThere [
 	aBoard := Board withATotalNumberOfCellsOf: 10 andABlackHoleBetweenCells: 2 and: 5.
 	aShip := Ship named: 'Venture'.
 	
-	aBoard addShip: aShip toCellAt: 0.
-	firstCell := aBoard cellNumber: 0.
-	aBoard removeShip: aShip fromCellAt: 0.
+	aBoard addShip: aShip toCellAt: aShip position.
+	firstCell := aBoard cellNumber: 1.
+	aBoard removeShip: aShip fromCellAt: aShip lastPosition.
 	
 	self deny: (firstCell includes: aShip) equals: true.
 ]
@@ -184,7 +184,7 @@ BoardTest >> testWhenMultipleShipsEnterACellOfTheBoardThenTheyAreInThere [
 	ships := OrderedCollection with: aShip with: anotherShip.
 	
 	aBoard getShipsIntoFirstCellOfTheBoard: ships.
-	firstCell := aBoard cellNumber: 0.
+	firstCell := aBoard cellNumber: 1.
 	
 	self assert: (firstCell includes: aShip) equals: true.
 	self assert: (firstCell includes: anotherShip) equals: true.

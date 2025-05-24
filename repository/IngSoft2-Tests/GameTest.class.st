@@ -94,7 +94,7 @@ GameTest >> testWhenGameIsStartedThenAllShipsAreAtTheFirstCell [
         and: dices
         and: ships.
 
-	firstCell := aBoard cellNumber: 0.
+	firstCell := aBoard cellNumber: 1.
 	
 	self assert: (firstCell includes: aShip) equals: true.
 	self assert: (firstCell includes: anotherShip) equals: true.
@@ -180,7 +180,7 @@ GameTest >> testWhenOneShipGetsToTheBlackHolesFirstEntranceThenItIsForwardedToTh
 	aShip := Ship named: 'Serenity'.
 	ships := OrderedCollection with: aShip.
 
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 5. 
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 4. 
 	dices := OrderedCollection with: oneDice.
 
 	aGame := Game
@@ -210,7 +210,7 @@ GameTest >> testWhenOneShipGetsToTheBlackHolesSecondEntranceThenItIsForwardedToT
 	aShip := Ship named: 'Elysium'.
 	ships := OrderedCollection with: aShip.
 
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 20. 
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 19. 
 	dices := OrderedCollection with: oneDice.
 
 	aGame := Game
@@ -316,7 +316,7 @@ GameTest >> testWhenOneShipMakesOneLapThenItReturnsToTheFirstCell [
     anotherShip := Ship named: 'Axiom'.
     ships := OrderedCollection with: aShip with: anotherShip.
 
-    oneDice := ChargedDice withATotalNumberOfFacesOf: 11.  
+    oneDice := ChargedDice withATotalNumberOfFacesOf: 10.  
     dices := OrderedCollection with: oneDice.
 
     aGame := Game
@@ -351,9 +351,61 @@ GameTest >> testWhenOneShipMakesOneMoveThenItIsForwardedToTheNewPosition [
 
     intialShipPosition := aShip position.
 
-    aGame move: aShip to: 1 andConsume: 1.
+    aGame move: aShip to: 2 andConsume: 1.
 
     self deny: aShip position equals: intialShipPosition.
+]
+
+{ #category : 'tests' }
+GameTest >> testWhenOneShipMovesOnePositionForwardThenItIsInTheNewCell [
+
+    | aGame aBoard aShip  ships oneDice  dices  intialShipPosition secondCell |
+    aBoard := Board withATotalNumberOfCellsOf: 20 andABlackHoleBetweenCells: 17 and: 19.
+
+    aShip := Ship named: 'Serenity'.
+    ships := OrderedCollection with: aShip.
+
+    oneDice := Dice withATotalNumberOfFacesOf: 15. 
+    dices := OrderedCollection with: oneDice.
+
+    aGame := Game
+        completedAtLap: 1
+        with: aBoard
+        and: dices
+        and: ships.
+
+    intialShipPosition := aShip position.
+
+    aGame move: aShip to: 2 andConsume: 1.
+	 secondCell := aBoard cellNumber: (aShip position).
+
+    self assert: (secondCell includes: aShip) equals: true.
+]
+
+{ #category : 'tests' }
+GameTest >> testWhenOneShipMovesOnePositionForwardThenItIsNoLongerInThePreviousCell [
+
+    | aGame aBoard aShip  ships oneDice  dices  intialShipPosition firstCell |
+    aBoard := Board withATotalNumberOfCellsOf: 20 andABlackHoleBetweenCells: 17 and: 19.
+
+    aShip := Ship named: 'Serenity'.
+    ships := OrderedCollection with: aShip.
+
+    oneDice := Dice withATotalNumberOfFacesOf: 15. 
+    dices := OrderedCollection with: oneDice.
+
+    aGame := Game
+        completedAtLap: 1
+        with: aBoard
+        and: dices
+        and: ships.
+
+    intialShipPosition := aShip position.
+
+    aGame move: aShip to: 2 andConsume: 1.
+	 firstCell := aBoard cellNumber: (aShip lastPosition).
+
+    self deny: (firstCell includes: aShip) equals: true.
 ]
 
 { #category : 'tests' }
@@ -392,7 +444,7 @@ GameTest >> testWhenOneShipWinsThenYouCanKnowThePositionOfEachShipInTheGame [
     anotherShip := Ship named: 'Axiom'.
     ships := OrderedCollection with: aShip with: anotherShip.
 
-    oneDice := ChargedDice withATotalNumberOfFacesOf: 20.  
+    oneDice := ChargedDice withATotalNumberOfFacesOf: 19.  
     dices := OrderedCollection with: oneDice.
 
     aGame := Game
@@ -406,5 +458,5 @@ GameTest >> testWhenOneShipWinsThenYouCanKnowThePositionOfEachShipInTheGame [
 	aGame determineTheConsequencesOfTheThrowIn: shipPositionAfterTheDices forShip: aShip.
 
     self assert: (aShip position) equals: 20.
-    self assert: (anotherShip position) equals: 0.
+    self assert: (anotherShip position) equals: 1.
 ]

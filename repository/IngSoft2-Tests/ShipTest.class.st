@@ -150,7 +150,7 @@ ShipTest >> testWhenShipIsCreatedThenItStarsAtStartingPosition [
 	
 	aShip := Ship named: 'Discovery One'.
 	
-	self assert: (aShip position) equals: 0.
+	self assert: (aShip position) equals: 1.
 ]
 
 { #category : 'tests' }

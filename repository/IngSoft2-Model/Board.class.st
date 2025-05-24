@@ -64,7 +64,7 @@ Board class >> withATotalNumberOfCellsOf: numberOfCells andABlackHoleBetweenCell
 { #category : 'accessing' }
 Board >> addShip: aShip toCellAt: aPosition [
     
-    (cells at: aPosition + 1) enters: aShip.
+    (cells at: aPosition) enters: aShip.
 
 ]
 
@@ -83,7 +83,7 @@ Board >> blackHolesSecondEntrance [
 { #category : 'accessing' }
 Board >> cellNumber: aNumber [
 	
-    ^ cells at: aNumber + 1
+    ^ cells at: aNumber
 
 
 ]
@@ -103,7 +103,7 @@ Board >> getShipsIntoFirstCellOfTheBoard: shipsCollection [
 Board >> initializeWith: numberOfCells andABlackHoleBeweenCells: firstEntrance and: secondEntrance [
 
 	 cells := OrderedCollection new.
-    0 to: (numberOfCells - 1) do: [:i | cells add: (Cell initializeCellOn: i) ].
+    1 to: (numberOfCells) do: [:i | cells add: (Cell initializeCellOn: i) ].
     blackHolesFirstEntrance := firstEntrance.
     blackHolesSecondEntrance := secondEntrance.
 ]
@@ -117,6 +117,6 @@ Board >> numberOfCells [
 { #category : 'accessing' }
 Board >> removeShip: aShip fromCellAt: aPosition [
     
-    (cells at: aPosition + 1) leaves: aShip.
+    (cells at: aPosition) leaves: aShip.
 
 ]
