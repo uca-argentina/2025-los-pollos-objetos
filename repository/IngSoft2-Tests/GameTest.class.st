@@ -98,6 +98,26 @@ GameTest >> testWhenGameIsStartedThenItSuccesfullyStarts [
 ]
 
 { #category : 'tests' }
+GameTest >> testWhenOneGameIsInitializedWithAMaximumThrowOfFiveThenShipsHaveTenUnitsOfFuel [
+    | aGame aBoard aShip  ships oneDice  dices |
+    aBoard := Board withATotalNumberOfCellsOf: 20 andABlackHoleBetweenCells: 16 and: 19.
+
+    aShip := Ship named: 'Serenity'.
+    ships := OrderedCollection with: aShip.
+
+    oneDice := Dice withATotalNumberOfFacesOf: 5. 
+    dices := OrderedCollection with: oneDice.
+
+    aGame := Game
+        named: 'Juego Galactico'
+        with: aBoard
+        and: dices
+        and: ships.
+
+    self assert: aShip currentCharge equals: 10.
+]
+
+{ #category : 'tests' }
 GameTest >> testWhenOneShipGetsToTheBlackHolesFirstEntranceThenItIsForwardedToTheSecondEntranceOfTheBlackHole [
 
 	| aGame aBoard aShip  ships oneDice  dices   blackHolesSecondEntrance shipPositionAfterTheDices positionAfterDeterminingIfItFallsIntoABlackHole |
