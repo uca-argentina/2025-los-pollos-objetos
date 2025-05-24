@@ -37,6 +37,64 @@ ShipTest >> testWhenNewShipIsInstancedWithANameThenItHasAName [
 ]
 
 { #category : 'tests' }
+ShipTest >> testWhenShipConsumesANegativeAmountOfFuelThenItFails [
+
+	| aShip |
+	aShip := Ship named: 'Elysium'.
+	aShip chargeFuelUpTo: 10.
+	
+	self
+		should: [aShip consumeFuel: -1]
+		raise: Error
+		withMessageText: 'Charge and consumption of fuel must be a positive amount.'
+	
+]
+
+{ #category : 'tests' }
+ShipTest >> testWhenShipConsumesANonValidAmountOfFuelThenItFails [
+
+	| aShip |
+	aShip := Ship named: 'Elysium'.
+	aShip chargeFuelUpTo: 10.
+	
+	self
+		should: [aShip consumeFuel: 'dos']
+		raise: Error
+		withMessageText: 'Charge and consumption of fuel must be a positive amount.'
+	
+]
+
+{ #category : 'tests' }
+ShipTest >> testWhenShipHasOneUnitOfFuelAndConsumesTwoUnitsThenCurrentChargeRemainsTheSame [
+
+	| aShip |
+	aShip := Ship named: 'Axiom'.
+	aShip chargeFuelUpTo: 1.
+	
+	self
+		should: [aShip consumeFuel: 2]
+		raise: Error
+		withMessageText: 'Ship has no enough fuel for this consumption'.
+		
+	self assert: (aShip currentCharge) equals: 1.
+	
+]
+
+{ #category : 'tests' }
+ShipTest >> testWhenShipHasOneUnitOfFuelAndConsumesTwoUnitsThenItFails [
+
+	| aShip |
+	aShip := Ship named: 'Axiom'.
+	aShip chargeFuelUpTo: 1.
+	
+	self
+		should: [aShip consumeFuel: 2]
+		raise: Error
+		withMessageText: 'Ship has no enough fuel for this consumption'
+	
+]
+
+{ #category : 'tests' }
 ShipTest >> testWhenShipHasTenUnitsOfFuelAndConsumesOneThenItHasNineUnitsOfFuel [
 
 	| aShip |
@@ -56,7 +114,8 @@ ShipTest >> testWhenShipIsChargedWithANegativeAmountOfFuelThenItFails [
 	self
 		should: [aShip chargeFuelUpTo: -1]
 		raise: Error
-		withMessageText: 'Ship must be charged with a positive amount of fuel.'
+		"withMessageText: 'Ship must be charged with a positive amount of fuel.'"
+		withMessageText: 'Charge and consumption of fuel must be a positive amount.'.
 	
 ]
 
@@ -69,7 +128,8 @@ ShipTest >> testWhenShipIsChargedWithANonValidAmountOfFuelThenItFails [
 	self
 		should: [aShip chargeFuelUpTo: 'dos']
 		raise: Error
-		withMessageText: 'Ship must be charged with a positive amount of fuel.'
+		"withMessageText: 'Ship must be charged with a positive amount of fuel.'"
+		withMessageText: 'Charge and consumption of fuel must be a positive amount.'.
 	
 ]
 

@@ -149,7 +149,7 @@ GameTest >> testWhenOneShipGetsToTheBlackHolesFirstEntranceThenItIsForwardedToTh
 	aShip := Ship named: 'Serenity'.
 	ships := OrderedCollection with: aShip.
 
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 5. 
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 10. 
 	dices := OrderedCollection with: oneDice.
 
 	aGame := Game

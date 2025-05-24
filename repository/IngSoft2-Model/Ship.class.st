@@ -45,6 +45,9 @@ Ship >> chargeFuelUpTo: aChargeOfFuel [
 { #category : 'path commands' }
 Ship >> consumeFuel: aConsumption [
 
+	self isAPositiveInteger: aConsumption.
+	self hasEnoughFuel: aConsumption.
+
 	fuelCharged := fuelCharged - aConsumption.
 	
 ]
@@ -53,6 +56,14 @@ Ship >> consumeFuel: aConsumption [
 Ship >> currentCharge [
 
 	^ fuelCharged.
+	
+]
+
+{ #category : 'path commands' }
+Ship >> hasEnoughFuel: aConsumption [
+
+	(aConsumption > fuelCharged) ifTrue: 
+		[Error signal: 'Ship has no enough fuel for this consumption' ]
 	
 ]
 
@@ -66,7 +77,7 @@ Ship >> initializeWith: aName [
 Ship >> isAPositiveInteger: aChargeOfFuel [
 
 	(aChargeOfFuel isInteger and: [ aChargeOfFuel > 0 ]) ifFalse: [
-		Error signal: 'Ship must be charged with a positive amount of fuel.' ]
+		Error signal: 'Charge and consumption of fuel must be a positive amount.' ]
 ]
 
 { #category : 'path commands' }
