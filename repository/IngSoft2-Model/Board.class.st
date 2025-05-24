@@ -5,7 +5,8 @@ Class {
 		'numberOfCells',
 		'blackHolesFirstEntrance',
 		'blackHolesSecondEntrance',
-		'totalBoardCells'
+		'totalBoardCells',
+		'cells'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -75,7 +76,8 @@ Board >> blackHolesSecondEntrance [
 { #category : 'initialization' }
 Board >> initializeWith: numberOfCells andABlackHoleBeweenCells: firstEntrance and: secondEntrance [
 
-    totalBoardCells := numberOfCells.
+	 cells := OrderedCollection new.
+    1 to: numberOfCells do: [:i | cells add: Cell initializeCell ].
     blackHolesFirstEntrance := firstEntrance.
     blackHolesSecondEntrance := secondEntrance.
 ]
@@ -83,5 +85,5 @@ Board >> initializeWith: numberOfCells andABlackHoleBeweenCells: firstEntrance a
 { #category : 'initialization' }
 Board >> numberOfCells [
 
-	^ totalBoardCells.
+	^ cells size.
 ]
