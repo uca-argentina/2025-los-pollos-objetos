@@ -37,6 +37,27 @@ ShipTest >> testWhenNewShipIsInstancedWithANameThenItHasAName [
 ]
 
 { #category : 'tests' }
+ShipTest >> testWhenShipHasTenUnitsOfFuelAndConsumesOneThenItHasNineUnitsOfFuel [
+
+	| aShip |
+	aShip := Ship named: 'Serenity'.
+	aShip chargeFuelUpTo: 10.
+	aShip consumeFuel: 1.
+	
+	self assert: (aShip currentCharge) equals: 9.
+]
+
+{ #category : 'tests' }
+ShipTest >> testWhenShipIsChargedWithOneFuelUnitsThenItHasOneFuelUnit [
+
+	| aShip |
+	aShip := Ship named: 'Discovery One'.
+	aShip chargeFuelUpTo: 1.
+	
+	self assert: (aShip currentCharge) equals: 1.
+]
+
+{ #category : 'tests' }
 ShipTest >> testWhenShipIsCreatedThenItStarsAtStartingPosition [
 
 	| aShip |

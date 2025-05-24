@@ -3,7 +3,8 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'shipsName',
-		'shipsCurrentCell'
+		'shipsCurrentCell',
+		'fuelCharged'
 	],
 	#classInstVars : [
 		'shipsName'
@@ -34,6 +35,26 @@ Ship >> atStartingPosition [
 ]
 
 { #category : 'accessing' }
+Ship >> chargeFuelUpTo: aChargeOfFuel [
+
+	fuelCharged := aChargeOfFuel.
+]
+
+{ #category : 'path commands' }
+Ship >> consumeFuel: aConsumption [
+
+	fuelCharged := fuelCharged - aConsumption.
+	
+]
+
+{ #category : 'path commands' }
+Ship >> currentCharge [
+
+	^ fuelCharged.
+	
+]
+
+{ #category : 'accessing' }
 Ship >> initializeWith: aName [
 
 	shipsName := aName.
@@ -42,7 +63,9 @@ Ship >> initializeWith: aName [
 { #category : 'path commands' }
 Ship >> moveTo:  newPosition [ 
 
+	self consumeFuel: (newPosition - shipsCurrentCell) abs.
 	shipsCurrentCell := newPosition .
+	
 ]
 
 { #category : 'accessing' }

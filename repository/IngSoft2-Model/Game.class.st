@@ -9,7 +9,8 @@ Class {
 		'winningCell',
 		'blackHolesFirstEntrance',
 		'blackHoleSecondEntrance',
-		'distanceFromBlackHolesFirstEntranceToSecondEntrance'
+		'distanceFromBlackHolesFirstEntranceToSecondEntrance',
+		'chargeOfFuel'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -19,6 +20,14 @@ Class {
 Game class >> named: aName with: aBoard and: dices and: ships [ 
 	
 	^ (self new) initializeWith: aName with: aBoard with: dices with: ships.   
+]
+
+{ #category : 'as yet unclassified' }
+Game >> chargeFuelToShipsUpTo: aChargeOfFuel [
+
+    ships do: [:aShip | aShip chargeFuelUpTo: aChargeOfFuel ].
+
+
 ]
 
 { #category : 'as yet unclassified' }
@@ -48,8 +57,12 @@ Game >> initializeWith: gameName with: aBoard with: gameDices with: gameShips [
     blackHoleSecondEntrance := board blackHolesSecondEntrance.
 
     dices := gameDices.
+	 chargeOfFuel := (self sumOfDiceSizes) * 2.
 
     ships := gameShips.
+	 self chargeFuelToShipsUpTo: chargeOfFuel.
+	
+	 
 
 ]
 
@@ -63,6 +76,14 @@ Game >> name [
 Game >> start [
 
 	^ 'The Game Has Started'
+]
+
+{ #category : 'as yet unclassified' }
+Game >> sumOfDiceSizes [
+
+    ^ dices inject: 0 into: [ :sum :aDie | sum + aDie size ].
+
+
 ]
 
 { #category : 'as yet unclassified' }
