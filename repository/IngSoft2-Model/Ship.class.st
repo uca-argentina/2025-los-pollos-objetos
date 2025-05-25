@@ -103,19 +103,19 @@ Ship >> lastPosition [
 	^ shipsPreviousCell .
 ]
 
-{ #category : 'accessing' }
-Ship >> maximumFuel [
-	^ maximumFuel .
-]
-
 { #category : 'path commands' }
-Ship >> moveTo: newPosition andConsume: aConsumption [ 
-
+Ship >> moveTo: newPosition andConsume: aConsumption [
 	self consumeFuel: aConsumption.
-   fuelCharged = 0 ifTrue: [ ^self ].
+	
+	fuelCharged = 0
+		ifTrue: [
+			shipsPreviousCell := shipsCurrentCell
+		]
+		ifFalse: [
+			shipsPreviousCell := shipsCurrentCell.
+			shipsCurrentCell := newPosition
+		].
 
-   shipsPreviousCell := shipsCurrentCell.
-   shipsCurrentCell := newPosition.
 ]
 
 { #category : 'accessing' }

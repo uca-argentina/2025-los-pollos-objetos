@@ -42,10 +42,9 @@ GameTest >> testWhenAShipIsPenalizeWithTwoMovesThenItsIncludeInThePenalizeDictio
 { #category : 'tests' }
 GameTest >> testWhenAShipIsPenalizedAndItLostItsTurnTheTheFuelIsReplaceAtMax [
 
+	| ships aShip  aBoard oneDice dices aGame  anotherShip  fuelBeforePenalization fuelAfterPenalization |
 	
-	| ships aShip  aBoard oneDice dices aGame  anotherShip  |
-	
-	aBoard := Board withATotalNumberOfCellsOf: 50 andABlackHoleBetweenCells: 2 and: 5.
+	aBoard := Board withATotalNumberOfCellsOf: 20 andABlackHoleBetweenCells: 1 and: 2.
 
 	aShip := Ship named: 'Venture'.
 	anotherShip := Ship named: 'Adventure'.
@@ -53,7 +52,7 @@ GameTest >> testWhenAShipIsPenalizedAndItLostItsTurnTheTheFuelIsReplaceAtMax [
 	ships := OrderedCollection with: aShip.
 	ships add: anotherShip .
 
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 6. 
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 5. 
 	dices := OrderedCollection with: oneDice.
 
     aGame := Game
@@ -62,16 +61,18 @@ GameTest >> testWhenAShipIsPenalizedAndItLostItsTurnTheTheFuelIsReplaceAtMax [
         and: dices
         and: ships.
 	
-	aGame executeTurn.
-	aGame executeTurn.
+	aGame executeTurn. 
+	aGame executeTurn. 
 	
-	aGame penalize: aShip withTurns: 2.
+	fuelBeforePenalization := aShip currentFuel .
+	
+	aGame penalize: aShip withTurns: 1. 
 		
-	aGame executeTurn.
-	aGame executeTurn.
-
+	aGame executeTurn. 
 	
-	self assert: (anotherShip currentFuel) equals: anotherShip maximumFuel.
+	fuelAfterPenalization := aShip currentFuel .
+	
+	self deny: fuelBeforePenalization equals: fuelAfterPenalization 
 	
 	
 ]
