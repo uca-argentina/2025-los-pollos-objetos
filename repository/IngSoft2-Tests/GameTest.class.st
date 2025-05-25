@@ -40,6 +40,43 @@ GameTest >> testAWhenAShipIsPenalizeWithTwoMovesThenItsIncludeInThePenalizeDicti
 ]
 
 { #category : 'tests' }
+GameTest >> testAWhenAShipIsPenalizedAndItLostItsTurnTheTheFuelIsReplaceAtMax [
+
+	
+	| ships aShip  aBoard oneDice dices aGame  anotherShip  |
+	
+	aBoard := Board withATotalNumberOfCellsOf: 50 andABlackHoleBetweenCells: 2 and: 5.
+
+	aShip := Ship named: 'Venture'.
+	anotherShip := Ship named: 'Adventure'.
+	
+	ships := OrderedCollection with: aShip.
+	ships add: anotherShip .
+
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 6. 
+	dices := OrderedCollection with: oneDice.
+
+    aGame := Game
+        completedAtLap: 1
+        with: aBoard
+        and: dices
+        and: ships.
+	
+	aGame executeTurn.
+	aGame executeTurn.
+	
+	aGame penalize: aShip withTurns: 2.
+		
+	aGame executeTurn.
+	aGame executeTurn.
+
+	
+	self assert: (anotherShip currentFuel) equals: anotherShip maximumFuel.
+	
+	
+]
+
+{ #category : 'tests' }
 GameTest >> testAWhenAShipIsPenalizedWithANonIntegerThenTestFailed [
 
 	

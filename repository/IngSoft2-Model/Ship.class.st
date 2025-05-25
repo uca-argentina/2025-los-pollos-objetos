@@ -65,6 +65,11 @@ Ship >> currentCharge [
 	
 ]
 
+{ #category : 'as yet unclassified' }
+Ship >> currentFuel [
+	^ fuelCharged 
+]
+
 { #category : 'accessing' }
 Ship >> currentLap [
 
@@ -96,6 +101,11 @@ Ship >> isAPositiveInteger: aChargeOfFuel [
 Ship >> lastPosition [
 	
 	^ shipsPreviousCell .
+]
+
+{ #category : 'accessing' }
+Ship >> maximumFuel [
+	^ maximumFuel .
 ]
 
 { #category : 'path commands' }

@@ -87,6 +87,8 @@ Game >> executeTurn [
 
 	ship := ships at: shipSupposedToPlay.
 	
+	
+	
 	self throwDiceFor: ship.
 
 	self advanceTurn.
@@ -159,7 +161,7 @@ Game >> reducePenaltyFor: aShip [
 	remaining := (penalties at: aShip) - 1.
 	remaining > 0
 		ifTrue: [ penalties at: aShip put: remaining ]
-		ifFalse: [ penalties removeKey: aShip ].
+		ifFalse: [(aShip restoreFuel) . (penalties removeKey: aShip) ].
 
 ]
 
