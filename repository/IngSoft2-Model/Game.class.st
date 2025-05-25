@@ -105,8 +105,8 @@ Game >> initializeWith: laps with: aBoard with: gameDices with: gameShips [
     board := aBoard.
 	 board getShipsIntoFirstCellOfTheBoard: gameShips.
     "winningCell := board numberOfCells."
-    blackHolesFirstEntrance := board blackHolesFirstEntrance.
-    blackHoleSecondEntrance := board blackHolesSecondEntrance.
+    blackHolesFirstEntrance := board wormsHolesFirstEntrance.
+    blackHoleSecondEntrance := board wormsHolesSecondEntrance.
 
     dices := gameDices.
 	 chargeOfFuel := (self sumOfDiceSizes) * 2.

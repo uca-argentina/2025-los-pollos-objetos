@@ -3,10 +3,10 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'numberOfCells',
-		'blackHolesFirstEntrance',
-		'blackHolesSecondEntrance',
 		'totalBoardCells',
-		'cells'
+		'cells',
+		'wormsHolesFirstEntrance',
+		'wormsHolesSecondEntrance'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -43,7 +43,7 @@ Board class >> theCell: position isOutOfRange: range [
 ]
 
 { #category : 'as yet unclassified' }
-Board class >> withATotalNumberOfCellsOf: numberOfCells andABlackHoleBetweenCells: firstEntrance and: secondEntrance [
+Board class >> withATotalNumberOfCellsOf: numberOfCells andAWormHoleBetweenCells: firstEntrance and: secondEntrance [
  
     self isAPositiveInteger: numberOfCells.
     self isAPositiveInteger: firstEntrance.
@@ -66,18 +66,6 @@ Board >> addShip: aShip toCellAt: aPosition [
     
     (cells at: aPosition) enters: aShip.
 
-]
-
-{ #category : 'accessing' }
-Board >> blackHolesFirstEntrance [
-
-    ^ blackHolesFirstEntrance.
-]
-
-{ #category : 'accessing' }
-Board >> blackHolesSecondEntrance [
-
-    ^ blackHolesSecondEntrance.
 ]
 
 { #category : 'accessing' }
@@ -104,8 +92,8 @@ Board >> initializeWith: numberOfCells andABlackHoleBeweenCells: firstEntrance a
 
 	 cells := OrderedCollection new.
     1 to: (numberOfCells) do: [:i | cells add: (Cell initializeCellOn: i) ].
-    blackHolesFirstEntrance := firstEntrance.
-    blackHolesSecondEntrance := secondEntrance.
+    wormsHolesFirstEntrance := firstEntrance.
+    wormsHolesSecondEntrance := secondEntrance.
 ]
 
 { #category : 'initialization' }
@@ -119,4 +107,16 @@ Board >> removeShip: aShip fromCellAt: aPosition [
     
     (cells at: aPosition) leaves: aShip.
 
+]
+
+{ #category : 'accessing' }
+Board >> wormsHolesFirstEntrance [
+
+    ^ wormsHolesFirstEntrance.
+]
+
+{ #category : 'accessing' }
+Board >> wormsHolesSecondEntrance [
+
+    ^ wormsHolesSecondEntrance.
 ]

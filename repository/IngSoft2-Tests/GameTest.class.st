@@ -20,7 +20,7 @@ GameTest >> testWhenAShipIsPenalizeWithTwoMovesThenItsIncludeInThePenalizeDictio
 
 	| ships aShip  aBoard oneDice dices aGame  |
 	
-	aBoard := Board withATotalNumberOfCellsOf: 6 andABlackHoleBetweenCells: 2 and: 5.
+	aBoard := Board withATotalNumberOfCellsOf: 6 andAWormHoleBetweenCells: 2 and: 5.
 
 	aShip := Ship named: 'Venture'.
 	ships := OrderedCollection with: aShip.
@@ -44,7 +44,7 @@ GameTest >> testWhenAShipIsPenalizedAndItsLostItsTurnThenTheFuelIsRestore [
 
 	| ships aShip  aBoard oneDice dices aGame  anotherShip  fuelBeforePenalization fuelAfterPenalization |
 	
-	aBoard := Board withATotalNumberOfCellsOf: 20 andABlackHoleBetweenCells: 1 and: 2.
+	aBoard := Board withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 1 and: 2.
 
 	aShip := Ship named: 'Venture'.
 	anotherShip := Ship named: 'Adventure'.
@@ -83,7 +83,7 @@ GameTest >> testWhenAShipIsPenalizedWithANonIntegerThenTestFailed [
 	
 	| ships aShip  aBoard oneDice dices aGame  anotherShip  |
 	
-	aBoard := Board withATotalNumberOfCellsOf: 6 andABlackHoleBetweenCells: 2 and: 5.
+	aBoard := Board withATotalNumberOfCellsOf: 6 andAWormHoleBetweenCells: 2 and: 5.
 
 	aShip := Ship named: 'Venture'.
 	anotherShip := Ship named: 'Adventure'.
@@ -114,7 +114,7 @@ GameTest >> testWhenAShipIsPenalizedWithANonPositiveIntegerThenTestFailed [
 	
 	| ships aShip  aBoard oneDice dices aGame  anotherShip  |
 	
-	aBoard := Board withATotalNumberOfCellsOf: 6 andABlackHoleBetweenCells: 2 and: 5.
+	aBoard := Board withATotalNumberOfCellsOf: 6 andAWormHoleBetweenCells: 2 and: 5.
 
 	aShip := Ship named: 'Venture'.
 	anotherShip := Ship named: 'Adventure'.
@@ -148,7 +148,7 @@ GameTest >> testWhenGameIsCreatedThenItHasAWinningLap [
 
     aBoard := Board
                   withATotalNumberOfCellsOf: 10
-                  andABlackHoleBetweenCells: 2
+                  andAWormHoleBetweenCells: 2
                   and: 6.
 
     aShip := Ship named: 'Executor'.
@@ -175,7 +175,7 @@ GameTest >> testWhenGameIsCreatedWithAllThePiecesThenIsSuccesfullyCreated [
 
     aBoard := Board
                   withATotalNumberOfCellsOf: 10
-                  andABlackHoleBetweenCells: 2
+                  andAWormHoleBetweenCells: 2
                   and: 6.
 
     aShip := Ship named: 'Executor'.
@@ -201,7 +201,7 @@ GameTest >> testWhenGameIsStartedThenAllShipsAreAtTheFirstCell [
     | aGame aBoard aShip anotherShip ships oneDice anotherDice dices firstCell |
     aBoard := Board
                   withATotalNumberOfCellsOf: 10
-                  andABlackHoleBetweenCells: 2
+                  andAWormHoleBetweenCells: 2
                   and: 6.
 
     aShip := Ship named: 'Executor'.
@@ -230,7 +230,7 @@ GameTest >> testWhenGameIsStartedThenItSuccesfullyStarts [
     | aGame aBoard aShip anotherShip ships oneDice anotherDice dices |
     aBoard := Board
                   withATotalNumberOfCellsOf: 10
-                  andABlackHoleBetweenCells: 2
+                  andAWormHoleBetweenCells: 2
                   and: 6.
 
     aShip := Ship named: 'Executor'.
@@ -254,7 +254,7 @@ GameTest >> testWhenGameIsStartedThenItSuccesfullyStarts [
 GameTest >> testWhenOneGameIsInitializedWithAMaximumThrowOfFiveThenAllShipsHaveTenUnitsOfFuel [
 
     | aGame aBoard aShip  ships oneDice  dices anotherShip |
-    aBoard := Board withATotalNumberOfCellsOf: 20 andABlackHoleBetweenCells: 16 and: 19.
+    aBoard := Board withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 16 and: 19.
 
     aShip := Ship named: 'Serenity'.
 	 anotherShip := Ship named: 'The Batwing'.
@@ -277,7 +277,7 @@ GameTest >> testWhenOneGameIsInitializedWithAMaximumThrowOfFiveThenAllShipsHaveT
 GameTest >> testWhenOneGameIsInitializedWithAMaximumThrowOfFiveThenShipsHaveTenUnitsOfFuel [
 
     | aGame aBoard aShip  ships oneDice  dices |
-    aBoard := Board withATotalNumberOfCellsOf: 20 andABlackHoleBetweenCells: 16 and: 19.
+    aBoard := Board withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 16 and: 19.
 
     aShip := Ship named: 'Serenity'.
     ships := OrderedCollection with: aShip.
@@ -299,7 +299,7 @@ GameTest >> testWhenOneShipGetsToTheBlackHolesFirstEntranceThenItIsForwardedToTh
 
 	| aGame aBoard aShip  ships oneDice  dices   blackHolesSecondEntrance shipPositionAfterTheDices positionAfterDeterminingIfItFallsIntoABlackHole |
 	
-	aBoard := Board withATotalNumberOfCellsOf: 25 andABlackHoleBetweenCells: 5 and: 8.
+	aBoard := Board withATotalNumberOfCellsOf: 25 andAWormHoleBetweenCells: 5 and: 8.
 
 	aShip := Ship named: 'Serenity'.
 	ships := OrderedCollection with: aShip.
@@ -320,7 +320,7 @@ GameTest >> testWhenOneShipGetsToTheBlackHolesFirstEntranceThenItIsForwardedToTh
 	aGame determineTheConsequencesOfTheThrowIn: shipPositionAfterTheDices forShip: aShip.
 	
 	positionAfterDeterminingIfItFallsIntoABlackHole := aShip position.
-	blackHolesSecondEntrance := aBoard blackHolesSecondEntrance.
+	blackHolesSecondEntrance := aBoard wormsHolesSecondEntrance.
 	
 	self assert: positionAfterDeterminingIfItFallsIntoABlackHole equals: blackHolesSecondEntrance.
 ]
@@ -329,7 +329,7 @@ GameTest >> testWhenOneShipGetsToTheBlackHolesFirstEntranceThenItIsForwardedToTh
 GameTest >> testWhenOneShipGetsToTheBlackHolesSecondEntranceThenItIsForwardedToTheFirstEntranceOfTheBlackHole [
 
 	| aGame aBoard aShip  ships oneDice  dices  blackHolesFirstEntrance shipPositionAfterTheDices positionAfterDeterminingIfItFallsIntoABlackHole  |
-	aBoard := Board withATotalNumberOfCellsOf: 25 andABlackHoleBetweenCells: 5 and: 20.
+	aBoard := Board withATotalNumberOfCellsOf: 25 andAWormHoleBetweenCells: 5 and: 20.
 
 	aShip := Ship named: 'Elysium'.
 	ships := OrderedCollection with: aShip.
@@ -351,7 +351,7 @@ GameTest >> testWhenOneShipGetsToTheBlackHolesSecondEntranceThenItIsForwardedToT
 	
 	positionAfterDeterminingIfItFallsIntoABlackHole := aShip position.	
 	
-	blackHolesFirstEntrance := aBoard blackHolesFirstEntrance.
+	blackHolesFirstEntrance := aBoard wormsHolesFirstEntrance.
 	
 	self assert: positionAfterDeterminingIfItFallsIntoABlackHole equals: blackHolesFirstEntrance.
 ]
@@ -360,7 +360,7 @@ GameTest >> testWhenOneShipGetsToTheBlackHolesSecondEntranceThenItIsForwardedToT
 GameTest >> testWhenOneShipGetsToTheWinningLapThenTheGameFinishes [
 
 	| aGame aBoard aShip  ships oneDice  dices newPosition |
-	aBoard := Board withATotalNumberOfCellsOf: 6 andABlackHoleBetweenCells: 2 and: 5. 
+	aBoard := Board withATotalNumberOfCellsOf: 6 andAWormHoleBetweenCells: 2 and: 5. 
 
 	aShip := Ship named: 'Apolo'.
 	ships := OrderedCollection with: aShip.
@@ -386,7 +386,7 @@ GameTest >> testWhenOneShipGetsToTheWinningLapThenTheGameFinishes [
 GameTest >> testWhenOneShipGetsToTheWinningLapThenYouCanKnowWhichShipWon [
 
 	| aGame aBoard aShip  ships oneDice  dices newPosition |
-	aBoard := Board withATotalNumberOfCellsOf: 6 andABlackHoleBetweenCells: 2 and: 5.
+	aBoard := Board withATotalNumberOfCellsOf: 6 andAWormHoleBetweenCells: 2 and: 5.
 
 	aShip := Ship named: 'Venture'.
 	ships := OrderedCollection with: aShip.
@@ -410,7 +410,7 @@ GameTest >> testWhenOneShipGetsToTheWinningLapThenYouCanKnowWhichShipWon [
 GameTest >> testWhenOneShipHasTwoUnitsOfFuelAndMakesOneMoveThenItConsumesOneUnitOfFuel [
 
     | aGame aBoard aShip  ships oneDice  dices |
-    aBoard := Board withATotalNumberOfCellsOf: 20 andABlackHoleBetweenCells: 16 and: 19.
+    aBoard := Board withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 16 and: 19.
 
     aShip := Ship named: 'Serenity'.
     ships := OrderedCollection with: aShip.
@@ -434,7 +434,7 @@ GameTest >> testWhenOneShipMakesOneLapThenItReturnsToTheFirstCell [
 
     | aGame aBoard aShip  ships oneDice  dices  anotherShip shipPositionAfterTheDices |
 
-    aBoard := Board withATotalNumberOfCellsOf: 10 andABlackHoleBetweenCells: 2 and: 6.
+    aBoard := Board withATotalNumberOfCellsOf: 10 andAWormHoleBetweenCells: 2 and: 6.
 
     aShip := Ship named: 'Venture'.
     anotherShip := Ship named: 'Axiom'.
@@ -459,7 +459,7 @@ GameTest >> testWhenOneShipMakesOneLapThenItReturnsToTheFirstCell [
 GameTest >> testWhenOneShipMakesOneMoveThenItIsForwardedToTheNewPosition [
 
     | aGame aBoard aShip  ships oneDice  dices  intialShipPosition |
-    aBoard := Board withATotalNumberOfCellsOf: 20 andABlackHoleBetweenCells: 16 and: 19.
+    aBoard := Board withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 16 and: 19.
 
     aShip := Ship named: 'Serenity'.
     ships := OrderedCollection with: aShip.
@@ -484,7 +484,7 @@ GameTest >> testWhenOneShipMakesOneMoveThenItIsForwardedToTheNewPosition [
 GameTest >> testWhenOneShipMovesOnePositionForwardThenItIsInTheNewCell [
 
     | aGame aBoard aShip  ships oneDice  dices  intialShipPosition secondCell |
-    aBoard := Board withATotalNumberOfCellsOf: 20 andABlackHoleBetweenCells: 17 and: 19.
+    aBoard := Board withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 17 and: 19.
 
     aShip := Ship named: 'Serenity'.
     ships := OrderedCollection with: aShip.
@@ -510,7 +510,7 @@ GameTest >> testWhenOneShipMovesOnePositionForwardThenItIsInTheNewCell [
 GameTest >> testWhenOneShipMovesOnePositionForwardThenItIsNoLongerInThePreviousCell [
 
     | aGame aBoard aShip  ships oneDice  dices  intialShipPosition firstCell |
-    aBoard := Board withATotalNumberOfCellsOf: 20 andABlackHoleBetweenCells: 17 and: 19.
+    aBoard := Board withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 17 and: 19.
 
     aShip := Ship named: 'Serenity'.
     ships := OrderedCollection with: aShip.
@@ -536,7 +536,7 @@ GameTest >> testWhenOneShipMovesOnePositionForwardThenItIsNoLongerInThePreviousC
 GameTest >> testWhenOneShipThrowsDiceAndReturnsOneThenItIsForwardedOnePosition [
 
     | aGame aBoard aShip  ships oneDice  dices  intialShipPosition |
-    aBoard := Board withATotalNumberOfCellsOf: 20 andABlackHoleBetweenCells: 16 and: 19.
+    aBoard := Board withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 16 and: 19.
 
     aShip := Ship named: 'Serenity'.
     ships := OrderedCollection with: aShip.
@@ -562,7 +562,7 @@ GameTest >> testWhenOneShipWinsThenYouCanKnowThePositionOfEachShipInTheGame [
 
     | aGame aBoard aShip  ships oneDice  dices  anotherShip shipPositionAfterTheDices |
 
-    aBoard := Board withATotalNumberOfCellsOf: 20 andABlackHoleBetweenCells: 16 and: 19.
+    aBoard := Board withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 16 and: 19.
 
     aShip := Ship named: 'Venture'.
     anotherShip := Ship named: 'Axiom'.
@@ -589,7 +589,7 @@ GameTest >> testWhenOneShipWinsThenYouCanKnowThePositionOfEachShipInTheGame [
 GameTest >> testWhenShipDeciedNoToPlayItsTurnThenWeAdOnePenalty [
 	| ships aShip  aBoard oneDice dices aGame  |
 	
-	aBoard := Board withATotalNumberOfCellsOf: 6 andABlackHoleBetweenCells: 2 and: 5.
+	aBoard := Board withATotalNumberOfCellsOf: 6 andAWormHoleBetweenCells: 2 and: 5.
 
 	aShip := Ship named: 'Venture'.
 	ships := OrderedCollection with: aShip.
@@ -613,7 +613,7 @@ GameTest >> testWhenTheCurrentShipIsPenalizedThenItPassedToTheNextAvilable [
 
 	| ships aShip  aBoard oneDice dices aGame  anotherShip actualShipInGame |
 	
-	aBoard := Board withATotalNumberOfCellsOf: 6 andABlackHoleBetweenCells: 2 and: 5.
+	aBoard := Board withATotalNumberOfCellsOf: 6 andAWormHoleBetweenCells: 2 and: 5.
 
 	aShip := Ship named: 'Venture'.
 	anotherShip := Ship named: 'Adventure'.
@@ -644,7 +644,7 @@ GameTest >> testWhenTheCurrentShipIsPenalizedThenSubtractOnePenalty [
 	
 	| ships aShip  aBoard oneDice dices aGame  anotherShip  |
 	
-	aBoard := Board withATotalNumberOfCellsOf: 6 andABlackHoleBetweenCells: 2 and: 5.
+	aBoard := Board withATotalNumberOfCellsOf: 6 andAWormHoleBetweenCells: 2 and: 5.
 
 	aShip := Ship named: 'Venture'.
 	anotherShip := Ship named: 'Adventure'.
@@ -674,7 +674,7 @@ GameTest >> testWhenTheCurrentShipIsPenalizedTwiceThenItLoseTwoTurns [
 
 	| ships aShip  aBoard oneDice dices aGame  anotherShip actualShipInGame |
 	
-	aBoard := Board withATotalNumberOfCellsOf: 6 andABlackHoleBetweenCells: 2 and: 5.
+	aBoard := Board withATotalNumberOfCellsOf: 6 andAWormHoleBetweenCells: 2 and: 5.
 
 	aShip := Ship named: 'Venture'.
 	anotherShip := Ship named: 'Adventure'.
@@ -705,7 +705,7 @@ GameTest >> testWhenTheCurrentShipIsPenalizedTwiceThenItPassedToTheNextAvilable 
 
 	| ships aShip  aBoard oneDice dices aGame  anotherShip actualShipInGame |
 	
-	aBoard := Board withATotalNumberOfCellsOf: 6 andABlackHoleBetweenCells: 2 and: 5.
+	aBoard := Board withATotalNumberOfCellsOf: 6 andAWormHoleBetweenCells: 2 and: 5.
 
 	aShip := Ship named: 'Venture'.
 	anotherShip := Ship named: 'Adventure'.
@@ -736,7 +736,7 @@ GameTest >> testWhenTheFirstTurnIsExecuteThenTheFirstShipIsReturned [
 
 	| ships aShip  actualShipTurn aBoard oneDice dices aGame  |
 	
-	aBoard := Board withATotalNumberOfCellsOf: 6 andABlackHoleBetweenCells: 2 and: 5.
+	aBoard := Board withATotalNumberOfCellsOf: 6 andAWormHoleBetweenCells: 2 and: 5.
 
 	aShip := Ship named: 'Venture'.
 	ships := OrderedCollection with: aShip.
@@ -762,7 +762,7 @@ GameTest >> testWhenTwoTurnsAreCorrectlyExecuteThenTheShipsAreMovedToTheirCorrec
 
 	| ships aShip  aBoard oneDice dices aGame  anotherShip |
 	
-	aBoard := Board withATotalNumberOfCellsOf: 25 andABlackHoleBetweenCells: 2 and: 5.
+	aBoard := Board withATotalNumberOfCellsOf: 25 andAWormHoleBetweenCells: 2 and: 5.
 
 	aShip := Ship named: 'Venture'.
 	anotherShip := Ship named: 'Zorgons Ship'.
