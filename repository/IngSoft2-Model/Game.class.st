@@ -92,8 +92,8 @@ Game >> executeTurn [
 	self throwDiceFor: ship.
 
 	self advanceTurn.
+	^ ship .
 
-	^ ship
 
 ]
 
@@ -165,6 +165,13 @@ Game >> reducePenaltyFor: aShip [
 
 ]
 
+{ #category : 'as yet unclassified' }
+Game >> skipTurnFor: aShip [
+
+	self penalize: aShip withTurns: 1. 
+
+]
+
 { #category : 'accessing' }
 Game >> start [
 
@@ -176,13 +183,6 @@ Game >> sumOfDiceSizes [
 
     ^ dices inject: 0 into: [ :sum :aDie | sum + aDie sizeOfTheDice ].
 
-
-]
-
-{ #category : 'as yet unclassified' }
-Game >> surenderTurn: aShip [
-
-	self penalize: aShip withTurns: 1. 
 
 ]
 

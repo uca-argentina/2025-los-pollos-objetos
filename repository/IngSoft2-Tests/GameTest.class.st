@@ -40,7 +40,7 @@ GameTest >> testWhenAShipIsPenalizeWithTwoMovesThenItsIncludeInThePenalizeDictio
 ]
 
 { #category : 'tests' }
-GameTest >> testWhenAShipIsPenalizedAndItLostItsTurnTheTheFuelIsReplaceAtMax [
+GameTest >> testWhenAShipIsPenalizedAndItsLostItsTurnThenTheFuelIsRestore [
 
 	| ships aShip  aBoard oneDice dices aGame  anotherShip  fuelBeforePenalization fuelAfterPenalization |
 	
@@ -603,7 +603,7 @@ GameTest >> testWhenShipDeciedNoToPlayItsTurnThenWeAdOnePenalty [
         and: dices
         and: ships.
 
-	aGame surenderTurn: aShip.
+	aGame skipTurnFor: aShip.
 
 	self assert: (aGame penaltyFor: aShip) equals: 1.
 ]
@@ -758,7 +758,7 @@ GameTest >> testWhenTheFirstTurnIsExecuteThenTheFirstShipIsReturned [
 ]
 
 { #category : 'tests' }
-GameTest >> testWhenTwoTurnAreCorrectlyExecuteTheTheShipsAreMovedThierCorrectPosition [
+GameTest >> testWhenTwoTurnsAreCorrectlyExecuteThenTheShipsAreMovedToTheirCorrectPosition [
 
 	| ships aShip  aBoard oneDice dices aGame  anotherShip |
 	
