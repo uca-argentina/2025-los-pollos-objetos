@@ -207,6 +207,8 @@ Game >> throwDiceFor: aShip [
     self move: aShip to: targetPosition  
          andConsume: resultOfTheThrow.
 
+	board checkCell: aShip. 
+
 	 self updateLapFor: aShip withTotalSteps: totalSteps.
 
 ]

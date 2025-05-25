@@ -77,6 +77,21 @@ Board >> cellNumber: aNumber [
 ]
 
 { #category : 'accessing' }
+Board >> changeCellAt: aPosition to: aCell [
+
+	cells at: aPosition put: aCell. 
+
+
+
+]
+
+{ #category : 'accessing' }
+Board >> checkCell: aShip [
+
+	(cells at: aShip position) applyEffectTo: aShip
+]
+
+{ #category : 'accessing' }
 Board >> getShipsIntoFirstCellOfTheBoard: shipsCollection [
 
     | startCell |
@@ -91,7 +106,7 @@ Board >> getShipsIntoFirstCellOfTheBoard: shipsCollection [
 Board >> initializeWith: numberOfCells andABlackHoleBeweenCells: firstEntrance and: secondEntrance [
 
 	 cells := OrderedCollection new.
-    1 to: (numberOfCells) do: [:i | cells add: (Cell initializeCellOn: i) ].
+    1 to: (numberOfCells) do: [:i | cells add: (NormalCell initializeCellOn: i) ].
     wormsHolesFirstEntrance := firstEntrance.
     wormsHolesSecondEntrance := secondEntrance.
 ]
