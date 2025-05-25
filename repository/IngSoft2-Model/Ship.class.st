@@ -17,10 +17,10 @@ Class {
 }
 
 { #category : 'instance creation' }
-Ship class >> named: arg1 [
+Ship class >> named: aName [
 
-	self shipHasAValidName: arg1.
-	^ (self new initializeWith: arg1) atStartingPosition
+	self shipHasAValidName: aName.
+	^ (self new initializeWith: aName) atStartingPosition
 ]
 
 { #category : 'instance creation' }
