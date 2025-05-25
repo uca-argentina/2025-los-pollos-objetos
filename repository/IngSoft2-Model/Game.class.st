@@ -30,7 +30,20 @@ Game >> advanceTurn [
 
 	shipSupposedToPlay := shipSupposedToPlay + 1.
 	shipSupposedToPlay > ships size ifTrue: [ shipSupposedToPlay := 1 ].
+]
+
+{ #category : 'as yet unclassified' }
+Game >> advanceTurnIfCurrentTurnsShipIsPenalized [
+
+	| ship |
 	
+	[
+	ship := ships at: shipSupposedToPlay.
+	penalties includesKey: ship ] whileTrue: [
+		self reducePenaltyFor: ship.
+		self advanceTurn ].
+	
+	^ ship
 ]
 
 { #category : 'accessing' }
@@ -75,26 +88,18 @@ Game >> determineTheConsequencesOfTheThrowIn: aNewPosition forShip: aShip [
 
 { #category : 'as yet unclassified' }
 Game >> executeTurn [
-	| ship |
 
-	[
-		ship := ships at: shipSupposedToPlay .
-		(penalties includesKey: ship) 
-	] whileTrue: [
-		self reducePenaltyFor: ship.
-		self advanceTurn.
-	].
+	| ship |
+	
+	ship := self advanceTurnIfCurrentTurnsShipIsPenalized.
 
 	ship := ships at: shipSupposedToPlay.
-	
-	
-	
+
 	self throwDiceFor: ship.
 
 	self advanceTurn.
-	^ ship .
 
-
+	^ ship
 ]
 
 { #category : 'initialization' }
@@ -142,26 +147,29 @@ Game >> move: aShip to: targetPosition andConsume: aConsumption [
 ]
 
 { #category : 'as yet unclassified' }
-Game >> penalize: aShip withTurns: nTurns [
-	"Busco en el diccionario apenalties si la nave esta y le agrego los turnos de castigo, si no esta 
-	la agrego al dicionario con sus respectivos castigos"
-	self isAPositiveInteger: nTurns.
-	penalties at: aShip put: (penalties at: aShip ifAbsent: [ 0 ]) + nTurns.
+Game >> penalize: aShip withTurns: numberOfTurns [
+	
+	self isAPositiveInteger: numberOfTurns.
+	penalties at: aShip put: (penalties at: aShip ifAbsent: [ 0 ]) + numberOfTurns.
 
 ]
 
 { #category : 'as yet unclassified' }
 Game >> penaltyFor: aShip [ 
+
 	^ penalties at: aShip.
 ]
 
 { #category : 'as yet unclassified' }
 Game >> reducePenaltyFor: aShip [
+
 	| remaining |
-	remaining := (penalties at: aShip) - 1.
-	remaining > 0
-		ifTrue: [ penalties at: aShip put: remaining ]
-		ifFalse: [(aShip restoreFuel) . (penalties removeKey: aShip) ].
+remaining := (penalties at: aShip) - 1.
+remaining > 0
+	ifTrue: [ penalties at: aShip put: remaining ]
+	ifFalse: [
+		aShip restoreFuel.
+		penalties removeKey: aShip ]
 
 ]
 
