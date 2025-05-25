@@ -16,7 +16,7 @@ GameTest >> should: anErrorBlock raise: anErroClass withMessageText: errorMessag
 ]
 
 { #category : 'tests' }
-GameTest >> testWhenAShipIsPenalizeWithTwoMovesThenItsIncludeInThePenalizeDictionary [
+GameTest >> testWhenAShipIsPenalizeWithTwoMovesThenItsIncludedInThePenalizationsDictionary [
 
 	| ships aShip  aBoard oneDice dices aGame  |
 	
@@ -40,7 +40,7 @@ GameTest >> testWhenAShipIsPenalizeWithTwoMovesThenItsIncludeInThePenalizeDictio
 ]
 
 { #category : 'tests' }
-GameTest >> testWhenAShipIsPenalizedAndItsLostItsTurnThenTheFuelIsRestore [
+GameTest >> testWhenAShipIsPenalizedThenTheFuelIsRestoredAfterLosingItsTurn [
 
 	| ships aShip  aBoard oneDice dices aGame  anotherShip  fuelBeforePenalization fuelAfterPenalization |
 	
@@ -78,7 +78,7 @@ GameTest >> testWhenAShipIsPenalizedAndItsLostItsTurnThenTheFuelIsRestore [
 ]
 
 { #category : 'tests' }
-GameTest >> testWhenAShipIsPenalizedWithANonIntegerThenTestFailed [
+GameTest >> testWhenAShipIsPenalizedWithANonIntegerThenItFails [
 
 	
 	| ships aShip  aBoard oneDice dices aGame  anotherShip  |
@@ -109,7 +109,7 @@ GameTest >> testWhenAShipIsPenalizedWithANonIntegerThenTestFailed [
 ]
 
 { #category : 'tests' }
-GameTest >> testWhenAShipIsPenalizedWithANonPositiveIntegerThenTestFailed [
+GameTest >> testWhenAShipIsPenalizedWithANonPositiveIntegerThenItFails [
 
 	
 	| ships aShip  aBoard oneDice dices aGame  anotherShip  |
@@ -295,68 +295,6 @@ GameTest >> testWhenOneGameIsInitializedWithAMaximumThrowOfFiveThenShipsHaveTenU
 ]
 
 { #category : 'tests' }
-GameTest >> testWhenOneShipGetsToTheBlackHolesFirstEntranceThenItIsForwardedToTheSecondEntranceOfTheBlackHole [
-
-	| aGame aBoard aShip  ships oneDice  dices   blackHolesSecondEntrance shipPositionAfterTheDices positionAfterDeterminingIfItFallsIntoABlackHole |
-	
-	aBoard := Board withATotalNumberOfCellsOf: 25 andAWormHoleBetweenCells: 5 and: 8.
-
-	aShip := Ship named: 'Serenity'.
-	ships := OrderedCollection with: aShip.
-
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 4. 
-	dices := OrderedCollection with: oneDice.
-
-	aGame := Game
-		completedAtLap: 1
-		with: aBoard
-		and: dices
-		and: ships.
-		
-	"aShip throw: dices."
-	aGame throwDiceFor: aShip.
-	
-	shipPositionAfterTheDices := aShip position. 
-	aGame determineTheConsequencesOfTheThrowIn: shipPositionAfterTheDices forShip: aShip.
-	
-	positionAfterDeterminingIfItFallsIntoABlackHole := aShip position.
-	blackHolesSecondEntrance := aBoard wormsHolesSecondEntrance.
-	
-	self assert: positionAfterDeterminingIfItFallsIntoABlackHole equals: blackHolesSecondEntrance.
-]
-
-{ #category : 'tests' }
-GameTest >> testWhenOneShipGetsToTheBlackHolesSecondEntranceThenItIsForwardedToTheFirstEntranceOfTheBlackHole [
-
-	| aGame aBoard aShip  ships oneDice  dices  blackHolesFirstEntrance shipPositionAfterTheDices positionAfterDeterminingIfItFallsIntoABlackHole  |
-	aBoard := Board withATotalNumberOfCellsOf: 25 andAWormHoleBetweenCells: 5 and: 20.
-
-	aShip := Ship named: 'Elysium'.
-	ships := OrderedCollection with: aShip.
-
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 19. 
-	dices := OrderedCollection with: oneDice.
-
-	aGame := Game
-		completedAtLap: 1
-		with: aBoard
-		and: dices
-		and: ships.
-			
-	"aShip throw: dices."
-	aGame throwDiceFor: aShip.
-	
-	shipPositionAfterTheDices := aShip position. 
-	aGame determineTheConsequencesOfTheThrowIn: shipPositionAfterTheDices forShip: aShip.
-	
-	positionAfterDeterminingIfItFallsIntoABlackHole := aShip position.	
-	
-	blackHolesFirstEntrance := aBoard wormsHolesFirstEntrance.
-	
-	self assert: positionAfterDeterminingIfItFallsIntoABlackHole equals: blackHolesFirstEntrance.
-]
-
-{ #category : 'tests' }
 GameTest >> testWhenOneShipGetsToTheWinningLapThenTheGameFinishes [
 
 	| aGame aBoard aShip  ships oneDice  dices newPosition |
@@ -404,6 +342,68 @@ GameTest >> testWhenOneShipGetsToTheWinningLapThenYouCanKnowWhichShipWon [
 	newPosition := aShip position. 
 	
 	self assert: (aGame determineTheConsequencesOfTheThrowIn: newPosition forShip: aShip) equals: 'Venture won the Game!'
+]
+
+{ #category : 'tests' }
+GameTest >> testWhenOneShipGetsToTheWormsHolesFirstEntranceThenItIsForwardedToTheSecondEntranceOfTheWormsHole [
+
+	| aGame aBoard aShip  ships oneDice  dices   blackHolesSecondEntrance shipPositionAfterTheDices positionAfterDeterminingIfItFallsIntoABlackHole |
+	
+	aBoard := Board withATotalNumberOfCellsOf: 25 andAWormHoleBetweenCells: 5 and: 8.
+
+	aShip := Ship named: 'Serenity'.
+	ships := OrderedCollection with: aShip.
+
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 4. 
+	dices := OrderedCollection with: oneDice.
+
+	aGame := Game
+		completedAtLap: 1
+		with: aBoard
+		and: dices
+		and: ships.
+		
+	"aShip throw: dices."
+	aGame throwDiceFor: aShip.
+	
+	shipPositionAfterTheDices := aShip position. 
+	aGame determineTheConsequencesOfTheThrowIn: shipPositionAfterTheDices forShip: aShip.
+	
+	positionAfterDeterminingIfItFallsIntoABlackHole := aShip position.
+	blackHolesSecondEntrance := aBoard wormsHolesSecondEntrance.
+	
+	self assert: positionAfterDeterminingIfItFallsIntoABlackHole equals: blackHolesSecondEntrance.
+]
+
+{ #category : 'tests' }
+GameTest >> testWhenOneShipGetsToTheWormsHolesSecondEntranceThenItIsForwardedToTheFirstEntranceOfTheWormHole [
+
+	| aGame aBoard aShip  ships oneDice  dices  blackHolesFirstEntrance shipPositionAfterTheDices positionAfterDeterminingIfItFallsIntoABlackHole  |
+	aBoard := Board withATotalNumberOfCellsOf: 25 andAWormHoleBetweenCells: 5 and: 20.
+
+	aShip := Ship named: 'Elysium'.
+	ships := OrderedCollection with: aShip.
+
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 19. 
+	dices := OrderedCollection with: oneDice.
+
+	aGame := Game
+		completedAtLap: 1
+		with: aBoard
+		and: dices
+		and: ships.
+			
+	"aShip throw: dices."
+	aGame throwDiceFor: aShip.
+	
+	shipPositionAfterTheDices := aShip position. 
+	aGame determineTheConsequencesOfTheThrowIn: shipPositionAfterTheDices forShip: aShip.
+	
+	positionAfterDeterminingIfItFallsIntoABlackHole := aShip position.	
+	
+	blackHolesFirstEntrance := aBoard wormsHolesFirstEntrance.
+	
+	self assert: positionAfterDeterminingIfItFallsIntoABlackHole equals: blackHolesFirstEntrance.
 ]
 
 { #category : 'tests' }
@@ -586,7 +586,8 @@ GameTest >> testWhenOneShipWinsThenYouCanKnowThePositionOfEachShipInTheGame [
 ]
 
 { #category : 'tests' }
-GameTest >> testWhenShipDeciedNoToPlayItsTurnThenWeAdOnePenalty [
+GameTest >> testWhenShipDecidesNotToPlayItsTurnThenItsTurnIsSkipped [
+
 	| ships aShip  aBoard oneDice dices aGame  |
 	
 	aBoard := Board withATotalNumberOfCellsOf: 6 andAWormHoleBetweenCells: 2 and: 5.
@@ -609,7 +610,7 @@ GameTest >> testWhenShipDeciedNoToPlayItsTurnThenWeAdOnePenalty [
 ]
 
 { #category : 'tests' }
-GameTest >> testWhenTheCurrentShipIsPenalizedThenItPassedToTheNextAvilable [
+GameTest >> testWhenTheCurrentShipHasTwoPenalizationsThenItLosesTwoTurns [
 
 	| ships aShip  aBoard oneDice dices aGame  anotherShip actualShipInGame |
 	
@@ -633,13 +634,45 @@ GameTest >> testWhenTheCurrentShipIsPenalizedThenItPassedToTheNextAvilable [
 	
 	aGame penalize: aShip withTurns: 2.
 	
+	aGame executeTurn. 
 	actualShipInGame:= aGame executeTurn. 
 
 	self assert: (actualShipInGame name) equals: anotherShip name.
 ]
 
 { #category : 'tests' }
-GameTest >> testWhenTheCurrentShipIsPenalizedThenSubtractOnePenalty [
+GameTest >> testWhenTheCurrentShipHasTwoPenalizationsThenTheTurnIsPassedToTheNextShipTwice [
+
+	| ships aShip  aBoard oneDice dices aGame  anotherShip actualShipInGame |
+	
+	aBoard := Board withATotalNumberOfCellsOf: 6 andAWormHoleBetweenCells: 2 and: 5.
+
+	aShip := Ship named: 'Venture'.
+	anotherShip := Ship named: 'Adventure'.
+	
+	ships := OrderedCollection with: aShip.
+	ships add: anotherShip .
+
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 6. 
+	dices := OrderedCollection with: oneDice.
+
+    aGame := Game
+        completedAtLap: 1
+        with: aBoard
+        and: dices
+        and: ships.
+
+	
+	aGame penalize: aShip withTurns: 2.
+	
+	aGame executeTurn. 
+	actualShipInGame:= aGame executeTurn. 
+
+	self assert: (actualShipInGame name) equals: anotherShip name.
+]
+
+{ #category : 'tests' }
+GameTest >> testWhenTheCurrentShipIsPenalizedAndItsTurnIsSkippedThenPenaltiesAreReduced [
 
 	
 	| ships aShip  aBoard oneDice dices aGame  anotherShip  |
@@ -670,7 +703,7 @@ GameTest >> testWhenTheCurrentShipIsPenalizedThenSubtractOnePenalty [
 ]
 
 { #category : 'tests' }
-GameTest >> testWhenTheCurrentShipIsPenalizedTwiceThenItLoseTwoTurns [
+GameTest >> testWhenTheCurrentShipIsPenalizedThenTheTurnIsPassedToTheNextShip [
 
 	| ships aShip  aBoard oneDice dices aGame  anotherShip actualShipInGame |
 	
@@ -694,45 +727,13 @@ GameTest >> testWhenTheCurrentShipIsPenalizedTwiceThenItLoseTwoTurns [
 	
 	aGame penalize: aShip withTurns: 2.
 	
-	aGame executeTurn. 
 	actualShipInGame:= aGame executeTurn. 
 
 	self assert: (actualShipInGame name) equals: anotherShip name.
 ]
 
 { #category : 'tests' }
-GameTest >> testWhenTheCurrentShipIsPenalizedTwiceThenItPassedToTheNextAvilable [
-
-	| ships aShip  aBoard oneDice dices aGame  anotherShip actualShipInGame |
-	
-	aBoard := Board withATotalNumberOfCellsOf: 6 andAWormHoleBetweenCells: 2 and: 5.
-
-	aShip := Ship named: 'Venture'.
-	anotherShip := Ship named: 'Adventure'.
-	
-	ships := OrderedCollection with: aShip.
-	ships add: anotherShip .
-
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 6. 
-	dices := OrderedCollection with: oneDice.
-
-    aGame := Game
-        completedAtLap: 1
-        with: aBoard
-        and: dices
-        and: ships.
-
-	
-	aGame penalize: aShip withTurns: 2.
-	
-	aGame executeTurn. 
-	actualShipInGame:= aGame executeTurn. 
-
-	self assert: (actualShipInGame name) equals: anotherShip name.
-]
-
-{ #category : 'tests' }
-GameTest >> testWhenTheFirstTurnIsExecuteThenTheFirstShipIsReturned [
+GameTest >> testWhenTheFirstTurnIsExecutedThenTheFirstShipIsReturned [
 
 	| ships aShip  actualShipTurn aBoard oneDice dices aGame  |
 	
@@ -758,7 +759,7 @@ GameTest >> testWhenTheFirstTurnIsExecuteThenTheFirstShipIsReturned [
 ]
 
 { #category : 'tests' }
-GameTest >> testWhenTwoTurnsAreCorrectlyExecuteThenTheShipsAreMovedToTheirCorrectPosition [
+GameTest >> testWhenTwoTurnsAreCorrectlyExecutedThenTheShipsAreMovedToTheirCorrectPosition [
 
 	| ships aShip  aBoard oneDice dices aGame  anotherShip |
 	
