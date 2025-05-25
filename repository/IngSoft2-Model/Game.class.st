@@ -12,8 +12,8 @@ Class {
 		'distanceFromBlackHolesFirstEntranceToSecondEntrance',
 		'chargeOfFuel',
 		'winningLaps',
-		'currentIndexForShipsTurns',
-		'penalties'
+		'penalties',
+		'shipSupposedToPlay'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -28,8 +28,8 @@ Game class >> completedAtLap: aNumberOfLap with: aBoard and: dices and: ships [
 { #category : 'as yet unclassified' }
 Game >> advanceTurn [ 
 
-	currentIndexForShipsTurns := currentIndexForShipsTurns + 1.
-	currentIndexForShipsTurns > ships size ifTrue: [ currentIndexForShipsTurns := 1 ].
+	shipSupposedToPlay := shipSupposedToPlay + 1.
+	shipSupposedToPlay > ships size ifTrue: [ shipSupposedToPlay := 1 ].
 	
 ]
 
@@ -75,24 +75,25 @@ Game >> determineTheConsequencesOfTheThrowIn: aNewPosition forShip: aShip [
 
 { #category : 'as yet unclassified' }
 Game >> executeTurn [
-	"Reviso qué nave debería jugar ahora. Si tiene una penalización activa, le descuento un turno 	de castigo y paso a la siguiente. Sigo haciendo esto hasta encontrar una nave que esté 	habilitada para jugar."
 	| ship |
 
 	[
-		ship := ships at: currentIndexForShipsTurns .
-		(penalties includesKey: ship) and: [(penalties at: ship) > 0]
+		ship := ships at: shipSupposedToPlay .
+		(penalties includesKey: ship) 
 	] whileTrue: [
 		self reducePenaltyFor: ship.
 		self advanceTurn.
 	].
 
-	"Guardamos la nave que va a jugar"
-	ship := ships at: currentIndexForShipsTurns.
+	ship := ships at: shipSupposedToPlay.
+	
+	
+	
+	self throwDiceFor: ship.
 
-	"Avanzamos el índice para el próximo turno"
 	self advanceTurn.
+	^ ship .
 
-	^ ship
 
 ]
 
@@ -113,7 +114,7 @@ Game >> initializeWith: laps with: aBoard with: gameDices with: gameShips [
     ships := gameShips.
 	 self chargeFuelToShipsUpTo: chargeOfFuel.
 	
-	currentIndexForShipsTurns := 1.
+	shipSupposedToPlay := 1.
 	penalties := Dictionary new.
 	
 	 
@@ -160,7 +161,14 @@ Game >> reducePenaltyFor: aShip [
 	remaining := (penalties at: aShip) - 1.
 	remaining > 0
 		ifTrue: [ penalties at: aShip put: remaining ]
-		ifFalse: [ penalties removeKey: aShip ].
+		ifFalse: [(aShip restoreFuel) . (penalties removeKey: aShip) ].
+
+]
+
+{ #category : 'as yet unclassified' }
+Game >> skipTurnFor: aShip [
+
+	self penalize: aShip withTurns: 1. 
 
 ]
 

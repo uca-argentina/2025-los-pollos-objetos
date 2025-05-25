@@ -65,6 +65,11 @@ Ship >> currentCharge [
 	
 ]
 
+{ #category : 'as yet unclassified' }
+Ship >> currentFuel [
+	^ fuelCharged 
+]
+
 { #category : 'accessing' }
 Ship >> currentLap [
 
@@ -99,13 +104,18 @@ Ship >> lastPosition [
 ]
 
 { #category : 'path commands' }
-Ship >> moveTo: newPosition andConsume: aConsumption [ 
-
+Ship >> moveTo: newPosition andConsume: aConsumption [
 	self consumeFuel: aConsumption.
-   fuelCharged = 0 ifTrue: [ ^self ].
+	
+	fuelCharged = 0
+		ifTrue: [
+			shipsPreviousCell := shipsCurrentCell
+		]
+		ifFalse: [
+			shipsPreviousCell := shipsCurrentCell.
+			shipsCurrentCell := newPosition
+		].
 
-   shipsPreviousCell := shipsCurrentCell.
-   shipsCurrentCell := newPosition.
 ]
 
 { #category : 'accessing' }
