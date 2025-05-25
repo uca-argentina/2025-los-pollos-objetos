@@ -6,7 +6,7 @@ Class {
 }
 
 { #category : 'tests' }
-BlackHoleCellTest >> testBanana [
+BlackHoleCellTest >> testWhenAShipArrivesToABlackHoleCellThenItGoesBackFourCells [
 
     | aGame aBoard aShip  ships oneDice  dices aBlackHoleCell |
 
