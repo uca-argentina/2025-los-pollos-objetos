@@ -180,6 +180,13 @@ Game >> sumOfDiceSizes [
 ]
 
 { #category : 'as yet unclassified' }
+Game >> surenderTurn: aShip [
+
+	self penalize: aShip withTurns: 1. 
+
+]
+
+{ #category : 'as yet unclassified' }
 Game >> throwDiceFor: aShip [
  
     | resultOfTheThrow totalSteps targetPosition |
