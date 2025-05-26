@@ -1,16 +1,16 @@
 Class {
-	#name : 'MoonWalk',
+	#name : 'MoonWalkCell',
 	#superclass : 'Cell',
 	#instVars : [
 		'requiredValue',
-		'n'
+		'numberOfCellsToGoBack'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'initialization' }
-MoonWalk class >> initializeCellOn: aNumberOfCell withRequiredValue: aRequiredValue [
+MoonWalkCell class >> initializeCellOn: aNumberOfCell withRequiredValue: aRequiredValue [
 
     self isAPositiveInteger: aNumberOfCell.
     self isAPositiveInteger: aRequiredValue.
@@ -19,42 +19,40 @@ MoonWalk class >> initializeCellOn: aNumberOfCell withRequiredValue: aRequiredVa
 ]
 
 { #category : 'initialization' }
-MoonWalk class >> isAPositiveInteger: aNumber [
+MoonWalkCell class >> isAPositiveInteger: aNumber [
 
     (aNumber isInteger and: [ aNumber >= 0 ]) ifFalse: [
         Error signal: 'Required value must be a positive integer.' ].
 ]
 
 { #category : 'initialization' }
-MoonWalk >> applyEffectTo: curentShip of: aGame [
+MoonWalkCell >> applyEffectTo: curentShip of: aGame [
 
 	| shipsInGame |
 	shipsInGame := aGame shipsPlaying.
 
 	shipsInGame do:[:shipInGame |( ships includes: shipInGame ) ifFalse: [
 			
-			n >= shipInGame currentFuel 
+			numberOfCellsToGoBack >= shipInGame currentFuel 
 			
-			ifTrue:[
+			"ifTrue:[
 				shipInGame chargeFuelUpTo: aGame numberOfCells + 1.
 				shipInGame moveTo: 1 andConsume: aGame numberOfCells.
 				aGame penalize: shipInGame withTurns: 2. 
-				] 
-			
+				]"
 			ifFalse: [ 
-				shipInGame moveTo: shipInGame position - n andConsume: n 
+				shipInGame moveTo: shipInGame position - numberOfCellsToGoBack andConsume: numberOfCellsToGoBack 
 				]
-			
 			] 
 		].
 
 ]
 
 { #category : 'initialization' }
-MoonWalk >> setUpOn: aNumberOfCell withRequiredValue: aRequiredValue [
+MoonWalkCell >> setUpOn: aNumberOfCell withRequiredValue: aRequiredValue [
 
     ships := OrderedCollection new.
     numberOfCell := aNumberOfCell.
-    n := aRequiredValue.
+    numberOfCellsToGoBack := aRequiredValue.
     ^ self
 ]
