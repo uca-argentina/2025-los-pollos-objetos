@@ -6,7 +6,7 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-NormalCell >> applyEffectTo: aShip [
+NormalCell >> applyEffectTo: aShip of: aGame [
 
 "Una celda normal no tiene efectos. Este método se deja intencionalmente vacío."
 ]

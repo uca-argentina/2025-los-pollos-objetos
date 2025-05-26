@@ -13,7 +13,9 @@ Class {
 		'chargeOfFuel',
 		'winningLaps',
 		'penalties',
-		'shipSupposedToPlay'
+		'shipSupposedToPlay',
+		'positionBeforePlay',
+		'fuelBeforePlay'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -47,7 +49,7 @@ Game >> advanceTurnIfCurrentTurnsShipIsPenalized [
 ]
 
 { #category : 'accessing' }
-Game >> calculateTargetPositionFor: totalSteps [.
+Game >> calculateTargetPositionFor: totalSteps [
 
 		^ totalSteps = 0
         ifTrue: [ 0 ]
@@ -100,6 +102,12 @@ Game >> executeTurn [
 	self advanceTurn.
 
 	^ ship
+]
+
+{ #category : 'accessing' }
+Game >> fuelBeforePlay [
+
+	^ fuelBeforePlay 
 ]
 
 { #category : 'initialization' }
@@ -160,6 +168,12 @@ Game >> penaltyFor: aShip [
 	^ penalties at: aShip.
 ]
 
+{ #category : 'accessing' }
+Game >> positionBeforePlay [
+
+	^ positionBeforePlay 
+]
+
 { #category : 'as yet unclassified' }
 Game >> reducePenaltyFor: aShip [
 
@@ -196,21 +210,22 @@ Game >> sumOfDiceSizes [
 
 { #category : 'as yet unclassified' }
 Game >> throwDiceFor: aShip [
- 
-    | resultOfTheThrow totalSteps targetPosition |
-    
-    resultOfTheThrow := (dices collect: [ :dice | dice beThrown ]) sum.
-    totalSteps := aShip position + resultOfTheThrow.
 
-    targetPosition := self calculateTargetPositionFor: totalSteps.
+	| resultOfTheThrow totalSteps targetPosition |
+	
+	positionBeforePlay := aShip position.
+	fuelBeforePlay := aShip currentFuel . 
 
-    self move: aShip to: targetPosition  
-         andConsume: resultOfTheThrow.
+	resultOfTheThrow := (dices collect: [ :dice | dice beThrown ]) sum.
+	totalSteps := aShip position + resultOfTheThrow.
 
-	board checkCell: aShip. 
+	targetPosition := self calculateTargetPositionFor: totalSteps.
 
-	 self updateLapFor: aShip withTotalSteps: totalSteps.
+	self move: aShip to: targetPosition andConsume: resultOfTheThrow.
 
+	board checkCell: aShip of: self.
+
+	self updateLapFor: aShip withTotalSteps: totalSteps
 ]
 
 { #category : 'as yet unclassified' }

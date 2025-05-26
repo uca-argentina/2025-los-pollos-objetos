@@ -86,9 +86,9 @@ Board >> changeCellAt: aPosition to: aCell [
 ]
 
 { #category : 'accessing' }
-Board >> checkCell: aShip [
+Board >> checkCell: aShip of: aGame [
 
-	(cells at: aShip position) applyEffectTo: aShip
+	(cells at: aShip position) applyEffectTo: aShip of: aGame. 
 ]
 
 { #category : 'accessing' }
