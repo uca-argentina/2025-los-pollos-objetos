@@ -161,6 +161,11 @@ Game >> move: aShip to: targetPosition andConsume: aConsumption [
 	board addShip: aShip toCellAt: shipsNewPosition.
 ]
 
+{ #category : 'initialization' }
+Game >> numberOfCells [ 
+	^ board  numberOfCells .
+]
+
 { #category : 'as yet unclassified' }
 Game >> penalize: aShip withTurns: numberOfTurns [
 	
@@ -192,6 +197,12 @@ remaining > 0
 		aShip restoreFuel.
 		penalties removeKey: aShip ]
 
+]
+
+{ #category : 'as yet unclassified' }
+Game >> shipsPlaying [
+
+	^ ships
 ]
 
 { #category : 'as yet unclassified' }
