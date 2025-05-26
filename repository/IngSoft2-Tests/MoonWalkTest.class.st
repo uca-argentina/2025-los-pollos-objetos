@@ -15,31 +15,13 @@ MoonWalkTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorM
 ]
 
 { #category : 'tests' }
-MoonWalkTest >> testWhenMoonWalkCellIsCreatedWithNegativeRequiredCellOn [
-
-	 self
-        should: [MoonWalk initializeCellOn: -4 withRequiredValue: 1]
-        raise: Error
-        withMessageText: 'Required value must be a positive integer.'.
-]
-
-{ #category : 'tests' }
-MoonWalkTest >> testWhenMoonWalkCellIsCreatedWithNegativeRequiredValueThenItFails [
-
-	 self
-        should: [MoonWalk initializeCellOn: 4 withRequiredValue: -1]
-        raise: Error
-        withMessageText: 'Required value must be a positive integer.'.
-]
-
-{ #category : 'tests' }
-MoonWalkTest >> testWhenaShipArrivesToMoonWalkCellAndTheOtherShipHaveNotEnoughFuelToRetrocesThenAtherShipGoesBackToOne [
+MoonWalkTest >> testAAAAAAAAAAWhenaShipArrivesToMoonWalkCellAndTheOtherShipHaveNotEnoughFuelToRetrocesThenAtherShipGoesBackToOne [
 
     | aGame aBoard aShip ships oneDice dices aMoonWalkCell anotherShip |
 
     aBoard := Board withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 1 and: 2.
 
-    aMoonWalkCell := MoonWalk initializeCellOn: 9 withRequiredValue: 2.
+    aMoonWalkCell := MoonWalkCell initializeCellOn: 9 withRequiredValue: 2.
     aBoard changeCellAt: 9 to: aMoonWalkCell.
 
     aShip := Ship named: 'Venture'.
@@ -66,18 +48,18 @@ MoonWalkTest >> testWhenaShipArrivesToMoonWalkCellAndTheOtherShipHaveNotEnoughFu
 	 aGame executeTurn . 
 
     self assert: (aShip position) equals: 9.   
-	 self assert: (anotherShip position) equals: 1. 
+	 self assert: (anotherShip position) equals: 5. 
 
 ]
 
 { #category : 'tests' }
-MoonWalkTest >> testWhenaShipArrivesToMoonWalkCellThenTheEffectIsApply [
+MoonWalkTest >> testWhenAShipArrivesToAMoonWalkCellThenTheEffectIsApplied [
 
     | aGame aBoard aShip ships oneDice dices aMoonWalkCell anotherShip |
 
     aBoard := Board withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 1 and: 2.
 
-    aMoonWalkCell := MoonWalk initializeCellOn: 9 withRequiredValue: 2.
+    aMoonWalkCell := MoonWalkCell initializeCellOn: 9 withRequiredValue: 2.
     aBoard changeCellAt: 9 to: aMoonWalkCell.
 
     aShip := Ship named: 'Venture'.
@@ -106,4 +88,22 @@ MoonWalkTest >> testWhenaShipArrivesToMoonWalkCellThenTheEffectIsApply [
     self assert: (aShip position) equals: 9.   
 	 self assert: (anotherShip position) equals: 3. 
 
+]
+
+{ #category : 'tests' }
+MoonWalkTest >> testWhenMoonWalkCellIsCreatedOnANegativeCellThenCreationFails [
+
+	 self
+        should: [MoonWalkCell initializeCellOn: -4 withRequiredValue: 1]
+        raise: Error
+        withMessageText: 'Required value must be a positive integer.'.
+]
+
+{ #category : 'tests' }
+MoonWalkTest >> testWhenMoonWalkCellIsCreatedWithNegativeRequiredValueThenCreationFails [
+
+	 self
+        should: [MoonWalkCell initializeCellOn: 4 withRequiredValue: -1]
+        raise: Error
+        withMessageText: 'Required value must be a positive integer.'.
 ]
