@@ -138,6 +138,19 @@ Ship >> restoreFuel [
 ]
 
 { #category : 'accessing' }
+Ship >> setPositionBeforePlay: aPosition andFuel: aFuel [
+
+	shipsCurrentCell := aPosition.
+	shipsPreviousCell := aPosition.
+	fuelCharged := aFuel.
+	
+
+
+	
+	
+]
+
+{ #category : 'accessing' }
 Ship >> updateLapOn: aNumberOfLap [
 
 	shipsCurrentLap := shipsCurrentLap + aNumberOfLap.
