@@ -202,12 +202,6 @@ remaining > 0
 
 ]
 
-{ #category : 'accessing' }
-Game >> ships [
-
-	^ ships 
-]
-
 { #category : 'as yet unclassified' }
 Game >> shipsPlaying [
 
