@@ -12,13 +12,20 @@ Class {
 HyperGravityCell class >> initializeCellOn: aNumberOfCell withRequiredValue: aRequiredValue [
 
     self isAPositiveInteger: aNumberOfCell.
-    self isAPositiveInteger: aRequiredValue.
+    self requiredValueIsAPositiveInteger: aRequiredValue.
 
     ^ (self new) setUpOn: aNumberOfCell withRequiredValue: aRequiredValue
 ]
 
 { #category : 'initialization' }
 HyperGravityCell class >> isAPositiveInteger: aNumber [
+
+    (aNumber isInteger and: [ aNumber >= 0 ]) ifFalse: [
+        Error signal: 'Number of cell must be a positive integer.' ].
+]
+
+{ #category : 'initialization' }
+HyperGravityCell class >> requiredValueIsAPositiveInteger: aNumber [
 
     (aNumber isInteger and: [ aNumber >= 0 ]) ifFalse: [
         Error signal: 'Required value must be a positive integer.' ].
