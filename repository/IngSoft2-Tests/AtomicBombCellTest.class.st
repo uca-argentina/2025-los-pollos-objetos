@@ -15,7 +15,7 @@ AtomicBombCellTest >> should: anErrorBlock raise: anErrorClass withMessageText: 
 ]
 
 { #category : 'tests' }
-AtomicBombCellTest >> testWhenABlackHoleCellIsInitializedWithANegativeNumberThenCreationFails [
+AtomicBombCellTest >> testWhenAAtomicBombCellIsInitializedWithANegativeNumberThenCreationFails [
 
 	 self
         should: [AtomicBombCell initializeCellOn: -1]

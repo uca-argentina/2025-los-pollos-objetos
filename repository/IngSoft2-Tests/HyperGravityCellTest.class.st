@@ -15,6 +15,15 @@ HyperGravityCellTest >> should: anErrorBlock raise: anErrorClass withMessageText
 ]
 
 { #category : 'tests' }
+HyperGravityCellTest >> testWhenAnAtomicBombCellIsInitializedWithANegativeNumberThenCreationFails [
+
+	 self
+        should: [HyperGravityCell initializeCellOn: -2 withRequiredValue: 3.]
+        raise: Error
+        withMessageText: 'Number of cell must be a positive integer.'.
+]
+
+{ #category : 'tests' }
 HyperGravityCellTest >> testWhenHyperGravityCellIsCreatedWithNegativeRequiredValueThenItFails [
 
 	 self
