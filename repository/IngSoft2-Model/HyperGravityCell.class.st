@@ -18,6 +18,13 @@ HyperGravityCell class >> initializeCellOn: aNumberOfCell withRequiredValue: aRe
 ]
 
 { #category : 'initialization' }
+HyperGravityCell class >> isAPositiveInteger: aNumber [
+
+    (aNumber isInteger and: [ aNumber >= 0 ]) ifFalse: [
+        Error signal: 'Required value must be a positive integer.' ].
+]
+
+{ #category : 'initialization' }
 HyperGravityCell >> applyEffectTo: aShip of: aGame [
     | diceThrow |
     diceThrow := aGame lastDiceThrow.

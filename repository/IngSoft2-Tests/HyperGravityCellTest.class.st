@@ -6,6 +6,24 @@ Class {
 }
 
 { #category : 'tests' }
+HyperGravityCellTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMessage [ 
+
+	self
+		should: anErrorBlock
+		raise: anErrorClass
+		withExceptionDo: [:error | self assert: (error messageText ) equals: errorMessage]
+]
+
+{ #category : 'tests' }
+HyperGravityCellTest >> testWhenHyperGravityCellIsCreatedWithNegativeRequiredValueThenItFails [
+
+	 self
+        should: [HyperGravityCell initializeCellOn: 4 withRequiredValue: -1]
+        raise: Error
+        withMessageText: 'Required value must be a positive integer.'.
+]
+
+{ #category : 'tests' }
 HyperGravityCellTest >> testWhenShipArrivesToHyperGravityCellWithEnoughRollThenItRemainsOnTheCell [
 
     | aGame aBoard aShip ships oneDice dices aHyperGravityCell |
