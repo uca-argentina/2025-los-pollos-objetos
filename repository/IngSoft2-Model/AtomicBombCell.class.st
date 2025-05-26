@@ -8,6 +8,9 @@ Class {
 { #category : 'initialization' }
 AtomicBombCell >> applyEffectTo: aShip of: aGame [
 
-	aShip atStartingPosition.
-	aShip restoreFuel.  
+	"Devuelve a todas las naves a la posición inicial y restaura el combustible de cada una"
+    aGame ships do: [:eachShip | 
+        eachShip atStartingPosition.
+        eachShip restoreFuel.
+    ].
 ]
