@@ -1,0 +1,84 @@
+Class {
+	#name : 'HyperGravityCellTest',
+	#superclass : 'TestCase',
+	#category : 'IngSoft2-Tests',
+	#package : 'IngSoft2-Tests'
+}
+
+{ #category : 'tests' }
+HyperGravityCellTest >> testWhenShipArrivesToHyperGravityCellWithEnoughRollThenItRemainsOnTheCell [
+
+    | aGame aBoard aShip ships oneDice dices aHyperGravityCell |
+
+    aBoard := Board withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 15 and: 17.
+    aHyperGravityCell := HyperGravityCell initializeCellOn: 5 withRequiredValue: 3. "X=3"
+    aBoard changeCellAt: 5 to: aHyperGravityCell.
+
+    aShip := Ship named: 'Venture'.
+    ships := OrderedCollection with: aShip.
+
+    oneDice := ChargedDice withATotalNumberOfFacesOf: 4.   "La tirada será 4"
+    dices := OrderedCollection with: oneDice.
+
+    aGame := Game
+        completedAtLap: 1
+        with: aBoard
+        and: dices
+        and: ships.
+
+    aGame executeTurn .
+
+    self assert: (aShip position) equals: 5.  "Se queda en la celda de HyperGravity"
+]
+
+{ #category : 'tests' }
+HyperGravityCellTest >> testWhenShipArrivesToHyperGravityCellWithExactRollThenItStaysOnHyperGravityCell [
+
+    | aGame aBoard aShip ships oneDice dices aHyperGravityCell |
+    aBoard := Board withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 15 and: 17.
+    aHyperGravityCell := HyperGravityCell initializeCellOn: 5 withRequiredValue: 4.
+    aBoard changeCellAt: 5 to: aHyperGravityCell.
+
+    aShip := Ship named: 'Venture'.
+    ships := OrderedCollection with: aShip.
+
+    oneDice := ChargedDice withATotalNumberOfFacesOf: 4.   
+    dices := OrderedCollection with: oneDice.
+
+    aGame := Game
+        completedAtLap: 1
+        with: aBoard
+        and: dices
+        and: ships.
+
+    aGame executeTurn .
+
+    self assert: (aShip position) equals: 5.   
+
+]
+
+{ #category : 'tests' }
+HyperGravityCellTest >> testWhenShipArrivesToHyperGravityCellWithNotEnoughRollThenItDoesntMoveForward [
+
+    | aGame aBoard aShip ships oneDice dices aHyperGravityCell |
+
+    aBoard := Board withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 15 and: 17.
+    aHyperGravityCell := HyperGravityCell initializeCellOn: 5 withRequiredValue: 6. 
+    aBoard changeCellAt: 5 to: aHyperGravityCell.
+
+    aShip := Ship named: 'Venture'.
+    ships := OrderedCollection with: aShip.
+
+    oneDice := ChargedDice withATotalNumberOfFacesOf: 4.   
+    dices := OrderedCollection with: oneDice.
+
+    aGame := Game
+        completedAtLap: 1
+        with: aBoard
+        and: dices
+        and: ships.
+
+    aGame executeTurn .
+
+    self assert: (aShip position) equals: 1.  
+]

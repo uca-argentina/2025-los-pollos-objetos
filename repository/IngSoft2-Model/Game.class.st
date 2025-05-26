@@ -15,7 +15,8 @@ Class {
 		'penalties',
 		'shipSupposedToPlay',
 		'positionBeforePlay',
-		'fuelBeforePlay'
+		'fuelBeforePlay',
+		'lastDiceThrow'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -142,6 +143,12 @@ Game >> isAPositiveInteger: numberOfFaces [
 ]
 
 { #category : 'accessing' }
+Game >> lastDiceThrow [
+
+	^ lastDiceThrow 
+]
+
+{ #category : 'accessing' }
 Game >> move: aShip to: targetPosition andConsume: aConsumption [
 
 	| shipsPreviousPosition shipsNewPosition |
@@ -217,6 +224,8 @@ Game >> throwDiceFor: aShip [
 	fuelBeforePlay := aShip currentFuel . 
 
 	resultOfTheThrow := (dices collect: [ :dice | dice beThrown ]) sum.
+	lastDiceThrow := resultOfTheThrow .
+	
 	totalSteps := aShip position + resultOfTheThrow.
 
 	targetPosition := self calculateTargetPositionFor: totalSteps.
