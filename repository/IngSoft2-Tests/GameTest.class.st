@@ -140,6 +140,31 @@ GameTest >> testWhenAShipIsPenalizedWithANonPositiveIntegerThenItFails [
 ]
 
 { #category : 'tests' }
+GameTest >> testWhenAShipRunsOutOfFuelThenItsPenalizedWithTwoTurns [
+
+	| ships aShip  aBoard oneDice dices aGame  |
+	
+	aBoard := Board withATotalNumberOfCellsOf: 6 andAWormHoleBetweenCells: 2 and: 5.
+
+	aShip := Ship named: 'Venture'.
+	ships := OrderedCollection with: aShip.
+
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 6. 
+	dices := OrderedCollection with: oneDice.
+
+    aGame := Game
+        completedAtLap: 1
+        with: aBoard
+        and: dices
+        and: ships.
+
+	aGame executeTurn.
+	aGame executeTurn.
+
+	self assert: (aGame penaltyFor: aShip) equals: 2.
+]
+
+{ #category : 'tests' }
 GameTest >> testWhenGameIsCreatedThenItHasAWinningLap [
 
     | aGame aBoard aShip anotherShip ships oneDice anotherDice dices |
