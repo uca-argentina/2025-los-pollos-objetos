@@ -99,11 +99,11 @@ MoonWalkTest >> testWhenaShipArrivesToMoonWalkCellThenTheEffectIsApply [
 	 aGame executeTurn .
 	
 	 aGame skipTurnFor: aShip.
-	
-	 aGame executeTurn . 
+	 aGame skipTurnFor: anotherShip .
+	 
 	 aGame executeTurn . 
 
     self assert: (aShip position) equals: 9.   
-	 self assert: (anotherShip position) equals: 1. 
+	 self assert: (anotherShip position) equals: 3. 
 
 ]
