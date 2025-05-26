@@ -153,12 +153,15 @@ Game >> move: aShip to: targetPosition andConsume: aConsumption [
 
 	| shipsPreviousPosition shipsNewPosition |
 	aShip moveTo: targetPosition andConsume: aConsumption.
-	
-	shipsPreviousPosition := aShip lastPosition.
-	shipsNewPosition := aShip position.
-	
-	board removeShip: aShip fromCellAt: shipsPreviousPosition.
-	board addShip: aShip toCellAt: shipsNewPosition.
+
+aShip currentCharge = 0
+	ifTrue: [ self penalize: aShip withTurns: 2 ]
+	ifFalse: [
+		shipsPreviousPosition := aShip lastPosition.
+		shipsNewPosition := aShip position.
+
+		board removeShip: aShip fromCellAt: shipsPreviousPosition.
+		board addShip: aShip toCellAt: shipsNewPosition ]
 ]
 
 { #category : 'initialization' }
