@@ -154,7 +154,7 @@ Game >> move: aShip to: targetPosition andConsume: aConsumption [
 	| shipsPreviousPosition shipsNewPosition |
 	aShip moveTo: targetPosition andConsume: aConsumption.
 
-aShip currentCharge = 0
+aShip currentFuel = 0
 	ifTrue: [ self penalize: aShip withTurns: 2 ]
 	ifFalse: [
 		shipsPreviousPosition := aShip lastPosition.

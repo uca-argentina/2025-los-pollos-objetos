@@ -58,15 +58,9 @@ Ship >> consumeFuel: aConsumption [
 	
 ]
 
-{ #category : 'path commands' }
-Ship >> currentCharge [
-
-	^ fuelCharged.
-	
-]
-
 { #category : 'as yet unclassified' }
 Ship >> currentFuel [
+
 	^ fuelCharged 
 ]
 
@@ -85,9 +79,9 @@ Ship >> hasEnoughFuel: aConsumption [
 ]
 
 { #category : 'accessing' }
-Ship >> initializeWith: arg1 [
+Ship >> initializeWith: aShipName [
 
-	shipsName := arg1
+	shipsName := aShipName
 ]
 
 { #category : 'accessing' }

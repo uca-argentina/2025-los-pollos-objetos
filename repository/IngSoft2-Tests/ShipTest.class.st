@@ -76,7 +76,7 @@ ShipTest >> testWhenShipHasOneUnitOfFuelAndConsumesTwoUnitsThenCurrentChargeRema
 		raise: Error
 		withMessageText: 'Ship has no enough fuel for this consumption'.
 		
-	self assert: (aShip currentCharge) equals: 1.
+	self assert: (aShip currentFuel ) equals: 1.
 	
 ]
 
@@ -102,7 +102,7 @@ ShipTest >> testWhenShipHasTenUnitsOfFuelAndConsumesOneThenItHasNineUnitsOfFuel 
 	aShip chargeFuelUpTo: 10.
 	aShip consumeFuel: 1.
 	
-	self assert: (aShip currentCharge) equals: 9.
+	self assert: (aShip currentFuel) equals: 9.
 ]
 
 { #category : 'tests' }
@@ -140,7 +140,7 @@ ShipTest >> testWhenShipIsChargedWithOneFuelUnitsThenItHasOneFuelUnit [
 	aShip := Ship named: 'Discovery One'.
 	aShip chargeFuelUpTo: 1.
 	
-	self assert: (aShip currentCharge) equals: 1.
+	self assert: (aShip currentFuel ) equals: 1.
 ]
 
 { #category : 'tests' }
@@ -207,7 +207,7 @@ ShipTest >> testWhenShipRunsOutOfFuelAnsRestoresItThenItFillsUpTheTank [
 	aShip moveTo: 5 andConsume: 5.
 	aShip restoreFuel.
 	
-	self assert: (aShip currentCharge) equals: 5.
+	self assert: (aShip currentFuel ) equals: 5.
 ]
 
 { #category : 'tests' }
