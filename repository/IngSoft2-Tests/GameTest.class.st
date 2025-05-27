@@ -294,8 +294,8 @@ GameTest >> testWhenOneGameIsInitializedWithAMaximumThrowOfFiveThenAllShipsHaveT
         and: dices
         and: ships.
 
-    self assert: aShip currentCharge equals: 10.
-	 self assert: anotherShip currentCharge equals: 10.
+    self assert: aShip currentFuel equals: 10.
+	 self assert: anotherShip currentFuel equals: 10.
 ]
 
 { #category : 'tests' }
@@ -316,7 +316,7 @@ GameTest >> testWhenOneGameIsInitializedWithAMaximumThrowOfFiveThenShipsHaveTenU
         and: dices
         and: ships.
 
-    self assert: aShip currentCharge equals: 10.
+    self assert: aShip currentFuel equals: 10.
 ]
 
 { #category : 'tests' }
@@ -451,7 +451,7 @@ GameTest >> testWhenOneShipHasTwoUnitsOfFuelAndMakesOneMoveThenItConsumesOneUnit
 
     aGame throwDiceFor: aShip.
 
-    self assert: aShip currentCharge equals: 1.
+    self assert: aShip currentFuel equals: 1.
 ]
 
 { #category : 'tests' }

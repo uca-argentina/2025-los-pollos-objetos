@@ -8,10 +8,12 @@ Class {
 { #category : 'as yet unclassified' }
 BlackHoleCell >> applyEffectTo: aShip of: aGame [
 
+	| targetPosition |
 	4 >= aShip currentFuel
 		ifTrue: [
-			aShip
-				setPositionBeforePlay: aGame positionBeforePlay
-				andFuel: aGame fuelBeforePlay ]
-		ifFalse: [ aShip moveTo: aShip position - 4 andConsume: 4 ]
+		aShip setPositionBeforePlay: aGame positionBeforePlay andFuel: aGame fuelBeforePlay ]
+		ifFalse: [
+			targetPosition := aGame calculateTargetPositionFor:
+				                  aShip position - 4.
+			aGame move: aShip to: targetPosition andConsume: 4 ]
 ]

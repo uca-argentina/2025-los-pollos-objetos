@@ -27,7 +27,7 @@ BlackHoleCellTest >> testWhenABlackHoleCellIsInitializedWithANegativeNumberThenC
 BlackHoleCellTest >> testWhenAShipArrivesToABlackHoleCellInTheFollowingLapThenItReturnsToThePreviusOne [
 
     | aGame aBoard aShip  ships oneDice  dices aBlackHoleCell |
-"ver*"
+
 
     aBoard := Board withATotalNumberOfCellsOf: 10 andAWormHoleBetweenCells: 5 and: 7.
 	aBlackHoleCell := BlackHoleCell initializeCellOn: 3.
@@ -48,11 +48,11 @@ BlackHoleCellTest >> testWhenAShipArrivesToABlackHoleCellInTheFollowingLapThenIt
 
 	aGame executeTurn .
 
-    self assert: (aShip position) equals: -1.
+    self assert: (aShip position) equals: 9.
 ]
 
 { #category : 'tests' }
-BlackHoleCellTest >> testWhenAShipArrivesToABlackHoleCellThenItGoesBackCells [
+BlackHoleCellTest >> testWhenAShipArrivesToABlackHoleCellThenItGoesBackFourCells [
 
     | aGame aBoard aShip  ships oneDice  dices aBlackHoleCell |
 
@@ -74,38 +74,11 @@ BlackHoleCellTest >> testWhenAShipArrivesToABlackHoleCellThenItGoesBackCells [
 
 	aGame executeTurn .
 
-
     self assert: (aShip position) equals: 11.
 ]
 
 { #category : 'tests' }
-BlackHoleCellTest >> testWhenAShipArrivesToABlackHoleCellThenItGoesBackFourCells [
-
-    | aGame aBoard aShip  ships oneDice  dices aBlackHoleCell |
-
-    aBoard := Board withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 10 and: 14.
-	aBlackHoleCell := BlackHoleCell initializeCellOn: 9.
-	aBoard changeCellAt: 9 to: aBlackHoleCell. 
-
-    aShip := Ship named: 'Venture'.
-    ships := OrderedCollection with: aShip.
-
-    oneDice := ChargedDice withATotalNumberOfFacesOf: 8.  
-    dices := OrderedCollection with: oneDice.
-
-    aGame := Game
-        completedAtLap: 1
-        with: aBoard
-        and: dices
-        and: ships.
-
-	aGame executeTurn .
-
-    self assert: (aShip position) equals: 5.
-]
-
-{ #category : 'tests' }
-BlackHoleCellTest >> testWhenAShipGetsOutOfFuelAfterArrivingToBlackHoleCellThenItStaysAtTheFirstCell [
+BlackHoleCellTest >> testWhenAShipRunsOutOfFuelAfterArrivingToBlackHoleCellThenItStaysAtTheFirstCell [
 
     | aGame aBoard aShip  ships oneDice  dices aBlackHoleCell |
 
