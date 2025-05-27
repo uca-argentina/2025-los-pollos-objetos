@@ -14,7 +14,15 @@ Class {
 { #category : 'initialization' }
 HyperJumpCell class >> initializeCellOn: aNumberOfCell withParsecValues: aParsecValue boardLength: aBoardLengthInParsecs numberOfCells: aNumberOfCells [
 
+	self parsecValueIsValid: aParsecValue.
+
 	^ (self new) setUpOn: aNumberOfCell withParsecValues: aParsecValue withBoardLength: aBoardLengthInParsecs withANumberOfCells: aNumberOfCells
+]
+
+{ #category : 'initialization' }
+HyperJumpCell class >> parsecValueIsValid: aParsecValue [
+
+	aParsecValue isEmpty ifTrue: [ Error signal: 'Parsec values must be a non-empty array.' ].
 ]
 
 { #category : 'initialization' }
