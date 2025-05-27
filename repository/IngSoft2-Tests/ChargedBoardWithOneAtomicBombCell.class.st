@@ -1,5 +1,5 @@
 Class {
-	#name : 'Board',
+	#name : 'ChargedBoardWithOneAtomicBombCell',
 	#superclass : 'Object',
 	#instVars : [
 		'numberOfCells',
@@ -8,19 +8,19 @@ Class {
 		'wormsHolesFirstEntrance',
 		'wormsHolesSecondEntrance'
 	],
-	#category : 'IngSoft2-Model',
-	#package : 'IngSoft2-Model'
+	#category : 'IngSoft2-Tests',
+	#package : 'IngSoft2-Tests'
 }
 
 { #category : 'testing' }
-Board class >> isAPositiveInteger: aNumber [
+ChargedBoardWithOneAtomicBombCell class >> isAPositiveInteger: aNumber [
 
     (aNumber isInteger and: [ aNumber > 0 ]) ifFalse: [
         Error signal: 'Number of cells must be a positive integer.' ].
 ]
 
 { #category : 'as yet unclassified' }
-Board class >> the: firstEntrance isDifferentFrom: secondEntrance [
+ChargedBoardWithOneAtomicBombCell class >> the: firstEntrance isDifferentFrom: secondEntrance [
 
     (firstEntrance = secondEntrance) ifTrue: [
         Error signal:
@@ -28,7 +28,7 @@ Board class >> the: firstEntrance isDifferentFrom: secondEntrance [
 ]
 
 { #category : 'as yet unclassified' }
-Board class >> the: secondEntrance isSmallerThan: firstEntrance [
+ChargedBoardWithOneAtomicBombCell class >> the: secondEntrance isSmallerThan: firstEntrance [
 
     (firstEntrance > secondEntrance) ifTrue: [
         Error signal:
@@ -36,14 +36,14 @@ Board class >> the: secondEntrance isSmallerThan: firstEntrance [
 ]
 
 { #category : 'as yet unclassified' }
-Board class >> theCell: position isOutOfRange: range [
+ChargedBoardWithOneAtomicBombCell class >> theCell: position isOutOfRange: range [
 
     ( position > range ) ifTrue: [
         Error signal: 'The cells of the Black Hole must in the board.' ].
 ]
 
 { #category : 'as yet unclassified' }
-Board class >> withATotalNumberOfCellsOf: numberOfCells andAWormHoleBetweenCells: firstEntrance and: secondEntrance [
+ChargedBoardWithOneAtomicBombCell class >> withATotalNumberOfCellsOf: numberOfCells andAWormHoleBetweenCells: firstEntrance and: secondEntrance andAnAtomicBombOnCell: aNumberOfCell [
  
     self isAPositiveInteger: numberOfCells.
     self isAPositiveInteger: firstEntrance.
@@ -55,21 +55,19 @@ Board class >> withATotalNumberOfCellsOf: numberOfCells andAWormHoleBetweenCells
     self the: firstEntrance isDifferentFrom: secondEntrance.
     self the: secondEntrance isSmallerThan: firstEntrance.
 
-    ^ self new  initializeWith: numberOfCells
-        andAWormHoleBeweenCells: firstEntrance 
-        and: secondEntrance.
+    ^ self new  initializeWith: numberOfCells andAWormHoleBeweenCells: firstEntrance and: secondEntrance andAnAtomicBombOnCell: aNumberOfCell
 
 ]
 
 { #category : 'accessing' }
-Board >> addShip: aShip toCellAt: aPosition [
+ChargedBoardWithOneAtomicBombCell >> addShip: aShip toCellAt: aPosition [
     
     (cells at: aPosition) enters: aShip.
 
 ]
 
 { #category : 'accessing' }
-Board >> cellNumber: aNumber [
+ChargedBoardWithOneAtomicBombCell >> cellNumber: aNumber [
 	
     ^ cells at: aNumber
 
@@ -77,7 +75,7 @@ Board >> cellNumber: aNumber [
 ]
 
 { #category : 'accessing' }
-Board >> changeCellAt: aPosition to: aCell [
+ChargedBoardWithOneAtomicBombCell >> changeCellAt: aPosition to: aCell [
 
 	cells at: aPosition put: aCell. 
 
@@ -86,13 +84,13 @@ Board >> changeCellAt: aPosition to: aCell [
 ]
 
 { #category : 'accessing' }
-Board >> checkCell: aShip of: aGame [
+ChargedBoardWithOneAtomicBombCell >> checkCell: aShip of: aGame [
 
 	(cells at: aShip position) applyEffectTo: aShip of: aGame. 
 ]
 
 { #category : 'accessing' }
-Board >> getShipsIntoFirstCellOfTheBoard: shipsCollection [
+ChargedBoardWithOneAtomicBombCell >> getShipsIntoFirstCellOfTheBoard: shipsCollection [
 
     | startCell |
 
@@ -102,36 +100,37 @@ Board >> getShipsIntoFirstCellOfTheBoard: shipsCollection [
 
 ]
 
-{ #category : 'initialization' }
-Board >> initializeWith: numberOfCells andAWormHoleBeweenCells: firstEntrance and: secondEntrance [
+{ #category : 'as yet unclassified' }
+ChargedBoardWithOneAtomicBombCell >> initializeWith: numberOfCells andAWormHoleBeweenCells: firstEntrance and: secondEntrance andAnAtomicBombOnCell: aNumberOfCell [
 
 	 cells := OrderedCollection new.
     1 to: (numberOfCells) do: [:i | cells add: (NormalCell initializeCellOn: i) ].
+	 cells at:aNumberOfCell put: (AtomicBombCell initializeCellOn: aNumberOfCell).
     wormsHolesFirstEntrance := firstEntrance.
     wormsHolesSecondEntrance := secondEntrance.
 ]
 
 { #category : 'initialization' }
-Board >> numberOfCells [
+ChargedBoardWithOneAtomicBombCell >> numberOfCells [
 
 	^ cells size.
 ]
 
 { #category : 'accessing' }
-Board >> removeShip: aShip fromCellAt: aPosition [
+ChargedBoardWithOneAtomicBombCell >> removeShip: aShip fromCellAt: aPosition [
     
     (cells at: aPosition) leaves: aShip.
 
 ]
 
 { #category : 'accessing' }
-Board >> wormsHolesFirstEntrance [
+ChargedBoardWithOneAtomicBombCell >> wormsHolesFirstEntrance [
 
     ^ wormsHolesFirstEntrance.
 ]
 
 { #category : 'accessing' }
-Board >> wormsHolesSecondEntrance [
+ChargedBoardWithOneAtomicBombCell >> wormsHolesSecondEntrance [
 
     ^ wormsHolesSecondEntrance.
 ]

@@ -1,12 +1,12 @@
 Class {
-	#name : 'MoonWalkTest',
+	#name : 'MoonWalkCellTest',
 	#superclass : 'TestCase',
 	#category : 'IngSoft2-Tests',
 	#package : 'IngSoft2-Tests'
 }
 
 { #category : 'asserting' }
-MoonWalkTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMessage [ 
+MoonWalkCellTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMessage [ 
 
 	self
 		should: anErrorBlock
@@ -15,45 +15,7 @@ MoonWalkTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorM
 ]
 
 { #category : 'tests' }
-MoonWalkTest >> testAAAAAAAAAAWhenaShipArrivesToMoonWalkCellAndTheOtherShipHaveNotEnoughFuelToRetrocesThenAtherShipGoesBackToOne [
-
-    | aGame aBoard aShip ships oneDice dices aMoonWalkCell anotherShip |
-
-    aBoard := Board withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 1 and: 2.
-
-    aMoonWalkCell := MoonWalkCell initializeCellOn: 9 withRequiredValue: 2.
-    aBoard changeCellAt: 9 to: aMoonWalkCell.
-
-    aShip := Ship named: 'Venture'.
-	 anotherShip := Ship named: 'Sulaco'.
-	 
-    ships := OrderedCollection with: aShip.
-	 ships add: anotherShip .
-
-    oneDice := ChargedDice withATotalNumberOfFacesOf: 4.   
-    dices := OrderedCollection with: oneDice.
-
-    aGame := Game
-        completedAtLap: 1
-        with: aBoard
-        and: dices
-        and: ships.
-
-    aGame executeTurn .
-	 aGame executeTurn .
-	
-	 aGame skipTurnFor: aShip.
-	
-	 aGame executeTurn . 
-	 aGame executeTurn . 
-
-    self assert: (aShip position) equals: 9.   
-	 self assert: (anotherShip position) equals: 5. 
-
-]
-
-{ #category : 'tests' }
-MoonWalkTest >> testWhenAShipArrivesToAMoonWalkCellThenTheEffectIsApplied [
+MoonWalkCellTest >> testWhenAShipArrivesToAMoonWalkCellThenTheEffectIsApplied [
 
     | aGame aBoard aShip ships oneDice dices aMoonWalkCell anotherShip |
 
@@ -91,7 +53,41 @@ MoonWalkTest >> testWhenAShipArrivesToAMoonWalkCellThenTheEffectIsApplied [
 ]
 
 { #category : 'tests' }
-MoonWalkTest >> testWhenMoonWalkCellIsCreatedOnANegativeCellThenCreationFails [
+MoonWalkCellTest >> testWhenAShipFallsIntoAMoonWalkCellAndTheSecondShipHasNoEnoughFuelToGoBackThenItStaysWhereItIs [
+
+    | aGame aBoard aShip ships oneDice dices aMoonWalkCell anotherShip |
+
+    aBoard := Board withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 1 and: 2.
+
+    aMoonWalkCell := MoonWalkCell initializeCellOn: 9 withRequiredValue: 5.
+    aBoard changeCellAt: 9 to: aMoonWalkCell.
+
+    aShip := Ship named: 'Venture'.
+	 anotherShip := Ship named: 'Sulaco'.
+	 
+    ships := OrderedCollection with: aShip.
+	 ships add: anotherShip .
+
+    oneDice := ChargedDice withATotalNumberOfFacesOf: 5.   
+    dices := OrderedCollection with: oneDice.
+
+    aGame := Game
+        completedAtLap: 1
+        with: aBoard
+        and: dices
+        and: ships.
+
+    aGame move: aShip to: 5 andConsume: 4.
+	 aGame move: anotherShip to: 6 andConsume: 5.
+	 aGame move: aShip to: 9 andConsume: 4.
+	
+    self assert: (aShip position) equals: 9.   
+	 self assert: (anotherShip position) equals: 6. 
+
+]
+
+{ #category : 'tests' }
+MoonWalkCellTest >> testWhenMoonWalkCellIsCreatedOnANegativeCellThenCreationFails [
 
 	 self
         should: [MoonWalkCell initializeCellOn: -4 withRequiredValue: 1]
@@ -100,7 +96,7 @@ MoonWalkTest >> testWhenMoonWalkCellIsCreatedOnANegativeCellThenCreationFails [
 ]
 
 { #category : 'tests' }
-MoonWalkTest >> testWhenMoonWalkCellIsCreatedWithNegativeRequiredValueThenCreationFails [
+MoonWalkCellTest >> testWhenMoonWalkCellIsCreatedWithNegativeRequiredValueThenCreationFails [
 
 	 self
         should: [MoonWalkCell initializeCellOn: 4 withRequiredValue: -1]

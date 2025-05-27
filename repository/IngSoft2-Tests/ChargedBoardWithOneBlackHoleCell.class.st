@@ -1,5 +1,5 @@
 Class {
-	#name : 'Board',
+	#name : 'ChargedBoardWithOneBlackHoleCell',
 	#superclass : 'Object',
 	#instVars : [
 		'numberOfCells',
@@ -8,19 +8,19 @@ Class {
 		'wormsHolesFirstEntrance',
 		'wormsHolesSecondEntrance'
 	],
-	#category : 'IngSoft2-Model',
-	#package : 'IngSoft2-Model'
+	#category : 'IngSoft2-Tests',
+	#package : 'IngSoft2-Tests'
 }
 
 { #category : 'testing' }
-Board class >> isAPositiveInteger: aNumber [
+ChargedBoardWithOneBlackHoleCell class >> isAPositiveInteger: aNumber [
 
     (aNumber isInteger and: [ aNumber > 0 ]) ifFalse: [
         Error signal: 'Number of cells must be a positive integer.' ].
 ]
 
 { #category : 'as yet unclassified' }
-Board class >> the: firstEntrance isDifferentFrom: secondEntrance [
+ChargedBoardWithOneBlackHoleCell class >> the: firstEntrance isDifferentFrom: secondEntrance [
 
     (firstEntrance = secondEntrance) ifTrue: [
         Error signal:
@@ -28,7 +28,7 @@ Board class >> the: firstEntrance isDifferentFrom: secondEntrance [
 ]
 
 { #category : 'as yet unclassified' }
-Board class >> the: secondEntrance isSmallerThan: firstEntrance [
+ChargedBoardWithOneBlackHoleCell class >> the: secondEntrance isSmallerThan: firstEntrance [
 
     (firstEntrance > secondEntrance) ifTrue: [
         Error signal:
@@ -36,14 +36,14 @@ Board class >> the: secondEntrance isSmallerThan: firstEntrance [
 ]
 
 { #category : 'as yet unclassified' }
-Board class >> theCell: position isOutOfRange: range [
+ChargedBoardWithOneBlackHoleCell class >> theCell: position isOutOfRange: range [
 
     ( position > range ) ifTrue: [
         Error signal: 'The cells of the Black Hole must in the board.' ].
 ]
 
 { #category : 'as yet unclassified' }
-Board class >> withATotalNumberOfCellsOf: numberOfCells andAWormHoleBetweenCells: firstEntrance and: secondEntrance [
+ChargedBoardWithOneBlackHoleCell class >> withATotalNumberOfCellsOf: numberOfCells andAWormHoleBetweenCells: firstEntrance and: secondEntrance andAnBlackHoleOnCell: aNumberOfCell [
  
     self isAPositiveInteger: numberOfCells.
     self isAPositiveInteger: firstEntrance.
@@ -55,21 +55,19 @@ Board class >> withATotalNumberOfCellsOf: numberOfCells andAWormHoleBetweenCells
     self the: firstEntrance isDifferentFrom: secondEntrance.
     self the: secondEntrance isSmallerThan: firstEntrance.
 
-    ^ self new  initializeWith: numberOfCells
-        andAWormHoleBeweenCells: firstEntrance 
-        and: secondEntrance.
+    ^ self new  initializeWith: numberOfCells andAWormHoleBeweenCells: firstEntrance and: secondEntrance andAnBlackHoleOnCell: aNumberOfCell
 
 ]
 
 { #category : 'accessing' }
-Board >> addShip: aShip toCellAt: aPosition [
+ChargedBoardWithOneBlackHoleCell >> addShip: aShip toCellAt: aPosition [
     
     (cells at: aPosition) enters: aShip.
 
 ]
 
 { #category : 'accessing' }
-Board >> cellNumber: aNumber [
+ChargedBoardWithOneBlackHoleCell >> cellNumber: aNumber [
 	
     ^ cells at: aNumber
 
@@ -77,7 +75,7 @@ Board >> cellNumber: aNumber [
 ]
 
 { #category : 'accessing' }
-Board >> changeCellAt: aPosition to: aCell [
+ChargedBoardWithOneBlackHoleCell >> changeCellAt: aPosition to: aCell [
 
 	cells at: aPosition put: aCell. 
 
@@ -86,13 +84,13 @@ Board >> changeCellAt: aPosition to: aCell [
 ]
 
 { #category : 'accessing' }
-Board >> checkCell: aShip of: aGame [
+ChargedBoardWithOneBlackHoleCell >> checkCell: aShip of: aGame [
 
 	(cells at: aShip position) applyEffectTo: aShip of: aGame. 
 ]
 
 { #category : 'accessing' }
-Board >> getShipsIntoFirstCellOfTheBoard: shipsCollection [
+ChargedBoardWithOneBlackHoleCell >> getShipsIntoFirstCellOfTheBoard: shipsCollection [
 
     | startCell |
 
@@ -103,35 +101,36 @@ Board >> getShipsIntoFirstCellOfTheBoard: shipsCollection [
 ]
 
 { #category : 'initialization' }
-Board >> initializeWith: numberOfCells andAWormHoleBeweenCells: firstEntrance and: secondEntrance [
+ChargedBoardWithOneBlackHoleCell >> initializeWith: numberOfCells andAWormHoleBeweenCells: firstEntrance and: secondEntrance andAnBlackHoleOnCell: aNumberOfCell [
 
 	 cells := OrderedCollection new.
     1 to: (numberOfCells) do: [:i | cells add: (NormalCell initializeCellOn: i) ].
+	 cells at:aNumberOfCell put: (BlackHoleCell initializeCellOn: aNumberOfCell).
     wormsHolesFirstEntrance := firstEntrance.
     wormsHolesSecondEntrance := secondEntrance.
 ]
 
 { #category : 'initialization' }
-Board >> numberOfCells [
+ChargedBoardWithOneBlackHoleCell >> numberOfCells [
 
 	^ cells size.
 ]
 
 { #category : 'accessing' }
-Board >> removeShip: aShip fromCellAt: aPosition [
+ChargedBoardWithOneBlackHoleCell >> removeShip: aShip fromCellAt: aPosition [
     
     (cells at: aPosition) leaves: aShip.
 
 ]
 
 { #category : 'accessing' }
-Board >> wormsHolesFirstEntrance [
+ChargedBoardWithOneBlackHoleCell >> wormsHolesFirstEntrance [
 
     ^ wormsHolesFirstEntrance.
 ]
 
 { #category : 'accessing' }
-Board >> wormsHolesSecondEntrance [
+ChargedBoardWithOneBlackHoleCell >> wormsHolesSecondEntrance [
 
     ^ wormsHolesSecondEntrance.
 ]

@@ -36,9 +36,8 @@ HyperGravityCell >> applyEffectTo: aShip of: aGame [
 
 	| diceThrow |
 	diceThrow := aGame lastDiceThrow.
-	diceThrow >= requiredValue ifFalse: [ "aShip setPositionBeforePlay: aGame positionBeforePlay
-                andFuel: aGame fuelBeforePlay"
-		aGame shipToLastPlay: aShip ]
+	diceThrow >= requiredValue ifFalse: [ 
+		aGame moveShipToLastPlay: aShip ]
 ]
 
 { #category : 'initialization' }

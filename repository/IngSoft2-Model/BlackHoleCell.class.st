@@ -11,9 +11,7 @@ BlackHoleCell >> applyEffectTo: aShip of: aGame [
 	| targetPosition |
 	4 >= aShip currentFuel
 		ifTrue: [
-		"aShip setPositionBeforePlay: aGame positionBeforePlay andFuel: aGame fuelBeforePlay"
-		aGame shipToLastPlay: aShip .
-		
+				aGame moveShipToLastPlay: aShip.
 		 ]
 		ifFalse: [
 			targetPosition := aGame calculateTargetPositionFor: (aShip position - 4).

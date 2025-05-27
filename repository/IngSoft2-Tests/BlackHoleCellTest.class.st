@@ -52,6 +52,33 @@ BlackHoleCellTest >> testWhenAShipArrivesToABlackHoleCellInTheFollowingLapThenIt
 ]
 
 { #category : 'tests' }
+BlackHoleCellTest >> testWhenAShipArrivesToABlackHoleCellInTheThirdCellThenItGoesBackToTheInitialCell [
+
+    | aGame aBoard aShip  ships oneDice  dices aBlackHoleCell |
+
+    aBoard := Board withATotalNumberOfCellsOf: 10 andAWormHoleBetweenCells: 5 and: 7.
+	aBlackHoleCell := BlackHoleCell initializeCellOn: 3.
+	aBoard changeCellAt: 3 to: aBlackHoleCell. 
+
+    aShip := Ship named: 'Venture'.
+    ships := OrderedCollection with: aShip.
+
+    oneDice := ChargedDice withATotalNumberOfFacesOf: 2.  
+    dices := OrderedCollection with: oneDice.
+
+    aGame := Game
+        completedAtLap: 2
+        with: aBoard
+        and: dices
+        and: ships.
+	aShip position.
+
+	aGame executeTurn .
+
+    self assert: (aShip position) equals: 1.
+]
+
+{ #category : 'tests' }
 BlackHoleCellTest >> testWhenAShipArrivesToABlackHoleCellThenItGoesBackFourCells [
 
     | aGame aBoard aShip  ships oneDice  dices aBlackHoleCell |

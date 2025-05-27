@@ -18,6 +18,7 @@ HyperJumpCellTest >> should: anErrorBlock raise: anErrorClass withMessageText: e
 HyperJumpCellTest >> testWhenAFourthShipArrivesToHyperJumpCellThenItAdvancesTheCorrespondingParsecs [
 
 	| aGame aBoard ships oneDice dices hyperJumpCell boardLengthInParsecs parsecValues expectedPosition cellLengthInParsecs firstShip secondShip thirdShip fourthShip |
+	
 	boardLengthInParsecs := 100.
 	cellLengthInParsecs := 10.
 	parsecValues := #( 25 15 10 ).
@@ -59,10 +60,7 @@ HyperJumpCellTest >> testWhenAFourthShipArrivesToHyperJumpCellThenItAdvancesTheC
 	aGame executeTurn.
 	aGame executeTurn.
 
-
-
 	expectedPosition := 4 + (25 // cellLengthInParsecs).
-
 
 	self assert: fourthShip position equals: expectedPosition
 ]
@@ -117,7 +115,6 @@ HyperJumpCellTest >> testWhenASecondShipArrivesToHyperJumpCellThenItAdvancesTheC
 
 | aGame aBoard aShip ships oneDice dices hyperJumpCell boardLengthInParsecs parsecValues expectedPosition cellLengthInParsecs anotherShip |
     
-    
     boardLengthInParsecs := 100.
     cellLengthInParsecs := 10.
     parsecValues := #(25 15 10). 
@@ -144,12 +141,9 @@ HyperJumpCellTest >> testWhenASecondShipArrivesToHyperJumpCellThenItAdvancesTheC
     aGame executeTurn.
 	 aGame executeTurn.
 
-
     expectedPosition := 4 + (15 // cellLengthInParsecs).
     
-
     self assert: anotherShip position equals: expectedPosition.
-
 ]
 
 { #category : 'tests' }
@@ -157,12 +151,11 @@ HyperJumpCellTest >> testWhenAShipArrivesToHyperJumpCellThenItAdvancesTheCorresp
 
 | aGame aBoard aShip ships oneDice dices hyperJumpCell boardLengthInParsecs parsecValues expectedPosition cellLengthInParsecs |
     
-    "Supongamos: el tablero mide 100 parsecs y tiene 10 casilleros => cada casillero mide 10 parsecs"
     boardLengthInParsecs := 100.
     cellLengthInParsecs := 10.
-    parsecValues := #(25 15 10). "La lista de valores a asignar a la celda HyperJump"
+    parsecValues := #(25 15 10). 
 
-    aBoard := Board withATotalNumberOfCellsOf: 10 andAWormHoleBetweenCells: 2 and: 3. "El Board debería aceptar el largo en parsecs, habría que modificar el modelo para eso"
+    aBoard := Board withATotalNumberOfCellsOf: 10 andAWormHoleBetweenCells: 2 and: 3. 
 
     hyperJumpCell := HyperJumpCell initializeCellOn: 4 withParsecValues: parsecValues boardLength: boardLengthInParsecs numberOfCells: 10.
 
@@ -179,17 +172,10 @@ HyperJumpCellTest >> testWhenAShipArrivesToHyperJumpCellThenItAdvancesTheCorresp
         with: aBoard
         and: dices
         and: ships.
-
-    "Fuerzo a la nave a caer justo en la celda 4, después de tirar los dados"
+    
     aGame executeTurn .
 
-    "La nave debería saltar una cantidad de casilleros igual a la cantidad de parsecs que toca, dividido el largo de casillero"
-    "Primer valor de la lista es 25 parsecs: 25 / 10 = 2,5 casilleros => avanza 2 casilleros (redondear hacia abajo o hacia arriba según lo que decidan como regla del juego)"
-
     expectedPosition := 4 + (25 // cellLengthInParsecs).
-    "Esperamos que termine en la casilla 6 (4 + 2) si truncamos el decimal"
 
     self assert: aShip position equals: expectedPosition.
-
-    "Opcional: verificar que el siguiente salto use el siguiente valor de la lista"
 ]
