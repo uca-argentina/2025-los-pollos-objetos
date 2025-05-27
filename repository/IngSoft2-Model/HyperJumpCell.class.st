@@ -20,9 +20,10 @@ HyperJumpCell class >> initializeCellOn: aNumberOfCell withParsecValues: aParsec
 ]
 
 { #category : 'initialization' }
-HyperJumpCell class >> parsecValueIsValid: aParsecValue [
+HyperJumpCell class >> parsecValueIsValid: aParsecValues [
 
-	aParsecValue isEmpty ifTrue: [ Error signal: 'Parsec values must be a non-empty array.' ].
+	aParsecValues isEmpty ifTrue: [ Error signal: 'Parsec values must be a non-empty array.' ].
+	(aParsecValues anySatisfy: [ :val | (val isInteger not)]) ifTrue: [ Error signal: 'All parsec values must be integers.' ].
 ]
 
 { #category : 'initialization' }

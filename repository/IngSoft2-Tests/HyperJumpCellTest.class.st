@@ -77,6 +77,15 @@ HyperJumpCellTest >> testWhenAHyperJumpCellIsInitializedWithEmptyParsecValuesThe
 ]
 
 { #category : 'tests' }
+HyperJumpCellTest >> testWhenAHyperJumpCellIsInitializedWithInvalidParsecValuesThenCreationFails [
+
+	 self
+        should: [HyperJumpCell initializeCellOn: 4 withParsecValues: #('uno' 10) boardLength: 100 numberOfCells: 10.]
+        raise: Error
+        withMessageText: 'All parsec values must be integers.'.
+]
+
+{ #category : 'tests' }
 HyperJumpCellTest >> testWhenASecondShipArrivesToHyperJumpCellThenItAdvancesTheCorrespondingParsecs [
 
 | aGame aBoard aShip ships oneDice dices hyperJumpCell boardLengthInParsecs parsecValues expectedPosition cellLengthInParsecs anotherShip |
