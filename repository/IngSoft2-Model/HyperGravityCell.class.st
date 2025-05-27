@@ -33,12 +33,12 @@ HyperGravityCell class >> requiredValueIsAPositiveInteger: aNumber [
 
 { #category : 'initialization' }
 HyperGravityCell >> applyEffectTo: aShip of: aGame [
-    | diceThrow |
-    diceThrow := aGame lastDiceThrow.
-    (diceThrow >= requiredValue)
-        ifFalse: [
-            aShip setPositionBeforePlay: aGame positionBeforePlay
-                andFuel: aGame fuelBeforePlay ].
+
+	| diceThrow |
+	diceThrow := aGame lastDiceThrow.
+	diceThrow >= requiredValue ifFalse: [ "aShip setPositionBeforePlay: aGame positionBeforePlay
+                andFuel: aGame fuelBeforePlay"
+		aGame shipToLastPlay: aShip ]
 ]
 
 { #category : 'initialization' }

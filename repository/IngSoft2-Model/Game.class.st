@@ -105,12 +105,6 @@ Game >> executeTurn [
 	^ ship
 ]
 
-{ #category : 'accessing' }
-Game >> fuelBeforePlay [
-
-	^ fuelBeforePlay 
-]
-
 { #category : 'initialization' }
 Game >> initializeWith: laps with: aBoard with: gameDices with: gameShips [ 
 
@@ -184,12 +178,6 @@ Game >> penaltyFor: aShip [
 	^ penalties at: aShip.
 ]
 
-{ #category : 'accessing' }
-Game >> positionBeforePlay [
-
-	^ positionBeforePlay 
-]
-
 { #category : 'as yet unclassified' }
 Game >> reducePenaltyFor: aShip [
 
@@ -201,6 +189,16 @@ remaining > 0
 		aShip restoreFuel.
 		penalties removeKey: aShip ]
 
+]
+
+{ #category : 'as yet unclassified' }
+Game >> shipToLastPlay: aShip [
+
+"Si decidimos esta opcion entonces hay que borrar los dos getters feos que habia
+positionBeforePlay y fuelBeforePlay
+"
+	self move: aShip to: positionBeforePlay andConsume: 0 .
+	aShip restoreFuel .
 ]
 
 { #category : 'as yet unclassified' }
