@@ -159,6 +159,13 @@ aShip currentFuel = 0
 		board addShip: aShip toCellAt: shipsNewPosition ].
 ]
 
+{ #category : 'as yet unclassified' }
+Game >> moveShipToLastPlay: aShip [
+
+	self move: aShip to: positionBeforePlay andConsume: 0.
+	aShip restoreFuel.
+]
+
 { #category : 'initialization' }
 Game >> numberOfCells [ 
 	^ board  numberOfCells .
@@ -189,16 +196,6 @@ remaining > 0
 		aShip restoreFuel.
 		penalties removeKey: aShip ]
 
-]
-
-{ #category : 'as yet unclassified' }
-Game >> shipToLastPlay: aShip [
-
-"Si decidimos esta opcion entonces hay que borrar los dos getters feos que habia
-positionBeforePlay y fuelBeforePlay
-"
-	self move: aShip to: positionBeforePlay andConsume: 0 .
-	aShip restoreFuel .
 ]
 
 { #category : 'as yet unclassified' }

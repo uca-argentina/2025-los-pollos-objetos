@@ -1,5 +1,5 @@
 Class {
-	#name : 'Board',
+	#name : 'Toard',
 	#superclass : 'Object',
 	#instVars : [
 		'numberOfCells',
@@ -8,19 +8,19 @@ Class {
 		'wormsHolesFirstEntrance',
 		'wormsHolesSecondEntrance'
 	],
-	#category : 'IngSoft2-Model',
-	#package : 'IngSoft2-Model'
+	#category : 'IngSoft2-Tests',
+	#package : 'IngSoft2-Tests'
 }
 
 { #category : 'testing' }
-Board class >> isAPositiveInteger: aNumber [
+Toard class >> isAPositiveInteger: aNumber [
 
     (aNumber isInteger and: [ aNumber > 0 ]) ifFalse: [
         Error signal: 'Number of cells must be a positive integer.' ].
 ]
 
 { #category : 'as yet unclassified' }
-Board class >> the: firstEntrance isDifferentFrom: secondEntrance [
+Toard class >> the: firstEntrance isDifferentFrom: secondEntrance [
 
     (firstEntrance = secondEntrance) ifTrue: [
         Error signal:
@@ -28,7 +28,7 @@ Board class >> the: firstEntrance isDifferentFrom: secondEntrance [
 ]
 
 { #category : 'as yet unclassified' }
-Board class >> the: secondEntrance isSmallerThan: firstEntrance [
+Toard class >> the: secondEntrance isSmallerThan: firstEntrance [
 
     (firstEntrance > secondEntrance) ifTrue: [
         Error signal:
@@ -36,14 +36,14 @@ Board class >> the: secondEntrance isSmallerThan: firstEntrance [
 ]
 
 { #category : 'as yet unclassified' }
-Board class >> theCell: position isOutOfRange: range [
+Toard class >> theCell: position isOutOfRange: range [
 
     ( position > range ) ifTrue: [
         Error signal: 'The cells of the Black Hole must in the board.' ].
 ]
 
 { #category : 'as yet unclassified' }
-Board class >> withATotalNumberOfCellsOf: numberOfCells andAWormHoleBetweenCells: firstEntrance and: secondEntrance [
+Toard class >> withATotalNumberOfCellsOf: numberOfCells andAWormHoleBetweenCells: firstEntrance and: secondEntrance [
  
     self isAPositiveInteger: numberOfCells.
     self isAPositiveInteger: firstEntrance.
@@ -62,14 +62,14 @@ Board class >> withATotalNumberOfCellsOf: numberOfCells andAWormHoleBetweenCells
 ]
 
 { #category : 'accessing' }
-Board >> addShip: aShip toCellAt: aPosition [
+Toard >> addShip: aShip toCellAt: aPosition [
     
     (cells at: aPosition) enters: aShip.
 
 ]
 
 { #category : 'accessing' }
-Board >> cellNumber: aNumber [
+Toard >> cellNumber: aNumber [
 	
     ^ cells at: aNumber
 
@@ -77,7 +77,7 @@ Board >> cellNumber: aNumber [
 ]
 
 { #category : 'accessing' }
-Board >> changeCellAt: aPosition to: aCell [
+Toard >> changeCellAt: aPosition to: aCell [
 
 	cells at: aPosition put: aCell. 
 
@@ -86,13 +86,13 @@ Board >> changeCellAt: aPosition to: aCell [
 ]
 
 { #category : 'accessing' }
-Board >> checkCell: aShip of: aGame [
+Toard >> checkCell: aShip of: aGame [
 
 	(cells at: aShip position) applyEffectTo: aShip of: aGame. 
 ]
 
 { #category : 'accessing' }
-Board >> getShipsIntoFirstCellOfTheBoard: shipsCollection [
+Toard >> getShipsIntoFirstCellOfTheBoard: shipsCollection [
 
     | startCell |
 
@@ -103,7 +103,7 @@ Board >> getShipsIntoFirstCellOfTheBoard: shipsCollection [
 ]
 
 { #category : 'initialization' }
-Board >> initializeWith: numberOfCells andAWormHoleBeweenCells: firstEntrance and: secondEntrance [
+Toard >> initializeWith: numberOfCells andAWormHoleBeweenCells: firstEntrance and: secondEntrance [
 
 	 cells := OrderedCollection new.
     1 to: (numberOfCells) do: [:i | cells add: (NormalCell initializeCellOn: i) ].
@@ -112,26 +112,26 @@ Board >> initializeWith: numberOfCells andAWormHoleBeweenCells: firstEntrance an
 ]
 
 { #category : 'initialization' }
-Board >> numberOfCells [
+Toard >> numberOfCells [
 
 	^ cells size.
 ]
 
 { #category : 'accessing' }
-Board >> removeShip: aShip fromCellAt: aPosition [
+Toard >> removeShip: aShip fromCellAt: aPosition [
     
     (cells at: aPosition) leaves: aShip.
 
 ]
 
 { #category : 'accessing' }
-Board >> wormsHolesFirstEntrance [
+Toard >> wormsHolesFirstEntrance [
 
     ^ wormsHolesFirstEntrance.
 ]
 
 { #category : 'accessing' }
-Board >> wormsHolesSecondEntrance [
+Toard >> wormsHolesSecondEntrance [
 
     ^ wormsHolesSecondEntrance.
 ]
