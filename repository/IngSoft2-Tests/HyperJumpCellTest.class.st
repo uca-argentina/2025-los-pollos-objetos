@@ -86,6 +86,33 @@ HyperJumpCellTest >> testWhenAHyperJumpCellIsInitializedWithInvalidParsecValuesT
 ]
 
 { #category : 'tests' }
+HyperJumpCellTest >> testWhenAHyperJumpCellIsInitializedWithNegativeBoardLengthThenCreationFails [
+
+	 self
+        should: [HyperJumpCell initializeCellOn: 9 withParsecValues: #(10 10) boardLength: -1 numberOfCells: 10.]
+        raise: Error
+        withMessageText: 'Number of cells, board lenght in parsecs and total number of cells must be a positive integer.'.
+]
+
+{ #category : 'tests' }
+HyperJumpCellTest >> testWhenAHyperJumpCellIsInitializedWithNegativeNumberOfCellThenCreationFails [
+
+	 self
+        should: [HyperJumpCell initializeCellOn: -1 withParsecValues: #(10 10) boardLength: 100 numberOfCells: 10.]
+        raise: Error
+        withMessageText: 'Number of cells, board lenght in parsecs and total number of cells must be a positive integer.'.
+]
+
+{ #category : 'tests' }
+HyperJumpCellTest >> testWhenAHyperJumpCellIsInitializedWithNegativeTotalNumberOfCellsThenCreationFails [
+
+	 self
+        should: [HyperJumpCell initializeCellOn: 9 withParsecValues: #(10 10) boardLength: 10 numberOfCells: -10.]
+        raise: Error
+        withMessageText: 'Number of cells, board lenght in parsecs and total number of cells must be a positive integer.'.
+]
+
+{ #category : 'tests' }
 HyperJumpCellTest >> testWhenASecondShipArrivesToHyperJumpCellThenItAdvancesTheCorrespondingParsecs [
 
 | aGame aBoard aShip ships oneDice dices hyperJumpCell boardLengthInParsecs parsecValues expectedPosition cellLengthInParsecs anotherShip |
