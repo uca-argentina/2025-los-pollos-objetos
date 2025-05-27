@@ -26,13 +26,9 @@ AtomicBombCellTest >> testWhenAAtomicBombCellIsInitializedWithANegativeNumberThe
 { #category : 'tests' }
 AtomicBombCellTest >> testWhenAShipsArrivesToAtomicBombCellThenAllReturnToFirstCell [
 
-	| aGame aBoard aShip anotherShip ships oneDice dices atomicBombCell |
-	aBoard := Board
-		          withATotalNumberOfCellsOf: 20
-		          andAWormHoleBetweenCells: 15
-		          and: 17.
-	atomicBombCell := AtomicBombCell initializeCellOn: 5.
-	aBoard changeCellAt: 5 to: atomicBombCell.
+	| aGame aBoard aShip anotherShip ships oneDice dices |
+	
+	aBoard := ChargedBoardWithOneAtomicBombCell withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 15 and: 17 andAnAtomicBombOnCell: 5.
 
 	aShip := Ship named: 'Venture'.
 	anotherShip := Ship named: 'Millenium Falcon'.
@@ -60,9 +56,7 @@ AtomicBombCellTest >> testWhenMultipleShipsArriveToAtomicBombCellThenAllReturnTo
 
     | aGame aBoard aShip anotherShip ships oneDice dices atomicBombCell |
 
-    aBoard := Board withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 15 and: 17.
-    atomicBombCell := AtomicBombCell initializeCellOn: 5.
-    aBoard changeCellAt: 5 to: atomicBombCell.
+    aBoard := ChargedBoardWithOneAtomicBombCell withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 15 and: 17 andAnAtomicBombOnCell: 5.
 
     aShip := Ship named: 'Venture'.
     anotherShip := Ship named: 'Millenium Falcon'.
@@ -88,11 +82,9 @@ AtomicBombCellTest >> testWhenMultipleShipsArriveToAtomicBombCellThenAllReturnTo
 { #category : 'tests' }
 AtomicBombCellTest >> testWhenShipArrivesToAtomicBombCellThenItReturnsToFirstCell [
 
-    | aGame aBoard aShip ships oneDice dices atomicBombCell |
+    | aGame aBoard aShip ships oneDice dices |
 
-    aBoard := Board withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 15 and: 17.
-    atomicBombCell := AtomicBombCell initializeCellOn: 5.
-    aBoard changeCellAt: 5 to: atomicBombCell.
+    aBoard := ChargedBoardWithOneAtomicBombCell withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 15 and: 17 andAnAtomicBombOnCell: 5.
 
     aShip := Ship named: 'Venture'.
     ships := OrderedCollection with: aShip.
@@ -115,12 +107,10 @@ AtomicBombCellTest >> testWhenShipArrivesToAtomicBombCellThenItReturnsToFirstCel
 { #category : 'tests' }
 AtomicBombCellTest >> testWhenShipArrivesToAtomicBombCellThenItReturnsToFirstCellAndRestoreFuel [
 
-    | aGame aBoard aShip ships oneDice dices atomicBombCell |
-
-    aBoard := Board withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 15 and: 17.
-    atomicBombCell := AtomicBombCell initializeCellOn: 5.
-    aBoard changeCellAt: 5 to: atomicBombCell.
-
+    | aGame aBoard aShip ships oneDice dices  |
+	
+    aBoard := ChargedBoardWithOneAtomicBombCell withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 15 and: 17 andAnAtomicBombOnCell: 5.
+    
     aShip := Ship named: 'Venture'.
     ships := OrderedCollection with: aShip.
 

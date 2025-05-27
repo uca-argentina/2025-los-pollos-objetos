@@ -1,5 +1,5 @@
 Class {
-	#name : 'Toard',
+	#name : 'ChargedBoardWithOneMoonWalkCell',
 	#superclass : 'Object',
 	#instVars : [
 		'numberOfCells',
@@ -13,14 +13,14 @@ Class {
 }
 
 { #category : 'testing' }
-Toard class >> isAPositiveInteger: aNumber [
+ChargedBoardWithOneMoonWalkCell class >> isAPositiveInteger: aNumber [
 
     (aNumber isInteger and: [ aNumber > 0 ]) ifFalse: [
         Error signal: 'Number of cells must be a positive integer.' ].
 ]
 
 { #category : 'as yet unclassified' }
-Toard class >> the: firstEntrance isDifferentFrom: secondEntrance [
+ChargedBoardWithOneMoonWalkCell class >> the: firstEntrance isDifferentFrom: secondEntrance [
 
     (firstEntrance = secondEntrance) ifTrue: [
         Error signal:
@@ -28,7 +28,7 @@ Toard class >> the: firstEntrance isDifferentFrom: secondEntrance [
 ]
 
 { #category : 'as yet unclassified' }
-Toard class >> the: secondEntrance isSmallerThan: firstEntrance [
+ChargedBoardWithOneMoonWalkCell class >> the: secondEntrance isSmallerThan: firstEntrance [
 
     (firstEntrance > secondEntrance) ifTrue: [
         Error signal:
@@ -36,14 +36,14 @@ Toard class >> the: secondEntrance isSmallerThan: firstEntrance [
 ]
 
 { #category : 'as yet unclassified' }
-Toard class >> theCell: position isOutOfRange: range [
+ChargedBoardWithOneMoonWalkCell class >> theCell: position isOutOfRange: range [
 
     ( position > range ) ifTrue: [
         Error signal: 'The cells of the Black Hole must in the board.' ].
 ]
 
 { #category : 'as yet unclassified' }
-Toard class >> withATotalNumberOfCellsOf: numberOfCells andAWormHoleBetweenCells: firstEntrance and: secondEntrance [
+ChargedBoardWithOneMoonWalkCell class >> withATotalNumberOfCellsOf: numberOfCells andAWormHoleBetweenCells: firstEntrance and: secondEntrance andAMoonWalkOnCell: aNumberOfCell [
  
     self isAPositiveInteger: numberOfCells.
     self isAPositiveInteger: firstEntrance.
@@ -55,21 +55,19 @@ Toard class >> withATotalNumberOfCellsOf: numberOfCells andAWormHoleBetweenCells
     self the: firstEntrance isDifferentFrom: secondEntrance.
     self the: secondEntrance isSmallerThan: firstEntrance.
 
-    ^ self new  initializeWith: numberOfCells
-        andAWormHoleBeweenCells: firstEntrance 
-        and: secondEntrance.
+    ^ self new  initializeWith: numberOfCells andAWormHoleBeweenCells: firstEntrance and: secondEntrance andAMoonWalkOnCell: aNumberOfCell
 
 ]
 
 { #category : 'accessing' }
-Toard >> addShip: aShip toCellAt: aPosition [
+ChargedBoardWithOneMoonWalkCell >> addShip: aShip toCellAt: aPosition [
     
     (cells at: aPosition) enters: aShip.
 
 ]
 
 { #category : 'accessing' }
-Toard >> cellNumber: aNumber [
+ChargedBoardWithOneMoonWalkCell >> cellNumber: aNumber [
 	
     ^ cells at: aNumber
 
@@ -77,7 +75,7 @@ Toard >> cellNumber: aNumber [
 ]
 
 { #category : 'accessing' }
-Toard >> changeCellAt: aPosition to: aCell [
+ChargedBoardWithOneMoonWalkCell >> changeCellAt: aPosition to: aCell [
 
 	cells at: aPosition put: aCell. 
 
@@ -86,13 +84,13 @@ Toard >> changeCellAt: aPosition to: aCell [
 ]
 
 { #category : 'accessing' }
-Toard >> checkCell: aShip of: aGame [
+ChargedBoardWithOneMoonWalkCell >> checkCell: aShip of: aGame [
 
 	(cells at: aShip position) applyEffectTo: aShip of: aGame. 
 ]
 
 { #category : 'accessing' }
-Toard >> getShipsIntoFirstCellOfTheBoard: shipsCollection [
+ChargedBoardWithOneMoonWalkCell >> getShipsIntoFirstCellOfTheBoard: shipsCollection [
 
     | startCell |
 
@@ -103,35 +101,36 @@ Toard >> getShipsIntoFirstCellOfTheBoard: shipsCollection [
 ]
 
 { #category : 'initialization' }
-Toard >> initializeWith: numberOfCells andAWormHoleBeweenCells: firstEntrance and: secondEntrance [
+ChargedBoardWithOneMoonWalkCell >> initializeWith: numberOfCells andAWormHoleBeweenCells: firstEntrance and: secondEntrance andAMoonWalkOnCell: aNumberOfCell [
 
 	 cells := OrderedCollection new.
     1 to: (numberOfCells) do: [:i | cells add: (NormalCell initializeCellOn: i) ].
+	 cells at:aNumberOfCell put: (MoonWalkCell initializeCellOn: aNumberOfCell).
     wormsHolesFirstEntrance := firstEntrance.
     wormsHolesSecondEntrance := secondEntrance.
 ]
 
 { #category : 'initialization' }
-Toard >> numberOfCells [
+ChargedBoardWithOneMoonWalkCell >> numberOfCells [
 
 	^ cells size.
 ]
 
 { #category : 'accessing' }
-Toard >> removeShip: aShip fromCellAt: aPosition [
+ChargedBoardWithOneMoonWalkCell >> removeShip: aShip fromCellAt: aPosition [
     
     (cells at: aPosition) leaves: aShip.
 
 ]
 
 { #category : 'accessing' }
-Toard >> wormsHolesFirstEntrance [
+ChargedBoardWithOneMoonWalkCell >> wormsHolesFirstEntrance [
 
     ^ wormsHolesFirstEntrance.
 ]
 
 { #category : 'accessing' }
-Toard >> wormsHolesSecondEntrance [
+ChargedBoardWithOneMoonWalkCell >> wormsHolesSecondEntrance [
 
     ^ wormsHolesSecondEntrance.
 ]
