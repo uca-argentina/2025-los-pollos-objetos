@@ -87,7 +87,7 @@ Ship >> initializeWith: aShipName [
 { #category : 'accessing' }
 Ship >> isAPositiveInteger: aChargeOfFuel [
 
-	(aChargeOfFuel isInteger and: [ aChargeOfFuel > 0 ]) ifFalse: [
+	(aChargeOfFuel isInteger and: [ aChargeOfFuel >= 0 ]) ifFalse: [
 		Error signal: 'Charge and consumption of fuel must be a positive amount.' ]
 ]
 
@@ -132,12 +132,15 @@ Ship >> restoreFuel [
 ]
 
 { #category : 'accessing' }
-Ship >> setPositionBeforePlay: aPosition andFuel: aFuel [
-
-	shipsCurrentCell := aPosition.
-	shipsPreviousCell := aPosition.
-	fuelCharged := aFuel.
+Ship >> setPositionBeforePlay: positionBeforePlay andFuel: fuelBeforePlay [
+	 shipsCurrentCell := 1.
+	shipsPreviousCell := 1.
+	shipsCurrentLap := 0.
+	fuelCharged := maximumFuel.
 	
+
+
+
 
 
 	

@@ -15,7 +15,7 @@ HyperGravityCellTest >> should: anErrorBlock raise: anErrorClass withMessageText
 ]
 
 { #category : 'tests' }
-HyperGravityCellTest >> testWhenAnAtomicBombCellIsInitializedWithANegativeNumberThenCreationFails [
+HyperGravityCellTest >> testWhenAnHyperGravityCellIsInitializedWithANegativeNumberThenCreationFails [
 
 	 self
         should: [HyperGravityCell initializeCellOn: -2 withRequiredValue: 3.]
@@ -38,13 +38,13 @@ HyperGravityCellTest >> testWhenShipArrivesToHyperGravityCellWithEnoughRollThenI
     | aGame aBoard aShip ships oneDice dices aHyperGravityCell |
 
     aBoard := Board withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 15 and: 17.
-    aHyperGravityCell := HyperGravityCell initializeCellOn: 5 withRequiredValue: 3. "X=3"
+    aHyperGravityCell := HyperGravityCell initializeCellOn: 5 withRequiredValue: 3.
     aBoard changeCellAt: 5 to: aHyperGravityCell.
 
     aShip := Ship named: 'Venture'.
     ships := OrderedCollection with: aShip.
 
-    oneDice := ChargedDice withATotalNumberOfFacesOf: 4.   "La tirada será 4"
+    oneDice := ChargedDice withATotalNumberOfFacesOf: 4. 
     dices := OrderedCollection with: oneDice.
 
     aGame := Game
@@ -55,7 +55,7 @@ HyperGravityCellTest >> testWhenShipArrivesToHyperGravityCellWithEnoughRollThenI
 
     aGame executeTurn .
 
-    self assert: (aShip position) equals: 5.  "Se queda en la celda de HyperGravity"
+    self assert: (aShip position) equals: 5.
 ]
 
 { #category : 'tests' }

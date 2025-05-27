@@ -151,7 +151,8 @@ Game >> lastDiceThrow [
 { #category : 'accessing' }
 Game >> move: aShip to: targetPosition andConsume: aConsumption [
 
-	| shipsPreviousPosition shipsNewPosition |
+	| shipsPreviousPosition shipsNewPosition  |
+	
 	aShip moveTo: targetPosition andConsume: aConsumption.
 
 aShip currentFuel = 0
@@ -161,7 +162,7 @@ aShip currentFuel = 0
 		shipsNewPosition := aShip position.
 
 		board removeShip: aShip fromCellAt: shipsPreviousPosition.
-		board addShip: aShip toCellAt: shipsNewPosition ]
+		board addShip: aShip toCellAt: shipsNewPosition ].
 ]
 
 { #category : 'initialization' }
@@ -248,7 +249,7 @@ Game >> throwDiceFor: aShip [
 
 	board checkCell: aShip of: self.
 
-	self updateLapFor: aShip withTotalSteps: totalSteps
+	self updateLapFor: aShip withTotalSteps: totalSteps.
 ]
 
 { #category : 'as yet unclassified' }
