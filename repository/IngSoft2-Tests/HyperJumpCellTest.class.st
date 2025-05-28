@@ -109,17 +109,15 @@ HyperJumpCellTest >> testWhenAHyperJumpCellIsInitializedWithNegativeTotalNumberO
 { #category : 'tests' }
 HyperJumpCellTest >> testWhenASecondShipArrivesToHyperJumpCellThenItAdvancesTheCorrespondingParsecs [
 
-| aGame aBoard aShip ships oneDice dices hyperJumpCell boardLengthInParsecs parsecValues expectedPosition cellLengthInParsecs anotherShip |
+| aGame aBoard aShip ships oneDice dices boardLengthInParsecs parsecValues expectedPosition cellLengthInParsecs anotherShip aHyperJumpCell |
     
     boardLengthInParsecs := 100.
     cellLengthInParsecs := 10.
     parsecValues := #(25 15 10). 
 
-    aBoard := Board withATotalNumberOfCellsOf: 10 andAWormHoleBetweenCells: 2 and: 3. 
+    aHyperJumpCell := HyperJumpCell initializeCellOn: 4 withParsecValues: parsecValues boardLength: boardLengthInParsecs numberOfCells: 10.
 
-    hyperJumpCell := HyperJumpCell initializeCellOn: 4 withParsecValues: parsecValues boardLength: boardLengthInParsecs numberOfCells: 10.
-
-    aBoard changeCellAt: 4 to: hyperJumpCell.
+    aBoard := ChargedBoardWithOneHyperJumpCell withATotalNumberOfCellsOf: 10 andAWormHoleBetweenCells: 2 and: 3 andAHyperJumpCell: aHyperJumpCell onCell: 4.
 
     aShip := Ship named: 'Venture'.
     anotherShip := Ship named: 'Millenium Falcon'.
@@ -143,19 +141,49 @@ HyperJumpCellTest >> testWhenASecondShipArrivesToHyperJumpCellThenItAdvancesTheC
 ]
 
 { #category : 'tests' }
+HyperJumpCellTest >> testWhenAShipArrivesToHyperJumpCellQAndRunsOutOfFuelToAdvanceThenItStaysOnTheCell [
+
+| aGame aBoard aShip ships oneDice dices boardLengthInParsecs parsecValues cellLengthInParsecs aHyperJumpCell |
+    
+    boardLengthInParsecs := 100.
+    cellLengthInParsecs := 10.
+    parsecValues := #(30 15 10). 
+
+    aHyperJumpCell := HyperJumpCell initializeCellOn: 4 withParsecValues: parsecValues boardLength: boardLengthInParsecs numberOfCells: 10.
+
+    aBoard := ChargedBoardWithOneHyperJumpCell withATotalNumberOfCellsOf: 10 andAWormHoleBetweenCells: 2 and: 3 andAHyperJumpCell: aHyperJumpCell onCell: 4.
+
+    aShip := Ship named: 'Venture'.
+    ships := OrderedCollection with: aShip.
+
+    oneDice := ChargedDice withATotalNumberOfFacesOf: 3.  
+    dices := OrderedCollection with: oneDice.
+
+    aGame := Game
+        completedAtLap: 1
+        with: aBoard
+        and: dices
+        and: ships.
+    
+    aGame executeTurn .
+
+    "expectedPosition := 4 + (40 // cellLengthInParsecs)."
+
+    self assert: aShip position equals: 4.
+]
+
+{ #category : 'tests' }
 HyperJumpCellTest >> testWhenAShipArrivesToHyperJumpCellThenItAdvancesTheCorrespondingParsecs [
 
-| aGame aBoard aShip ships oneDice dices hyperJumpCell boardLengthInParsecs parsecValues expectedPosition cellLengthInParsecs |
+| aGame aBoard aShip ships oneDice dices boardLengthInParsecs parsecValues expectedPosition cellLengthInParsecs aHyperJumpCell |
     
     boardLengthInParsecs := 100.
     cellLengthInParsecs := 10.
     parsecValues := #(25 15 10). 
 
-    aBoard := Board withATotalNumberOfCellsOf: 10 andAWormHoleBetweenCells: 2 and: 3. 
+    aHyperJumpCell := HyperJumpCell initializeCellOn: 4 withParsecValues: parsecValues boardLength: boardLengthInParsecs numberOfCells: 10.
 
-    hyperJumpCell := HyperJumpCell initializeCellOn: 4 withParsecValues: parsecValues boardLength: boardLengthInParsecs numberOfCells: 10.
-
-    aBoard changeCellAt: 4 to: hyperJumpCell.
+    aBoard := ChargedBoardWithOneHyperJumpCell withATotalNumberOfCellsOf: 10 andAWormHoleBetweenCells: 2 and: 3 andAHyperJumpCell: aHyperJumpCell onCell: 4.
 
     aShip := Ship named: 'Venture'.
     ships := OrderedCollection with: aShip.
