@@ -101,12 +101,8 @@ Ship >> lastPosition [
 Ship >> moveTo: newPosition andConsume: aConsumption [
 	self consumeFuel: aConsumption.
 	
-	fuelCharged = 0
-		ifTrue: [
-			shipsPreviousCell := shipsCurrentCell
-		]
-		ifFalse: [
-			shipsPreviousCell := shipsCurrentCell.
+	shipsPreviousCell := shipsCurrentCell.
+	fuelCharged = 0 ifFalse: [
 			shipsCurrentCell := newPosition
 		].
 
