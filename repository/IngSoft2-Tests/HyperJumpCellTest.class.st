@@ -17,24 +17,20 @@ HyperJumpCellTest >> should: anErrorBlock raise: anErrorClass withMessageText: e
 { #category : 'tests' }
 HyperJumpCellTest >> testWhenAFourthShipArrivesToHyperJumpCellThenItAdvancesTheCorrespondingParsecs [
 
-	| aGame aBoard ships oneDice dices hyperJumpCell boardLengthInParsecs parsecValues expectedPosition cellLengthInParsecs firstShip secondShip thirdShip fourthShip |
+	| aGame aBoard ships oneDice dices boardLengthInParsecs parsecValues expectedPosition cellLengthInParsecs firstShip secondShip thirdShip fourthShip aHyperJumpCell |
 	
 	boardLengthInParsecs := 100.
 	cellLengthInParsecs := 10.
 	parsecValues := #( 25 15 10 ).
-
-	aBoard := Board
-		          withATotalNumberOfCellsOf: 10
-		          andAWormHoleBetweenCells: 2
-		          and: 3.
-
-	hyperJumpCell := HyperJumpCell
+		
+	aHyperJumpCell := HyperJumpCell
 		                 initializeCellOn: 4
 		                 withParsecValues: parsecValues
 		                 boardLength: boardLengthInParsecs
 		                 numberOfCells: 10.
+		
+	aBoard := ChargedBoardWithOneHyperJumpCell withATotalNumberOfCellsOf: 10 andAWormHoleBetweenCells: 2 and: 3 andAHyperJumpCell: aHyperJumpCell onCell: 4.
 
-	aBoard changeCellAt: 4 to: hyperJumpCell.
 
 	firstShip := Ship named: 'Venture1'.
 	secondShip := Ship named: 'Millenium Falcon1'.
