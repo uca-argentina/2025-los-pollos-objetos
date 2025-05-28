@@ -47,7 +47,7 @@ HyperGravityCellTest >> testWhenShipArrivesToHyperGravityCellWithEnoughRollThenI
     oneDice := ChargedDice withATotalNumberOfFacesOf: 4. 
     dices := OrderedCollection with: oneDice.
 
-    aGame := Game
+    aGame := SpaceShipGame
         completedAtLap: 1
         with: aBoard
         and: dices
@@ -73,7 +73,7 @@ HyperGravityCellTest >> testWhenShipArrivesToHyperGravityCellWithExactRollThenIt
     oneDice := ChargedDice withATotalNumberOfFacesOf: 4.   
     dices := OrderedCollection with: oneDice.
 
-    aGame := Game
+    aGame := SpaceShipGame
         completedAtLap: 1
         with: aBoard
         and: dices
@@ -100,7 +100,7 @@ HyperGravityCellTest >> testWhenShipArrivesToHyperGravityCellWithNotEnoughRollTh
     oneDice := ChargedDice withATotalNumberOfFacesOf: 4.   
     dices := OrderedCollection with: oneDice.
 
-    aGame := Game
+    aGame := SpaceShipGame
         completedAtLap: 1
         with: aBoard
         and: dices

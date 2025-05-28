@@ -28,7 +28,7 @@ GameTest >> testWhenAShipIsPenalizeWithTwoMovesThenItsIncludedInThePenalizations
 	oneDice := ChargedDice withATotalNumberOfFacesOf: 6. 
 	dices := OrderedCollection with: oneDice.
 
-    aGame := Game
+    aGame := SpaceShipGame
         completedAtLap: 1
         with: aBoard
         and: dices
@@ -55,7 +55,7 @@ GameTest >> testWhenAShipIsPenalizedThenTheFuelIsRestoredAfterLosingItsTurn [
 	oneDice := ChargedDice withATotalNumberOfFacesOf: 5. 
 	dices := OrderedCollection with: oneDice.
 
-    aGame := Game
+    aGame := SpaceShipGame
         completedAtLap: 1
         with: aBoard
         and: dices
@@ -94,7 +94,7 @@ GameTest >> testWhenAShipIsPenalizedWithANonIntegerThenItFails [
 	oneDice := ChargedDice withATotalNumberOfFacesOf: 6. 
 	dices := OrderedCollection with: oneDice.
 
-    aGame := Game
+    aGame := SpaceShipGame
         completedAtLap: 1
         with: aBoard
         and: dices
@@ -125,7 +125,7 @@ GameTest >> testWhenAShipIsPenalizedWithANonPositiveIntegerThenItFails [
 	oneDice := ChargedDice withATotalNumberOfFacesOf: 6. 
 	dices := OrderedCollection with: oneDice.
 
-    aGame := Game
+    aGame := SpaceShipGame
         completedAtLap: 1
         with: aBoard
         and: dices
@@ -137,6 +137,32 @@ GameTest >> testWhenAShipIsPenalizedWithANonPositiveIntegerThenItFails [
 	withMessageText: 'The penalty must be a positive integer.'
 	
 	
+]
+
+{ #category : 'tests' }
+GameTest >> testWhenAShipRunsOutOfFuelThenItStaysAtItsPlaceAndIsPenalized [
+
+	| ships aShip  aBoard oneDice dices aGame  |
+	
+	aBoard := Board withATotalNumberOfCellsOf: 10 andAWormHoleBetweenCells: 2 and: 5.
+
+	aShip := Ship named: 'Venture'.
+	ships := OrderedCollection with: aShip.
+
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 3. 
+	dices := OrderedCollection with: oneDice.
+
+    aGame := SpaceShipGame
+        completedAtLap: 1
+        with: aBoard
+        and: dices
+        and: ships.
+
+	aGame executeTurn .
+	aGame executeTurn .
+
+	self assert: (aShip position) equals: 4.
+	self assert: (aGame penaltyFor: aShip) equals: 2.
 ]
 
 { #category : 'tests' }
@@ -152,7 +178,7 @@ GameTest >> testWhenAShipRunsOutOfFuelThenItsPenalizedWithTwoTurns [
 	oneDice := ChargedDice withATotalNumberOfFacesOf: 6. 
 	dices := OrderedCollection with: oneDice.
 
-    aGame := Game
+    aGame := SpaceShipGame
         completedAtLap: 1
         with: aBoard
         and: dices
@@ -184,7 +210,7 @@ GameTest >> testWhenGameIsCreatedThenItHasAWinningLap [
     anotherDice := Dice withATotalNumberOfFacesOf: 4.
     dices := OrderedCollection with: oneDice with: anotherDice.
 
-    aGame := Game
+    aGame := SpaceShipGame
                  completedAtLap: 1
                  with: aBoard
                  and: dices
@@ -211,7 +237,7 @@ GameTest >> testWhenGameIsCreatedWithAllThePiecesThenIsSuccesfullyCreated [
     anotherDice := Dice withATotalNumberOfFacesOf: 4.
     dices := OrderedCollection with: oneDice with: anotherDice.
 
-    aGame := Game
+    aGame := SpaceShipGame
         completedAtLap: 1
         with: aBoard
         and: dices
@@ -237,7 +263,7 @@ GameTest >> testWhenGameIsStartedThenAllShipsAreAtTheFirstCell [
     anotherDice := Dice withATotalNumberOfFacesOf: 4.
     dices := OrderedCollection with: oneDice with: anotherDice.
 
-    aGame := Game
+    aGame := SpaceShipGame
         completedAtLap: 1
         with: aBoard
         and: dices
@@ -266,7 +292,7 @@ GameTest >> testWhenGameIsStartedThenItSuccesfullyStarts [
     anotherDice := Dice withATotalNumberOfFacesOf: 4.
     dices := OrderedCollection with: oneDice with: anotherDice.
 
-    aGame := Game
+    aGame := SpaceShipGame
         completedAtLap: 1
         with: aBoard
         and: dices
@@ -288,7 +314,7 @@ GameTest >> testWhenOneGameIsInitializedWithAMaximumThrowOfFiveThenAllShipsHaveT
     oneDice := Dice withATotalNumberOfFacesOf: 5. 
     dices := OrderedCollection with: oneDice.
 
-    aGame := Game
+    aGame := SpaceShipGame
         completedAtLap: 1
         with: aBoard
         and: dices
@@ -310,7 +336,7 @@ GameTest >> testWhenOneGameIsInitializedWithAMaximumThrowOfFiveThenShipsHaveTenU
     oneDice := Dice withATotalNumberOfFacesOf: 5. 
     dices := OrderedCollection with: oneDice.
 
-    aGame := Game
+    aGame := SpaceShipGame
         completedAtLap: 1
         with: aBoard
         and: dices
@@ -331,7 +357,7 @@ GameTest >> testWhenOneShipGetsToTheWinningLapThenTheGameFinishes [
 	oneDice := ChargedDice withATotalNumberOfFacesOf: 7. 
 	dices := OrderedCollection with: oneDice.
 
-	aGame := Game
+	aGame := SpaceShipGame
 		completedAtLap: 1
 		with: aBoard
 		and: dices
@@ -357,7 +383,7 @@ GameTest >> testWhenOneShipGetsToTheWinningLapThenYouCanKnowWhichShipWon [
 	oneDice := ChargedDice withATotalNumberOfFacesOf: 7. 
 	dices := OrderedCollection with: oneDice.
 
-	aGame := Game
+	aGame := SpaceShipGame
 		completedAtLap: 1
 		with: aBoard
 		and: dices
@@ -382,7 +408,7 @@ GameTest >> testWhenOneShipGetsToTheWormsHolesFirstEntranceThenItIsForwardedToTh
 	oneDice := ChargedDice withATotalNumberOfFacesOf: 4. 
 	dices := OrderedCollection with: oneDice.
 
-	aGame := Game
+	aGame := SpaceShipGame
 		completedAtLap: 1
 		with: aBoard
 		and: dices
@@ -412,7 +438,7 @@ GameTest >> testWhenOneShipGetsToTheWormsHolesSecondEntranceThenItIsForwardedToT
 	oneDice := ChargedDice withATotalNumberOfFacesOf: 19. 
 	dices := OrderedCollection with: oneDice.
 
-	aGame := Game
+	aGame := SpaceShipGame
 		completedAtLap: 1
 		with: aBoard
 		and: dices
@@ -443,7 +469,7 @@ GameTest >> testWhenOneShipHasTwoUnitsOfFuelAndMakesOneMoveThenItConsumesOneUnit
     oneDice := ChargedDice withATotalNumberOfFacesOf: 1. 
     dices := OrderedCollection with: oneDice.
 
-    aGame := Game
+    aGame := SpaceShipGame
         completedAtLap: 1
         with: aBoard
         and: dices
@@ -468,7 +494,7 @@ GameTest >> testWhenOneShipMakesOneLapThenItReturnsToTheFirstCell [
     oneDice := ChargedDice withATotalNumberOfFacesOf: 10.  
     dices := OrderedCollection with: oneDice.
 
-    aGame := Game
+    aGame := SpaceShipGame
         completedAtLap: 1
         with: aBoard
         and: dices
@@ -492,7 +518,7 @@ GameTest >> testWhenOneShipMakesOneMoveThenItIsForwardedToTheNewPosition [
     oneDice := Dice withATotalNumberOfFacesOf: 15. 
     dices := OrderedCollection with: oneDice.
 
-    aGame := Game
+    aGame := SpaceShipGame
         completedAtLap: 1
         with: aBoard
         and: dices
@@ -517,7 +543,7 @@ GameTest >> testWhenOneShipMovesOnePositionForwardThenItIsInTheNewCell [
     oneDice := Dice withATotalNumberOfFacesOf: 15. 
     dices := OrderedCollection with: oneDice.
 
-    aGame := Game
+    aGame := SpaceShipGame
         completedAtLap: 1
         with: aBoard
         and: dices
@@ -543,7 +569,7 @@ GameTest >> testWhenOneShipMovesOnePositionForwardThenItIsNoLongerInThePreviousC
     oneDice := Dice withATotalNumberOfFacesOf: 15. 
     dices := OrderedCollection with: oneDice.
 
-    aGame := Game
+    aGame := SpaceShipGame
         completedAtLap: 1
         with: aBoard
         and: dices
@@ -569,7 +595,7 @@ GameTest >> testWhenOneShipThrowsDiceAndReturnsOneThenItIsForwardedOnePosition [
     oneDice := Dice withATotalNumberOfFacesOf: 15. 
     dices := OrderedCollection with: oneDice.
 
-    aGame := Game
+    aGame := SpaceShipGame
         completedAtLap: 1
         with: aBoard
         and: dices
@@ -596,7 +622,7 @@ GameTest >> testWhenOneShipWinsThenYouCanKnowThePositionOfEachShipInTheGame [
     oneDice := ChargedDice withATotalNumberOfFacesOf: 19.  
     dices := OrderedCollection with: oneDice.
 
-    aGame := Game
+    aGame := SpaceShipGame
         completedAtLap: 1
         with: aBoard
         and: dices
@@ -623,7 +649,7 @@ GameTest >> testWhenShipDecidesNotToPlayItsTurnThenItsTurnIsSkipped [
 	oneDice := ChargedDice withATotalNumberOfFacesOf: 6. 
 	dices := OrderedCollection with: oneDice.
 
-    aGame := Game
+    aGame := SpaceShipGame
         completedAtLap: 1
         with: aBoard
         and: dices
@@ -650,7 +676,7 @@ GameTest >> testWhenTheCurrentShipHasTwoPenalizationsThenItLosesTwoTurns [
 	oneDice := ChargedDice withATotalNumberOfFacesOf: 6. 
 	dices := OrderedCollection with: oneDice.
 
-    aGame := Game
+    aGame := SpaceShipGame
         completedAtLap: 1
         with: aBoard
         and: dices
@@ -681,7 +707,7 @@ GameTest >> testWhenTheCurrentShipHasTwoPenalizationsThenTheTurnIsPassedToTheNex
 	oneDice := ChargedDice withATotalNumberOfFacesOf: 6. 
 	dices := OrderedCollection with: oneDice.
 
-    aGame := Game
+    aGame := SpaceShipGame
         completedAtLap: 1
         with: aBoard
         and: dices
@@ -713,7 +739,7 @@ GameTest >> testWhenTheCurrentShipIsPenalizedAndItsTurnIsSkippedThenPenaltiesAre
 	oneDice := ChargedDice withATotalNumberOfFacesOf: 6. 
 	dices := OrderedCollection with: oneDice.
 
-    aGame := Game
+    aGame := SpaceShipGame
         completedAtLap: 1
         with: aBoard
         and: dices
@@ -743,7 +769,7 @@ GameTest >> testWhenTheCurrentShipIsPenalizedThenTheTurnIsPassedToTheNextShip [
 	oneDice := ChargedDice withATotalNumberOfFacesOf: 6. 
 	dices := OrderedCollection with: oneDice.
 
-    aGame := Game
+    aGame := SpaceShipGame
         completedAtLap: 1
         with: aBoard
         and: dices
@@ -770,7 +796,7 @@ GameTest >> testWhenTheFirstTurnIsExecutedThenTheFirstShipIsReturned [
 	oneDice := ChargedDice withATotalNumberOfFacesOf: 6. 
 	dices := OrderedCollection with: oneDice.
 
-    aGame := Game
+    aGame := SpaceShipGame
         completedAtLap: 1
         with: aBoard
         and: dices
@@ -798,7 +824,7 @@ GameTest >> testWhenTwoTurnsAreCorrectlyExecutedThenTheShipsAreMovedToTheirCorre
 	oneDice := ChargedDice withATotalNumberOfFacesOf: 6. 
 	dices := OrderedCollection with: oneDice.
 
-    aGame := Game
+    aGame := SpaceShipGame
         completedAtLap: 1
         with: aBoard
         and: dices

@@ -77,15 +77,6 @@ Board >> cellNumber: aNumber [
 ]
 
 { #category : 'accessing' }
-Board >> changeCellAt: aPosition to: aCell [
-
-	cells at: aPosition put: aCell. 
-
-
-
-]
-
-{ #category : 'accessing' }
 Board >> checkCell: aShip of: aGame [
 
 	(cells at: aShip position) applyEffectTo: aShip of: aGame. 

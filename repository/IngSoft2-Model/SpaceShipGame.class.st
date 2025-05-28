@@ -1,5 +1,5 @@
 Class {
-	#name : 'Game',
+	#name : 'SpaceShipGame',
 	#superclass : 'Object',
 	#instVars : [
 		'name',
@@ -23,20 +23,20 @@ Class {
 }
 
 { #category : 'as yet unclassified' }
-Game class >> completedAtLap: aNumberOfLap with: aBoard and: dices and: ships [ 
+SpaceShipGame class >> completedAtLap: aNumberOfLap with: aBoard and: dices and: ships [ 
 	
 	^ (self new) initializeWith: aNumberOfLap with: aBoard with: dices with: ships.   
 ]
 
 { #category : 'as yet unclassified' }
-Game >> advanceTurn [ 
+SpaceShipGame >> advanceTurn [ 
 
 	shipSupposedToPlay := shipSupposedToPlay + 1.
 	shipSupposedToPlay > ships size ifTrue: [ shipSupposedToPlay := 1 ].
 ]
 
 { #category : 'as yet unclassified' }
-Game >> advanceTurnIfCurrentTurnsShipIsPenalized [
+SpaceShipGame >> advanceTurnIfCurrentTurnsShipIsPenalized [
 
 	| ship |
 	
@@ -50,7 +50,7 @@ Game >> advanceTurnIfCurrentTurnsShipIsPenalized [
 ]
 
 { #category : 'accessing' }
-Game >> calculateTargetPositionFor: totalSteps [
+SpaceShipGame >> calculateTargetPositionFor: totalSteps [
 
 		^ totalSteps = 0
         ifTrue: [ 0 ]
@@ -63,7 +63,7 @@ Game >> calculateTargetPositionFor: totalSteps [
 ]
 
 { #category : 'as yet unclassified' }
-Game >> chargeFuelToShipsUpTo: aChargeOfFuel [
+SpaceShipGame >> chargeFuelToShipsUpTo: aChargeOfFuel [
 
     ships do: [:aShip | aShip chargeFuelUpTo: aChargeOfFuel ].
 
@@ -71,7 +71,7 @@ Game >> chargeFuelToShipsUpTo: aChargeOfFuel [
 ]
 
 { #category : 'as yet unclassified' }
-Game >> determineTheConsequencesOfTheThrowIn: aNewPosition forShip: aShip [
+SpaceShipGame >> determineTheConsequencesOfTheThrowIn: aNewPosition forShip: aShip [
 	
 	| aShipCurrentLap |
 
@@ -90,7 +90,7 @@ Game >> determineTheConsequencesOfTheThrowIn: aNewPosition forShip: aShip [
 ]
 
 { #category : 'as yet unclassified' }
-Game >> executeTurn [
+SpaceShipGame >> executeTurn [
 
 	| ship |
 	
@@ -106,7 +106,7 @@ Game >> executeTurn [
 ]
 
 { #category : 'initialization' }
-Game >> initializeWith: laps with: aBoard with: gameDices with: gameShips [ 
+SpaceShipGame >> initializeWith: laps with: aBoard with: gameDices with: gameShips [ 
 
     winningLaps := laps.
 
@@ -130,20 +130,20 @@ Game >> initializeWith: laps with: aBoard with: gameDices with: gameShips [
 ]
 
 { #category : 'testing' }
-Game >> isAPositiveInteger: numberOfFaces [
+SpaceShipGame >> isAPositiveInteger: numberOfFaces [
 
 	(numberOfFaces isInteger and: [ numberOfFaces > 0 ]) ifFalse: [
 		Error signal: 'The penalty must be a positive integer.' ]
 ]
 
 { #category : 'accessing' }
-Game >> lastDiceThrow [
+SpaceShipGame >> lastDiceThrow [
 
 	^ lastDiceThrow 
 ]
 
 { #category : 'accessing' }
-Game >> move: aShip to: targetPosition andConsume: aConsumption [
+SpaceShipGame >> move: aShip to: targetPosition andConsume: aConsumption [
 
 	| shipsPreviousPosition shipsNewPosition  |
 	
@@ -160,19 +160,19 @@ aShip currentFuel = 0
 ]
 
 { #category : 'as yet unclassified' }
-Game >> moveShipToLastPlay: aShip [
+SpaceShipGame >> moveShipToLastPlay: aShip [
 
 	self move: aShip to: positionBeforePlay andConsume: 0.
 	aShip restoreFuel.
 ]
 
 { #category : 'initialization' }
-Game >> numberOfCells [ 
+SpaceShipGame >> numberOfCells [ 
 	^ board  numberOfCells .
 ]
 
 { #category : 'as yet unclassified' }
-Game >> penalize: aShip withTurns: numberOfTurns [
+SpaceShipGame >> penalize: aShip withTurns: numberOfTurns [
 	
 	self isAPositiveInteger: numberOfTurns.
 	penalties at: aShip put: (penalties at: aShip ifAbsent: [ 0 ]) + numberOfTurns.
@@ -180,13 +180,13 @@ Game >> penalize: aShip withTurns: numberOfTurns [
 ]
 
 { #category : 'as yet unclassified' }
-Game >> penaltyFor: aShip [ 
+SpaceShipGame >> penaltyFor: aShip [ 
 
 	^ penalties at: aShip.
 ]
 
 { #category : 'as yet unclassified' }
-Game >> reducePenaltyFor: aShip [
+SpaceShipGame >> reducePenaltyFor: aShip [
 
 	| remaining |
 remaining := (penalties at: aShip) - 1.
@@ -199,26 +199,26 @@ remaining > 0
 ]
 
 { #category : 'as yet unclassified' }
-Game >> shipsPlaying [
+SpaceShipGame >> shipsPlaying [
 
 	^ ships
 ]
 
 { #category : 'as yet unclassified' }
-Game >> skipTurnFor: aShip [
+SpaceShipGame >> skipTurnFor: aShip [
 
 	self penalize: aShip withTurns: 1. 
 
 ]
 
 { #category : 'accessing' }
-Game >> start [
+SpaceShipGame >> start [
 
 	^ 'The Game Has Started'
 ]
 
 { #category : 'as yet unclassified' }
-Game >> sumOfDiceSizes [
+SpaceShipGame >> sumOfDiceSizes [
 
     ^ dices inject: 0 into: [ :sum :aDie | sum + aDie sizeOfTheDice ].
 
@@ -226,7 +226,7 @@ Game >> sumOfDiceSizes [
 ]
 
 { #category : 'as yet unclassified' }
-Game >> throwDiceFor: aShip [
+SpaceShipGame >> throwDiceFor: aShip [
 
 	| resultOfTheThrow totalSteps targetPosition |
 	
@@ -248,14 +248,14 @@ Game >> throwDiceFor: aShip [
 ]
 
 { #category : 'as yet unclassified' }
-Game >> updateLapFor: aShip withTotalSteps: totalSteps [
+SpaceShipGame >> updateLapFor: aShip withTotalSteps: totalSteps [
 	
 	 aShip updateLapOn: totalSteps // board numberOfCells.
 
 ]
 
 { #category : 'accessing' }
-Game >> winningLap [
+SpaceShipGame >> winningLap [
 
 	^ winningLaps
 ]
