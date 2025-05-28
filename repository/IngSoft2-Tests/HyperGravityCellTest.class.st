@@ -37,10 +37,10 @@ HyperGravityCellTest >> testWhenShipArrivesToHyperGravityCellWithEnoughRollThenI
 
     | aGame aBoard aShip ships oneDice dices aHyperGravityCell |
 
-    aBoard := Board withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 15 and: 17.
-    aHyperGravityCell := HyperGravityCell initializeCellOn: 5 withRequiredValue: 3.
-    aBoard changeCellAt: 5 to: aHyperGravityCell.
-
+	 aHyperGravityCell := HyperGravityCell initializeCellOn: 5 withRequiredValue: 3.  
+    
+	 aBoard := ChargedBoardWithOneHyperGravityCell withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 15 and: 17 andAHyperGravityCell: aHyperGravityCell onCell: 5.
+	
     aShip := Ship named: 'Venture'.
     ships := OrderedCollection with: aShip.
 
@@ -62,9 +62,10 @@ HyperGravityCellTest >> testWhenShipArrivesToHyperGravityCellWithEnoughRollThenI
 HyperGravityCellTest >> testWhenShipArrivesToHyperGravityCellWithExactRollThenItStaysOnHyperGravityCell [
 
     | aGame aBoard aShip ships oneDice dices aHyperGravityCell |
-    aBoard := Board withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 15 and: 17.
-    aHyperGravityCell := HyperGravityCell initializeCellOn: 5 withRequiredValue: 4.
-    aBoard changeCellAt: 5 to: aHyperGravityCell.
+
+    aHyperGravityCell := HyperGravityCell initializeCellOn: 5 withRequiredValue: 4.  
+    
+	 aBoard := ChargedBoardWithOneHyperGravityCell withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 15 and: 17 andAHyperGravityCell: aHyperGravityCell onCell: 5.
 
     aShip := Ship named: 'Venture'.
     ships := OrderedCollection with: aShip.
@@ -89,9 +90,9 @@ HyperGravityCellTest >> testWhenShipArrivesToHyperGravityCellWithNotEnoughRollTh
 
     | aGame aBoard aShip ships oneDice dices aHyperGravityCell |
 
-    aBoard := Board withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 15 and: 17.
-    aHyperGravityCell := HyperGravityCell initializeCellOn: 5 withRequiredValue: 6. 
-    aBoard changeCellAt: 5 to: aHyperGravityCell.
+    aHyperGravityCell := HyperGravityCell initializeCellOn: 5 withRequiredValue: 6.  
+    
+	 aBoard := ChargedBoardWithOneHyperGravityCell withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 15 and: 17 andAHyperGravityCell: aHyperGravityCell onCell: 5.
 
     aShip := Ship named: 'Venture'.
     ships := OrderedCollection with: aShip.

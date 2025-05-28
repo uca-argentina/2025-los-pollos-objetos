@@ -43,8 +43,8 @@ ChargedBoardWithOneHyperGravityCell class >> theCell: position isOutOfRange: ran
 ]
 
 { #category : 'as yet unclassified' }
-ChargedBoardWithOneHyperGravityCell class >> withATotalNumberOfCellsOf: numberOfCells andAWormHoleBetweenCells: firstEntrance and: secondEntrance andAHyperGravityOnCell: aNumberOfCell [
- 
+ChargedBoardWithOneHyperGravityCell class >> withATotalNumberOfCellsOf: numberOfCells andAWormHoleBetweenCells: firstEntrance and: secondEntrance andAHyperGravityCell: aHyperGravityCell onCell: aNumberOfCell [
+
     self isAPositiveInteger: numberOfCells.
     self isAPositiveInteger: firstEntrance.
     self isAPositiveInteger: secondEntrance.
@@ -55,7 +55,7 @@ ChargedBoardWithOneHyperGravityCell class >> withATotalNumberOfCellsOf: numberOf
     self the: firstEntrance isDifferentFrom: secondEntrance.
     self the: secondEntrance isSmallerThan: firstEntrance.
 
-    ^ self new  initializeWith: numberOfCells andAWormHoleBeweenCells: firstEntrance and: secondEntrance andAHyperGravityOnCell: aNumberOfCell
+    ^ self new  initializeWith: numberOfCells andAWormHoleBeweenCells: firstEntrance and: secondEntrance andAHyperGravityCell: aHyperGravityCell onCell: aNumberOfCell
 
 ]
 
@@ -101,11 +101,11 @@ ChargedBoardWithOneHyperGravityCell >> getShipsIntoFirstCellOfTheBoard: shipsCol
 ]
 
 { #category : 'initialization' }
-ChargedBoardWithOneHyperGravityCell >> initializeWith: numberOfCells andAWormHoleBeweenCells: firstEntrance and: secondEntrance andAHyperGravityOnCell: aNumberOfCell [
+ChargedBoardWithOneHyperGravityCell >> initializeWith: numberOfCells andAWormHoleBeweenCells: firstEntrance and: secondEntrance andAHyperGravityCell: aHyperGravityCell onCell: aNumberOfCell [
 
 	 cells := OrderedCollection new.
     1 to: (numberOfCells) do: [:i | cells add: (NormalCell initializeCellOn: i) ].
-	 cells at:aNumberOfCell put: (HyperGravityCell initializeCellOn: aNumberOfCell).
+	 cells at:aNumberOfCell put: (aHyperGravityCell ).
     wormsHolesFirstEntrance := firstEntrance.
     wormsHolesSecondEntrance := secondEntrance.
 ]

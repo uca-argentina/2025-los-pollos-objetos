@@ -43,7 +43,7 @@ ChargedBoardWithOneMoonWalkCell class >> theCell: position isOutOfRange: range [
 ]
 
 { #category : 'as yet unclassified' }
-ChargedBoardWithOneMoonWalkCell class >> withATotalNumberOfCellsOf: numberOfCells andAWormHoleBetweenCells: firstEntrance and: secondEntrance andAMoonWalkOnCell: aNumberOfCell [
+ChargedBoardWithOneMoonWalkCell class >> withATotalNumberOfCellsOf: numberOfCells andAWormHoleBetweenCells: firstEntrance and: secondEntrance andAMoonWalkCell: aMoonWalkCell onCell: aNumberOfCell [
  
     self isAPositiveInteger: numberOfCells.
     self isAPositiveInteger: firstEntrance.
@@ -55,7 +55,7 @@ ChargedBoardWithOneMoonWalkCell class >> withATotalNumberOfCellsOf: numberOfCell
     self the: firstEntrance isDifferentFrom: secondEntrance.
     self the: secondEntrance isSmallerThan: firstEntrance.
 
-    ^ self new  initializeWith: numberOfCells andAWormHoleBeweenCells: firstEntrance and: secondEntrance andAMoonWalkOnCell: aNumberOfCell
+    ^ self new  initializeWith: numberOfCells andAWormHoleBeweenCells: firstEntrance and: secondEntrance andAMoonWalkCell: aMoonWalkCell onCell: aNumberOfCell
 
 ]
 
@@ -101,11 +101,11 @@ ChargedBoardWithOneMoonWalkCell >> getShipsIntoFirstCellOfTheBoard: shipsCollect
 ]
 
 { #category : 'initialization' }
-ChargedBoardWithOneMoonWalkCell >> initializeWith: numberOfCells andAWormHoleBeweenCells: firstEntrance and: secondEntrance andAMoonWalkOnCell: aNumberOfCell [
+ChargedBoardWithOneMoonWalkCell >> initializeWith: numberOfCells andAWormHoleBeweenCells: firstEntrance and: secondEntrance andAMoonWalkCell: aMoonWalkCell onCell: aNumberOfCell [
 
 	 cells := OrderedCollection new.
     1 to: (numberOfCells) do: [:i | cells add: (NormalCell initializeCellOn: i) ].
-	 cells at:aNumberOfCell put: (MoonWalkCell initializeCellOn: aNumberOfCell).
+	 cells at:aNumberOfCell put: (aMoonWalkCell ).
     wormsHolesFirstEntrance := firstEntrance.
     wormsHolesSecondEntrance := secondEntrance.
 ]

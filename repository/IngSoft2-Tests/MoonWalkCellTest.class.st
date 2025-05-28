@@ -19,10 +19,9 @@ MoonWalkCellTest >> testWhenAShipArrivesToAMoonWalkCellThenTheEffectIsApplied [
 
     | aGame aBoard aShip ships oneDice dices aMoonWalkCell anotherShip |
 
-    aBoard := Board withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 1 and: 2.
-
     aMoonWalkCell := MoonWalkCell initializeCellOn: 9 withRequiredValue: 2.
-    aBoard changeCellAt: 9 to: aMoonWalkCell.
+
+    aBoard := ChargedBoardWithOneMoonWalkCell withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 1 and: 2 andAMoonWalkCell: aMoonWalkCell onCell: 9.
 
     aShip := Ship named: 'Venture'.
 	 anotherShip := Ship named: 'Sulaco'.
@@ -57,10 +56,9 @@ MoonWalkCellTest >> testWhenAShipFallsIntoAMoonWalkCellAndTheSecondShipHasNoEnou
 
     | aGame aBoard aShip ships oneDice dices aMoonWalkCell anotherShip |
 
-    aBoard := Board withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 1 and: 2.
-
     aMoonWalkCell := MoonWalkCell initializeCellOn: 9 withRequiredValue: 5.
-    aBoard changeCellAt: 9 to: aMoonWalkCell.
+
+    aBoard := ChargedBoardWithOneMoonWalkCell withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 1 and: 2 andAMoonWalkCell: aMoonWalkCell onCell: 9.
 
     aShip := Ship named: 'Venture'.
 	 anotherShip := Ship named: 'Sulaco'.

@@ -43,7 +43,7 @@ ChargedBoardWithOneHyperJumpCell class >> theCell: position isOutOfRange: range 
 ]
 
 { #category : 'as yet unclassified' }
-ChargedBoardWithOneHyperJumpCell class >> withATotalNumberOfCellsOf: numberOfCells andAWormHoleBetweenCells: firstEntrance and: secondEntrance andAHyperJumpOnCell: aNumberOfCell [
+ChargedBoardWithOneHyperJumpCell class >> withATotalNumberOfCellsOf: numberOfCells andAWormHoleBetweenCells: firstEntrance and: secondEntrance andAHyperJumpCell: aHyperJumpCell onCell: aNumberOfCell [
  
     self isAPositiveInteger: numberOfCells.
     self isAPositiveInteger: firstEntrance.
@@ -55,7 +55,7 @@ ChargedBoardWithOneHyperJumpCell class >> withATotalNumberOfCellsOf: numberOfCel
     self the: firstEntrance isDifferentFrom: secondEntrance.
     self the: secondEntrance isSmallerThan: firstEntrance.
 
-    ^ self new  initializeWith: numberOfCells andAWormHoleBeweenCells: firstEntrance and: secondEntrance andAHyperJumpOnCell: aNumberOfCell
+    ^ self new  initializeWith: numberOfCells andAWormHoleBeweenCells: firstEntrance and: secondEntrance andAHyperJumpCell: aHyperJumpCell onCell: aNumberOfCell
 
 ]
 
@@ -101,11 +101,11 @@ ChargedBoardWithOneHyperJumpCell >> getShipsIntoFirstCellOfTheBoard: shipsCollec
 ]
 
 { #category : 'initialization' }
-ChargedBoardWithOneHyperJumpCell >> initializeWith: numberOfCells andAWormHoleBeweenCells: firstEntrance and: secondEntrance andAHyperJumpOnCell: aNumberOfCell [
+ChargedBoardWithOneHyperJumpCell >> initializeWith: numberOfCells andAWormHoleBeweenCells: firstEntrance and: secondEntrance andAHyperJumpCell: aHyperJumpCell onCell: aNumberOfCell [
 
 	 cells := OrderedCollection new.
     1 to: (numberOfCells) do: [:i | cells add: (NormalCell initializeCellOn: i) ].
-	 cells at:aNumberOfCell put: (HyperJumpCell initializeCellOn: aNumberOfCell).
+	 cells at:aNumberOfCell put: (aHyperJumpCell ).
     wormsHolesFirstEntrance := firstEntrance.
     wormsHolesSecondEntrance := secondEntrance.
 ]
