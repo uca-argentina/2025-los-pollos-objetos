@@ -26,12 +26,10 @@ BlackHoleCellTest >> testWhenABlackHoleCellIsInitializedWithANegativeNumberThenC
 { #category : 'tests' }
 BlackHoleCellTest >> testWhenAShipArrivesToABlackHoleCellInTheFollowingLapThenItReturnsToThePreviusOne [
 
-    | aGame aBoard aShip  ships oneDice  dices aBlackHoleCell |
+    | aGame aBoard aShip  ships oneDice  dices |
 
 
-    aBoard := Board withATotalNumberOfCellsOf: 10 andAWormHoleBetweenCells: 5 and: 7.
-	aBlackHoleCell := BlackHoleCell initializeCellOn: 3.
-	aBoard changeCellAt: 3 to: aBlackHoleCell. 
+    aBoard := ChargedBoardWithOneBlackHoleCell withATotalNumberOfCellsOf: 10 andAWormHoleBetweenCells: 5 and: 7 andAnBlackHoleOnCell: 3.
 
     aShip := Ship named: 'Venture'.
     ships := OrderedCollection with: aShip.
@@ -54,11 +52,9 @@ BlackHoleCellTest >> testWhenAShipArrivesToABlackHoleCellInTheFollowingLapThenIt
 { #category : 'tests' }
 BlackHoleCellTest >> testWhenAShipArrivesToABlackHoleCellInTheThirdCellThenItGoesBackToTheInitialCell [
 
-    | aGame aBoard aShip  ships oneDice  dices aBlackHoleCell |
+    | aGame aBoard aShip  ships oneDice  dices |
 
-    aBoard := Board withATotalNumberOfCellsOf: 10 andAWormHoleBetweenCells: 5 and: 7.
-	aBlackHoleCell := BlackHoleCell initializeCellOn: 3.
-	aBoard changeCellAt: 3 to: aBlackHoleCell. 
+    aBoard := ChargedBoardWithOneBlackHoleCell withATotalNumberOfCellsOf: 10 andAWormHoleBetweenCells: 5 and: 7 andAnBlackHoleOnCell: 3.
 
     aShip := Ship named: 'Venture'.
     ships := OrderedCollection with: aShip.

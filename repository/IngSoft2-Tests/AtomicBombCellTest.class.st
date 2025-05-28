@@ -54,7 +54,7 @@ AtomicBombCellTest >> testWhenAShipsArrivesToAtomicBombCellThenAllReturnToFirstC
 { #category : 'tests' }
 AtomicBombCellTest >> testWhenMultipleShipsArriveToAtomicBombCellThenAllReturnToFirstCell [
 
-    | aGame aBoard aShip anotherShip ships oneDice dices atomicBombCell |
+    | aGame aBoard aShip anotherShip ships oneDice dices |
 
     aBoard := ChargedBoardWithOneAtomicBombCell withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 15 and: 17 andAnAtomicBombOnCell: 5.
 
