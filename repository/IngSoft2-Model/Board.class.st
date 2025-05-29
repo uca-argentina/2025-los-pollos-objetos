@@ -96,10 +96,12 @@ Board >> getShipsIntoFirstCellOfTheBoard: shipsCollection [
 { #category : 'initialization' }
 Board >> initializeWith: numberOfCells andAWormHoleBeweenCells: firstEntrance and: secondEntrance [
 
-	 cells := OrderedCollection new.
-    1 to: (numberOfCells) do: [:i | cells add: (NormalCell initializeCellOn: i) ].
-    wormsHolesFirstEntrance := firstEntrance.
-    wormsHolesSecondEntrance := secondEntrance.
+	cells := OrderedCollection new.
+	
+	1 to: numberOfCells do: [ :i | cells add: (self setATypeOfCellOn: i) ].
+
+	wormsHolesFirstEntrance := firstEntrance.
+	wormsHolesSecondEntrance := secondEntrance
 ]
 
 { #category : 'initialization' }
@@ -108,11 +110,50 @@ Board >> numberOfCells [
 	^ cells size.
 ]
 
+{ #category : 'initialization' }
+Board >> pickATypeOfCellFrom: aCellsProbabilities [
+
+	| randomValue selectedCell |
+	randomValue := ((Random new next) * 100) truncated / 100.0.
+
+
+	selectedCell := nil.
+	aCellsProbabilities keys asSortedCollection do: [:key |
+    	(randomValue <= key and: [selectedCell isNil]) ifTrue: [
+        	selectedCell := aCellsProbabilities at: key
+    	].
+	].
+
+	^ selectedCell 
+
+	
+]
+
 { #category : 'accessing' }
 Board >> removeShip: aShip fromCellAt: aPosition [
     
     (cells at: aPosition) leaves: aShip.
 
+]
+
+{ #category : 'initialization' }
+Board >> setATypeOfCellOn: aCellNumber [
+
+	| cellsProbabilities pickedCell |
+	
+	cellsProbabilities := Dictionary new
+        at: 0.4 put: (NormalCell initializeCellOn: aCellNumber) ;
+        at: 0.6 put: (BlackHoleCell initializeCellOn: aCellNumber ) ;
+        at: 0.8 put: (HyperGravityCell initializeCellOn: aCellNumber withRequiredValue: 4);
+        at: 0.9 put: (MoonWalkCell initializeCellOn: aCellNumber withRequiredValue: 4);
+        at: 0.98 put: (HyperJumpCell initializeCellOn: aCellNumber withParsecValues: #(25 10 5) boardLength: 100 numberOfCells: 100) ;
+        at: 1 put: (AtomicBombCell initializeCellOn: aCellNumber) ;
+        yourself.
+	
+   pickedCell := self pickATypeOfCellFrom: cellsProbabilities .
+
+	^ pickedCell
+	
 ]
 
 { #category : 'accessing' }
