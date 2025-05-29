@@ -16,6 +16,57 @@ GameTest >> should: anErrorBlock raise: anErroClass withMessageText: errorMessag
 ]
 
 { #category : 'tests' }
+GameTest >> testWhenAGameIsInitializedWithAMaximumThrowOfTenThenTheSumOfDiceIsTen [
+
+	| ships aShip  aBoard oneDice dices aGame  anotherShip |
+	
+	aBoard := ChargedBoardWithNoSpecialCells withATotalNumberOfCellsOf: 6 andAWormHoleBetweenCells: 2 and: 5.
+
+	aShip := Ship named: 'Venture'.
+	anotherShip := Ship named: 'Adventure'.
+	
+	ships := OrderedCollection with: aShip.
+	ships add: anotherShip .
+
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 10. 
+	dices := OrderedCollection with: oneDice.
+
+    aGame := SpaceShipGame
+        completedAtLap: 1
+        with: aBoard
+        and: dices
+        and: ships.
+
+	self assert: (aGame sumOfDiceSizes) equals: 10.
+]
+
+{ #category : 'tests' }
+GameTest >> testWhenAGameIsInitializedWithAMaximumThrowOfTwentyAndTwoDieThenTheSumOfDiceIsTwenty [
+
+	| ships aShip  aBoard oneDice dices aGame  anotherShip anotherDice |
+	
+	aBoard := ChargedBoardWithNoSpecialCells withATotalNumberOfCellsOf: 6 andAWormHoleBetweenCells: 2 and: 5.
+
+	aShip := Ship named: 'Venture'.
+	anotherShip := Ship named: 'Adventure'.
+	
+	ships := OrderedCollection with: aShip.
+	ships add: anotherShip .
+
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 10.
+	anotherDice := ChargedDice withATotalNumberOfFacesOf: 10. 
+	dices := OrderedCollection with: oneDice with: anotherDice.
+
+    aGame := SpaceShipGame
+        completedAtLap: 1
+        with: aBoard
+        and: dices
+        and: ships.
+
+	self assert: (aGame sumOfDiceSizes) equals: 20.
+]
+
+{ #category : 'tests' }
 GameTest >> testWhenAShipIsPenalizeWithTwoMovesThenItsIncludedInThePenalizationsDictionary [
 
 	| ships aShip  aBoard oneDice dices aGame  |
@@ -188,6 +239,67 @@ GameTest >> testWhenAShipRunsOutOfFuelThenItsPenalizedWithTwoTurns [
 	aGame executeTurn.
 
 	self assert: (aGame penaltyFor: aShip) equals: 2.
+]
+
+{ #category : 'tests' }
+GameTest >> testWhenAShipWithTwoPenaltiesAreReduceByOneThenItHasOnePenaltyOnly [
+
+	| ships aShip  aBoard oneDice dices aGame  anotherShip |
+	
+	aBoard := ChargedBoardWithNoSpecialCells withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 1 and: 2.
+
+	aShip := Ship named: 'Venture'.
+	anotherShip := Ship named: 'Adventure'.
+	
+	ships := OrderedCollection with: aShip.
+	ships add: anotherShip .
+
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 5. 
+	dices := OrderedCollection with: oneDice.
+
+    aGame := SpaceShipGame
+        completedAtLap: 1
+        with: aBoard
+        and: dices
+        and: ships.
+	
+	aGame executeTurn. 
+	aGame penalize: aShip withTurns: 2. 
+	aGame reducePenaltyFor: aShip.
+	
+	self assert: (aGame penaltyFor: aShip) equals: 1 
+	
+	
+]
+
+{ #category : 'tests' }
+GameTest >> testWhenAllShipsChargeOneUnitOfFuelAtTheSameTimeThenTheyAllHaveOneUnitOfFuel [
+
+	| ships aShip  aBoard oneDice dices aGame  anotherShip |
+	
+	aBoard := ChargedBoardWithNoSpecialCells withATotalNumberOfCellsOf: 6 andAWormHoleBetweenCells: 2 and: 5.
+
+	aShip := Ship named: 'Zathura'.
+	anotherShip := Ship named: 'Adventure'.
+	
+	ships := OrderedCollection with: aShip.
+	ships add: anotherShip .
+
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 1. 
+	dices := OrderedCollection with: oneDice.
+
+    aGame := SpaceShipGame
+        completedAtLap: 1
+        with: aBoard
+        and: dices
+        and: ships.
+
+	aGame chargeFuelToShipsUpTo: 1.
+	
+	self assert: (aShip currentFuel) equals: 1.
+	self assert: (anotherShip currentFuel) equals: 1.
+
+
 ]
 
 { #category : 'tests' }
@@ -507,6 +619,32 @@ GameTest >> testWhenOneShipMakesOneLapThenItReturnsToTheFirstCell [
 ]
 
 { #category : 'tests' }
+GameTest >> testWhenOneShipMakesOneLapThenTheAmountOfLapsIsUpdated [
+
+    | aGame aBoard aShip  ships oneDice  dices  anotherShip shipsNumberOfLapsAfterThrowing |
+
+    aBoard := ChargedBoardWithNoSpecialCells withATotalNumberOfCellsOf: 10 andAWormHoleBetweenCells: 2 and: 6.
+
+    aShip := Ship named: 'Venture'.
+    anotherShip := Ship named: 'Axiom'.
+    ships := OrderedCollection with: aShip with: anotherShip.
+
+    oneDice := ChargedDice withATotalNumberOfFacesOf: 10.  
+    dices := OrderedCollection with: oneDice.
+
+    aGame := SpaceShipGame
+        completedAtLap: 1
+        with: aBoard
+        and: dices
+        and: ships.
+
+	aGame updateLapFor: aShip withTotalSteps: 10.
+	shipsNumberOfLapsAfterThrowing := aShip currentLap.
+
+    self assert: (shipsNumberOfLapsAfterThrowing) equals: 1.
+]
+
+{ #category : 'tests' }
 GameTest >> testWhenOneShipMakesOneMoveThenItIsForwardedToTheNewPosition [
 
     | aGame aBoard aShip  ships oneDice  dices  intialShipPosition |
@@ -807,6 +945,34 @@ GameTest >> testWhenTheFirstTurnIsExecutedThenTheFirstShipIsReturned [
 	
 	self assert: (actualShipTurn name) equals: aShip name.
 
+]
+
+{ #category : 'tests' }
+GameTest >> testWhenTheShipIsToldToMoveBakToLastPositionThenItMovesBack [
+
+	| ships aShip  aBoard oneDice dices aGame  anotherShip |
+	
+	aBoard := ChargedBoardWithNoSpecialCells withATotalNumberOfCellsOf: 6 andAWormHoleBetweenCells: 2 and: 5.
+
+	aShip := Ship named: 'Venture'.
+	anotherShip := Ship named: 'Adventure'.
+	
+	ships := OrderedCollection with: aShip.
+	ships add: anotherShip .
+
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 6. 
+	dices := OrderedCollection with: oneDice.
+
+    aGame := SpaceShipGame
+        completedAtLap: 1
+        with: aBoard
+        and: dices
+        and: ships.
+	
+	aGame executeTurn. 
+	aGame moveShipToLastPlay: aShip. 
+
+	self assert: (aShip position) equals: 1.
 ]
 
 { #category : 'tests' }
