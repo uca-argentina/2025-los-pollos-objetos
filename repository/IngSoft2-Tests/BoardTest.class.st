@@ -78,8 +78,7 @@ BoardTest >> testWhenBoardIsCreatedWithOneCellThenHasCell [
 
     aBoard := Board withATotalNumberOfCellsOf: 2 andAWormHoleBetweenCells: 1 and: 2.
 
-
-    self assert: (aBoard numberOfCells) equals: 2.
+	self assert: (aBoard numberOfCells) equals: 2.
 ]
 
 { #category : 'tests' }

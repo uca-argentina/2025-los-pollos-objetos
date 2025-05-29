@@ -53,7 +53,6 @@ SpaceShipGame >> advanceTurnIfCurrentTurnsShipIsPenalized [
 SpaceShipGame >> calculateTargetPositionFor: totalSteps [
 
 		^ totalSteps = 0
-        ifTrue: [ 0 ]
         ifFalse: [
             (totalSteps \\ board numberOfCells = 0)
                 ifTrue: [ board numberOfCells ]
