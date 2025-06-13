@@ -17,11 +17,18 @@ MoonWalkCellTest >> should: anErrorBlock raise: anErrorClass withMessageText: er
 { #category : 'tests' }
 MoonWalkCellTest >> testWhenAShipArrivesToAMoonWalkCellThenTheEffectIsApplied [
 
-    | aGame aBoard aShip ships oneDice dices aMoonWalkCell anotherShip |
+    | aGame aBoard aShip ships oneDice dices anotherShip numberOfCells cells |
 
-    aMoonWalkCell := MoonWalkCell initializeCellOn: 9 withRequiredValue: 2.
-
-    aBoard := ChargedBoardWithOneMoonWalkCell withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 1 and: 2 andAMoonWalkCell: aMoonWalkCell onCell: 9.
+	cells := OrderedCollection new.
+	cells add: (NormalCell initializeCellOn: 1).
+	cells add: (NormalCell initializeCellOn: 2).
+	cells add: (NormalCell initializeCellOn: 3).
+	cells add: (NormalCell initializeCellOn: 4).
+	cells add: (MoonWalkCell initializeCellOn: 5 withRequiredValue: 2).
+	cells add: (NormalCell initializeCellOn: 6).
+	cells add: (NormalCell initializeCellOn: 7).
+    numberOfCells := 7.
+	aBoard := Board withATotalNumberOfCellsOf: numberOfCells whichAre:cells andAWormHoleBetweenCells: 6 and: 7.
 
     aShip := Ship named: 'Venture'.
 	 anotherShip := Ship named: 'Sulaco'.
@@ -29,7 +36,7 @@ MoonWalkCellTest >> testWhenAShipArrivesToAMoonWalkCellThenTheEffectIsApplied [
     ships := OrderedCollection with: aShip.
 	 ships add: anotherShip .
 
-    oneDice := ChargedDice withATotalNumberOfFacesOf: 4.   
+    oneDice := ChargedDice withATotalNumberOfFacesOf: 2.   
     dices := OrderedCollection with: oneDice.
 
     aGame := SpaceShipGame
@@ -38,27 +45,24 @@ MoonWalkCellTest >> testWhenAShipArrivesToAMoonWalkCellThenTheEffectIsApplied [
         and: dices
         and: ships.
 
-    aGame executeTurn .
-	 aGame executeTurn .
-	
-	 aGame skipTurnFor: aShip.
-	 aGame skipTurnFor: anotherShip .
+	 aGame move: anotherShip to: 3 andConsume: 2.
+	 aGame move: aShip to: 5 andConsume: 4.	
 	 
-	 aGame executeTurn . 
-
-    self assert: (aShip position) equals: 9.   
-	 self assert: (anotherShip position) equals: 3. 
-
+	 self assert: (aGame positionOf: aShip ) equals: 5.
+	 self assert: (aGame positionOf: anotherShip ) equals: 1.
 ]
 
 { #category : 'tests' }
 MoonWalkCellTest >> testWhenAShipFallsIntoAMoonWalkCellAndTheSecondShipHasNoEnoughFuelToGoBackThenItStaysWhereItIs [
 
-    | aGame aBoard aShip ships oneDice dices aMoonWalkCell anotherShip |
+    | aGame aBoard aShip ships oneDice dices anotherShip numberOfCells someProbabilities aCellGenerator |
 
-    aMoonWalkCell := MoonWalkCell initializeCellOn: 9 withRequiredValue: 5.
-
-    aBoard := ChargedBoardWithOneMoonWalkCell withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 1 and: 2 andAMoonWalkCell: aMoonWalkCell onCell: 9.
+    numberOfCells := 20.
+	 someProbabilities := Dictionary new
+        at: 1 put: (MoonWalkCell initializeCellOn: numberOfCells withRequiredValue: 5) ;
+        yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+	aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 1 and: 2.
 
     aShip := Ship named: 'Venture'.
 	 anotherShip := Ship named: 'Sulaco'.

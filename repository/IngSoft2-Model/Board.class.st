@@ -45,7 +45,28 @@ Board class >> theCell: position isOutOfRange: range [
 ]
 
 { #category : 'as yet unclassified' }
-Board class >> withATotalNumberOfCellsOf: numberOfCells andAWormHoleBetweenCells: firstEntrance and: secondEntrance [
+Board class >> withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: firstEntrance and: secondEntrance [
+ 
+	| boardCells |
+	self isAPositiveInteger: numberOfCells.
+    self isAPositiveInteger: firstEntrance.
+    self isAPositiveInteger: secondEntrance.
+
+    self theCell: firstEntrance isOutOfRange: numberOfCells.
+    self theCell: secondEntrance isOutOfRange: numberOfCells.
+
+    self the: firstEntrance isDifferentFrom: secondEntrance.
+    self the: secondEntrance isSmallerThan: firstEntrance.
+
+	boardCells := OrderedCollection new.
+	1 to: numberOfCells do: [ :i | boardCells add: (aCellGenerator determineATypeOfCellOn: i) ].
+
+	^ self withATotalNumberOfCellsOf: numberOfCells whichAre: boardCells andAWormHoleBetweenCells: firstEntrance and: secondEntrance
+
+]
+
+{ #category : 'as yet unclassified' }
+Board class >> withATotalNumberOfCellsOf: numberOfCells whichAre: theseCells andAWormHoleBetweenCells: firstEntrance and: secondEntrance [
  
     self isAPositiveInteger: numberOfCells.
     self isAPositiveInteger: firstEntrance.
@@ -57,7 +78,8 @@ Board class >> withATotalNumberOfCellsOf: numberOfCells andAWormHoleBetweenCells
     self the: firstEntrance isDifferentFrom: secondEntrance.
     self the: secondEntrance isSmallerThan: firstEntrance.
 
-    ^ self new  initializeWith: numberOfCells
+    ^ self new initializeWith: numberOfCells
+		  andTheseCells: theseCells
         andAWormHoleBeweenCells: firstEntrance 
         and: secondEntrance.
 
@@ -74,6 +96,14 @@ Board >> addShip: aShip toCellAt: aPosition [
 Board >> cellNumber: aNumber [
 	
     ^ cells at: aNumber
+
+
+]
+
+{ #category : 'accessing' }
+Board >> cells [
+
+	^ cells.
 
 
 ]
@@ -96,21 +126,9 @@ Board >> getShipsIntoFirstCellOfTheBoard: shipsCollection [
 ]
 
 { #category : 'initialization' }
-Board >> initializeWith: numberOfCells andAWormHoleBeweenCells: firstEntrance and: secondEntrance [
+Board >> initializeWith: numberOfCells andTheseCells: someCells andAWormHoleBeweenCells: firstEntrance and: secondEntrance [
 
-	cells := OrderedCollection new.
-	someProbabilities := Dictionary new
-        at: 0.4 put: (NormalCell initializeCellOn: numberOfCells) ;
-        at: 0.6 put: (BlackHoleCell initializeCellOn: numberOfCells ) ;
-        at: 0.8 put: (HyperGravityCell initializeCellOn: numberOfCells withRequiredValue: 4);
-        at: 0.9 put: (MoonWalkCell initializeCellOn: numberOfCells withRequiredValue: 4);
-        at: 0.98 put: (HyperJumpCell initializeCellOn: numberOfCells withParsecValues: #(25 10 5) boardLength: 100 numberOfCells: 100) ;
-        at: 1 put: (AtomicBombCell initializeCellOn: numberOfCells) ;
-        yourself.
-	aCellGenerator := CellGenerator basedOn: someProbabilities.
-	
-	1 to: numberOfCells do: [ :i | cells add: (aCellGenerator determineATypeOfCellOn: i) ].
-
+	cells := someCells.
 	wormsHolesFirstEntrance := firstEntrance.
 	wormsHolesSecondEntrance := secondEntrance
 ]

@@ -53,6 +53,29 @@ CellGeneratorTest >> testWhenACellIsDeterminedThenItIsReturnedAndAShipCanLeave [
 ]
 
 { #category : 'tests' }
+CellGeneratorTest >> testWhenACellIsGeneratedThenItIsPropelryAssigned [
+
+	| aCellGenerator someProbabilites aCell aCellNumber |
+	
+	someProbabilites := Dictionary new
+        at: 0.4 put: (NormalCell initializeCellOn: 1) ;
+        at: 0.6 put: (BlackHoleCell initializeCellOn: 1 ) ;
+        at: 0.8 put: (HyperGravityCell initializeCellOn: 1 withRequiredValue: 4);
+        at: 0.9 put: (MoonWalkCell initializeCellOn: 1 withRequiredValue: 4);
+        at: 0.98 put: (HyperJumpCell initializeCellOn: 1 withParsecValues: #(25 10 5) boardLength: 100 numberOfCells: 100) ;
+        at: 1 put: (AtomicBombCell initializeCellOn: 1) ;
+        yourself.
+	
+	"aCellGenerator := CellGenerator new."
+	aCellGenerator := CellGenerator basedOn: someProbabilites.
+	 
+	aCellNumber := 5.
+	aCell := aCellGenerator determineATypeOfCellOn: aCellNumber.
+	
+	self assert: (aCell number) equals: aCellNumber.
+]
+
+{ #category : 'tests' }
 CellGeneratorTest >> testWhenACellIsGeneratedThenItIsReturnedAndAShipCanEnter [
 
 	| aShip aCellGenerator someProbabilites aCell |

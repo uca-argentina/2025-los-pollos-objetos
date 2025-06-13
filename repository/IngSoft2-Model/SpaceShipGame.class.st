@@ -118,7 +118,8 @@ SpaceShipGame >> initializeWith: laps with: aBoard with: gameDices with: gameShi
     dices := gameDices.
 	 chargeOfFuel := (self sumOfDiceSizes) * 2.
 
-    ships := gameShips.
+    "ships := gameShips collect: [ :ship | ship deepCopy ]."
+	ships := gameShips.
 	 self chargeFuelToShipsUpTo: chargeOfFuel.
 	
 	shipSupposedToPlay := 1.
@@ -185,6 +186,12 @@ SpaceShipGame >> penaltyFor: aShip [
 ]
 
 { #category : 'as yet unclassified' }
+SpaceShipGame >> positionOf: aShip [
+
+	^ ((board cells) detect: [ :cell | cell includes: aShip ]) number.
+]
+
+{ #category : 'as yet unclassified' }
 SpaceShipGame >> reducePenaltyFor: aShip [
 
 	| remaining |
@@ -195,6 +202,12 @@ remaining > 0
 		aShip restoreFuel.
 		penalties removeKey: aShip ]
 
+]
+
+{ #category : 'as yet unclassified' }
+SpaceShipGame >> shipLike: aShip [
+
+	^ (ships detect: [ :ship | ship name = aShip name ])
 ]
 
 { #category : 'as yet unclassified' }

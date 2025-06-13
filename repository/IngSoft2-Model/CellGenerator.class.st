@@ -19,7 +19,7 @@ CellGenerator >> determineATypeOfCellOn: aCellNumber [
 
 	| pickedCell |
 	
-   pickedCell := self pickATypeOfCell.
+   pickedCell := (self pickATypeOfCell) withPositionNumber: aCellNumber.
 
 	^ pickedCell
 	

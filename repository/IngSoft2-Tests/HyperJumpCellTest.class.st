@@ -17,19 +17,22 @@ HyperJumpCellTest >> should: anErrorBlock raise: anErrorClass withMessageText: e
 { #category : 'tests' }
 HyperJumpCellTest >> testWhenAFourthShipArrivesToHyperJumpCellThenItAdvancesTheCorrespondingParsecs [
 
-	| aGame aBoard ships oneDice dices boardLengthInParsecs parsecValues expectedPosition cellLengthInParsecs firstShip secondShip thirdShip fourthShip aHyperJumpCell |
+	| aGame aBoard ships oneDice dices boardLengthInParsecs parsecValues expectedPosition cellLengthInParsecs firstShip secondShip thirdShip fourthShip numberOfCells someProbabilities aCellGenerator |
 	
 	boardLengthInParsecs := 100.
 	cellLengthInParsecs := 10.
 	parsecValues := #( 25 15 10 ).
-		
-	aHyperJumpCell := HyperJumpCell
+	
+    numberOfCells := 10.
+	 someProbabilities := Dictionary new
+        at: 1 put: (HyperJumpCell
 		                 initializeCellOn: 4
 		                 withParsecValues: parsecValues
 		                 boardLength: boardLengthInParsecs
-		                 numberOfCells: 10.
-		
-	aBoard := ChargedBoardWithOneHyperJumpCell withATotalNumberOfCellsOf: 10 andAWormHoleBetweenCells: 2 and: 3 andAHyperJumpCell: aHyperJumpCell onCell: 4.
+		                 numberOfCells: 10) ;
+        yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+	aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 2 and: 3.
 
 
 	firstShip := Ship named: 'Venture1'.
@@ -109,15 +112,23 @@ HyperJumpCellTest >> testWhenAHyperJumpCellIsInitializedWithNegativeTotalNumberO
 { #category : 'tests' }
 HyperJumpCellTest >> testWhenASecondShipArrivesToHyperJumpCellThenItAdvancesTheCorrespondingParsecs [
 
-| aGame aBoard aShip ships oneDice dices boardLengthInParsecs parsecValues expectedPosition cellLengthInParsecs anotherShip aHyperJumpCell |
+| aGame aBoard aShip ships oneDice dices boardLengthInParsecs parsecValues expectedPosition cellLengthInParsecs anotherShip aHyperJumpCell numberOfCells someProbabilities aCellGenerator |
     
     boardLengthInParsecs := 100.
     cellLengthInParsecs := 10.
     parsecValues := #(25 15 10). 
 
-    aHyperJumpCell := HyperJumpCell initializeCellOn: 4 withParsecValues: parsecValues boardLength: boardLengthInParsecs numberOfCells: 10.
+    numberOfCells := 10.
+	 someProbabilities := Dictionary new
+        at: 1 put: (HyperJumpCell
+		                 initializeCellOn: 4
+		                 withParsecValues: parsecValues
+		                 boardLength: boardLengthInParsecs
+		                 numberOfCells: 10) ;
+        yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+	aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 2 and: 3.
 
-    aBoard := ChargedBoardWithOneHyperJumpCell withATotalNumberOfCellsOf: 10 andAWormHoleBetweenCells: 2 and: 3 andAHyperJumpCell: aHyperJumpCell onCell: 4.
 
     aShip := Ship named: 'Venture'.
     anotherShip := Ship named: 'Millenium Falcon'.
@@ -143,15 +154,23 @@ HyperJumpCellTest >> testWhenASecondShipArrivesToHyperJumpCellThenItAdvancesTheC
 { #category : 'tests' }
 HyperJumpCellTest >> testWhenAShipArrivesToHyperJumpCellQAndRunsOutOfFuelToAdvanceThenItStaysOnTheCell [
 
-| aGame aBoard aShip ships oneDice dices boardLengthInParsecs parsecValues cellLengthInParsecs aHyperJumpCell |
-    
+| aGame aBoard aShip ships oneDice dices boardLengthInParsecs parsecValues cellLengthInParsecs aHyperJumpCell numberOfCells someProbabilities aCellGenerator |
+
     boardLengthInParsecs := 100.
     cellLengthInParsecs := 10.
     parsecValues := #(30 15 10). 
 
-    aHyperJumpCell := HyperJumpCell initializeCellOn: 4 withParsecValues: parsecValues boardLength: boardLengthInParsecs numberOfCells: 10.
+    numberOfCells := 10.
+	 someProbabilities := Dictionary new
+        at: 1 put: (HyperJumpCell
+		                 initializeCellOn: 4
+		                 withParsecValues: parsecValues
+		                 boardLength: boardLengthInParsecs
+		                 numberOfCells: 10) ;
+        yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+	aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 2 and: 3.
 
-    aBoard := ChargedBoardWithOneHyperJumpCell withATotalNumberOfCellsOf: 10 andAWormHoleBetweenCells: 2 and: 3 andAHyperJumpCell: aHyperJumpCell onCell: 4.
 
     aShip := Ship named: 'Venture'.
     ships := OrderedCollection with: aShip.
@@ -175,19 +194,25 @@ HyperJumpCellTest >> testWhenAShipArrivesToHyperJumpCellQAndRunsOutOfFuelToAdvan
 { #category : 'tests' }
 HyperJumpCellTest >> testWhenAShipArrivesToHyperJumpCellThenItAdvancesTheCorrespondingParsecs [
 
-| aGame aBoard aShip ships oneDice dices boardLengthInParsecs parsecValues expectedPosition cellLengthInParsecs aHyperJumpCell |
+| aGame aBoard aShip ships oneDice dices boardLengthInParsecs parsecValues expectedPosition cellLengthInParsecs aHyperJumpCell numberOfCells someProbabilities aCellGenerator |
     
     boardLengthInParsecs := 100.
     cellLengthInParsecs := 10.
     parsecValues := #(25 15 10). 
 
-    aHyperJumpCell := HyperJumpCell initializeCellOn: 4 withParsecValues: parsecValues boardLength: boardLengthInParsecs numberOfCells: 10.
-
-    aBoard := ChargedBoardWithOneHyperJumpCell withATotalNumberOfCellsOf: 10 andAWormHoleBetweenCells: 2 and: 3 andAHyperJumpCell: aHyperJumpCell onCell: 4.
+    numberOfCells := 10.
+	 someProbabilities := Dictionary new
+        at: 1 put: (HyperJumpCell
+		                 initializeCellOn: 4
+		                 withParsecValues: parsecValues
+		                 boardLength: boardLengthInParsecs
+		                 numberOfCells: 10) ;
+        yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+	aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 2 and: 3.
 
     aShip := Ship named: 'Venture'.
     ships := OrderedCollection with: aShip.
-
     oneDice := ChargedDice withATotalNumberOfFacesOf: 3.  
     dices := OrderedCollection with: oneDice.
 

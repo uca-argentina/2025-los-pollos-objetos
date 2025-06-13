@@ -26,10 +26,15 @@ AtomicBombCellTest >> testWhenAAtomicBombCellIsInitializedWithANegativeNumberThe
 { #category : 'tests' }
 AtomicBombCellTest >> testWhenAShipsArrivesToAtomicBombCellThenAllReturnToFirstCell [
 
-	| aGame aBoard aShip anotherShip ships oneDice dices |
+	| aGame aBoard aShip anotherShip ships oneDice dices numberOfCells someProbabilities aCellGenerator |
 	
-	aBoard := ChargedBoardWithOneAtomicBombCell withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 15 and: 17 andAnAtomicBombOnCell: 5.
-
+	numberOfCells := 20.
+	someProbabilities := Dictionary new
+        at: 1 put: (AtomicBombCell initializeCellOn: numberOfCells) ;
+        yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+	aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 15 and: 17.
+	
 	aShip := Ship named: 'Venture'.
 	anotherShip := Ship named: 'Millenium Falcon'.
 	ships := OrderedCollection with: aShip with: anotherShip.
@@ -54,9 +59,15 @@ AtomicBombCellTest >> testWhenAShipsArrivesToAtomicBombCellThenAllReturnToFirstC
 { #category : 'tests' }
 AtomicBombCellTest >> testWhenMultipleShipsArriveToAtomicBombCellThenAllReturnToFirstCell [
 
-    | aGame aBoard aShip anotherShip ships oneDice dices |
+    | aGame aBoard aShip anotherShip ships oneDice dices numberOfCells someProbabilities aCellGenerator |
 
-    aBoard := ChargedBoardWithOneAtomicBombCell withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 15 and: 17 andAnAtomicBombOnCell: 5.
+    numberOfCells := 20.
+	someProbabilities := Dictionary new
+        at: 1 put: (AtomicBombCell initializeCellOn: numberOfCells) ;
+        yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+	aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 15 and: 17.
+	
 
     aShip := Ship named: 'Venture'.
     anotherShip := Ship named: 'Millenium Falcon'.
@@ -82,9 +93,15 @@ AtomicBombCellTest >> testWhenMultipleShipsArriveToAtomicBombCellThenAllReturnTo
 { #category : 'tests' }
 AtomicBombCellTest >> testWhenShipArrivesToAtomicBombCellThenItReturnsToFirstCell [
 
-    | aGame aBoard aShip ships oneDice dices |
+    | aGame aBoard aShip ships oneDice dices numberOfCells someProbabilities aCellGenerator |
 
-    aBoard := ChargedBoardWithOneAtomicBombCell withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 15 and: 17 andAnAtomicBombOnCell: 5.
+    numberOfCells := 20.
+	 someProbabilities := Dictionary new
+        at: 1 put: (AtomicBombCell initializeCellOn: numberOfCells) ;
+        yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+	aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 15 and: 17.
+	
 
     aShip := Ship named: 'Venture'.
     ships := OrderedCollection with: aShip.
@@ -107,9 +124,15 @@ AtomicBombCellTest >> testWhenShipArrivesToAtomicBombCellThenItReturnsToFirstCel
 { #category : 'tests' }
 AtomicBombCellTest >> testWhenShipArrivesToAtomicBombCellThenItReturnsToFirstCellAndRestoreFuel [
 
-    | aGame aBoard aShip ships oneDice dices  |
+    | aGame aBoard aShip ships oneDice dices  numberOfCells someProbabilities aCellGenerator |
 	
-    aBoard := ChargedBoardWithOneAtomicBombCell withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 15 and: 17 andAnAtomicBombOnCell: 5.
+    numberOfCells := 20.
+	 someProbabilities := Dictionary new
+        at: 1 put: (AtomicBombCell initializeCellOn: numberOfCells) ;
+        yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+	aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 15 and: 17.
+	
     
     aShip := Ship named: 'Venture'.
     ships := OrderedCollection with: aShip.

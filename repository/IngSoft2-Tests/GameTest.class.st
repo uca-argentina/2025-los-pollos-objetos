@@ -18,9 +18,15 @@ GameTest >> should: anErrorBlock raise: anErroClass withMessageText: errorMessag
 { #category : 'tests' }
 GameTest >> testWhenAGameIsInitializedWithAMaximumThrowOfTenThenTheSumOfDiceIsTen [
 
-	| ships aShip  aBoard oneDice dices aGame  anotherShip |
+	| ships aShip  aBoard oneDice dices aGame  anotherShip numberOfCells someProbabilities aCellGenerator |
 	
-	aBoard := ChargedBoardWithNoSpecialCells withATotalNumberOfCellsOf: 6 andAWormHoleBetweenCells: 2 and: 5.
+	numberOfCells := 6.
+	someProbabilities := Dictionary new
+        at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 2  and: 5.
 
 	aShip := Ship named: 'Venture'.
 	anotherShip := Ship named: 'Adventure'.
@@ -43,10 +49,15 @@ GameTest >> testWhenAGameIsInitializedWithAMaximumThrowOfTenThenTheSumOfDiceIsTe
 { #category : 'tests' }
 GameTest >> testWhenAGameIsInitializedWithAMaximumThrowOfTwentyAndTwoDieThenTheSumOfDiceIsTwenty [
 
-	| ships aShip  aBoard oneDice dices aGame  anotherShip anotherDice |
+	| ships aShip  aBoard oneDice dices aGame  anotherShip anotherDice numberOfCells someProbabilities aCellGenerator |
 	
-	aBoard := ChargedBoardWithNoSpecialCells withATotalNumberOfCellsOf: 6 andAWormHoleBetweenCells: 2 and: 5.
-
+	numberOfCells := 6.
+	someProbabilities := Dictionary new
+        at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 2  and: 5.
 	aShip := Ship named: 'Venture'.
 	anotherShip := Ship named: 'Adventure'.
 	
@@ -69,10 +80,15 @@ GameTest >> testWhenAGameIsInitializedWithAMaximumThrowOfTwentyAndTwoDieThenTheS
 { #category : 'tests' }
 GameTest >> testWhenAShipIsPenalizeWithTwoMovesThenItsIncludedInThePenalizationsDictionary [
 
-	| ships aShip  aBoard oneDice dices aGame  |
+	| ships aShip  aBoard oneDice dices aGame  numberOfCells someProbabilities aCellGenerator |
 	
-	aBoard := ChargedBoardWithNoSpecialCells withATotalNumberOfCellsOf: 6 andAWormHoleBetweenCells: 2 and: 5.
-
+	numberOfCells := 6.
+	someProbabilities := Dictionary new
+        at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 2  and: 5.
 	aShip := Ship named: 'Venture'.
 	ships := OrderedCollection with: aShip.
 
@@ -93,35 +109,34 @@ GameTest >> testWhenAShipIsPenalizeWithTwoMovesThenItsIncludedInThePenalizations
 { #category : 'tests' }
 GameTest >> testWhenAShipIsPenalizedThenTheFuelIsRestoredAfterLosingItsTurn [
 
-	| ships aShip  aBoard oneDice dices aGame  anotherShip  fuelBeforePenalization fuelAfterPenalization |
+	| ships aShip  aBoard oneDice dices aGame  anotherShip  fuelBeforePenalization fuelAfterPenalization theShipToTest numberOfCells someProbabilities aCellGenerator |
 	
-	aBoard := ChargedBoardWithNoSpecialCells withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 1 and: 2.
-
+	numberOfCells := 20.
+	someProbabilities := Dictionary new
+        at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 1 and: 2.
 	aShip := Ship named: 'Venture'.
 	anotherShip := Ship named: 'Adventure'.
-	
 	ships := OrderedCollection with: aShip.
 	ships add: anotherShip .
-
 	oneDice := ChargedDice withATotalNumberOfFacesOf: 5. 
 	dices := OrderedCollection with: oneDice.
-
-    aGame := SpaceShipGame
+	aGame := SpaceShipGame
         completedAtLap: 1
         with: aBoard
         and: dices
         and: ships.
 	
 	aGame executeTurn. 
-	aGame executeTurn. 
-	
-	fuelBeforePenalization := aShip currentFuel .
-	
-	aGame penalize: aShip withTurns: 1. 
-		
-	aGame executeTurn. 
-	
-	fuelAfterPenalization := aShip currentFuel .
+	aGame executeTurn.
+	theShipToTest := aGame shipLike: aShip. 
+	fuelBeforePenalization := theShipToTest currentFuel .
+	aGame penalize: theShipToTest withTurns: 1. 
+	aGame executeTurn. 	
+	fuelAfterPenalization := theShipToTest currentFuel .
 	
 	self deny: fuelBeforePenalization equals: fuelAfterPenalization 
 	
@@ -132,10 +147,15 @@ GameTest >> testWhenAShipIsPenalizedThenTheFuelIsRestoredAfterLosingItsTurn [
 GameTest >> testWhenAShipIsPenalizedWithANonIntegerThenItFails [
 
 	
-	| ships aShip  aBoard oneDice dices aGame  anotherShip  |
+	| ships aShip  aBoard oneDice dices aGame  anotherShip  numberOfCells someProbabilities aCellGenerator |
 	
-	aBoard := ChargedBoardWithNoSpecialCells withATotalNumberOfCellsOf: 6 andAWormHoleBetweenCells: 2 and: 5.
-
+	numberOfCells := 6.
+	someProbabilities := Dictionary new
+        at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 2  and: 5.
 	aShip := Ship named: 'Venture'.
 	anotherShip := Ship named: 'Adventure'.
 	
@@ -163,10 +183,15 @@ GameTest >> testWhenAShipIsPenalizedWithANonIntegerThenItFails [
 GameTest >> testWhenAShipIsPenalizedWithANonPositiveIntegerThenItFails [
 
 	
-	| ships aShip  aBoard oneDice dices aGame  anotherShip  |
+	| ships aShip  aBoard oneDice dices aGame  anotherShip  numberOfCells someProbabilities aCellGenerator |
 	
-	aBoard := ChargedBoardWithNoSpecialCells withATotalNumberOfCellsOf: 6 andAWormHoleBetweenCells: 2 and: 5.
-
+	numberOfCells := 6.
+	someProbabilities := Dictionary new
+        at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 2  and: 5.
 	aShip := Ship named: 'Venture'.
 	anotherShip := Ship named: 'Adventure'.
 	
@@ -193,10 +218,15 @@ GameTest >> testWhenAShipIsPenalizedWithANonPositiveIntegerThenItFails [
 { #category : 'tests' }
 GameTest >> testWhenAShipRunsOutOfFuelThenItStaysAtItsPlaceAndIsPenalized [
 
-	| ships aShip  aBoard oneDice dices aGame  |
+	| ships aShip  aBoard oneDice dices aGame  numberOfCells someProbabilities aCellGenerator |
 	
-	aBoard := ChargedBoardWithNoSpecialCells withATotalNumberOfCellsOf: 10 andAWormHoleBetweenCells: 2 and: 5.
-
+	numberOfCells := 10.
+	someProbabilities := Dictionary new
+        at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 2 and: 5.
 	aShip := Ship named: 'Venture'.
 	ships := OrderedCollection with: aShip.
 
@@ -219,10 +249,15 @@ GameTest >> testWhenAShipRunsOutOfFuelThenItStaysAtItsPlaceAndIsPenalized [
 { #category : 'tests' }
 GameTest >> testWhenAShipRunsOutOfFuelThenItsPenalizedWithTwoTurns [
 
-	| ships aShip  aBoard oneDice dices aGame  |
+	| ships aShip  aBoard oneDice dices aGame  numberOfCells someProbabilities aCellGenerator |
 	
-	aBoard := ChargedBoardWithNoSpecialCells withATotalNumberOfCellsOf: 6 andAWormHoleBetweenCells: 2 and: 5.
-
+	numberOfCells := 6.
+	someProbabilities := Dictionary new
+        at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 2  and: 5.
 	aShip := Ship named: 'Venture'.
 	ships := OrderedCollection with: aShip.
 
@@ -244,10 +279,15 @@ GameTest >> testWhenAShipRunsOutOfFuelThenItsPenalizedWithTwoTurns [
 { #category : 'tests' }
 GameTest >> testWhenAShipWithTwoPenaltiesAreReduceByOneThenItHasOnePenaltyOnly [
 
-	| ships aShip  aBoard oneDice dices aGame  anotherShip |
+	| ships aShip  aBoard oneDice dices aGame  anotherShip numberOfCells someProbabilities aCellGenerator |
 	
-	aBoard := ChargedBoardWithNoSpecialCells withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 1 and: 2.
-
+	numberOfCells := 20.
+	someProbabilities := Dictionary new
+        at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 1 and: 2.
 	aShip := Ship named: 'Venture'.
 	anotherShip := Ship named: 'Adventure'.
 	
@@ -275,10 +315,15 @@ GameTest >> testWhenAShipWithTwoPenaltiesAreReduceByOneThenItHasOnePenaltyOnly [
 { #category : 'tests' }
 GameTest >> testWhenAllShipsChargeOneUnitOfFuelAtTheSameTimeThenTheyAllHaveOneUnitOfFuel [
 
-	| ships aShip  aBoard oneDice dices aGame  anotherShip |
+	| ships aShip  aBoard oneDice dices aGame  anotherShip numberOfCells someProbabilities aCellGenerator |
 	
-	aBoard := ChargedBoardWithNoSpecialCells withATotalNumberOfCellsOf: 6 andAWormHoleBetweenCells: 2 and: 5.
-
+	numberOfCells := 6.
+	someProbabilities := Dictionary new
+        at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 2  and: 5.
 	aShip := Ship named: 'Zathura'.
 	anotherShip := Ship named: 'Adventure'.
 	
@@ -305,14 +350,17 @@ GameTest >> testWhenAllShipsChargeOneUnitOfFuelAtTheSameTimeThenTheyAllHaveOneUn
 { #category : 'tests' }
 GameTest >> testWhenGameIsCreatedThenItHasAWinningLap [
 
-    | aGame aBoard aShip anotherShip ships oneDice anotherDice dices |
+    | aGame aBoard aShip anotherShip ships oneDice anotherDice dices numberOfCells someProbabilities aCellGenerator |
 
     "aGame := Game new."
 
-    aBoard := ChargedBoardWithNoSpecialCells
-                  withATotalNumberOfCellsOf: 10
-                  andAWormHoleBetweenCells: 2
-                  and: 6.
+    numberOfCells := 10.
+	someProbabilities := Dictionary new
+        at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 2 and: 6.
 
     aShip := Ship named: 'Executor'.
     anotherShip := Ship named: 'Axiom'.
@@ -334,12 +382,15 @@ GameTest >> testWhenGameIsCreatedThenItHasAWinningLap [
 { #category : 'tests' }
 GameTest >> testWhenGameIsCreatedWithAllThePiecesThenIsSuccesfullyCreated [
 
-    | aGame aBoard aShip anotherShip ships oneDice anotherDice dices |
+    | aGame aBoard aShip anotherShip ships oneDice anotherDice dices numberOfCells someProbabilities aCellGenerator |
 
-    aBoard := ChargedBoardWithNoSpecialCells
-                  withATotalNumberOfCellsOf: 10
-                  andAWormHoleBetweenCells: 2
-                  and: 6.
+    numberOfCells := 10.
+	someProbabilities := Dictionary new
+        at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 2 and: 6.
 
     aShip := Ship named: 'Executor'.
     anotherShip := Ship named: 'Axiom'.
@@ -361,11 +412,14 @@ GameTest >> testWhenGameIsCreatedWithAllThePiecesThenIsSuccesfullyCreated [
 { #category : 'tests' }
 GameTest >> testWhenGameIsStartedThenAllShipsAreAtTheFirstCell [
 
-    | aGame aBoard aShip anotherShip ships oneDice anotherDice dices firstCell |
-    aBoard := ChargedBoardWithNoSpecialCells
-                  withATotalNumberOfCellsOf: 10
-                  andAWormHoleBetweenCells: 2
-                  and: 6.
+    | aGame aBoard aShip anotherShip ships oneDice anotherDice dices firstCell numberOfCells someProbabilities aCellGenerator |
+    numberOfCells := 10.
+	someProbabilities := Dictionary new
+        at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 2 and: 6.
 
     aShip := Ship named: 'Executor'.
     anotherShip := Ship named: 'Axiom'.
@@ -390,11 +444,14 @@ GameTest >> testWhenGameIsStartedThenAllShipsAreAtTheFirstCell [
 { #category : 'tests' }
 GameTest >> testWhenGameIsStartedThenItSuccesfullyStarts [
 
-    | aGame aBoard aShip anotherShip ships oneDice anotherDice dices |
-    aBoard := ChargedBoardWithNoSpecialCells
-                  withATotalNumberOfCellsOf: 10
-                  andAWormHoleBetweenCells: 2
-                  and: 6.
+    | aGame aBoard aShip anotherShip ships oneDice anotherDice dices numberOfCells someProbabilities aCellGenerator |
+    numberOfCells := 10.
+	someProbabilities := Dictionary new
+        at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 2 and: 6.
 
     aShip := Ship named: 'Executor'.
     anotherShip := Ship named: 'Axiom'.
@@ -416,8 +473,14 @@ GameTest >> testWhenGameIsStartedThenItSuccesfullyStarts [
 { #category : 'tests' }
 GameTest >> testWhenOneGameIsInitializedWithAMaximumThrowOfFiveThenAllShipsHaveTenUnitsOfFuel [
 
-    | aGame aBoard aShip  ships oneDice  dices anotherShip |
-    aBoard := ChargedBoardWithNoSpecialCells withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 16 and: 19.
+    | aGame aBoard aShip  ships oneDice  dices anotherShip numberOfCells someProbabilities aCellGenerator |
+    numberOfCells := 20.
+	someProbabilities := Dictionary new
+        at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 16 and: 19.
 
     aShip := Ship named: 'Serenity'.
 	 anotherShip := Ship named: 'The Batwing'.
@@ -439,8 +502,14 @@ GameTest >> testWhenOneGameIsInitializedWithAMaximumThrowOfFiveThenAllShipsHaveT
 { #category : 'tests' }
 GameTest >> testWhenOneGameIsInitializedWithAMaximumThrowOfFiveThenShipsHaveTenUnitsOfFuel [
 
-    | aGame aBoard aShip  ships oneDice  dices |
-    aBoard := ChargedBoardWithNoSpecialCells withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 16 and: 19.
+    | aGame aBoard aShip  ships oneDice  dices numberOfCells someProbabilities aCellGenerator |
+    numberOfCells := 20.
+	 someProbabilities := Dictionary new
+        at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 16 and: 19.
 
     aShip := Ship named: 'Serenity'.
     ships := OrderedCollection with: aShip.
@@ -460,9 +529,14 @@ GameTest >> testWhenOneGameIsInitializedWithAMaximumThrowOfFiveThenShipsHaveTenU
 { #category : 'tests' }
 GameTest >> testWhenOneShipGetsToTheWinningLapThenTheGameFinishes [
 
-	| aGame aBoard aShip  ships oneDice  dices newPosition |
-	aBoard := ChargedBoardWithNoSpecialCells withATotalNumberOfCellsOf: 6 andAWormHoleBetweenCells: 2 and: 5. 
-
+	| aGame aBoard aShip  ships oneDice  dices newPosition numberOfCells someProbabilities aCellGenerator |
+	 numberOfCells := 6.
+	 someProbabilities := Dictionary new
+        at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 2 and: 5.
 	aShip := Ship named: 'Apolo'.
 	ships := OrderedCollection with: aShip.
 
@@ -486,9 +560,14 @@ GameTest >> testWhenOneShipGetsToTheWinningLapThenTheGameFinishes [
 { #category : 'tests' }
 GameTest >> testWhenOneShipGetsToTheWinningLapThenYouCanKnowWhichShipWon [
 
-	| aGame aBoard aShip  ships oneDice  dices newPosition |
-	aBoard := ChargedBoardWithNoSpecialCells withATotalNumberOfCellsOf: 6 andAWormHoleBetweenCells: 2 and: 5.
-
+	| aGame aBoard aShip  ships oneDice  dices newPosition numberOfCells someProbabilities aCellGenerator |
+	numberOfCells := 6.
+	someProbabilities := Dictionary new
+        at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 2 and: 5.
 	aShip := Ship named: 'Venture'.
 	ships := OrderedCollection with: aShip.
 
@@ -510,10 +589,15 @@ GameTest >> testWhenOneShipGetsToTheWinningLapThenYouCanKnowWhichShipWon [
 { #category : 'tests' }
 GameTest >> testWhenOneShipGetsToTheWormsHolesFirstEntranceThenItIsForwardedToTheSecondEntranceOfTheWormsHole [
 
-	| aGame aBoard aShip  ships oneDice  dices   blackHolesSecondEntrance shipPositionAfterTheDices positionAfterDeterminingIfItFallsIntoABlackHole |
+	| aGame aBoard aShip  ships oneDice  dices   blackHolesSecondEntrance shipPositionAfterTheDices positionAfterDeterminingIfItFallsIntoABlackHole numberOfCells someProbabilities aCellGenerator |
 	
-	aBoard := ChargedBoardWithNoSpecialCells withATotalNumberOfCellsOf: 25 andAWormHoleBetweenCells: 5 and: 8.
-
+	numberOfCells := 25.
+	someProbabilities := Dictionary new
+        at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 5 and: 8.
 	aShip := Ship named: 'Serenity'.
 	ships := OrderedCollection with: aShip.
 
@@ -541,9 +625,14 @@ GameTest >> testWhenOneShipGetsToTheWormsHolesFirstEntranceThenItIsForwardedToTh
 { #category : 'tests' }
 GameTest >> testWhenOneShipGetsToTheWormsHolesSecondEntranceThenItIsForwardedToTheFirstEntranceOfTheWormHole [
 
-	| aGame aBoard aShip  ships oneDice  dices  blackHolesFirstEntrance shipPositionAfterTheDices positionAfterDeterminingIfItFallsIntoABlackHole  |
-	aBoard := ChargedBoardWithNoSpecialCells withATotalNumberOfCellsOf: 25 andAWormHoleBetweenCells: 5 and: 20.
-
+	| aGame aBoard aShip  ships oneDice  dices  blackHolesFirstEntrance shipPositionAfterTheDices positionAfterDeterminingIfItFallsIntoABlackHole  numberOfCells someProbabilities aCellGenerator |
+	numberOfCells := 25.
+	someProbabilities := Dictionary new
+        at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 5 and: 20.
 	aShip := Ship named: 'Elysium'.
 	ships := OrderedCollection with: aShip.
 
@@ -572,8 +661,14 @@ GameTest >> testWhenOneShipGetsToTheWormsHolesSecondEntranceThenItIsForwardedToT
 { #category : 'tests' }
 GameTest >> testWhenOneShipHasTwoUnitsOfFuelAndMakesOneMoveThenItConsumesOneUnitOfFuel [
 
-    | aGame aBoard aShip  ships oneDice  dices |
-    aBoard := ChargedBoardWithNoSpecialCells withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 16 and: 19.
+    | aGame aBoard aShip  ships oneDice  dices numberOfCells someProbabilities aCellGenerator |
+    numberOfCells := 20.
+	 someProbabilities := Dictionary new
+        at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 16 and: 19.
 
     aShip := Ship named: 'Serenity'.
     ships := OrderedCollection with: aShip.
@@ -595,10 +690,15 @@ GameTest >> testWhenOneShipHasTwoUnitsOfFuelAndMakesOneMoveThenItConsumesOneUnit
 { #category : 'tests' }
 GameTest >> testWhenOneShipMakesOneLapThenItReturnsToTheFirstCell [
 
-    | aGame aBoard aShip  ships oneDice  dices  anotherShip shipPositionAfterTheDices |
+    | aGame aBoard aShip  ships oneDice  dices  anotherShip shipPositionAfterTheDices numberOfCells someProbabilities aCellGenerator |
 
-    aBoard := ChargedBoardWithNoSpecialCells withATotalNumberOfCellsOf: 10 andAWormHoleBetweenCells: 2 and: 6.
-
+    numberOfCells := 10.
+	 someProbabilities := Dictionary new
+        at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 2 and: 6.
     aShip := Ship named: 'Venture'.
     anotherShip := Ship named: 'Axiom'.
     ships := OrderedCollection with: aShip with: anotherShip.
@@ -621,10 +721,15 @@ GameTest >> testWhenOneShipMakesOneLapThenItReturnsToTheFirstCell [
 { #category : 'tests' }
 GameTest >> testWhenOneShipMakesOneLapThenTheAmountOfLapsIsUpdated [
 
-    | aGame aBoard aShip  ships oneDice  dices  anotherShip shipsNumberOfLapsAfterThrowing |
+    | aGame aBoard aShip  ships oneDice  dices  anotherShip shipsNumberOfLapsAfterThrowing numberOfCells someProbabilities aCellGenerator |
 
-    aBoard := ChargedBoardWithNoSpecialCells withATotalNumberOfCellsOf: 10 andAWormHoleBetweenCells: 2 and: 6.
-
+    numberOfCells := 10.
+	 someProbabilities := Dictionary new
+        at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 2 and: 6.
     aShip := Ship named: 'Venture'.
     anotherShip := Ship named: 'Axiom'.
     ships := OrderedCollection with: aShip with: anotherShip.
@@ -647,8 +752,14 @@ GameTest >> testWhenOneShipMakesOneLapThenTheAmountOfLapsIsUpdated [
 { #category : 'tests' }
 GameTest >> testWhenOneShipMakesOneMoveThenItIsForwardedToTheNewPosition [
 
-    | aGame aBoard aShip  ships oneDice  dices  intialShipPosition |
-    aBoard := ChargedBoardWithNoSpecialCells withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 16 and: 19.
+    | aGame aBoard aShip  ships oneDice  dices  intialShipPosition numberOfCells someProbabilities aCellGenerator |
+    numberOfCells := 20.
+	 someProbabilities := Dictionary new
+        at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 16 and: 19.
 
     aShip := Ship named: 'Serenity'.
     ships := OrderedCollection with: aShip.
@@ -672,8 +783,14 @@ GameTest >> testWhenOneShipMakesOneMoveThenItIsForwardedToTheNewPosition [
 { #category : 'tests' }
 GameTest >> testWhenOneShipMovesOnePositionForwardThenItIsInTheNewCell [
 
-    | aGame aBoard aShip  ships oneDice  dices  intialShipPosition secondCell |
-    aBoard := ChargedBoardWithNoSpecialCells withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 17 and: 19.
+    | aGame aBoard aShip  ships oneDice  dices  intialShipPosition secondCell numberOfCells someProbabilities aCellGenerator |
+    numberOfCells := 20.
+	 someProbabilities := Dictionary new
+        at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 17 and: 19.
 
     aShip := Ship named: 'Serenity'.
     ships := OrderedCollection with: aShip.
@@ -686,8 +803,6 @@ GameTest >> testWhenOneShipMovesOnePositionForwardThenItIsInTheNewCell [
         with: aBoard
         and: dices
         and: ships.
-
-    intialShipPosition := aShip position.
 
     aGame move: aShip to: 2 andConsume: 1.
 	 secondCell := aBoard cellNumber: (aShip position).
@@ -698,8 +813,14 @@ GameTest >> testWhenOneShipMovesOnePositionForwardThenItIsInTheNewCell [
 { #category : 'tests' }
 GameTest >> testWhenOneShipMovesOnePositionForwardThenItIsNoLongerInThePreviousCell [
 
-    | aGame aBoard aShip  ships oneDice  dices  intialShipPosition firstCell |
-    aBoard := ChargedBoardWithNoSpecialCells withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 17 and: 19.
+    | aGame aBoard aShip  ships oneDice  dices firstCell numberOfCells someProbabilities aCellGenerator |
+    numberOfCells := 20.
+	 someProbabilities := Dictionary new
+        at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 17 and: 19.
 
     aShip := Ship named: 'Serenity'.
     ships := OrderedCollection with: aShip.
@@ -713,8 +834,6 @@ GameTest >> testWhenOneShipMovesOnePositionForwardThenItIsNoLongerInThePreviousC
         and: dices
         and: ships.
 
-    intialShipPosition := aShip position.
-
     aGame move: aShip to: 2 andConsume: 1.
 	 firstCell := aBoard cellNumber: (aShip lastPosition).
 
@@ -724,8 +843,14 @@ GameTest >> testWhenOneShipMovesOnePositionForwardThenItIsNoLongerInThePreviousC
 { #category : 'tests' }
 GameTest >> testWhenOneShipThrowsDiceAndReturnsOneThenItIsForwardedOnePosition [
 
-    | aGame aBoard aShip  ships oneDice  dices  intialShipPosition |
-    aBoard := ChargedBoardWithNoSpecialCells withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 16 and: 19.
+    | aGame aBoard aShip  ships oneDice  dices  intialShipPosition numberOfCells someProbabilities aCellGenerator |
+    numberOfCells := 20.
+	 someProbabilities := Dictionary new
+        at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 16 and: 19.
 
     aShip := Ship named: 'Serenity'.
     ships := OrderedCollection with: aShip.
@@ -749,10 +874,15 @@ GameTest >> testWhenOneShipThrowsDiceAndReturnsOneThenItIsForwardedOnePosition [
 { #category : 'tests' }
 GameTest >> testWhenOneShipWinsThenYouCanKnowThePositionOfEachShipInTheGame [ 
 
-    | aGame aBoard aShip  ships oneDice  dices  anotherShip shipPositionAfterTheDices |
+    | aGame aBoard aShip  ships oneDice  dices  anotherShip shipPositionAfterTheDices numberOfCells someProbabilities aCellGenerator |
 
-    aBoard := ChargedBoardWithNoSpecialCells withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 16 and: 19.
-
+    numberOfCells := 20.
+	 someProbabilities := Dictionary new
+        at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 16 and: 19.
     aShip := Ship named: 'Venture'.
     anotherShip := Ship named: 'Axiom'.
     ships := OrderedCollection with: aShip with: anotherShip.
@@ -777,10 +907,15 @@ GameTest >> testWhenOneShipWinsThenYouCanKnowThePositionOfEachShipInTheGame [
 { #category : 'tests' }
 GameTest >> testWhenShipDecidesNotToPlayItsTurnThenItsTurnIsSkipped [
 
-	| ships aShip  aBoard oneDice dices aGame  |
+	| ships aShip  aBoard oneDice dices aGame  numberOfCells someProbabilities aCellGenerator |
 	
-	aBoard := ChargedBoardWithNoSpecialCells withATotalNumberOfCellsOf: 6 andAWormHoleBetweenCells: 2 and: 5.
-
+	numberOfCells := 6.
+	someProbabilities := Dictionary new
+        at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 2 and: 5.
 	aShip := Ship named: 'Venture'.
 	ships := OrderedCollection with: aShip.
 
@@ -801,10 +936,15 @@ GameTest >> testWhenShipDecidesNotToPlayItsTurnThenItsTurnIsSkipped [
 { #category : 'tests' }
 GameTest >> testWhenTheCurrentShipHasTwoPenalizationsThenItLosesTwoTurns [
 
-	| ships aShip  aBoard oneDice dices aGame  anotherShip actualShipInGame |
+	| ships aShip  aBoard oneDice dices aGame  anotherShip actualShipInGame numberOfCells someProbabilities aCellGenerator |
 	
-	aBoard := ChargedBoardWithNoSpecialCells withATotalNumberOfCellsOf: 6 andAWormHoleBetweenCells: 2 and: 5.
-
+	numberOfCells := 6.
+	someProbabilities := Dictionary new
+        at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 2 and: 5.
 	aShip := Ship named: 'Venture'.
 	anotherShip := Ship named: 'Adventure'.
 	
@@ -832,10 +972,15 @@ GameTest >> testWhenTheCurrentShipHasTwoPenalizationsThenItLosesTwoTurns [
 { #category : 'tests' }
 GameTest >> testWhenTheCurrentShipHasTwoPenalizationsThenTheTurnIsPassedToTheNextShipTwice [
 
-	| ships aShip  aBoard oneDice dices aGame  anotherShip actualShipInGame |
+	| ships aShip  aBoard oneDice dices aGame  anotherShip actualShipInGame numberOfCells someProbabilities aCellGenerator |
 	
-	aBoard := ChargedBoardWithNoSpecialCells withATotalNumberOfCellsOf: 6 andAWormHoleBetweenCells: 2 and: 5.
-
+	numberOfCells := 6.
+	someProbabilities := Dictionary new
+        at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 2 and: 5.
 	aShip := Ship named: 'Venture'.
 	anotherShip := Ship named: 'Adventure'.
 	
@@ -864,10 +1009,15 @@ GameTest >> testWhenTheCurrentShipHasTwoPenalizationsThenTheTurnIsPassedToTheNex
 GameTest >> testWhenTheCurrentShipIsPenalizedAndItsTurnIsSkippedThenPenaltiesAreReduced [
 
 	
-	| ships aShip  aBoard oneDice dices aGame  anotherShip  |
+	| ships aShip  aBoard oneDice dices aGame  anotherShip  numberOfCells someProbabilities aCellGenerator |
 	
-	aBoard := ChargedBoardWithNoSpecialCells withATotalNumberOfCellsOf: 6 andAWormHoleBetweenCells: 2 and: 5.
-
+	numberOfCells := 6.
+	someProbabilities := Dictionary new
+        at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 2 and: 5.
 	aShip := Ship named: 'Venture'.
 	anotherShip := Ship named: 'Adventure'.
 	
@@ -894,10 +1044,15 @@ GameTest >> testWhenTheCurrentShipIsPenalizedAndItsTurnIsSkippedThenPenaltiesAre
 { #category : 'tests' }
 GameTest >> testWhenTheCurrentShipIsPenalizedThenTheTurnIsPassedToTheNextShip [
 
-	| ships aShip  aBoard oneDice dices aGame  anotherShip actualShipInGame |
+	| ships aShip  aBoard oneDice dices aGame  anotherShip actualShipInGame numberOfCells someProbabilities aCellGenerator |
 	
-	aBoard := ChargedBoardWithNoSpecialCells withATotalNumberOfCellsOf: 6 andAWormHoleBetweenCells: 2 and: 5.
-
+	numberOfCells := 6.
+	someProbabilities := Dictionary new
+        at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 2 and: 5.
 	aShip := Ship named: 'Venture'.
 	anotherShip := Ship named: 'Adventure'.
 	
@@ -924,10 +1079,15 @@ GameTest >> testWhenTheCurrentShipIsPenalizedThenTheTurnIsPassedToTheNextShip [
 { #category : 'tests' }
 GameTest >> testWhenTheFirstTurnIsExecutedThenTheFirstShipIsReturned [
 
-	| ships aShip  actualShipTurn aBoard oneDice dices aGame  |
+	| ships aShip  actualShipTurn aBoard oneDice dices aGame  numberOfCells someProbabilities aCellGenerator |
 	
-	aBoard := ChargedBoardWithNoSpecialCells withATotalNumberOfCellsOf: 6 andAWormHoleBetweenCells: 2 and: 5.
-
+	numberOfCells := 6.
+	someProbabilities := Dictionary new
+        at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 2 and: 5.
 	aShip := Ship named: 'Venture'.
 	ships := OrderedCollection with: aShip.
 
@@ -950,10 +1110,15 @@ GameTest >> testWhenTheFirstTurnIsExecutedThenTheFirstShipIsReturned [
 { #category : 'tests' }
 GameTest >> testWhenTheShipIsToldToMoveBakToLastPositionThenItMovesBack [
 
-	| ships aShip  aBoard oneDice dices aGame  anotherShip |
+	| ships aShip  aBoard oneDice dices aGame  anotherShip numberOfCells someProbabilities aCellGenerator |
 	
-	aBoard := ChargedBoardWithNoSpecialCells withATotalNumberOfCellsOf: 6 andAWormHoleBetweenCells: 2 and: 5.
-
+	numberOfCells := 6.
+	someProbabilities := Dictionary new
+        at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 2 and: 5.
 	aShip := Ship named: 'Venture'.
 	anotherShip := Ship named: 'Adventure'.
 	
@@ -978,10 +1143,15 @@ GameTest >> testWhenTheShipIsToldToMoveBakToLastPositionThenItMovesBack [
 { #category : 'tests' }
 GameTest >> testWhenTwoTurnsAreCorrectlyExecutedThenTheShipsAreMovedToTheirCorrectPosition [
 
-	| ships aShip  aBoard oneDice dices aGame  anotherShip |
+	| ships aShip  aBoard oneDice dices aGame  anotherShip numberOfCells someProbabilities aCellGenerator |
 	
-	aBoard := ChargedBoardWithNoSpecialCells withATotalNumberOfCellsOf: 25 andAWormHoleBetweenCells: 2 and: 5.
-
+	numberOfCells := 25.
+	someProbabilities := Dictionary new
+        at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 2 and: 5.
 	aShip := Ship named: 'Venture'.
 	anotherShip := Ship named: 'Zorgons Ship'.
 	ships := OrderedCollection with: aShip.

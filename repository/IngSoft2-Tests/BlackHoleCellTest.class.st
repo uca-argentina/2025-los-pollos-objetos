@@ -26,10 +26,14 @@ BlackHoleCellTest >> testWhenABlackHoleCellIsInitializedWithANegativeNumberThenC
 { #category : 'tests' }
 BlackHoleCellTest >> testWhenAShipArrivesToABlackHoleCellInTheFollowingLapThenItReturnsToThePreviusOne [
 
-    | aGame aBoard aShip  ships oneDice  dices |
+    | aGame aBoard aShip  ships oneDice  dices numberOfCells someProbabilities aCellGenerator |
 
-
-    aBoard := ChargedBoardWithOneBlackHoleCell withATotalNumberOfCellsOf: 10 andAWormHoleBetweenCells: 5 and: 7 andAnBlackHoleOnCell: 3.
+	 numberOfCells := 10.
+	 someProbabilities := Dictionary new
+        at: 1 put: (BlackHoleCell initializeCellOn: numberOfCells) ;
+        yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+	aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 5 and: 7.
 
     aShip := Ship named: 'Venture'.
     ships := OrderedCollection with: aShip.
@@ -52,9 +56,14 @@ BlackHoleCellTest >> testWhenAShipArrivesToABlackHoleCellInTheFollowingLapThenIt
 { #category : 'tests' }
 BlackHoleCellTest >> testWhenAShipArrivesToABlackHoleCellInTheThirdCellThenItGoesBackToTheInitialCell [
 
-    | aGame aBoard aShip  ships oneDice  dices |
+    | aGame aBoard aShip  ships oneDice  dices numberOfCells someProbabilities aCellGenerator |
 
-    aBoard := ChargedBoardWithOneBlackHoleCell withATotalNumberOfCellsOf: 10 andAWormHoleBetweenCells: 5 and: 7 andAnBlackHoleOnCell: 3.
+    numberOfCells := 10.
+	 someProbabilities := Dictionary new
+        at: 1 put: (BlackHoleCell initializeCellOn: numberOfCells) ;
+        yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+	aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 5 and: 7.
 
     aShip := Ship named: 'Venture'.
     ships := OrderedCollection with: aShip.
@@ -77,9 +86,14 @@ BlackHoleCellTest >> testWhenAShipArrivesToABlackHoleCellInTheThirdCellThenItGoe
 { #category : 'tests' }
 BlackHoleCellTest >> testWhenAShipArrivesToABlackHoleCellThenItGoesBackFourCells [
 
-    | aGame aBoard aShip  ships oneDice  dices |
+    | aGame aBoard aShip  ships oneDice  dices numberOfCells someProbabilities aCellGenerator |
 
-    aBoard := ChargedBoardWithOneBlackHoleCell withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 17 and: 19 andAnBlackHoleOnCell: 15.
+	 numberOfCells := 20.
+	 someProbabilities := Dictionary new
+        at: 1 put: (BlackHoleCell initializeCellOn: numberOfCells) ;
+        yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+	aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 5 and: 7.
 
     aShip := Ship named: 'Venture'.
     ships := OrderedCollection with: aShip.
@@ -101,9 +115,14 @@ BlackHoleCellTest >> testWhenAShipArrivesToABlackHoleCellThenItGoesBackFourCells
 { #category : 'tests' }
 BlackHoleCellTest >> testWhenAShipRunsOutOfFuelAfterArrivingToBlackHoleCellThenItStaysAtTheFirstCell [
 
-    | aGame aBoard aShip  ships oneDice  dices |
+    | aGame aBoard aShip  ships oneDice  dices numberOfCells someProbabilities aCellGenerator |
 
-    aBoard := ChargedBoardWithOneBlackHoleCell withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 10 and: 14 andAnBlackHoleOnCell: 5.
+    numberOfCells := 20.
+	 someProbabilities := Dictionary new
+        at: 1 put: (BlackHoleCell initializeCellOn: numberOfCells) ;
+        yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+	aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 10 and: 14.
 
     aShip := Ship named: 'Venture'.
     ships := OrderedCollection with: aShip.
