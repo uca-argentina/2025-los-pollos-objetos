@@ -31,10 +31,10 @@ MoonWalkCell >> applyEffectTo: currentShip of: aGame [
 	| shipsInGame |
 	shipsInGame := aGame shipsPlaying.
 
-	shipsInGame do:[:shipInGame |( shipInGame = currentShip ) ifFalse: [
+	shipsInGame do: [:shipInGame | (shipInGame = currentShip) ifFalse: [
 			
 			numberOfCellsToGoBack >= shipInGame currentFuel ifFalse: [ 
-				shipInGame moveTo: shipInGame position - numberOfCellsToGoBack andConsume: numberOfCellsToGoBack 
+				aGame move: shipInGame to: (shipInGame position - numberOfCellsToGoBack) andConsume: numberOfCellsToGoBack
 				]
 			] 
 		].
