@@ -7,7 +7,8 @@ Class {
 		'cells',
 		'wormsHolesFirstEntrance',
 		'wormsHolesSecondEntrance',
-		'aCellGenerator'
+		'aCellGenerator',
+		'someProbabilities'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -98,7 +99,15 @@ Board >> getShipsIntoFirstCellOfTheBoard: shipsCollection [
 Board >> initializeWith: numberOfCells andAWormHoleBeweenCells: firstEntrance and: secondEntrance [
 
 	cells := OrderedCollection new.
-	aCellGenerator := CellGenerator new.
+	someProbabilities := Dictionary new
+        at: 0.4 put: (NormalCell initializeCellOn: numberOfCells) ;
+        at: 0.6 put: (BlackHoleCell initializeCellOn: numberOfCells ) ;
+        at: 0.8 put: (HyperGravityCell initializeCellOn: numberOfCells withRequiredValue: 4);
+        at: 0.9 put: (MoonWalkCell initializeCellOn: numberOfCells withRequiredValue: 4);
+        at: 0.98 put: (HyperJumpCell initializeCellOn: numberOfCells withParsecValues: #(25 10 5) boardLength: 100 numberOfCells: 100) ;
+        at: 1 put: (AtomicBombCell initializeCellOn: numberOfCells) ;
+        yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
 	
 	1 to: numberOfCells do: [ :i | cells add: (aCellGenerator determineATypeOfCellOn: i) ].
 

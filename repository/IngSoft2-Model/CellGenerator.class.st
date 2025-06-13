@@ -1,40 +1,46 @@
 Class {
 	#name : 'CellGenerator',
 	#superclass : 'Object',
+	#instVars : [
+		'probabilities'
+	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
+{ #category : 'as yet unclassified' }
+CellGenerator class >> basedOn: someProbabilities [
+
+	^ (self new) initializeProbabilitiesWith: someProbabilities.
+]
+
 { #category : 'initialization' }
 CellGenerator >> determineATypeOfCellOn: aCellNumber [
 
-	| cellsProbabilities pickedCell |
+	| pickedCell |
 	
-	cellsProbabilities := Dictionary new
-        at: 0.4 put: (NormalCell initializeCellOn: aCellNumber) ;
-        at: 0.6 put: (BlackHoleCell initializeCellOn: aCellNumber ) ;
-        at: 0.8 put: (HyperGravityCell initializeCellOn: aCellNumber withRequiredValue: 4);
-        at: 0.9 put: (MoonWalkCell initializeCellOn: aCellNumber withRequiredValue: 4);
-        at: 0.98 put: (HyperJumpCell initializeCellOn: aCellNumber withParsecValues: #(25 10 5) boardLength: 100 numberOfCells: 100) ;
-        at: 1 put: (AtomicBombCell initializeCellOn: aCellNumber) ;
-        yourself.
-	
-   pickedCell := self pickATypeOfCellFrom: cellsProbabilities .
+   pickedCell := self pickATypeOfCell.
 
 	^ pickedCell
 	
 ]
 
 { #category : 'initialization' }
-CellGenerator >> pickATypeOfCellFrom: aCellsProbabilities [
+CellGenerator >> initializeProbabilitiesWith: someProbabilities [
+
+	probabilities := someProbabilities.
+]
+
+{ #category : 'initialization' }
+CellGenerator >> pickATypeOfCell [
 
 	| randomValue selectedCell |
 	randomValue := ((Random new next) * 100) truncated / 100.0.
 
 	selectedCell := nil.
-	aCellsProbabilities keys asSortedCollection do: [:key |
+	probabilities keys asSortedCollection do: [:key |
     	(randomValue <= key and: [selectedCell isNil]) ifTrue: [
-        	selectedCell := aCellsProbabilities at: key
+        	selectedCell := probabilities at: key
     	].
 	].
 
