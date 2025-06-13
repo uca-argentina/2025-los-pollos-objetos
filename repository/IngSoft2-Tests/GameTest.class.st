@@ -835,7 +835,7 @@ GameTest >> testWhenOneShipMovesOnePositionForwardThenItIsNoLongerInThePreviousC
         and: ships.
 
     aGame move: aShip to: 2 andConsume: 1.
-	 firstCell := aBoard cellNumber: (aShip lastPosition).
+	 firstCell := aBoard cellNumber: 1.
 
     self deny: (firstCell includes: aShip) equals: true.
 ]
@@ -1138,6 +1138,40 @@ GameTest >> testWhenTheShipIsToldToMoveBakToLastPositionThenItMovesBack [
 	aGame moveShipToLastPlay: aShip. 
 
 	self assert: (aShip position) equals: 1.
+]
+
+{ #category : 'tests' }
+GameTest >> testWhenTryingToIdentifyASpecificShipOfTheGameThenTheProperShipIsReturned [
+
+	| ships aShip  aBoard oneDice dices aGame  anotherShip numberOfCells someProbabilities aCellGenerator gamesShip |
+	
+	numberOfCells := 6.
+	someProbabilities := Dictionary new
+        at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 2  and: 5.
+	aShip := Ship named: 'Zathura'.
+	anotherShip := Ship named: 'Adventure'.
+	
+	ships := OrderedCollection with: aShip.
+	ships add: anotherShip .
+
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 1. 
+	dices := OrderedCollection with: oneDice.
+
+    aGame := SpaceShipGame
+        completedAtLap: 1
+        with: aBoard
+        and: dices
+        and: ships.
+
+	gamesShip := aGame shipLike: aShip. 
+	
+	self assert: (gamesShip name) equals: 'Zathura'.
+
+
 ]
 
 { #category : 'tests' }
