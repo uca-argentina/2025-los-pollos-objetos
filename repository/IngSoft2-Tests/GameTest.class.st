@@ -117,7 +117,7 @@ GameTest >> testWhenAShipIsPenalizedThenTheFuelIsRestoredAfterLosingItsTurn [
         yourself.
 	 aCellGenerator := CellGenerator basedOn: someProbabilities.
 	
-	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 1 and: 2.
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 17 and: 20.
 	aShip := Ship named: 'Venture'.
 	anotherShip := Ship named: 'Adventure'.
 	ships := OrderedCollection with: aShip.
@@ -226,7 +226,7 @@ GameTest >> testWhenAShipRunsOutOfFuelThenItStaysAtItsPlaceAndIsPenalized [
         yourself.
 	 aCellGenerator := CellGenerator basedOn: someProbabilities.
 	
-	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 2 and: 5.
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 9 and: 10.
 	aShip := Ship named: 'Venture'.
 	ships := OrderedCollection with: aShip.
 
@@ -287,7 +287,7 @@ GameTest >> testWhenAShipWithTwoPenaltiesAreReduceByOneThenItHasOnePenaltyOnly [
         yourself.
 	 aCellGenerator := CellGenerator basedOn: someProbabilities.
 	
-	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 1 and: 2.
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 17 and: 20.
 	aShip := Ship named: 'Venture'.
 	anotherShip := Ship named: 'Adventure'.
 	
@@ -536,7 +536,7 @@ GameTest >> testWhenOneShipGetsToTheWinningLapThenTheGameFinishes [
         yourself.
 	 aCellGenerator := CellGenerator basedOn: someProbabilities.
 	
-	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 2 and: 5.
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 4 and: 5.
 	aShip := Ship named: 'Apolo'.
 	ships := OrderedCollection with: aShip.
 
@@ -551,7 +551,7 @@ GameTest >> testWhenOneShipGetsToTheWinningLapThenTheGameFinishes [
 		
 	"aShip throw: dices."
 	aGame throwDiceFor: aShip.
-	newPosition := aShip position. 
+	newPosition := aGame positionOf: aShip. 
 	
 	"self assert: (aGame determineTheConsequencesOfTheThrowIn: newPosition forShip: aShip) equals: 'The game has ended, you won!'"
 	self assert: (aGame determineTheConsequencesOfTheThrowIn: newPosition forShip: aShip) equals: 'Apolo won the Game!'
@@ -567,7 +567,7 @@ GameTest >> testWhenOneShipGetsToTheWinningLapThenYouCanKnowWhichShipWon [
         yourself.
 	 aCellGenerator := CellGenerator basedOn: someProbabilities.
 	
-	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 2 and: 5.
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 5 and: 6.
 	aShip := Ship named: 'Venture'.
 	ships := OrderedCollection with: aShip.
 

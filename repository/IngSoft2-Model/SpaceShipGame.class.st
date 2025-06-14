@@ -81,8 +81,6 @@ SpaceShipGame >> determineTheConsequencesOfTheThrowIn: aNewPosition forShip: aSh
 
 	(aNewPosition = blackHolesFirstEntrance) ifTrue: [ self move: aShip to: blackHoleSecondEntrance andConsume: (blackHoleSecondEntrance - blackHolesFirstEntrance) ].
 	(aNewPosition = blackHoleSecondEntrance ) ifTrue: [ self move: aShip to: blackHolesFirstEntrance andConsume: (blackHoleSecondEntrance - blackHolesFirstEntrance) ].	
-	
-	
 ]
 
 { #category : 'as yet unclassified' }

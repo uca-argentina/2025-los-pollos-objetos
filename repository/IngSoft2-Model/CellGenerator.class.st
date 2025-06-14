@@ -26,6 +26,12 @@ CellGenerator >> determineATypeOfCellOn: aCellNumber [
 ]
 
 { #category : 'initialization' }
+CellGenerator >> generateWormHoleEntryOn: aCellNumber between: firstEntrance and: secondEntrance [
+
+	^ WormHoleCell on: aCellNumber between: firstEntrance and: secondEntrance.
+]
+
+{ #category : 'initialization' }
 CellGenerator >> initializeProbabilitiesWith: someProbabilities [
 
 	probabilities := someProbabilities.

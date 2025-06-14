@@ -48,7 +48,7 @@ Board class >> theCell: position isOutOfRange: range [
 Board class >> withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: firstEntrance and: secondEntrance [
  
 	| boardCells |
-	self isAPositiveInteger: numberOfCells.
+	 self isAPositiveInteger: numberOfCells.
     self isAPositiveInteger: firstEntrance.
     self isAPositiveInteger: secondEntrance.
 
@@ -59,8 +59,13 @@ Board class >> withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGene
     self the: secondEntrance isSmallerThan: firstEntrance.
 
 	boardCells := OrderedCollection new.
-	1 to: numberOfCells do: [ :i | boardCells add: (aCellGenerator determineATypeOfCellOn: i) ].
-
+	"1 to: numberOfCells do: [ :i | boardCells add: (aCellGenerator determineATypeOfCellOn: i) ]."
+	1 to: (firstEntrance - 1) do: [ :i | boardCells add: (aCellGenerator determineATypeOfCellOn: i) ].
+	boardCells add: (aCellGenerator generateWormHoleEntryOn: firstEntrance between: firstEntrance and: secondEntrance).
+	(firstEntrance + 1) to: (secondEntrance - 1) do: [ :i | boardCells add: (aCellGenerator determineATypeOfCellOn: i) ].
+	boardCells add: (aCellGenerator generateWormHoleEntryOn: secondEntrance between: firstEntrance and: secondEntrance).
+	(secondEntrance + 1) to: numberOfCells do: [ :i | boardCells add: (aCellGenerator determineATypeOfCellOn: i) ].
+	
 	^ self withATotalNumberOfCellsOf: numberOfCells whichAre: boardCells andAWormHoleBetweenCells: firstEntrance and: secondEntrance
 
 ]
