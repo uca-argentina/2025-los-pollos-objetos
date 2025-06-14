@@ -589,7 +589,7 @@ GameTest >> testWhenOneShipGetsToTheWinningLapThenYouCanKnowWhichShipWon [
 { #category : 'tests' }
 GameTest >> testWhenOneShipGetsToTheWormsHolesFirstEntranceThenItIsForwardedToTheSecondEntranceOfTheWormsHole [
 
-	| aGame aBoard aShip  ships oneDice  dices   blackHolesSecondEntrance shipPositionAfterTheDices positionAfterDeterminingIfItFallsIntoABlackHole numberOfCells someProbabilities aCellGenerator |
+	| aGame aBoard aShip  ships oneDice  dices   blackHolesSecondEntrance shipPositionAfterTheDices numberOfCells someProbabilities aCellGenerator |
 	
 	numberOfCells := 25.
 	someProbabilities := Dictionary new
@@ -613,19 +613,19 @@ GameTest >> testWhenOneShipGetsToTheWormsHolesFirstEntranceThenItIsForwardedToTh
 	"aShip throw: dices."
 	aGame throwDiceFor: aShip.
 	
-	shipPositionAfterTheDices := aShip position. 
-	aGame determineTheConsequencesOfTheThrowIn: shipPositionAfterTheDices forShip: aShip.
+	shipPositionAfterTheDices := aGame positionOf: aShip. 
+	"aGame determineTheConsequencesOfTheThrowIn: shipPositionAfterTheDices forShip: aShip."
 	
-	positionAfterDeterminingIfItFallsIntoABlackHole := aShip position.
+	"positionAfterDeterminingIfItFallsIntoABlackHole := aShip position."
 	blackHolesSecondEntrance := aBoard wormsHolesSecondEntrance.
 	
-	self assert: positionAfterDeterminingIfItFallsIntoABlackHole equals: blackHolesSecondEntrance.
+	self assert: shipPositionAfterTheDices equals: blackHolesSecondEntrance.
 ]
 
 { #category : 'tests' }
 GameTest >> testWhenOneShipGetsToTheWormsHolesSecondEntranceThenItIsForwardedToTheFirstEntranceOfTheWormHole [
 
-	| aGame aBoard aShip  ships oneDice  dices  blackHolesFirstEntrance shipPositionAfterTheDices positionAfterDeterminingIfItFallsIntoABlackHole  numberOfCells someProbabilities aCellGenerator |
+	| aGame aBoard aShip  ships oneDice  dices  blackHolesFirstEntrance shipPositionAfterTheDices  numberOfCells someProbabilities aCellGenerator |
 	numberOfCells := 25.
 	someProbabilities := Dictionary new
         at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
@@ -649,13 +649,12 @@ GameTest >> testWhenOneShipGetsToTheWormsHolesSecondEntranceThenItIsForwardedToT
 	aGame throwDiceFor: aShip.
 	
 	shipPositionAfterTheDices := aGame positionOf: aShip. 
-	aGame determineTheConsequencesOfTheThrowIn: shipPositionAfterTheDices forShip: aShip.
+	"aGame determineTheConsequencesOfTheThrowIn: shipPositionAfterTheDices forShip: aShip."
 	
-	positionAfterDeterminingIfItFallsIntoABlackHole := aGame positionOf: aShip.	
-	
+	"positionAfterDeterminingIfItFallsIntoABlackHole := aGame positionOf: aShip."	
 	blackHolesFirstEntrance := aBoard wormsHolesFirstEntrance.
 	
-	self assert: positionAfterDeterminingIfItFallsIntoABlackHole equals: blackHolesFirstEntrance.
+	self assert: shipPositionAfterTheDices equals: blackHolesFirstEntrance.
 ]
 
 { #category : 'tests' }

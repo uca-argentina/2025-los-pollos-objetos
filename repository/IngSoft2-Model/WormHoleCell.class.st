@@ -16,9 +16,10 @@ WormHoleCell class >> on: aNumberOfCell between: firstEntrance and: secondEntran
 ]
 
 { #category : 'initialization' }
-WormHoleCell >> applyEffectTo: currentShip of: aGame [
+WormHoleCell >> applyEffectTo: aShip of: aGame [
 
-	
+	(numberOfCell = wormsHoleFirstEntrance ) ifTrue: [ aGame move: aShip to: wormsHoleSecondEntrance andConsume: (wormsHoleSecondEntrance - wormsHoleFirstEntrance) ].
+	(numberOfCell = wormsHoleSecondEntrance ) ifTrue: [ aGame move: aShip to: wormsHoleFirstEntrance andConsume: (wormsHoleSecondEntrance - wormsHoleFirstEntrance) ].	
 ]
 
 { #category : 'initialization' }

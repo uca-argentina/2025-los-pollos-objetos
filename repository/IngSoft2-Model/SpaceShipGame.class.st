@@ -79,8 +79,8 @@ SpaceShipGame >> determineTheConsequencesOfTheThrowIn: aNewPosition forShip: aSh
 	(aNewPosition = blackHoleSecondEntrance ) ifTrue: [ aShip fly: (distanceFromBlackHolesFirstEntranceToSecondEntrance * (-1))].	
 	"
 
-	(aNewPosition = blackHolesFirstEntrance) ifTrue: [ self move: aShip to: blackHoleSecondEntrance andConsume: (blackHoleSecondEntrance - blackHolesFirstEntrance) ].
-	(aNewPosition = blackHoleSecondEntrance ) ifTrue: [ self move: aShip to: blackHolesFirstEntrance andConsume: (blackHoleSecondEntrance - blackHolesFirstEntrance) ].	
+	"(aNewPosition = blackHolesFirstEntrance) ifTrue: [ self move: aShip to: blackHoleSecondEntrance andConsume: (blackHoleSecondEntrance - blackHolesFirstEntrance) ].
+	(aNewPosition = blackHoleSecondEntrance ) ifTrue: [ self move: aShip to: blackHolesFirstEntrance andConsume: (blackHoleSecondEntrance - blackHolesFirstEntrance) ]."	
 ]
 
 { #category : 'as yet unclassified' }
@@ -105,8 +105,8 @@ SpaceShipGame >> initializeWith: laps with: aBoard with: gameDices with: gameShi
     board := aBoard.
 	 board getShipsIntoFirstCellOfTheBoard: gameShips.
     "winningCell := board numberOfCells."
-    blackHolesFirstEntrance := board wormsHolesFirstEntrance.
-    blackHoleSecondEntrance := board wormsHolesSecondEntrance.
+    "blackHolesFirstEntrance := board wormsHolesFirstEntrance.
+    blackHoleSecondEntrance := board wormsHolesSecondEntrance."
 
     dices := gameDices.
 	 chargeOfFuel := (self sumOfDiceSizes) * 2.
