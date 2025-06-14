@@ -109,7 +109,7 @@ GameTest >> testWhenAShipIsPenalizeWithTwoMovesThenItsIncludedInThePenalizations
 { #category : 'tests' }
 GameTest >> testWhenAShipIsPenalizedThenTheFuelIsRestoredAfterLosingItsTurn [
 
-	| ships aShip  aBoard oneDice dices aGame  anotherShip  fuelBeforePenalization fuelAfterPenalization theShipToTest numberOfCells someProbabilities aCellGenerator |
+	| ships aShip  aBoard oneDice dices aGame  anotherShip  fuelBeforePenalization fuelAfterPenalization numberOfCells someProbabilities aCellGenerator |
 	
 	numberOfCells := 20.
 	someProbabilities := Dictionary new
@@ -132,11 +132,10 @@ GameTest >> testWhenAShipIsPenalizedThenTheFuelIsRestoredAfterLosingItsTurn [
 	
 	aGame executeTurn. 
 	aGame executeTurn.
-	theShipToTest := aGame shipLike: aShip. 
-	fuelBeforePenalization := theShipToTest currentFuel .
-	aGame penalize: theShipToTest withTurns: 1. 
+	fuelBeforePenalization := aShip currentFuel .
+	aGame penalize: aShip withTurns: 1. 
 	aGame executeTurn. 	
-	fuelAfterPenalization := theShipToTest currentFuel .
+	fuelAfterPenalization := aShip currentFuel .
 	
 	self deny: fuelBeforePenalization equals: fuelAfterPenalization 
 	
@@ -171,7 +170,6 @@ GameTest >> testWhenAShipIsPenalizedWithANonIntegerThenItFails [
         and: dices
         and: ships.
 
-	
 	self should:[aGame penalize: aShip withTurns: '2']
 	raise: Error 
 	withMessageText: 'The penalty must be a positive integer.'
@@ -207,7 +205,6 @@ GameTest >> testWhenAShipIsPenalizedWithANonPositiveIntegerThenItFails [
         and: dices
         and: ships.
 
-	
 	self should:[aGame penalize: aShip withTurns: -2]
 	raise: Error 
 	withMessageText: 'The penalty must be a positive integer.'
@@ -242,7 +239,7 @@ GameTest >> testWhenAShipRunsOutOfFuelThenItStaysAtItsPlaceAndIsPenalized [
 	aGame executeTurn .
 	aGame executeTurn .
 
-	self assert: (aShip position) equals: 4.
+	self assert: (aGame positionOf: aShip) equals: 4.
 	self assert: (aGame penaltyFor: aShip) equals: 2.
 ]
 
@@ -279,7 +276,7 @@ GameTest >> testWhenAShipRunsOutOfFuelThenItsPenalizedWithTwoTurns [
 { #category : 'tests' }
 GameTest >> testWhenAShipWithTwoPenaltiesAreReduceByOneThenItHasOnePenaltyOnly [
 
-	| ships aShip  aBoard oneDice dices aGame  anotherShip numberOfCells someProbabilities aCellGenerator |
+	| ships aShip  aBoard oneDice dices aGame numberOfCells someProbabilities aCellGenerator |
 	
 	numberOfCells := 20.
 	someProbabilities := Dictionary new
@@ -289,10 +286,7 @@ GameTest >> testWhenAShipWithTwoPenaltiesAreReduceByOneThenItHasOnePenaltyOnly [
 	
 	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 17 and: 20.
 	aShip := Ship named: 'Venture'.
-	anotherShip := Ship named: 'Adventure'.
-	
 	ships := OrderedCollection with: aShip.
-	ships add: anotherShip .
 
 	oneDice := ChargedDice withATotalNumberOfFacesOf: 5. 
 	dices := OrderedCollection with: oneDice.
@@ -304,7 +298,7 @@ GameTest >> testWhenAShipWithTwoPenaltiesAreReduceByOneThenItHasOnePenaltyOnly [
         and: ships.
 	
 	aGame executeTurn. 
-	aGame penalize: aShip withTurns: 2. 
+	aGame executeTurn.
 	aGame reducePenaltyFor: aShip.
 	
 	self assert: (aGame penaltyFor: aShip) equals: 1 
@@ -343,8 +337,6 @@ GameTest >> testWhenAllShipsChargeOneUnitOfFuelAtTheSameTimeThenTheyAllHaveOneUn
 	
 	self assert: (aShip currentFuel) equals: 1.
 	self assert: (anotherShip currentFuel) equals: 1.
-
-
 ]
 
 { #category : 'tests' }
@@ -581,7 +573,7 @@ GameTest >> testWhenOneShipGetsToTheWinningLapThenYouCanKnowWhichShipWon [
 		and: ships.
 		
 	aGame throwDiceFor: aShip.
-	newPosition := aShip position. 
+	newPosition := aGame positionOf: aShip. 
 	
 	self assert: (aGame determineTheConsequencesOfTheThrowIn: newPosition forShip: aShip) equals: 'Venture won the Game!'
 ]
@@ -681,7 +673,8 @@ GameTest >> testWhenOneShipHasTwoUnitsOfFuelAndMakesOneMoveThenItConsumesOneUnit
         and: dices
         and: ships.
 
-    aGame throwDiceFor: aShip.
+    "aGame throwDiceFor: aShip."
+	 aGame executeTurn.
 
     self assert: aShip currentFuel equals: 1.
 ]
@@ -712,9 +705,9 @@ GameTest >> testWhenOneShipMakesOneLapThenItReturnsToTheFirstCell [
         and: ships.
 
 	aGame throwDiceFor: aShip.
-	shipPositionAfterTheDices := aShip position.
+	shipPositionAfterTheDices := aGame positionOf: aShip.
 
-    self assert: (aShip position) equals: 1.
+    self assert: (aGame positionOf: aShip) equals: 1.
 ]
 
 { #category : 'tests' }
@@ -772,11 +765,10 @@ GameTest >> testWhenOneShipMakesOneMoveThenItIsForwardedToTheNewPosition [
         and: dices
         and: ships.
 
-    intialShipPosition := aShip position.
-
+    intialShipPosition := aGame positionOf: aShip.
     aGame move: aShip to: 2 andConsume: 1.
 
-    self deny: aShip position equals: intialShipPosition.
+    self deny: (aGame positionOf: aShip) equals: intialShipPosition.
 ]
 
 { #category : 'tests' }
@@ -804,7 +796,7 @@ GameTest >> testWhenOneShipMovesOnePositionForwardThenItIsInTheNewCell [
         and: ships.
 
     aGame move: aShip to: 2 andConsume: 1.
-	 secondCell := aBoard cellNumber: (aShip position).
+	 secondCell := aBoard cellNumber: (aGame positionOf: aShip).
 
     self assert: (secondCell includes: aShip) equals: true.
 ]
@@ -863,11 +855,10 @@ GameTest >> testWhenOneShipThrowsDiceAndReturnsOneThenItIsForwardedOnePosition [
         and: dices
         and: ships.
 
-    intialShipPosition := aShip position.
-
+    intialShipPosition := aGame positionOf: aShip.
     aGame throwDiceFor: aShip.
 
-    self deny: aShip position equals: intialShipPosition.
+    self deny: (aGame positionOf: aShip) equals: intialShipPosition.
 ]
 
 { #category : 'tests' }
@@ -896,11 +887,11 @@ GameTest >> testWhenOneShipWinsThenYouCanKnowThePositionOfEachShipInTheGame [
         and: ships.
 
 	aGame throwDiceFor: aShip.
-	shipPositionAfterTheDices := aShip position. 
+	shipPositionAfterTheDices := aGame positionOf: aShip.
 	aGame determineTheConsequencesOfTheThrowIn: shipPositionAfterTheDices forShip: aShip.
 
-    self assert: (aShip position) equals: 20.
-    self assert: (anotherShip position) equals: 1.
+    self assert: (aGame positionOf: aShip) equals: 20.
+    self assert: (aGame positionOf: anotherShip) equals: 1.
 ]
 
 { #category : 'tests' }
@@ -997,7 +988,6 @@ GameTest >> testWhenTheCurrentShipHasTwoPenalizationsThenTheTurnIsPassedToTheNex
 
 	
 	aGame penalize: aShip withTurns: 2.
-	
 	aGame executeTurn. 
 	actualShipInGame:= aGame executeTurn. 
 
@@ -1008,7 +998,7 @@ GameTest >> testWhenTheCurrentShipHasTwoPenalizationsThenTheTurnIsPassedToTheNex
 GameTest >> testWhenTheCurrentShipIsPenalizedAndItsTurnIsSkippedThenPenaltiesAreReduced [
 
 	
-	| ships aShip  aBoard oneDice dices aGame  anotherShip  numberOfCells someProbabilities aCellGenerator shipToTest |
+	| ships aShip  aBoard oneDice dices aGame  anotherShip  numberOfCells someProbabilities aCellGenerator |
 	
 	numberOfCells := 6.
 	someProbabilities := Dictionary new
@@ -1066,9 +1056,7 @@ GameTest >> testWhenTheCurrentShipIsPenalizedThenTheTurnIsPassedToTheNextShip [
         and: dices
         and: ships.
 
-	
 	aGame penalize: aShip withTurns: 2.
-	
 	actualShipInGame:= aGame executeTurn. 
 
 	self assert: (actualShipInGame name) equals: anotherShip name.
@@ -1105,7 +1093,7 @@ GameTest >> testWhenTheFirstTurnIsExecutedThenTheFirstShipIsReturned [
 ]
 
 { #category : 'tests' }
-GameTest >> testWhenTheShipIsToldToMoveBakToLastPositionThenItMovesBack [
+GameTest >> testWhenTheShipIsToldToMoveBackToLastPositionThenItMovesBack [
 
 	| ships aShip  aBoard oneDice dices aGame  anotherShip numberOfCells someProbabilities aCellGenerator |
 	
@@ -1134,7 +1122,7 @@ GameTest >> testWhenTheShipIsToldToMoveBakToLastPositionThenItMovesBack [
 	aGame executeTurn. 
 	aGame moveShipToLastPlay: aShip. 
 
-	self assert: (aShip position) equals: 1.
+	self assert: (aGame positionOf: aShip) equals: 1.
 ]
 
 { #category : 'tests' }

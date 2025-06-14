@@ -146,11 +146,29 @@ ShipTest >> testWhenShipIsChargedWithOneFuelUnitsThenItHasOneFuelUnit [
 { #category : 'tests' }
 ShipTest >> testWhenShipIsCreatedThenItStarsAtStartingPosition [
 
-	| aShip |
+	| aShip numberOfCells someProbabilities aCellGenerator aBoard ships oneDice dices aGame |
 	
 	aShip := Ship named: 'Discovery One'.
+	numberOfCells := 20.
+	someProbabilities := Dictionary new
+        at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
 	
-	self assert: (aShip position) equals: 1.
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 17 and: 20.
+	ships := OrderedCollection with: aShip.
+
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 5. 
+	dices := OrderedCollection with: oneDice.
+
+    aGame := SpaceShipGame
+        completedAtLap: 1
+        with: aBoard
+        and: dices
+        and: ships.
+
+	"self assert: (aShip position) equals: 1."
+	self assert: (aGame positionOf: aShip) equals: 1.
 ]
 
 { #category : 'tests' }
@@ -188,26 +206,66 @@ ShipTest >> testWhenShipIsToldToUpdateLapThenItIncreasesOneLap [
 { #category : 'tests' }
 ShipTest >> testWhenShipMovesOnePositionFromStartingPositionThenItMovesAccordingly [
 
-	| aShip |
+	| aShip numberOfCells someProbabilities aCellGenerator aBoard ships oneDice dices aGame |
 	aShip := Ship named: 'Discovery One'.
-	aShip chargeFuelUpTo: 5.
+	"aShip chargeFuelUpTo: 5.
 	
-	aShip moveTo: 1 andConsume: 1.
+	aShip moveTo: 1 andConsume: 1."
+	numberOfCells := 20.
+	someProbabilities := Dictionary new
+        at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
 	
-	self assert: (aShip position) equals: 1.
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 17 and: 20.
+	ships := OrderedCollection with: aShip.
+
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 5. 
+	dices := OrderedCollection with: oneDice.
+
+    aGame := SpaceShipGame
+        completedAtLap: 1
+        with: aBoard
+        and: dices
+        and: ships.
+	
+	aGame move: aShip to: 1 andConsume: 1.
+	
+	"self assert: (aShip position) equals: 1."
+	self assert: (aGame positionOf: aShip) equals: 1.
 ]
 
 { #category : 'tests' }
-ShipTest >> testWhenShipRunsOutOfFuelAnsRestoresItThenItFillsUpTheTank [
+ShipTest >> testWhenShipRunsOutOfFuelAndRestoresItThenItFillsUpTheTank [
 
-	| aShip |
+	| aShip numberOfCells someProbabilities aCellGenerator aBoard ships oneDice dices aGame initialFuel |
 	aShip := Ship named: 'Apolo'.
-	aShip chargeFuelUpTo: 5.
 	
-	aShip moveTo: 5 andConsume: 5.
+	"aShip chargeFuelUpTo: 5.
+	aShip moveTo: 5 andConsume: 5."
+	numberOfCells := 20.
+	someProbabilities := Dictionary new
+        at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 17 and: 20.
+	ships := OrderedCollection with: aShip.
+
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 5. 
+	dices := OrderedCollection with: oneDice.
+
+    aGame := SpaceShipGame
+        completedAtLap: 1
+        with: aBoard
+        and: dices
+        and: ships.
+
+	initialFuel := aShip currentFuel.
+	aGame move: aShip to: 5 andConsume: 5.
 	aShip restoreFuel.
 	
-	self assert: (aShip currentFuel ) equals: 5.
+	self assert: (aShip currentFuel ) equals: initialFuel.
 ]
 
 { #category : 'tests' }

@@ -14,6 +14,6 @@ BlackHoleCell >> applyEffectTo: aShip of: aGame [
 				aGame moveShipToLastPlay: aShip.
 		 ]
 		ifFalse: [
-			targetPosition := aGame calculateTargetPositionFor: (aShip position - 4).
+			targetPosition := aGame calculateTargetPositionFor: ((aGame positionOf: aShip) - 4).
 			aGame move: aShip to: targetPosition andConsume: 4 ]
 ]

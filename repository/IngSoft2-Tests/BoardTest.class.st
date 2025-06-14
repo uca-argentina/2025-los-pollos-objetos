@@ -17,7 +17,7 @@ BoardTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMess
 { #category : 'tests' }
 BoardTest >> testWhenAShipEntersACellOfTheBoardThenItIsInThere [
 
-	| aBoard aShip firstCell numberOfCells someProbabilities aCellGenerator |
+	| aBoard aShip firstCell numberOfCells someProbabilities aCellGenerator ships dices aGame aDice |
 	numberOfCells := 10.
 	someProbabilities := Dictionary new
         at: 0.4 put: (NormalCell initializeCellOn: numberOfCells) ;
@@ -31,8 +31,17 @@ BoardTest >> testWhenAShipEntersACellOfTheBoardThenItIsInThere [
 
 	aBoard := Board withATotalNumberOfCellsOf: 10 generatedWith: aCellGenerator andAWormHoleBetweenCells: 2 and: 5.
 	aShip := Ship named: 'Executor'.
+	ships := OrderedCollection with: aShip.
+	aDice := Dice withATotalNumberOfFacesOf: 5.
+	dices := OrderedCollection with: aDice.
 	
-	aBoard addShip: aShip toCellAt: aShip position.
+	aGame := SpaceShipGame
+        completedAtLap: 1
+        with: aBoard
+        and: dices
+        and: ships.
+
+	"aBoard addShip: aShip toCellAt: aShip position."
 	firstCell := aBoard cellNumber: 1.
 	
 	self assert: (firstCell includes: aShip) equals: true.
@@ -41,7 +50,7 @@ BoardTest >> testWhenAShipEntersACellOfTheBoardThenItIsInThere [
 { #category : 'tests' }
 BoardTest >> testWhenAShipLeavesACellOfTheBoardThenItIsNoLongerInThere [
 
-	| aBoard aShip firstCell numberOfCells someProbabilities aCellGenerator |
+	| aBoard aShip firstCell numberOfCells someProbabilities aCellGenerator ships aDice dices aGame |
 	numberOfCells := 10.
 	someProbabilities := Dictionary new
         at: 0.4 put: (NormalCell initializeCellOn: numberOfCells) ;
@@ -55,10 +64,20 @@ BoardTest >> testWhenAShipLeavesACellOfTheBoardThenItIsNoLongerInThere [
 
 	aBoard := Board withATotalNumberOfCellsOf: 10 generatedWith: aCellGenerator andAWormHoleBetweenCells: 2 and: 5.
 	aShip := Ship named: 'Venture'.
+	ships := OrderedCollection with: aShip.
+	aDice := Dice withATotalNumberOfFacesOf: 5.
+	dices := OrderedCollection with: aDice.
 	
-	aBoard addShip: aShip toCellAt: aShip position.
+	aGame := SpaceShipGame
+        completedAtLap: 1
+        with: aBoard
+        and: dices
+        and: ships.
+
+	"aBoard addShip: aShip toCellAt: aShip position."
 	firstCell := aBoard cellNumber: 1.
-	aBoard removeShip: aShip fromCellAt: aShip lastPosition.
+	"aBoard removeShip: aShip fromCellAt: aShip lastPosition."
+	aGame executeTurn.
 	
 	self deny: (firstCell includes: aShip) equals: true.
 ]

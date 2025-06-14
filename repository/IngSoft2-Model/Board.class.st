@@ -116,7 +116,7 @@ Board >> cells [
 { #category : 'accessing' }
 Board >> checkCell: aShip of: aGame [
 
-	(cells at: aShip position) applyEffectTo: aShip of: aGame. 
+	(cells at: (aGame positionOf: aShip)) applyEffectTo: aShip of: aGame. 
 ]
 
 { #category : 'accessing' }
