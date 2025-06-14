@@ -32,7 +32,7 @@ BoardTest >> testWhenAShipEntersACellOfTheBoardThenItIsInThere [
 	aBoard := Board withATotalNumberOfCellsOf: 10 generatedWith: aCellGenerator andAWormHoleBetweenCells: 2 and: 5.
 	aShip := Ship named: 'Executor'.
 	ships := OrderedCollection with: aShip.
-	aDice := Dice withATotalNumberOfFacesOf: 5.
+	aDice := ChargedDice withATotalNumberOfFacesOf: 5.
 	dices := OrderedCollection with: aDice.
 	
 	aGame := SpaceShipGame
@@ -65,7 +65,7 @@ BoardTest >> testWhenAShipLeavesACellOfTheBoardThenItIsNoLongerInThere [
 	aBoard := Board withATotalNumberOfCellsOf: 10 generatedWith: aCellGenerator andAWormHoleBetweenCells: 2 and: 5.
 	aShip := Ship named: 'Venture'.
 	ships := OrderedCollection with: aShip.
-	aDice := Dice withATotalNumberOfFacesOf: 5.
+	aDice := ChargedDice withATotalNumberOfFacesOf: 5.
 	dices := OrderedCollection with: aDice.
 	
 	aGame := SpaceShipGame

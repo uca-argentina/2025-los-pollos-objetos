@@ -271,11 +271,30 @@ ShipTest >> testWhenShipRunsOutOfFuelAndRestoresItThenItFillsUpTheTank [
 { #category : 'tests' }
 ShipTest >> testWhenShipRunsOutOfFuelThenItStaysAtCurrentPosition [
 
-	| aShip |
+	| aShip numberOfCells someProbabilities aCellGenerator aBoard ships oneDice dices aGame |
 	aShip := Ship named: 'Axiom'.
-	aShip chargeFuelUpTo: 1.
+	"aShip chargeFuelUpTo: 1.
+	aShip moveTo: 1 andConsume: 1."
 	
-	aShip moveTo: 1 andConsume: 1.
+	numberOfCells := 20.
+	someProbabilities := Dictionary new
+        at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
 	
-	self assert: (aShip position) equals: (aShip lastPosition).
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 17 and: 20.
+	ships := OrderedCollection with: aShip.
+
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 5. 
+	dices := OrderedCollection with: oneDice.
+
+    aGame := SpaceShipGame
+        completedAtLap: 1
+        with: aBoard
+        and: dices
+        and: ships.
+
+	aGame move: aShip to: 1 andConsume: 1.
+	
+	self assert: (aGame positionOf: aShip) equals: (aShip lastPosition).
 ]
