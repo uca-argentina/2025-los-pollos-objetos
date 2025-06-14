@@ -835,7 +835,7 @@ GameTest >> testWhenOneShipMovesOnePositionForwardThenItIsNoLongerInThePreviousC
         and: ships.
 
     aGame move: aShip to: 2 andConsume: 1.
-	 firstCell := aBoard cellNumber: 1.
+	 firstCell := aBoard cellNumber: (aShip lastPosition).
 
     self deny: (firstCell includes: aShip) equals: true.
 ]
@@ -1009,7 +1009,7 @@ GameTest >> testWhenTheCurrentShipHasTwoPenalizationsThenTheTurnIsPassedToTheNex
 GameTest >> testWhenTheCurrentShipIsPenalizedAndItsTurnIsSkippedThenPenaltiesAreReduced [
 
 	
-	| ships aShip  aBoard oneDice dices aGame  anotherShip  numberOfCells someProbabilities aCellGenerator |
+	| ships aShip  aBoard oneDice dices aGame  anotherShip  numberOfCells someProbabilities aCellGenerator shipToTest |
 	
 	numberOfCells := 6.
 	someProbabilities := Dictionary new
@@ -1021,7 +1021,8 @@ GameTest >> testWhenTheCurrentShipIsPenalizedAndItsTurnIsSkippedThenPenaltiesAre
 	aShip := Ship named: 'Venture'.
 	anotherShip := Ship named: 'Adventure'.
 	
-	ships := OrderedCollection with: aShip.
+	ships := OrderedCollection new.
+	ships add: aShip.
 	ships add: anotherShip .
 
 	oneDice := ChargedDice withATotalNumberOfFacesOf: 6. 
@@ -1032,10 +1033,8 @@ GameTest >> testWhenTheCurrentShipIsPenalizedAndItsTurnIsSkippedThenPenaltiesAre
         with: aBoard
         and: dices
         and: ships.
-
 	
 	aGame penalize: aShip withTurns: 2.
-	
 	aGame executeTurn. 
 
 	self assert: (aGame penaltyFor: aShip) equals: 1.
@@ -1100,7 +1099,6 @@ GameTest >> testWhenTheFirstTurnIsExecutedThenTheFirstShipIsReturned [
         and: dices
         and: ships.
 
-		
 	actualShipTurn := aGame executeTurn.
 	
 	self assert: (actualShipTurn name) equals: aShip name.

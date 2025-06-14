@@ -119,7 +119,7 @@ SpaceShipGame >> initializeWith: laps with: aBoard with: gameDices with: gameShi
 	 chargeOfFuel := (self sumOfDiceSizes) * 2.
 
     "ships := gameShips collect: [ :ship | ship deepCopy ]."
-	ships := gameShips.
+	 ships := gameShips.
 	 self chargeFuelToShipsUpTo: chargeOfFuel.
 	
 	shipSupposedToPlay := 1.
@@ -207,7 +207,7 @@ remaining > 0
 { #category : 'as yet unclassified' }
 SpaceShipGame >> shipLike: aShip [
 
-	^ (ships detect: [ :ship | ship == aShip ])
+	^ (ships detect: [ :ship | (ship name) = (aShip name) ])
 ]
 
 { #category : 'as yet unclassified' }
