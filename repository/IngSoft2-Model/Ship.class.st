@@ -98,6 +98,15 @@ Ship >> lastPosition [
 ]
 
 { #category : 'path commands' }
+Ship >> moveAndConsume: aConsumption [
+	
+	self consumeFuel: aConsumption.
+	shipsPreviousCell := shipsCurrentCell.
+	
+
+]
+
+{ #category : 'path commands' }
 Ship >> moveTo: newPosition andConsume: aConsumption [
 	
 	self consumeFuel: aConsumption.

@@ -26,20 +26,24 @@ AtomicBombCellTest >> testWhenAAtomicBombCellIsInitializedWithANegativeNumberThe
 { #category : 'tests' }
 AtomicBombCellTest >> testWhenAShipsArrivesToAtomicBombCellThenAllReturnToFirstCell [
 
-	| aGame aBoard aShip anotherShip ships oneDice dices numberOfCells someProbabilities aCellGenerator |
+	| aGame aBoard aShip anotherShip ships oneDice dices numberOfCells cells |
 	
-	numberOfCells := 20.
-	someProbabilities := Dictionary new
-        at: 1 put: (AtomicBombCell initializeCellOn: numberOfCells) ;
-        yourself.
-	aCellGenerator := CellGenerator basedOn: someProbabilities.
-	aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 15 and: 17.
-	
+	cells := OrderedCollection new.
+	cells add: (NormalCell initializeCellOn: 1).
+	cells add: (NormalCell initializeCellOn: 2).
+	cells add: (NormalCell initializeCellOn: 3).
+	cells add: (NormalCell initializeCellOn: 4).
+	cells add: (AtomicBombCell initializeCellOn: 5).
+	cells add: (NormalCell initializeCellOn: 6).
+	cells add: (NormalCell initializeCellOn: 7).
+    numberOfCells := 7.
+	aBoard := Board withATotalNumberOfCellsOf: numberOfCells whichAre: cells andAWormHoleBetweenCells: 6 and: 7.
+
 	aShip := Ship named: 'Venture'.
 	anotherShip := Ship named: 'Millenium Falcon'.
 	ships := OrderedCollection with: aShip with: anotherShip.
 
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 4.
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 2.
 	dices := OrderedCollection with: oneDice.
 
 	aGame := SpaceShipGame
@@ -48,26 +52,31 @@ AtomicBombCellTest >> testWhenAShipsArrivesToAtomicBombCellThenAllReturnToFirstC
 		         and: dices
 		         and: ships.
 
-	aGame move: aShip to: 2 andConsume: 1.
 	aGame executeTurn.
+	aGame executeTurn.
+	aGame skipTurnFor: aShip.
+	aGame skipTurnFor: anotherShip.
 	aGame executeTurn.
 
-	self assert: anotherShip position equals: 1.
-	self assert: aShip position equals: 1
+	self assert: (aGame positionOf: anotherShip) equals: 1.
+	self assert: (aGame positionOf: aShip) equals: 1.
 ]
 
 { #category : 'tests' }
 AtomicBombCellTest >> testWhenMultipleShipsArriveToAtomicBombCellThenAllReturnToFirstCell [
 
-    | aGame aBoard aShip anotherShip ships oneDice dices numberOfCells someProbabilities aCellGenerator |
+    | aGame aBoard aShip anotherShip ships oneDice dices numberOfCells cells |
 
-    numberOfCells := 20.
-	someProbabilities := Dictionary new
-        at: 1 put: (AtomicBombCell initializeCellOn: numberOfCells) ;
-        yourself.
-	aCellGenerator := CellGenerator basedOn: someProbabilities.
-	aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 15 and: 17.
-	
+   cells := OrderedCollection new.
+	cells add: (NormalCell initializeCellOn: 1).
+	cells add: (NormalCell initializeCellOn: 2).
+	cells add: (NormalCell initializeCellOn: 3).
+	cells add: (NormalCell initializeCellOn: 4).
+	cells add: (AtomicBombCell initializeCellOn: 5).
+	cells add: (NormalCell initializeCellOn: 6).
+	cells add: (NormalCell initializeCellOn: 7).
+    numberOfCells := 7.
+	aBoard := Board withATotalNumberOfCellsOf: numberOfCells whichAre: cells andAWormHoleBetweenCells: 6 and: 7.
 
     aShip := Ship named: 'Venture'.
     anotherShip := Ship named: 'Millenium Falcon'.
@@ -85,23 +94,26 @@ AtomicBombCellTest >> testWhenMultipleShipsArriveToAtomicBombCellThenAllReturnTo
 	aGame executeTurn.
 	aGame executeTurn. 
 
-    self assert: (aShip position) equals: 1.
-    self assert: (anotherShip position) equals: 1.
+    self assert: (aGame positionOf: aShip) equals: 1.
+    self assert: (aGame positionOf: anotherShip) equals: 1.
 
 ]
 
 { #category : 'tests' }
 AtomicBombCellTest >> testWhenShipArrivesToAtomicBombCellThenItReturnsToFirstCell [
 
-    | aGame aBoard aShip ships oneDice dices numberOfCells someProbabilities aCellGenerator |
+    | aGame aBoard aShip ships oneDice dices numberOfCells cells |
 
-    numberOfCells := 20.
-	 someProbabilities := Dictionary new
-        at: 1 put: (AtomicBombCell initializeCellOn: numberOfCells) ;
-        yourself.
-	aCellGenerator := CellGenerator basedOn: someProbabilities.
-	aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 15 and: 17.
-	
+   cells := OrderedCollection new.
+	cells add: (NormalCell initializeCellOn: 1).
+	cells add: (NormalCell initializeCellOn: 2).
+	cells add: (NormalCell initializeCellOn: 3).
+	cells add: (NormalCell initializeCellOn: 4).
+	cells add: (AtomicBombCell initializeCellOn: 5).
+	cells add: (NormalCell initializeCellOn: 6).
+	cells add: (NormalCell initializeCellOn: 7).
+   numberOfCells := 7.
+	aBoard := Board withATotalNumberOfCellsOf: numberOfCells whichAre: cells andAWormHoleBetweenCells: 6 and: 7.	
 
     aShip := Ship named: 'Venture'.
     ships := OrderedCollection with: aShip.
@@ -124,16 +136,19 @@ AtomicBombCellTest >> testWhenShipArrivesToAtomicBombCellThenItReturnsToFirstCel
 { #category : 'tests' }
 AtomicBombCellTest >> testWhenShipArrivesToAtomicBombCellThenItReturnsToFirstCellAndRestoreFuel [
 
-    | aGame aBoard aShip ships oneDice dices  numberOfCells someProbabilities aCellGenerator |
+    | aGame aBoard aShip ships oneDice dices  numberOfCells cells |
 	
-    numberOfCells := 20.
-	 someProbabilities := Dictionary new
-        at: 1 put: (AtomicBombCell initializeCellOn: numberOfCells) ;
-        yourself.
-	aCellGenerator := CellGenerator basedOn: someProbabilities.
-	aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 15 and: 17.
-	
-    
+   cells := OrderedCollection new.
+	cells add: (NormalCell initializeCellOn: 1).
+	cells add: (NormalCell initializeCellOn: 2).
+	cells add: (NormalCell initializeCellOn: 3).
+	cells add: (NormalCell initializeCellOn: 4).
+	cells add: (AtomicBombCell initializeCellOn: 5).
+	cells add: (NormalCell initializeCellOn: 6).
+	cells add: (NormalCell initializeCellOn: 7).
+   numberOfCells := 7.
+	aBoard := Board withATotalNumberOfCellsOf: numberOfCells whichAre: cells andAWormHoleBetweenCells: 6 and: 7.
+   
     aShip := Ship named: 'Venture'.
     ships := OrderedCollection with: aShip.
 
