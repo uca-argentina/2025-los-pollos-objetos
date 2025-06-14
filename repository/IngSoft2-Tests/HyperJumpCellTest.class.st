@@ -61,7 +61,7 @@ HyperJumpCellTest >> testWhenAFourthShipArrivesToHyperJumpCellThenItAdvancesTheC
 
 	expectedPosition := 4 + (25 // cellLengthInParsecs).
 
-	self assert: fourthShip position equals: expectedPosition
+	self assert: (aGame positionOf: fourthShip) equals: expectedPosition
 ]
 
 { #category : 'tests' }

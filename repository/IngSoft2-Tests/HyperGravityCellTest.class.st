@@ -35,14 +35,18 @@ HyperGravityCellTest >> testWhenHyperGravityCellIsCreatedWithNegativeRequiredVal
 { #category : 'tests' }
 HyperGravityCellTest >> testWhenShipArrivesToHyperGravityCellWithEnoughRollThenItRemainsOnTheCell [
 
-    | aGame aBoard aShip ships oneDice dices numberOfCells someProbabilities aCellGenerator |
+    | aGame aBoard aShip ships oneDice dices numberOfCells cells |
 
-    numberOfCells := 20.
-	 someProbabilities := Dictionary new
-        at: 1 put: (HyperGravityCell initializeCellOn: numberOfCells withRequiredValue: 4) ;
-        yourself.
-	aCellGenerator := CellGenerator basedOn: someProbabilities.
-	aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 15 and: 17.
+   cells := OrderedCollection new.
+	cells add: (NormalCell initializeCellOn: 1).
+	cells add: (NormalCell initializeCellOn: 2).
+	cells add: (NormalCell initializeCellOn: 3).
+	cells add: (NormalCell initializeCellOn: 4).
+	cells add: (HyperGravityCell initializeCellOn: 5 withRequiredValue: 2).
+	cells add: (NormalCell initializeCellOn: 6).
+	cells add: (NormalCell initializeCellOn: 7).
+    numberOfCells := 7.
+	aBoard := Board withATotalNumberOfCellsOf: numberOfCells whichAre: cells andAWormHoleBetweenCells: 6 and: 7.
 	
     aShip := Ship named: 'Venture'.
     ships := OrderedCollection with: aShip.
@@ -56,23 +60,27 @@ HyperGravityCellTest >> testWhenShipArrivesToHyperGravityCellWithEnoughRollThenI
         and: dices
         and: ships.
 
-    aGame executeTurn .
+    aGame executeTurn.
 
-    self assert: (aShip position) equals: 5.
+    self assert: (aGame positionOf: aShip) equals: 5.
 ]
 
 { #category : 'tests' }
 HyperGravityCellTest >> testWhenShipArrivesToHyperGravityCellWithExactRollThenItStaysOnHyperGravityCell [
 
-    | aGame aBoard aShip ships oneDice dices numberOfCells someProbabilities aCellGenerator |
+    | aGame aBoard aShip ships oneDice dices numberOfCells cells |
 
-    numberOfCells := 20.
-	 someProbabilities := Dictionary new
-        at: 1 put: (HyperGravityCell initializeCellOn: numberOfCells withRequiredValue: 4) ;
-        yourself.
-	aCellGenerator := CellGenerator basedOn: someProbabilities.
-	aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 15 and: 17.
-
+   cells := OrderedCollection new.
+	cells add: (NormalCell initializeCellOn: 1).
+	cells add: (NormalCell initializeCellOn: 2).
+	cells add: (NormalCell initializeCellOn: 3).
+	cells add: (NormalCell initializeCellOn: 4).
+	cells add: (HyperGravityCell initializeCellOn: 5 withRequiredValue: 4).
+	cells add: (NormalCell initializeCellOn: 6).
+	cells add: (NormalCell initializeCellOn: 7).
+   numberOfCells := 7.
+	aBoard := Board withATotalNumberOfCellsOf: numberOfCells whichAre: cells andAWormHoleBetweenCells: 6 and: 7.
+	
     aShip := Ship named: 'Venture'.
     ships := OrderedCollection with: aShip.
 
@@ -87,21 +95,25 @@ HyperGravityCellTest >> testWhenShipArrivesToHyperGravityCellWithExactRollThenIt
 
     aGame executeTurn .
 
-    self assert: (aShip position) equals: 5.   
+    self assert: (aGame positionOf: aShip) equals: 5.   
 
 ]
 
 { #category : 'tests' }
 HyperGravityCellTest >> testWhenShipArrivesToHyperGravityCellWithNotEnoughRollThenItDoesntMoveForward [
 
-    | aGame aBoard aShip ships oneDice dices numberOfCells someProbabilities aCellGenerator |
+    | aGame aBoard aShip ships oneDice dices numberOfCells cells |
 
-    numberOfCells := 20.
-	 someProbabilities := Dictionary new
-        at: 1 put: (HyperGravityCell initializeCellOn: numberOfCells withRequiredValue: 6) ;
-        yourself.
-	aCellGenerator := CellGenerator basedOn: someProbabilities.
-	aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 15 and: 17.
+   cells := OrderedCollection new.
+	cells add: (NormalCell initializeCellOn: 1).
+	cells add: (NormalCell initializeCellOn: 2).
+	cells add: (NormalCell initializeCellOn: 3).
+	cells add: (NormalCell initializeCellOn: 4).
+	cells add: (HyperGravityCell initializeCellOn: 5 withRequiredValue: 6).
+	cells add: (NormalCell initializeCellOn: 6).
+	cells add: (NormalCell initializeCellOn: 7).
+   numberOfCells := 7.
+	aBoard := Board withATotalNumberOfCellsOf: numberOfCells whichAre: cells andAWormHoleBetweenCells: 6 and: 7.
 
     aShip := Ship named: 'Venture'.
     ships := OrderedCollection with: aShip.
