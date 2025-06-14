@@ -40,7 +40,7 @@ CellGenerator >> pickATypeOfCell [
 	selectedCell := nil.
 	probabilities keys asSortedCollection do: [:key |
     	(randomValue <= key and: [selectedCell isNil]) ifTrue: [
-        	selectedCell := probabilities at: key
+        	selectedCell := (probabilities at: key) deepCopy
     	].
 	].
 

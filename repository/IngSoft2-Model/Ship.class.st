@@ -99,8 +99,8 @@ Ship >> lastPosition [
 
 { #category : 'path commands' }
 Ship >> moveTo: newPosition andConsume: aConsumption [
-	self consumeFuel: aConsumption.
 	
+	self consumeFuel: aConsumption.
 	shipsPreviousCell := shipsCurrentCell.
 	fuelCharged = 0 ifFalse: [
 			shipsCurrentCell := newPosition

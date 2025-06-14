@@ -783,7 +783,7 @@ GameTest >> testWhenOneShipMakesOneMoveThenItIsForwardedToTheNewPosition [
 { #category : 'tests' }
 GameTest >> testWhenOneShipMovesOnePositionForwardThenItIsInTheNewCell [
 
-    | aGame aBoard aShip  ships oneDice  dices  intialShipPosition secondCell numberOfCells someProbabilities aCellGenerator |
+    | aGame aBoard aShip  ships oneDice  dices secondCell numberOfCells someProbabilities aCellGenerator |
     numberOfCells := 20.
 	 someProbabilities := Dictionary new
         at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
@@ -834,7 +834,7 @@ GameTest >> testWhenOneShipMovesOnePositionForwardThenItIsNoLongerInThePreviousC
         and: dices
         and: ships.
 
-    aGame move: aShip to: 2 andConsume: 1.
+    aGame move: aShip to: 3 andConsume: 1.
 	 firstCell := aBoard cellNumber: (aShip lastPosition).
 
     self deny: (firstCell includes: aShip) equals: true.

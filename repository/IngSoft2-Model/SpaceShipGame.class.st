@@ -242,13 +242,13 @@ SpaceShipGame >> throwDiceFor: aShip [
 
 	| resultOfTheThrow totalSteps targetPosition |
 	
-	positionBeforePlay := aShip position.
+	positionBeforePlay := self positionOf: aShip.
 	fuelBeforePlay := aShip currentFuel . 
 
 	resultOfTheThrow := (dices collect: [ :dice | dice beThrown ]) sum.
 	lastDiceThrow := resultOfTheThrow .
 	
-	totalSteps := aShip position + resultOfTheThrow.
+	totalSteps := (self positionOf: aShip) + resultOfTheThrow.
 
 	targetPosition := self calculateTargetPositionFor: totalSteps.
 
