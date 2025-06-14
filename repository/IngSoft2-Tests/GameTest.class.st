@@ -648,10 +648,10 @@ GameTest >> testWhenOneShipGetsToTheWormsHolesSecondEntranceThenItIsForwardedToT
 	"aShip throw: dices."
 	aGame throwDiceFor: aShip.
 	
-	shipPositionAfterTheDices := aShip position. 
+	shipPositionAfterTheDices := aGame positionOf: aShip. 
 	aGame determineTheConsequencesOfTheThrowIn: shipPositionAfterTheDices forShip: aShip.
 	
-	positionAfterDeterminingIfItFallsIntoABlackHole := aShip position.	
+	positionAfterDeterminingIfItFallsIntoABlackHole := aGame positionOf: aShip.	
 	
 	blackHolesFirstEntrance := aBoard wormsHolesFirstEntrance.
 	

@@ -27,7 +27,7 @@ MoonWalkCellTest >> testWhenAShipArrivesToAMoonWalkCellThenTheEffectIsApplied [
 	cells add: (MoonWalkCell initializeCellOn: 5 withRequiredValue: 2).
 	cells add: (NormalCell initializeCellOn: 6).
 	cells add: (NormalCell initializeCellOn: 7).
-    numberOfCells := 7.
+   numberOfCells := 7.
 	aBoard := Board withATotalNumberOfCellsOf: numberOfCells whichAre:cells andAWormHoleBetweenCells: 6 and: 7.
 
     aShip := Ship named: 'Venture'.
