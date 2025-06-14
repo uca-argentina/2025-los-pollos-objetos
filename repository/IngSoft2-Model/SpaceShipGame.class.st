@@ -52,12 +52,9 @@ SpaceShipGame >> advanceTurnIfCurrentTurnsShipIsPenalized [
 { #category : 'accessing' }
 SpaceShipGame >> calculateTargetPositionFor: totalSteps [
 
-		^ totalSteps = 0
-        ifFalse: [
-            (totalSteps \\ board numberOfCells = 0)
-                ifTrue: [ board numberOfCells ]
-                ifFalse: [ totalSteps \\ board numberOfCells ]
-        ].
+	^ (totalSteps \\ board numberOfCells) = 0
+        ifTrue: [ board numberOfCells ]
+        ifFalse: [ totalSteps \\ board numberOfCells ].
 
 ]
 
@@ -147,11 +144,11 @@ SpaceShipGame >> move: aShip to: targetPosition andConsume: aConsumption [
 	
 	aShip moveTo: targetPosition andConsume: aConsumption.
 	"aShip moveAndConsume: aConsumption."
-	shipsPreviousPosition := aShip lastPosition.
 	
 	aShip currentFuel = 0
 		ifTrue: [ self penalize: aShip withTurns: 2 ]
 		ifFalse: [
+			shipsPreviousPosition := aShip lastPosition.
 			board removeShip: aShip fromCellAt: shipsPreviousPosition.
 			board addShip: aShip toCellAt: targetPosition ].
 ]

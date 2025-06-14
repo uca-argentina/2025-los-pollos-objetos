@@ -1201,6 +1201,6 @@ GameTest >> testWhenTwoTurnsAreCorrectlyExecutedThenTheShipsAreMovedToTheirCorre
 	aGame executeTurn.
 	aGame executeTurn.
 
-	self assert: (aShip position) equals: 7.
-	self assert: (anotherShip position) equals: 7.
+	self assert: (aGame positionOf: aShip) equals: 7.
+	self assert: (aGame positionOf: anotherShip) equals: 7.
 ]
