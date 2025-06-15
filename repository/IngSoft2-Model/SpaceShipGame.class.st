@@ -140,13 +140,13 @@ SpaceShipGame >> move: aShip to: targetPosition andConsume: aConsumption [
 
 	| shipsPreviousPosition |
 	
-	aShip moveTo: targetPosition andConsume: aConsumption.
-	"aShip moveAndConsume: aConsumption."
+	"aShip moveTo: targetPosition andConsume: aConsumption."
+	shipsPreviousPosition := self positionOf: aShip.
+	aShip moveFrom: shipsPreviousPosition andConsume: aConsumption.
 	
 	aShip currentFuel = 0
 		ifTrue: [ self penalize: aShip withTurns: 2 ]
 		ifFalse: [
-			shipsPreviousPosition := aShip lastPosition.
 			board removeShip: aShip fromCellAt: shipsPreviousPosition.
 			board addShip: aShip toCellAt: targetPosition ].
 ]

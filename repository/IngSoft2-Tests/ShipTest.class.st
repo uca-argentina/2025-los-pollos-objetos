@@ -16,6 +16,56 @@ ShipTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMessa
 ]
 
 { #category : 'tests' }
+ShipTest >> testWhenAShipMovesFromAPositionThenItKnowsItsLastPosition [
+
+	| aShip numberOfCells someProbabilities aCellGenerator aBoard ships oneDice dices aGame |
+	aShip := Ship named: 'Sulaco'.
+	numberOfCells := 20.
+	someProbabilities := Dictionary new
+        at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 17 and: 20.
+	ships := OrderedCollection with: aShip.
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 5. 
+	dices := OrderedCollection with: oneDice.
+    aGame := SpaceShipGame
+        completedAtLap: 1
+        with: aBoard
+        and: dices
+        and: ships.
+
+	aShip moveFrom: 1 andConsume: 2.
+	
+	self assert: (aShip lastPosition) equals: 1.
+]
+
+{ #category : 'tests' }
+ShipTest >> testWhenAShipWithAChargeOfFourFuelsMovesFromAPositionConsumingTwoFuelsAThenFuelConsumptionIsProperlyDone [
+
+	| aShip numberOfCells someProbabilities aCellGenerator aBoard ships oneDice dices aGame |
+	aShip := Ship named: 'Sulaco'.
+	numberOfCells := 20.
+	someProbabilities := Dictionary new
+        at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 17 and: 20.
+	ships := OrderedCollection with: aShip.
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 2. 
+	dices := OrderedCollection with: oneDice.
+    aGame := SpaceShipGame
+        completedAtLap: 1
+        with: aBoard
+        and: dices
+        and: ships.
+
+	aShip moveFrom: 3 andConsume: 2.
+	
+	self assert: (aShip currentFuel) equals: 2.
+]
+
+{ #category : 'tests' }
 ShipTest >> testWhenNewShipIsCreatedThenItHasAName [
 
 	| aShip |

@@ -33,7 +33,7 @@ Ship class >> shipHasAValidName: arg1 [
 { #category : 'accessing' }
 Ship >> atStartingPosition [
 	
-	shipsCurrentCell := 1.
+	"shipsCurrentCell := 1."
 	shipsPreviousCell := 1.
 	shipsCurrentLap := 0.
 ]
@@ -98,22 +98,11 @@ Ship >> lastPosition [
 ]
 
 { #category : 'path commands' }
-Ship >> moveAndConsume: aConsumption [
+Ship >> moveFrom: shipsPreviousPosition andConsume: aConsumption [.
 	
 	self consumeFuel: aConsumption.
-	shipsPreviousCell := shipsCurrentCell.
+	shipsPreviousCell := shipsPreviousPosition.
 	
-
-]
-
-{ #category : 'path commands' }
-Ship >> moveTo: newPosition andConsume: aConsumption [
-	
-	self consumeFuel: aConsumption.
-	shipsPreviousCell := shipsCurrentCell.
-	fuelCharged = 0 ifFalse: [
-			shipsCurrentCell := newPosition
-		].
 
 ]
 
@@ -121,12 +110,6 @@ Ship >> moveTo: newPosition andConsume: aConsumption [
 Ship >> name [
 
 	^ shipsName
-]
-
-{ #category : 'accessing' }
-Ship >> position [
-
-	^ shipsCurrentCell
 ]
 
 { #category : 'accessing' }
