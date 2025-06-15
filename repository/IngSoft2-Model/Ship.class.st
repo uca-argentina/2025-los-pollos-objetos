@@ -3,10 +3,8 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'shipsName',
-		'shipsCurrentCell',
 		'fuelCharged',
 		'maximumFuel',
-		'shipsCurrentLap',
 		'shipsPreviousCell'
 	],
 	#classInstVars : [
