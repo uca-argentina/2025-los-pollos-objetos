@@ -54,12 +54,6 @@ Ship >> currentFuel [
 	^ fuelCharged 
 ]
 
-{ #category : 'accessing' }
-Ship >> currentLap [
-
-	^ shipsCurrentLap.
-]
-
 { #category : 'path commands' }
 Ship >> hasEnoughFuel: aConsumption [
 

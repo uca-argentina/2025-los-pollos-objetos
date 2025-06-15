@@ -28,14 +28,12 @@ MoonWalkCell class >> isAPositiveInteger: aNumber [
 { #category : 'initialization' }
 MoonWalkCell >> applyEffectTo: currentShip of: aGame [
 
-	| shipsInGame newPosition |
+	| shipsInGame |
+	
 	shipsInGame := aGame shipsPlaying.
-
 	shipsInGame do: [:shipInGame | (shipInGame = currentShip) ifFalse: [
-			
 			numberOfCellsToGoBack >= shipInGame currentFuel ifFalse: [ 
-				newPosition := aGame calculateTargetPositionFor: ((aGame positionOf: shipInGame) - numberOfCellsToGoBack).
-				aGame move: shipInGame to: newPosition andConsume: numberOfCellsToGoBack
+				aGame move: shipInGame by: ((-1) * numberOfCellsToGoBack).
 				]
 			] 
 		].
