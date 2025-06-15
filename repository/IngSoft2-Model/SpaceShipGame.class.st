@@ -98,6 +98,7 @@ SpaceShipGame >> executeTurn [
 	ship := ships at: shipSupposedToPlay.
 
 	self throwDiceFor: ship.
+	board determineAndApplyEffectTo: ship atCurrentCellFrom: self.
 	self advanceTurn.
 
 	^ ship
@@ -251,7 +252,6 @@ SpaceShipGame >> throwDiceFor: aShip [
 	targetPosition := self calculateTargetPositionFor: totalSteps.
 
 	self move: aShip to: targetPosition andConsume: resultOfTheThrow.
-	board checkCell: aShip of: self.
 	self updateLapFor: aShip withTotalSteps: totalSteps.
 ]
 

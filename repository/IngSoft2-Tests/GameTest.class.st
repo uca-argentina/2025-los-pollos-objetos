@@ -572,7 +572,8 @@ GameTest >> testWhenOneShipGetsToTheWinningLapThenYouCanKnowWhichShipWon [
 		and: dices
 		and: ships.
 		
-	aGame throwDiceFor: aShip.
+	"aGame throwDiceFor: aShip."
+	aGame executeTurn.
 	newPosition := aGame positionOf: aShip. 
 	
 	self assert: (aGame determineTheConsequencesOfTheThrowIn: newPosition forShip: aShip) equals: 'Venture won the Game!'
@@ -603,7 +604,8 @@ GameTest >> testWhenOneShipGetsToTheWormsHolesFirstEntranceThenItIsForwardedToTh
 		and: ships.
 		
 	"aShip throw: dices."
-	aGame throwDiceFor: aShip.
+	"aGame throwDiceFor: aShip."
+	aGame executeTurn.
 	
 	shipPositionAfterTheDices := aGame positionOf: aShip. 
 	"aGame determineTheConsequencesOfTheThrowIn: shipPositionAfterTheDices forShip: aShip."
@@ -638,7 +640,8 @@ GameTest >> testWhenOneShipGetsToTheWormsHolesSecondEntranceThenItIsForwardedToT
 		and: ships.
 			
 	"aShip throw: dices."
-	aGame throwDiceFor: aShip.
+	"aGame throwDiceFor: aShip."
+	aGame executeTurn.
 	
 	shipPositionAfterTheDices := aGame positionOf: aShip. 
 	"aGame determineTheConsequencesOfTheThrowIn: shipPositionAfterTheDices forShip: aShip."

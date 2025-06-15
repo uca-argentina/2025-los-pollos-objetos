@@ -114,7 +114,7 @@ Board >> cells [
 ]
 
 { #category : 'accessing' }
-Board >> checkCell: aShip of: aGame [
+Board >> determineAndApplyEffectTo: aShip atCurrentCellFrom: aGame [
 
 	(cells at: (aGame positionOf: aShip)) applyEffectTo: aShip of: aGame. 
 ]
