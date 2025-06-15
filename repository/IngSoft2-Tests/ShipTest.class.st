@@ -234,23 +234,26 @@ ShipTest >> testWhenShipIsCreatedWithNoNameThenCreationFails [
 { #category : 'tests' }
 ShipTest >> testWhenShipIsInitializedThenItHasNotCompletedAnyLaps [
 
-	| aShip |
+	| aShip numberOfCells someProbabilities aCellGenerator aBoard ships oneDice dices aGame |
 	aShip := Ship named: 'Venture'.
-	
-	self assert: (aShip currentLap) equals: 0.
-]
+	numberOfCells := 10.
+	 someProbabilities := Dictionary new
+        at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
+	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 2 and: 6.
+    ships := OrderedCollection with: aShip.
+    oneDice := ChargedDice withATotalNumberOfFacesOf: 10.  
+    dices := OrderedCollection with: oneDice.
+    aGame := SpaceShipGame
+        completedAtLap: 1
+        with: aBoard
+        and: dices
+        and: ships.
 
-{ #category : 'tests' }
-ShipTest >> testWhenShipIsToldToUpdateLapThenItIncreasesOneLap [
+	aGame updateLapFor: aShip withTotalSteps: 10.
 
-	| aShip previousLap newLap |
-	aShip := Ship named: 'Venture'.
-	
-	previousLap := aShip currentLap.
-	aShip updateLapOn: 1.
-	newLap := aShip currentLap.
-	
-	self assert: (newLap) equals: previousLap + 1.
+	self assert: (aGame currentLapFor: aShip) equals: 1.
 ]
 
 { #category : 'tests' }

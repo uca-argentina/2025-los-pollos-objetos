@@ -35,7 +35,6 @@ Ship >> atStartingPosition [
 	
 	"shipsCurrentCell := 1."
 	shipsPreviousCell := 1.
-	shipsCurrentLap := 0.
 ]
 
 { #category : 'accessing' }
@@ -116,16 +115,5 @@ Ship >> name [
 Ship >> restoreFuel [
 
 	fuelCharged := maximumFuel.
-	
-]
-
-{ #category : 'accessing' }
-Ship >> updateLapOn: aNumberOfLap [
-
-	shipsCurrentLap := shipsCurrentLap + aNumberOfLap.
-
-
-
-	
 	
 ]

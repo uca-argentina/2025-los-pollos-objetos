@@ -16,7 +16,8 @@ Class {
 		'shipSupposedToPlay',
 		'positionBeforePlay',
 		'fuelBeforePlay',
-		'lastDiceThrow'
+		'lastDiceThrow',
+		'shipsCurrentLap'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -31,8 +32,7 @@ SpaceShipGame class >> completedAtLap: aNumberOfLap with: aBoard and: dices and:
 { #category : 'as yet unclassified' }
 SpaceShipGame >> advanceTurn [ 
 
-	shipSupposedToPlay := shipSupposedToPlay + 1.
-	shipSupposedToPlay > ships size ifTrue: [ shipSupposedToPlay := 1 ].
+	shipSupposedToPlay := (shipSupposedToPlay \\ ships size) + 1.
 ]
 
 { #category : 'as yet unclassified' }
@@ -67,11 +67,17 @@ SpaceShipGame >> chargeFuelToShipsUpTo: aChargeOfFuel [
 ]
 
 { #category : 'as yet unclassified' }
+SpaceShipGame >> currentLapFor: aShip [
+
+	^ shipsCurrentLap at: aShip.
+]
+
+{ #category : 'as yet unclassified' }
 SpaceShipGame >> determineTheConsequencesOfTheThrowIn: aNewPosition forShip: aShip [
 	
 	| aShipCurrentLap |
 
-	aShipCurrentLap := aShip currentLap.
+	aShipCurrentLap := self currentLapFor: aShip.
 	(aShipCurrentLap = winningLaps ) ifTrue: [ ^ aShip name , ' won the Game!' ].
 	
 	"
@@ -102,23 +108,23 @@ SpaceShipGame >> initializeWith: laps with: aBoard with: gameDices with: gameShi
 
     winningLaps := laps.
 
+	dices := gameDices.
+	chargeOfFuel := (self sumOfDiceSizes) * 2.
+
+	"ships := gameShips collect: [ :ship | ship deepCopy ]."
+	 ships := gameShips.
+	 self chargeFuelToShipsUpTo: chargeOfFuel.
+	
     board := aBoard.
 	 board getShipsIntoFirstCellOfTheBoard: gameShips.
     "winningCell := board numberOfCells."
     "blackHolesFirstEntrance := board wormsHolesFirstEntrance.
     blackHoleSecondEntrance := board wormsHolesSecondEntrance."
-
-    dices := gameDices.
-	 chargeOfFuel := (self sumOfDiceSizes) * 2.
-
-    "ships := gameShips collect: [ :ship | ship deepCopy ]."
-	 ships := gameShips.
-	 self chargeFuelToShipsUpTo: chargeOfFuel.
 	
 	shipSupposedToPlay := 1.
 	penalties := Dictionary new.
-	
-	 
+	shipsCurrentLap := Dictionary new.
+	ships do: [ :ship | shipsCurrentLap at: ship put: 0 ].
 
 ]
 
@@ -252,7 +258,7 @@ SpaceShipGame >> throwDiceFor: aShip [
 { #category : 'as yet unclassified' }
 SpaceShipGame >> updateLapFor: aShip withTotalSteps: totalSteps [
 	
-	 aShip updateLapOn: totalSteps // board numberOfCells.
+	shipsCurrentLap at: aShip put: (shipsCurrentLap at: aShip) + (totalSteps // board numberOfCells).
 
 ]
 

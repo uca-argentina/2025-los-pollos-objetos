@@ -736,7 +736,7 @@ GameTest >> testWhenOneShipMakesOneLapThenTheAmountOfLapsIsUpdated [
         and: ships.
 
 	aGame updateLapFor: aShip withTotalSteps: 10.
-	shipsNumberOfLapsAfterThrowing := aShip currentLap.
+	shipsNumberOfLapsAfterThrowing := aGame currentLapFor: aShip.
 
     self assert: (shipsNumberOfLapsAfterThrowing) equals: 1.
 ]

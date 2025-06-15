@@ -46,8 +46,7 @@ HyperJumpCell >> applyEffectTo: aShip of: aGame [
     newPosition := aGame calculateTargetPositionFor: ((aGame positionOf: aShip) + cellsToJump).
     aGame move: aShip to: newPosition andConsume: cellsToJump.
 
-    currentParsecIndex := currentParsecIndex + 1.
-    (currentParsecIndex > parsecValues size) ifTrue: [ currentParsecIndex := 1 ].
+	currentParsecIndex := (currentParsecIndex \\ parsecValues size) + 1.
 ]
 
 { #category : 'initialization' }
