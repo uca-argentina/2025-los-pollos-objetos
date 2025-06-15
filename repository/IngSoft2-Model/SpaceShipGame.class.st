@@ -142,6 +142,18 @@ SpaceShipGame >> lastDiceThrow [
 	^ lastDiceThrow 
 ]
 
+{ #category : 'as yet unclassified' }
+SpaceShipGame >> move: aShip by: steps [
+
+	| totalSteps targetPosition aConsumption |
+	totalSteps := (self positionOf: aShip) + steps.
+	targetPosition := self calculateTargetPositionFor: totalSteps.
+
+	aConsumption := steps abs.
+	self move: aShip to: targetPosition andConsume: aConsumption.
+	self updateLapFor: aShip withTotalSteps: totalSteps.
+]
+
 { #category : 'accessing' }
 SpaceShipGame >> move: aShip to: targetPosition andConsume: aConsumption [
 
@@ -240,7 +252,7 @@ SpaceShipGame >> sumOfDiceSizes [
 { #category : 'as yet unclassified' }
 SpaceShipGame >> throwDiceFor: aShip [
 
-	| resultOfTheThrow totalSteps targetPosition |
+	| resultOfTheThrow |
 	
 	positionBeforePlay := self positionOf: aShip.
 	fuelBeforePlay := aShip currentFuel . 
@@ -248,11 +260,7 @@ SpaceShipGame >> throwDiceFor: aShip [
 	resultOfTheThrow := (dices collect: [ :dice | dice beThrown ]) sum.
 	lastDiceThrow := resultOfTheThrow .
 	
-	totalSteps := (self positionOf: aShip) + resultOfTheThrow.
-	targetPosition := self calculateTargetPositionFor: totalSteps.
-
-	self move: aShip to: targetPosition andConsume: resultOfTheThrow.
-	self updateLapFor: aShip withTotalSteps: totalSteps.
+	self move: aShip by: resultOfTheThrow.
 ]
 
 { #category : 'as yet unclassified' }
