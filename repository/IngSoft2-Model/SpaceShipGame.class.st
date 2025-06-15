@@ -172,7 +172,6 @@ SpaceShipGame >> move: aShip to: targetPosition andConsume: aConsumption [
 { #category : 'as yet unclassified' }
 SpaceShipGame >> moveShipToLastPlay: aShip [
 
-	"self move: aShip to: positionBeforePlay andConsume: 0."
 	self move: aShip to: (aShip lastPosition) andConsume: 0.
 	aShip restoreFuel.
 ]

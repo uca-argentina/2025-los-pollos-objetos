@@ -46,5 +46,4 @@ HyperGravityCell >> setUpOn: aNumberOfCell withRequiredValue: aRequiredValue [
     ships := OrderedCollection new.
     numberOfCell := aNumberOfCell.
     requiredValue := aRequiredValue.
-    ^ self
 ]

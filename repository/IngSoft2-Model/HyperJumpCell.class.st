@@ -57,5 +57,4 @@ HyperJumpCell >> setUpOn: aNumberOfCell withParsecValues: aParsecValue withBoard
 	currentParsecIndex := 1.
 	boardLengthInParsecs := aBoardLengthInParsecs.
 	cellLengthInParsecs := boardLengthInParsecs // aNumberOfCells.
-	^ self
 ]

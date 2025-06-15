@@ -46,5 +46,4 @@ MoonWalkCell >> setUpOn: aNumberOfCell withRequiredValue: aRequiredValue [
     ships := OrderedCollection new.
     numberOfCell := aNumberOfCell.
     numberOfCellsToGoBack := aRequiredValue.
-    ^ self
 ]

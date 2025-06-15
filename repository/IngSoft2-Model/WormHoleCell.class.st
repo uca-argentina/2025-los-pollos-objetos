@@ -12,7 +12,7 @@ Class {
 { #category : 'as yet unclassified' }
 WormHoleCell class >> on: aNumberOfCell between: firstEntrance and: secondEntrance [
 
-	^ (self new) initializeOn: aNumberOfCell between: firstEntrance and: secondEntrance.
+	^ (self new) setUpOn: aNumberOfCell between: firstEntrance and: secondEntrance.
 ]
 
 { #category : 'initialization' }
@@ -23,7 +23,7 @@ WormHoleCell >> applyEffectTo: aShip of: aGame [
 ]
 
 { #category : 'initialization' }
-WormHoleCell >> initializeOn: aNumberOfCell between: firstEntrance and: secondEntrance [
+WormHoleCell >> setUpOn: aNumberOfCell between: firstEntrance and: secondEntrance [
 
 	ships := OrderedCollection new.
 	numberOfCell := aNumberOfCell.
