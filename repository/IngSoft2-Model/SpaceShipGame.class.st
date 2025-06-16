@@ -14,7 +14,6 @@ Class {
 		'winningLaps',
 		'penalties',
 		'shipSupposedToPlay',
-		'fuelBeforePlay',
 		'lastDiceThrow',
 		'shipsCurrentLap'
 	],
@@ -240,9 +239,8 @@ SpaceShipGame >> throwDiceFor: aShip [
 
 	| resultOfTheThrow |
 	
-	fuelBeforePlay := aShip currentFuel . 
 	resultOfTheThrow := (dices collect: [ :dice | dice beThrown ]) sum.
-	lastDiceThrow := resultOfTheThrow .
+	lastDiceThrow := resultOfTheThrow.
 	
 	self move: aShip by: resultOfTheThrow.
 ]
