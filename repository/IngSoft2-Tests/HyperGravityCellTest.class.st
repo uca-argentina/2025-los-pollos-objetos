@@ -33,7 +33,7 @@ HyperGravityCellTest >> testWhenHyperGravityCellIsCreatedWithNegativeRequiredVal
 ]
 
 { #category : 'tests' }
-HyperGravityCellTest >> testWhenShipArrivesToHyperGravityCellWithEnoughRollThenItRemainsOnTheCell [
+HyperGravityCellTest >> testWhenShipArrivesToHyperGravityCellWithEnoughRollThenItContinuesFromThatCell [
 
     | aGame aBoard aShip ships oneDice dices numberOfCells cells |
 
@@ -66,7 +66,7 @@ HyperGravityCellTest >> testWhenShipArrivesToHyperGravityCellWithEnoughRollThenI
 ]
 
 { #category : 'tests' }
-HyperGravityCellTest >> testWhenShipArrivesToHyperGravityCellWithExactRollThenItStaysOnHyperGravityCell [
+HyperGravityCellTest >> testWhenShipArrivesToHyperGravityCellWithExactRollThenItContinuesFromThatCell [
 
     | aGame aBoard aShip ships oneDice dices numberOfCells cells |
 
@@ -117,17 +117,15 @@ HyperGravityCellTest >> testWhenShipArrivesToHyperGravityCellWithNotEnoughRollTh
 
     aShip := Ship named: 'Venture'.
     ships := OrderedCollection with: aShip.
-
     oneDice := ChargedDice withATotalNumberOfFacesOf: 4.   
     dices := OrderedCollection with: oneDice.
-
     aGame := SpaceShipGame
         completedAtLap: 1
         with: aBoard
         and: dices
         and: ships.
 
-    aGame executeTurn .
+    aGame executeTurn.
 
     self assert: (aGame positionOf: aShip) equals: 1.  
 ]

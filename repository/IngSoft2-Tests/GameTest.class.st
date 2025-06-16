@@ -1096,39 +1096,6 @@ GameTest >> testWhenTheFirstTurnIsExecutedThenTheFirstShipIsReturned [
 ]
 
 { #category : 'tests' }
-GameTest >> testWhenTheShipIsToldToMoveBackToLastPositionThenItMovesBack [
-
-	| ships aShip  aBoard oneDice dices aGame  anotherShip numberOfCells someProbabilities aCellGenerator |
-	
-	numberOfCells := 6.
-	someProbabilities := Dictionary new
-        at: 1 put: (NormalCell initializeCellOn: numberOfCells) ;
-        yourself.
-	 aCellGenerator := CellGenerator basedOn: someProbabilities.
-	
-	 aBoard := Board withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: 2 and: 5.
-	aShip := Ship named: 'Venture'.
-	anotherShip := Ship named: 'Adventure'.
-	
-	ships := OrderedCollection with: aShip.
-	ships add: anotherShip .
-
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 6. 
-	dices := OrderedCollection with: oneDice.
-
-    aGame := SpaceShipGame
-        completedAtLap: 1
-        with: aBoard
-        and: dices
-        and: ships.
-	
-	aGame executeTurn. 
-	aGame moveShipToLastPlay: aShip. 
-
-	self assert: (aGame positionOf: aShip) equals: 1.
-]
-
-{ #category : 'tests' }
 GameTest >> testWhenTryingToIdentifyASpecificShipOfTheGameThenTheProperShipIsReturned [
 
 	| ships aShip  aBoard oneDice dices aGame  anotherShip numberOfCells someProbabilities aCellGenerator gamesShip |

@@ -134,7 +134,7 @@ AtomicBombCellTest >> testWhenShipArrivesToAtomicBombCellThenItReturnsToFirstCel
 ]
 
 { #category : 'tests' }
-AtomicBombCellTest >> testWhenShipArrivesToAtomicBombCellThenItReturnsToFirstCellAndRestoreFuel [
+AtomicBombCellTest >> testWhenShipArrivesToAtomicBombCellThenItReturnsToFirstCellAndDoesntConsumeFuel [
 
     | aGame aBoard aShip ships oneDice dices  numberOfCells cells |
 	
@@ -163,6 +163,6 @@ AtomicBombCellTest >> testWhenShipArrivesToAtomicBombCellThenItReturnsToFirstCel
 
     aGame executeTurn . 
 
-    self assert: (aShip currentFuel) equals: 8.
+    self assert: (aShip currentFuel) equals: 4.
 
 ]

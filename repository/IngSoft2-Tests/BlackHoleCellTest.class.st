@@ -24,39 +24,6 @@ BlackHoleCellTest >> testWhenABlackHoleCellIsInitializedWithANegativeNumberThenC
 ]
 
 { #category : 'tests' }
-BlackHoleCellTest >> testWhenAShipArrivesToABlackHoleCellInTheFifthCellThenItGoesBackToTheInitialCell [
-
-    | aGame aBoard aShip  ships oneDice  dices numberOfCells cells |
-
-	cells := OrderedCollection new.
-	cells add: (NormalCell initializeCellOn: 1).
-	cells add: (NormalCell initializeCellOn: 2).
-	cells add: (NormalCell initializeCellOn: 3).
-	cells add: (NormalCell initializeCellOn: 4).
-	cells add: (BlackHoleCell initializeCellOn: 5).
-	cells add: (NormalCell initializeCellOn: 6).
-	cells add: (NormalCell initializeCellOn: 7).
-    numberOfCells := 7.
-	aBoard := Board withATotalNumberOfCellsOf: numberOfCells whichAre: cells andAWormHoleBetweenCells: 6 and: 7.
-
-    aShip := Ship named: 'Venture'.
-    ships := OrderedCollection with: aShip.
-
-    oneDice := ChargedDice withATotalNumberOfFacesOf: 4.  
-    dices := OrderedCollection with: oneDice.
-
-    aGame := SpaceShipGame
-        completedAtLap: 2
-        with: aBoard
-        and: dices
-        and: ships.
-
-	aGame executeTurn .
-
-    self assert: (aGame positionOf: aShip) equals: 1.
-]
-
-{ #category : 'tests' }
 BlackHoleCellTest >> testWhenAShipArrivesToABlackHoleCellThenItGoesBackFourCells [
 
     | aGame aBoard aShip  ships oneDice  dices numberOfCells cells |
@@ -90,6 +57,36 @@ BlackHoleCellTest >> testWhenAShipArrivesToABlackHoleCellThenItGoesBackFourCells
 ]
 
 { #category : 'tests' }
+BlackHoleCellTest >> testWhenAShipRunsOutOfFuelAfterArrivingToBlackHoleCellThenItHasAPenaltyForTwoTurns [
+
+    | aGame aBoard aShip  ships oneDice  dices numberOfCells cells |
+
+   cells := OrderedCollection new.
+	cells add: (NormalCell initializeCellOn: 1).
+	cells add: (NormalCell initializeCellOn: 2).
+	cells add: (NormalCell initializeCellOn: 3).
+	cells add: (NormalCell initializeCellOn: 4).
+	cells add: (BlackHoleCell initializeCellOn: 5).
+	cells add: (NormalCell initializeCellOn: 6).
+	cells add: (NormalCell initializeCellOn: 7).
+   numberOfCells := 7.
+	aBoard := Board withATotalNumberOfCellsOf: numberOfCells whichAre: cells andAWormHoleBetweenCells: 6 and: 7.
+    aShip := Ship named: 'Venture'.
+    ships := OrderedCollection with: aShip.
+    oneDice := ChargedDice withATotalNumberOfFacesOf: 4.  
+    dices := OrderedCollection with: oneDice.
+    aGame := SpaceShipGame
+        completedAtLap: 1
+        with: aBoard
+        and: dices
+        and: ships.
+
+	aGame executeTurn .
+
+    self assert: (aGame penaltyFor: aShip) equals: 2.
+]
+
+{ #category : 'tests' }
 BlackHoleCellTest >> testWhenAShipRunsOutOfFuelAfterArrivingToBlackHoleCellThenItStaysAtThePreviousCell [
 
     | aGame aBoard aShip  ships oneDice  dices numberOfCells cells |
@@ -106,8 +103,7 @@ BlackHoleCellTest >> testWhenAShipRunsOutOfFuelAfterArrivingToBlackHoleCellThenI
 	aBoard := Board withATotalNumberOfCellsOf: numberOfCells whichAre: cells andAWormHoleBetweenCells: 6 and: 7.
     aShip := Ship named: 'Venture'.
     ships := OrderedCollection with: aShip.
-
-    oneDice := ChargedDice withATotalNumberOfFacesOf: 2.  
+    oneDice := ChargedDice withATotalNumberOfFacesOf: 4.  
     dices := OrderedCollection with: oneDice.
 
     aGame := SpaceShipGame
@@ -118,5 +114,5 @@ BlackHoleCellTest >> testWhenAShipRunsOutOfFuelAfterArrivingToBlackHoleCellThenI
 
 	aGame executeTurn .
 
-    self assert: (aGame positionOf: aShip) equals: 3.
+    self assert: (aGame positionOf: aShip) equals: 1.
 ]

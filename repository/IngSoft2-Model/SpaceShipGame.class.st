@@ -169,13 +169,6 @@ SpaceShipGame >> move: aShip to: targetPosition andConsume: aConsumption [
 			board addShip: aShip toCellAt: targetPosition ].
 ]
 
-{ #category : 'as yet unclassified' }
-SpaceShipGame >> moveShipToLastPlay: aShip [
-
-	self move: aShip to: (aShip lastPosition) andConsume: 0.
-	aShip restoreFuel.
-]
-
 { #category : 'initialization' }
 SpaceShipGame >> numberOfCells [ 
 

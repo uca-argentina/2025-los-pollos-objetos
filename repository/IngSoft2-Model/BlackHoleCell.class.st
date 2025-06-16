@@ -10,8 +10,8 @@ BlackHoleCell >> applyEffectTo: aShip of: aGame [
 
 	4 >= aShip currentFuel
 		ifTrue: [
-				aGame moveShipToLastPlay: aShip.
-		 ]
-		ifFalse: [
-			aGame move: aShip by: (-4).]
+				aGame move: aShip to: (aShip lastPosition) andConsume: 0.
+				aGame penalize: aShip withTurns: 2.
+		 ] ifFalse: [
+					aGame move: aShip by: (-4).]
 ]

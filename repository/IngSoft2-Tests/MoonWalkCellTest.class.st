@@ -15,7 +15,7 @@ MoonWalkCellTest >> should: anErrorBlock raise: anErrorClass withMessageText: er
 ]
 
 { #category : 'tests' }
-MoonWalkCellTest >> testWhenAShipArrivesToAMoonWalkCellThenTheEffectIsApplied [
+MoonWalkCellTest >> testWhenAShipArrivesToAMoonWalkCellThenThatShipRemainsThereAndTheOtherShipsGoBackANumberOfCells [
 
     | aGame aBoard aShip ships oneDice dices anotherShip numberOfCells cells |
 
@@ -53,7 +53,7 @@ MoonWalkCellTest >> testWhenAShipArrivesToAMoonWalkCellThenTheEffectIsApplied [
 	 aGame executeTurn.
 	 aGame executeTurn.
 	 aGame executeTurn.
-	 
+		 
 	 self assert: (aGame positionOf: aShip ) equals: 5.
 	 self assert: (aGame positionOf: anotherShip ) equals: 1.
 ]
