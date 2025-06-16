@@ -209,12 +209,6 @@ remaining > 0
 ]
 
 { #category : 'as yet unclassified' }
-SpaceShipGame >> shipLike: aShip [
-
-	^ (ships detect: [ :ship | (ship name) = (aShip name) ])
-]
-
-{ #category : 'as yet unclassified' }
 SpaceShipGame >> shipsPlaying [
 
 	^ ships
