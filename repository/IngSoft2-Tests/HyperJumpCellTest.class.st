@@ -167,7 +167,7 @@ HyperJumpCellTest >> testWhenASecondShipArrivesToHyperJumpCellThenItAdvancesTheC
 ]
 
 { #category : 'tests' }
-HyperJumpCellTest >> testWhenAShipArrivesToHyperJumpCellQAndRunsOutOfFuelToAdvanceThenItStaysOnTheCell [
+HyperJumpCellTest >> testWhenAShipArrivesToHyperJumpCellQAndRunsOutOfFuelToAdvanceThenItReturnsToTheInitialPosition [
 
 	| aGame aBoard aShip ships oneDice dices boardLengthInParsecs parsecValues cellLengthInParsecs numberOfCells cells |
 	boardLengthInParsecs := 100.
@@ -195,7 +195,6 @@ HyperJumpCellTest >> testWhenAShipArrivesToHyperJumpCellQAndRunsOutOfFuelToAdvan
 		          whichAre: cells
 		          andAWormHoleBetweenCells: 6
 		          and: 7.
-	
 	oneDice := ChargedDice withATotalNumberOfFacesOf: 3.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
@@ -209,7 +208,7 @@ HyperJumpCellTest >> testWhenAShipArrivesToHyperJumpCellQAndRunsOutOfFuelToAdvan
 
 	aGame executeTurn.
 
-	self assert: (aGame positionOf: aShip) equals: 4
+	self assert: (aGame positionOf: aShip) equals: 1.
 ]
 
 { #category : 'tests' }

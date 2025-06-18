@@ -15,6 +15,51 @@ MoonWalkCellTest >> should: anErrorBlock raise: anErrorClass withMessageText: er
 ]
 
 { #category : 'tests' }
+MoonWalkCellTest >> testWhenAShipArrivesToAMoonWalkCellAndTheEffectIsAppliedButTheOtherShipHasNoEnoughFuelToGoBackThenItReturnsToTheInitialPosition [
+
+	| aGame aBoard aShip ships oneDice dices anotherShip numberOfCells cells |
+	cells := OrderedCollection new.
+	cells add: (NormalCell initializeCellOn: 1).
+	cells add: (NormalCell initializeCellOn: 2).
+	cells add: (NormalCell initializeCellOn: 3).
+	cells add: (NormalCell initializeCellOn: 4).
+	cells add: (NormalCell initializeCellOn: 5).
+	cells add: (NormalCell initializeCellOn: 6).
+	cells add: (MoonWalkCell initializeCellOn: 7 withRequiredValue: 10).
+	cells add: (NormalCell initializeCellOn: 8).
+	numberOfCells := 8.
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          whichAre: cells
+		          andAWormHoleBetweenCells: 2
+		          and: 3.
+	
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 3.
+	dices := OrderedCollection with: oneDice.
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'Sulaco' withAChargeBasedOn: dices.
+	ships := OrderedCollection new.
+	ships add: aShip.
+	ships add: anotherShip.
+
+	aGame := SpaceShipGame
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships.
+
+	aGame executeTurn.
+	aGame executeTurn.
+	aGame skipTurnFor: aShip.
+	aGame skipTurnFor: aShip.
+	aGame executeTurn.
+	aGame executeTurn.
+
+	self assert: (aGame positionOf: aShip) equals: 7.
+	self assert: (aGame positionOf: anotherShip) equals: 1.
+]
+
+{ #category : 'tests' }
 MoonWalkCellTest >> testWhenAShipArrivesToAMoonWalkCellThenThatShipRemainsThereAndTheOtherShipsGoBackANumberOfCells [
 
 	| aGame aBoard aShip ships oneDice dices anotherShip numberOfCells cells |
@@ -53,10 +98,9 @@ MoonWalkCellTest >> testWhenAShipArrivesToAMoonWalkCellThenThatShipRemainsThereA
 	aGame skipTurnFor: aShip.
 	aGame executeTurn.
 	aGame executeTurn.
-	aGame executeTurn.
 
 	self assert: (aGame positionOf: aShip) equals: 5.
-	self assert: (aGame positionOf: anotherShip) equals: 1
+	self assert: (aGame positionOf: anotherShip) equals: 1.
 ]
 
 { #category : 'tests' }

@@ -160,7 +160,7 @@ GameTest >> testWhenAShipIsPenalizedWithANonPositiveIntegerThenItFails [
 ]
 
 { #category : 'tests' }
-GameTest >> testWhenAShipRunsOutOfFuelThenItStaysAtItsPlaceAndIsPenalized [
+GameTest >> testWhenAShipRunsOutOfFuelThenItReturnsToTheInitialCellAndIsPenalized [
 
 	| ships aShip aBoard oneDice dices aGame numberOfCells someProbabilities aCellGenerator |
 	numberOfCells := 10.
@@ -190,7 +190,7 @@ GameTest >> testWhenAShipRunsOutOfFuelThenItStaysAtItsPlaceAndIsPenalized [
 	aGame executeTurn.
 	aGame executeTurn.
 
-	self assert: (aGame positionOf: aShip) equals: 4.
+	self assert: (aGame positionOf: aShip) equals: 1.
 	self assert: (aGame penaltyFor: aShip) equals: 2
 ]
 
@@ -804,7 +804,7 @@ GameTest >> testWhenOneShipMovesOnePositionForwardThenItIsInTheNewCell [
 { #category : 'tests' }
 GameTest >> testWhenOneShipMovesOnePositionForwardThenItIsNoLongerInThePreviousCell [
 
-	| aGame aBoard aShip ships oneDice dices firstCell numberOfCells someProbabilities aCellGenerator |
+	| aGame aBoard aShip ships oneDice dices firstCell numberOfCells someProbabilities aCellGenerator initialPosition |
 	numberOfCells := 20.
 	someProbabilities := Dictionary new
 		                     at: 1
@@ -830,8 +830,9 @@ GameTest >> testWhenOneShipMovesOnePositionForwardThenItIsNoLongerInThePreviousC
 		         and: dices
 		         and: ships.
 
+	initialPosition := aGame positionOf: aShip.
 	aGame move: aShip to: 3 andConsume: 1.
-	firstCell := aBoard cellNumber: aShip lastPosition.
+	firstCell := aBoard cellNumber: initialPosition.
 
 	self deny: (firstCell includes: aShip) equals: true
 ]

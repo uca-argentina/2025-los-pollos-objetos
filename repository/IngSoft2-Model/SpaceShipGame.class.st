@@ -147,14 +147,15 @@ SpaceShipGame >> move: aShip to: targetPosition andConsume: aConsumption [
 	| shipsPreviousPosition |
 	
 	"aShip moveTo: targetPosition andConsume: aConsumption."
-	shipsPreviousPosition := self positionOf: aShip.
-	aShip moveFrom: shipsPreviousPosition andConsume: aConsumption.
+	"shipsPreviousPosition := self positionOf: aShip."
+	aShip consumeFuel: aConsumption.
 	
 	aShip currentFuel = 0
-		ifTrue: [ self penalize: aShip withTurns: 2 ]
+		ifTrue: [ self penalize: aShip withTurns: 2. ]
 		ifFalse: [
-			board removeShip: aShip fromCellAt: shipsPreviousPosition.
-			board addShip: aShip toCellAt: targetPosition ].
+			self performMoveOf: aShip to: targetPosition.
+			"board removeShip: aShip fromCellAt: shipsPreviousPosition.
+			board addShip: aShip toCellAt: targetPosition" ].
 ]
 
 { #category : 'initialization' }
@@ -168,6 +169,7 @@ SpaceShipGame >> penalize: aShip withTurns: numberOfTurns [
 	
 	self isAPositiveInteger: numberOfTurns.
 	penalties at: aShip put: (penalties at: aShip ifAbsent: [ 0 ]) + numberOfTurns.
+	self returnToInitialPosition: aShip.
 
 ]
 
@@ -175,6 +177,15 @@ SpaceShipGame >> penalize: aShip withTurns: numberOfTurns [
 SpaceShipGame >> penaltyFor: aShip [ 
 
 	^ penalties at: aShip.
+]
+
+{ #category : 'as yet unclassified' }
+SpaceShipGame >> performMoveOf: aShip to: targetPosition [
+
+	| shipsPreviousPosition |
+	shipsPreviousPosition := self positionOf: aShip.
+	board removeShip: aShip fromCellAt: shipsPreviousPosition.
+	board addShip: aShip toCellAt: targetPosition.
 ]
 
 { #category : 'as yet unclassified' }
@@ -196,6 +207,19 @@ remaining > 0
 
 ]
 
+{ #category : 'initialization' }
+SpaceShipGame >> returnToInitialPosition: aShip [
+
+	| stepsDone shipsPreviousPosition targetPosition |
+	
+	shipsPreviousPosition := self positionOf: aShip.
+	targetPosition := 1.
+	stepsDone := shipsPreviousPosition - targetPosition.
+	self performMoveOf: aShip to: targetPosition.
+	self updateLapFor: aShip withTotalSteps: (stepsDone negated). 
+	
+]
+
 { #category : 'as yet unclassified' }
 SpaceShipGame >> shipsPlaying [
 
@@ -205,7 +229,7 @@ SpaceShipGame >> shipsPlaying [
 { #category : 'as yet unclassified' }
 SpaceShipGame >> skipTurnFor: aShip [
 
-	self penalize: aShip withTurns: 1. 
+	penalties at: aShip put: (penalties at: aShip ifAbsent: [ 0 ]) + 1.
 
 ]
 

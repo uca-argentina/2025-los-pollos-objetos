@@ -16,39 +16,6 @@ ShipTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMessa
 ]
 
 { #category : 'tests' }
-ShipTest >> testWhenAShipMovesFromAPositionThenItKnowsItsLastPosition [
-
-	| aShip numberOfCells someProbabilities aCellGenerator aBoard ships oneDice dices aGame |
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 2.
-	dices := OrderedCollection with: oneDice.
-	aShip := Ship named: 'Sulaco' withAChargeBasedOn: dices.
-	numberOfCells := 20.
-	someProbabilities := Dictionary new
-		                     at: 1
-		                     put:
-			                     (NormalCell initializeCellOn: numberOfCells);
-		                     yourself.
-	aCellGenerator := CellGenerator basedOn: someProbabilities.
-	aBoard := Board
-		          withATotalNumberOfCellsOf: numberOfCells
-		          generatedWith: aCellGenerator
-		          andAWormHoleBetweenCells: 17
-		          and: 20.
-	ships := OrderedCollection with: aShip.
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 5.
-	dices := OrderedCollection with: oneDice.
-	aGame := SpaceShipGame
-		         completedAtLap: 1
-		         with: aBoard
-		         and: dices
-		         and: ships.
-
-	aShip moveFrom: 1 andConsume: 2.
-
-	self assert: aShip lastPosition equals: 1
-]
-
-{ #category : 'tests' }
 ShipTest >> testWhenAShipWithAChargeOfFourFuelsMovesFromAPositionConsumingTwoFuelsAThenFuelConsumptionIsProperlyDone [
 
 	| aShip numberOfCells someProbabilities aCellGenerator aBoard ships oneDice dices aGame |
@@ -76,7 +43,7 @@ ShipTest >> testWhenAShipWithAChargeOfFourFuelsMovesFromAPositionConsumingTwoFue
 		         and: dices
 		         and: ships.
 
-	aShip moveFrom: 3 andConsume: 2.
+	aGame move: aShip to: 2 andConsume: 2.
 
 	self assert: aShip currentFuel equals: 2
 ]
@@ -333,7 +300,7 @@ ShipTest >> testWhenShipRunsOutOfFuelAndRestoresItThenItFillsUpTheTank [
 { #category : 'tests' }
 ShipTest >> testWhenShipRunsOutOfFuelThenItStaysAtCurrentPosition [
 
-	| aShip numberOfCells someProbabilities aCellGenerator aBoard ships oneDice dices aGame |
+	| aShip numberOfCells someProbabilities aCellGenerator aBoard ships oneDice dices aGame initialPosition positionAfterMoving |
 	oneDice := ChargedDice withATotalNumberOfFacesOf: 5.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Axiom' withAChargeBasedOn: dices.
@@ -361,7 +328,9 @@ ShipTest >> testWhenShipRunsOutOfFuelThenItStaysAtCurrentPosition [
 		         and: dices
 		         and: ships.
 
+	initialPosition := aGame positionOf: aShip.
 	aGame move: aShip to: 1 andConsume: 1.
+	positionAfterMoving := aGame positionOf: aShip.
 
-	self assert: (aGame positionOf: aShip) equals: aShip lastPosition
+	self assert: initialPosition equals: positionAfterMoving.
 ]

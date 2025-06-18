@@ -4,8 +4,7 @@ Class {
 	#instVars : [
 		'shipsName',
 		'fuelCharged',
-		'maximumFuel',
-		'shipsPreviousCell'
+		'maximumFuel'
 	],
 	#classInstVars : [
 		'shipsName'
@@ -60,7 +59,6 @@ Ship >> hasEnoughFuel: aConsumption [
 Ship >> initializeWith: aShipName andAFuelCharge: aFuelCharge [
 
 	shipsName := aShipName.
-	shipsPreviousCell := 1.
 	fuelCharged := aFuelCharge.
 	maximumFuel := aFuelCharge.
 	
@@ -72,21 +70,6 @@ Ship >> isAPositiveInteger: aChargeOfFuel [
 
 	(aChargeOfFuel isInteger and: [ aChargeOfFuel >= 0 ]) ifFalse: [
 		Error signal: 'Charge and consumption of fuel must be a positive amount.' ]
-]
-
-{ #category : 'accessing' }
-Ship >> lastPosition [
-	
-	^ shipsPreviousCell .
-]
-
-{ #category : 'path commands' }
-Ship >> moveFrom: shipsPreviousPosition andConsume: aConsumption [.
-	
-	self consumeFuel: aConsumption.
-	shipsPreviousCell := shipsPreviousPosition.
-	
-
 ]
 
 { #category : 'accessing' }
