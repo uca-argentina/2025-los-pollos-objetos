@@ -17,9 +17,10 @@ ChargedDice class >> isAPositiveInteger: numberOfFaces [
 
 { #category : 'as yet unclassified' }
 ChargedDice class >> withATotalNumberOfFacesOf: numberOfFaces [
+
 	self isAPositiveInteger: numberOfFaces.
 
-	^ self new initializeWith: numberOfFaces.
+	^ self new initializeWith: numberOfFaces andAFuelCharge: nil
 ]
 
 { #category : 'initialization' }
@@ -29,7 +30,7 @@ ChargedDice >> beThrown [
 ]
 
 { #category : 'initialization' }
-ChargedDice >> initializeWith: numberOfFaces [ 
+ChargedDice >> initializeWith: numberOfFaces andAFuelCharge: anObject1 [ 
 
 	numberOfFacesOfTheDice := numberOfFaces.
 ]

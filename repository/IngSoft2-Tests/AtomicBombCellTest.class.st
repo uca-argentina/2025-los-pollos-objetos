@@ -27,7 +27,6 @@ AtomicBombCellTest >> testWhenAAtomicBombCellIsInitializedWithANegativeNumberThe
 AtomicBombCellTest >> testWhenAShipsArrivesToAtomicBombCellThenAllReturnToFirstCell [
 
 	| aGame aBoard aShip anotherShip ships oneDice dices numberOfCells cells |
-	
 	cells := OrderedCollection new.
 	cells add: (NormalCell initializeCellOn: 1).
 	cells add: (NormalCell initializeCellOn: 2).
@@ -36,15 +35,18 @@ AtomicBombCellTest >> testWhenAShipsArrivesToAtomicBombCellThenAllReturnToFirstC
 	cells add: (AtomicBombCell initializeCellOn: 5).
 	cells add: (NormalCell initializeCellOn: 6).
 	cells add: (NormalCell initializeCellOn: 7).
-    numberOfCells := 7.
-	aBoard := Board withATotalNumberOfCellsOf: numberOfCells whichAre: cells andAWormHoleBetweenCells: 6 and: 7.
-
-	aShip := Ship named: 'Venture'.
-	anotherShip := Ship named: 'Millenium Falcon'.
-	ships := OrderedCollection with: aShip with: anotherShip.
+	numberOfCells := 7.
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          whichAre: cells
+		          andAWormHoleBetweenCells: 6
+		          and: 7.
 
 	oneDice := ChargedDice withATotalNumberOfFacesOf: 2.
 	dices := OrderedCollection with: oneDice.
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'Millenium Falcon' withAChargeBasedOn: dices.
+	ships := OrderedCollection with: aShip with: anotherShip.
 
 	aGame := SpaceShipGame
 		         completedAtLap: 1
@@ -59,15 +61,14 @@ AtomicBombCellTest >> testWhenAShipsArrivesToAtomicBombCellThenAllReturnToFirstC
 	aGame executeTurn.
 
 	self assert: (aGame positionOf: anotherShip) equals: 1.
-	self assert: (aGame positionOf: aShip) equals: 1.
+	self assert: (aGame positionOf: aShip) equals: 1
 ]
 
 { #category : 'tests' }
 AtomicBombCellTest >> testWhenMultipleShipsArriveToAtomicBombCellThenAllReturnToFirstCell [
 
-    | aGame aBoard aShip anotherShip ships oneDice dices numberOfCells cells |
-
-   cells := OrderedCollection new.
+	| aGame aBoard aShip anotherShip ships oneDice dices numberOfCells cells |
+	cells := OrderedCollection new.
 	cells add: (NormalCell initializeCellOn: 1).
 	cells add: (NormalCell initializeCellOn: 2).
 	cells add: (NormalCell initializeCellOn: 3).
@@ -75,36 +76,37 @@ AtomicBombCellTest >> testWhenMultipleShipsArriveToAtomicBombCellThenAllReturnTo
 	cells add: (AtomicBombCell initializeCellOn: 5).
 	cells add: (NormalCell initializeCellOn: 6).
 	cells add: (NormalCell initializeCellOn: 7).
-    numberOfCells := 7.
-	aBoard := Board withATotalNumberOfCellsOf: numberOfCells whichAre: cells andAWormHoleBetweenCells: 6 and: 7.
+	numberOfCells := 7.
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          whichAre: cells
+		          andAWormHoleBetweenCells: 6
+		          and: 7.
+	
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 4.
+	dices := OrderedCollection with: oneDice.
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'Millenium Falcon' withAChargeBasedOn: dices.
+	ships := OrderedCollection with: aShip with: anotherShip.
 
-    aShip := Ship named: 'Venture'.
-    anotherShip := Ship named: 'Millenium Falcon'.
-    ships := OrderedCollection with: aShip with: anotherShip.
-
-    oneDice := ChargedDice withATotalNumberOfFacesOf: 4.   
-    dices := OrderedCollection with: oneDice.
-
-    aGame := SpaceShipGame
-        completedAtLap: 1
-        with: aBoard
-        and: dices
-        and: ships.
+	aGame := SpaceShipGame
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships.
 
 	aGame executeTurn.
-	aGame executeTurn. 
+	aGame executeTurn.
 
-    self assert: (aGame positionOf: aShip) equals: 1.
-    self assert: (aGame positionOf: anotherShip) equals: 1.
-
+	self assert: (aGame positionOf: aShip) equals: 1.
+	self assert: (aGame positionOf: anotherShip) equals: 1
 ]
 
 { #category : 'tests' }
 AtomicBombCellTest >> testWhenShipArrivesToAtomicBombCellThenItReturnsToFirstCell [
 
-    | aGame aBoard aShip ships oneDice dices numberOfCells cells |
-
-   cells := OrderedCollection new.
+	| aGame aBoard aShip ships oneDice dices numberOfCells cells |
+	cells := OrderedCollection new.
 	cells add: (NormalCell initializeCellOn: 1).
 	cells add: (NormalCell initializeCellOn: 2).
 	cells add: (NormalCell initializeCellOn: 3).
@@ -112,33 +114,34 @@ AtomicBombCellTest >> testWhenShipArrivesToAtomicBombCellThenItReturnsToFirstCel
 	cells add: (AtomicBombCell initializeCellOn: 5).
 	cells add: (NormalCell initializeCellOn: 6).
 	cells add: (NormalCell initializeCellOn: 7).
-   numberOfCells := 7.
-	aBoard := Board withATotalNumberOfCellsOf: numberOfCells whichAre: cells andAWormHoleBetweenCells: 6 and: 7.	
+	numberOfCells := 7.
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          whichAre: cells
+		          andAWormHoleBetweenCells: 6
+		          and: 7.
 
-    aShip := Ship named: 'Venture'.
-    ships := OrderedCollection with: aShip.
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 4.
+	dices := OrderedCollection with: oneDice.
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	ships := OrderedCollection with: aShip.
 
-    oneDice := ChargedDice withATotalNumberOfFacesOf: 4.   
-    dices := OrderedCollection with: oneDice.
+	aGame := SpaceShipGame
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships.
 
-    aGame := SpaceShipGame
-        completedAtLap: 1
-        with: aBoard
-        and: dices
-        and: ships.
+	aGame executeTurn.
 
-    aGame executeTurn . 
-
-    self assert: (aGame positionOf: aShip) equals: 1.
-
+	self assert: (aGame positionOf: aShip) equals: 1
 ]
 
 { #category : 'tests' }
 AtomicBombCellTest >> testWhenShipArrivesToAtomicBombCellThenItReturnsToFirstCellAndDoesntConsumeFuel [
 
-    | aGame aBoard aShip ships oneDice dices  numberOfCells cells |
-	
-   cells := OrderedCollection new.
+	| aGame aBoard aShip ships oneDice dices numberOfCells cells |
+	cells := OrderedCollection new.
 	cells add: (NormalCell initializeCellOn: 1).
 	cells add: (NormalCell initializeCellOn: 2).
 	cells add: (NormalCell initializeCellOn: 3).
@@ -146,23 +149,25 @@ AtomicBombCellTest >> testWhenShipArrivesToAtomicBombCellThenItReturnsToFirstCel
 	cells add: (AtomicBombCell initializeCellOn: 5).
 	cells add: (NormalCell initializeCellOn: 6).
 	cells add: (NormalCell initializeCellOn: 7).
-   numberOfCells := 7.
-	aBoard := Board withATotalNumberOfCellsOf: numberOfCells whichAre: cells andAWormHoleBetweenCells: 6 and: 7.
-   
-    aShip := Ship named: 'Venture'.
-    ships := OrderedCollection with: aShip.
+	numberOfCells := 7.
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          whichAre: cells
+		          andAWormHoleBetweenCells: 6
+		          and: 7.
+	
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 4.
+	dices := OrderedCollection with: oneDice.
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	ships := OrderedCollection with: aShip.
 
-    oneDice := ChargedDice withATotalNumberOfFacesOf: 4.   
-    dices := OrderedCollection with: oneDice.
+	aGame := SpaceShipGame
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships.
 
-    aGame := SpaceShipGame
-        completedAtLap: 1
-        with: aBoard
-        and: dices
-        and: ships.
+	aGame executeTurn.
 
-    aGame executeTurn . 
-
-    self assert: (aShip currentFuel) equals: 4.
-
+	self assert: aShip currentFuel equals: 4
 ]

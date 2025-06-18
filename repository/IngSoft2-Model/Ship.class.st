@@ -15,10 +15,14 @@ Class {
 }
 
 { #category : 'instance creation' }
-Ship class >> named: aName [
+Ship class >> named: aName withAChargeBasedOn: someDices [
 
+	| initialFuelCharge |
 	self shipHasAValidName: aName.
-	^ (self new initializeWith: aName)
+	initialFuelCharge := (someDices
+		                     inject: 0
+		                     into: [ :sum :aDie | sum + aDie sizeOfTheDice ]) * 2.
+	^ self new initializeWith: aName andAFuelCharge: initialFuelCharge.
 ]
 
 { #category : 'instance creation' }
@@ -26,16 +30,6 @@ Ship class >> shipHasAValidName: arg1 [
 
 	(arg1 isEmpty or: [ arg1 isNil ]) ifTrue: [
 		Error signal: 'Ship must be initialized with a name.' ]
-]
-
-{ #category : 'accessing' }
-Ship >> chargeFuelUpTo: aChargeOfFuel [
-
-	self isAPositiveInteger: aChargeOfFuel.
-
-	maximumFuel := aChargeOfFuel.
-	fuelCharged := aChargeOfFuel.
-	
 ]
 
 { #category : 'path commands' }
@@ -63,10 +57,13 @@ Ship >> hasEnoughFuel: aConsumption [
 ]
 
 { #category : 'accessing' }
-Ship >> initializeWith: aShipName [
+Ship >> initializeWith: aShipName andAFuelCharge: aFuelCharge [
 
 	shipsName := aShipName.
 	shipsPreviousCell := 1.
+	fuelCharged := aFuelCharge.
+	maximumFuel := aFuelCharge.
+	
 	
 ]
 

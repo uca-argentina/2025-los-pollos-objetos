@@ -20,31 +20,54 @@ BoardTest >> testWhenAShipEntersACellOfTheBoardThenItIsInThere [
 	| aBoard aShip firstCell numberOfCells someProbabilities aCellGenerator ships dices aGame aDice |
 	numberOfCells := 10.
 	someProbabilities := Dictionary new
-        at: 0.4 put: (NormalCell initializeCellOn: numberOfCells) ;
-        at: 0.6 put: (BlackHoleCell initializeCellOn: numberOfCells ) ;
-        at: 0.8 put: (HyperGravityCell initializeCellOn: numberOfCells withRequiredValue: 4);
-        at: 0.9 put: (MoonWalkCell initializeCellOn: numberOfCells withRequiredValue: 4);
-        at: 0.98 put: (HyperJumpCell initializeCellOn: numberOfCells withParsecValues: #(25 10 5) boardLength: 100 numberOfCells: 100) ;
-        at: 1 put: (AtomicBombCell initializeCellOn: numberOfCells) ;
-        yourself.
+		                     at: 0.4
+		                     put:
+			                     (NormalCell initializeCellOn: numberOfCells);
+		                     at: 0.6
+		                     put:
+			                     (BlackHoleCell initializeCellOn: numberOfCells);
+		                     at: 0.8
+		                     put:
+			                     (HyperGravityCell
+				                      initializeCellOn: numberOfCells
+				                      withRequiredValue: 4);
+		                     at: 0.9
+		                     put:
+			                     (MoonWalkCell
+				                      initializeCellOn: numberOfCells
+				                      withRequiredValue: 4);
+		                     at: 0.98 put: (HyperJumpCell
+				                      initializeCellOn: numberOfCells
+				                      withParsecValues: #( 25 10 5 )
+				                      boardLength: 100
+				                      numberOfCells: 100);
+		                     at: 1
+		                     put:
+			                     (AtomicBombCell initializeCellOn:
+					                      numberOfCells);
+		                     yourself.
 	aCellGenerator := CellGenerator basedOn: someProbabilities.
 
-	aBoard := Board withATotalNumberOfCellsOf: 10 generatedWith: aCellGenerator andAWormHoleBetweenCells: 2 and: 5.
-	aShip := Ship named: 'Executor'.
-	ships := OrderedCollection with: aShip.
+	aBoard := Board
+		          withATotalNumberOfCellsOf: 10
+		          generatedWith: aCellGenerator
+		          andAWormHoleBetweenCells: 2
+		          and: 5.
 	aDice := ChargedDice withATotalNumberOfFacesOf: 5.
 	dices := OrderedCollection with: aDice.
-	
+	aShip := Ship named: 'Executor' withAChargeBasedOn: dices.
+	ships := OrderedCollection with: aShip.
+
 	aGame := SpaceShipGame
-        completedAtLap: 1
-        with: aBoard
-        and: dices
-        and: ships.
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships.
 
 	"aBoard addShip: aShip toCellAt: aShip position."
 	firstCell := aBoard cellNumber: 1.
-	
-	self assert: (firstCell includes: aShip) equals: true.
+
+	self assert: (firstCell includes: aShip) equals: true
 ]
 
 { #category : 'tests' }
@@ -53,33 +76,56 @@ BoardTest >> testWhenAShipLeavesACellOfTheBoardThenItIsNoLongerInThere [
 	| aBoard aShip firstCell numberOfCells someProbabilities aCellGenerator ships aDice dices aGame |
 	numberOfCells := 10.
 	someProbabilities := Dictionary new
-        at: 0.4 put: (NormalCell initializeCellOn: numberOfCells) ;
-        at: 0.6 put: (BlackHoleCell initializeCellOn: numberOfCells ) ;
-        at: 0.8 put: (HyperGravityCell initializeCellOn: numberOfCells withRequiredValue: 4);
-        at: 0.9 put: (MoonWalkCell initializeCellOn: numberOfCells withRequiredValue: 4);
-        at: 0.98 put: (HyperJumpCell initializeCellOn: numberOfCells withParsecValues: #(25 10 5) boardLength: 100 numberOfCells: 100) ;
-        at: 1 put: (AtomicBombCell initializeCellOn: numberOfCells) ;
-        yourself.
+		                     at: 0.4
+		                     put:
+			                     (NormalCell initializeCellOn: numberOfCells);
+		                     at: 0.6
+		                     put:
+			                     (BlackHoleCell initializeCellOn: numberOfCells);
+		                     at: 0.8
+		                     put:
+			                     (HyperGravityCell
+				                      initializeCellOn: numberOfCells
+				                      withRequiredValue: 4);
+		                     at: 0.9
+		                     put:
+			                     (MoonWalkCell
+				                      initializeCellOn: numberOfCells
+				                      withRequiredValue: 4);
+		                     at: 0.98 put: (HyperJumpCell
+				                      initializeCellOn: numberOfCells
+				                      withParsecValues: #( 25 10 5 )
+				                      boardLength: 100
+				                      numberOfCells: 100);
+		                     at: 1
+		                     put:
+			                     (AtomicBombCell initializeCellOn:
+					                      numberOfCells);
+		                     yourself.
 	aCellGenerator := CellGenerator basedOn: someProbabilities.
 
-	aBoard := Board withATotalNumberOfCellsOf: 10 generatedWith: aCellGenerator andAWormHoleBetweenCells: 2 and: 5.
-	aShip := Ship named: 'Venture'.
-	ships := OrderedCollection with: aShip.
+	aBoard := Board
+		          withATotalNumberOfCellsOf: 10
+		          generatedWith: aCellGenerator
+		          andAWormHoleBetweenCells: 2
+		          and: 5.
 	aDice := ChargedDice withATotalNumberOfFacesOf: 5.
 	dices := OrderedCollection with: aDice.
-	
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	ships := OrderedCollection with: aShip.
+
 	aGame := SpaceShipGame
-        completedAtLap: 1
-        with: aBoard
-        and: dices
-        and: ships.
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships.
 
 	"aBoard addShip: aShip toCellAt: aShip position."
 	firstCell := aBoard cellNumber: 1.
 	"aBoard removeShip: aShip fromCellAt: aShip lastPosition."
 	aGame executeTurn.
-	
-	self deny: (firstCell includes: aShip) equals: true.
+
+	self deny: (firstCell includes: aShip) equals: true
 ]
 
 { #category : 'tests' }
@@ -214,28 +260,53 @@ BoardTest >> testWhenBoardIsSetWithAWormsHoleThenItHasASecondEntrance [
 { #category : 'tests' }
 BoardTest >> testWhenMultipleShipsEnterACellOfTheBoardThenTheyAreInThere [
 
-	| aBoard aShip firstCell anotherShip ships numberOfCells someProbabilities aCellGenerator |
+	| aBoard aShip firstCell anotherShip ships numberOfCells someProbabilities aCellGenerator aDice dices |
 	numberOfCells := 10.
 	someProbabilities := Dictionary new
-        at: 0.4 put: (NormalCell initializeCellOn: numberOfCells) ;
-        at: 0.6 put: (BlackHoleCell initializeCellOn: numberOfCells ) ;
-        at: 0.8 put: (HyperGravityCell initializeCellOn: numberOfCells withRequiredValue: 4);
-        at: 0.9 put: (MoonWalkCell initializeCellOn: numberOfCells withRequiredValue: 4);
-        at: 0.98 put: (HyperJumpCell initializeCellOn: numberOfCells withParsecValues: #(25 10 5) boardLength: 100 numberOfCells: 100) ;
-        at: 1 put: (AtomicBombCell initializeCellOn: numberOfCells) ;
-        yourself.
-	 aCellGenerator := CellGenerator basedOn: someProbabilities.
-	
-	aBoard := Board withATotalNumberOfCellsOf: 10 generatedWith: aCellGenerator andAWormHoleBetweenCells: 2 and: 5.
-	aShip := Ship named: 'Executor'.
-	anotherShip := Ship named: 'Axiom'.
+		                     at: 0.4
+		                     put:
+			                     (NormalCell initializeCellOn: numberOfCells);
+		                     at: 0.6
+		                     put:
+			                     (BlackHoleCell initializeCellOn: numberOfCells);
+		                     at: 0.8
+		                     put:
+			                     (HyperGravityCell
+				                      initializeCellOn: numberOfCells
+				                      withRequiredValue: 4);
+		                     at: 0.9
+		                     put:
+			                     (MoonWalkCell
+				                      initializeCellOn: numberOfCells
+				                      withRequiredValue: 4);
+		                     at: 0.98 put: (HyperJumpCell
+				                      initializeCellOn: numberOfCells
+				                      withParsecValues: #( 25 10 5 )
+				                      boardLength: 100
+				                      numberOfCells: 100);
+		                     at: 1
+		                     put:
+			                     (AtomicBombCell initializeCellOn:
+					                      numberOfCells);
+		                     yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+
+	aBoard := Board
+		          withATotalNumberOfCellsOf: 10
+		          generatedWith: aCellGenerator
+		          andAWormHoleBetweenCells: 2
+		          and: 5.
+	aDice := ChargedDice withATotalNumberOfFacesOf: 5.
+	dices := OrderedCollection with: aDice.
+	aShip := Ship named: 'Executor' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'Axiom' withAChargeBasedOn: dices.
 	ships := OrderedCollection with: aShip with: anotherShip.
-	
+
 	aBoard getShipsIntoFirstCellOfTheBoard: ships.
 	firstCell := aBoard cellNumber: 1.
-	
+
 	self assert: (firstCell includes: aShip) equals: true.
-	self assert: (firstCell includes: anotherShip) equals: true.
+	self assert: (firstCell includes: anotherShip) equals: true
 ]
 
 { #category : 'tests' }

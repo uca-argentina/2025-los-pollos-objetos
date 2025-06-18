@@ -17,8 +17,7 @@ MoonWalkCellTest >> should: anErrorBlock raise: anErrorClass withMessageText: er
 { #category : 'tests' }
 MoonWalkCellTest >> testWhenAShipArrivesToAMoonWalkCellThenThatShipRemainsThereAndTheOtherShipsGoBackANumberOfCells [
 
-    | aGame aBoard aShip ships oneDice dices anotherShip numberOfCells cells |
-
+	| aGame aBoard aShip ships oneDice dices anotherShip numberOfCells cells |
 	cells := OrderedCollection new.
 	cells add: (NormalCell initializeCellOn: 1).
 	cells add: (NormalCell initializeCellOn: 2).
@@ -27,35 +26,37 @@ MoonWalkCellTest >> testWhenAShipArrivesToAMoonWalkCellThenThatShipRemainsThereA
 	cells add: (MoonWalkCell initializeCellOn: 5 withRequiredValue: 2).
 	cells add: (NormalCell initializeCellOn: 6).
 	cells add: (NormalCell initializeCellOn: 7).
-   numberOfCells := 7.
-	aBoard := Board withATotalNumberOfCellsOf: numberOfCells whichAre:cells andAWormHoleBetweenCells: 6 and: 7.
+	numberOfCells := 7.
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          whichAre: cells
+		          andAWormHoleBetweenCells: 6
+		          and: 7.
+	
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 2.
+	dices := OrderedCollection with: oneDice.
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'Sulaco' withAChargeBasedOn: dices.
+	ships := OrderedCollection new.
+	ships add: aShip.
+	ships add: anotherShip.
 
-    aShip := Ship named: 'Venture'.
-	 anotherShip := Ship named: 'Sulaco'.
-	 
-    ships := OrderedCollection new.
-	 ships add: aShip.
-	 ships add: anotherShip .
+	aGame := SpaceShipGame
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships.
 
-    oneDice := ChargedDice withATotalNumberOfFacesOf: 2.   
-    dices := OrderedCollection with: oneDice.
+	aGame executeTurn.
+	aGame executeTurn.
+	aGame skipTurnFor: aShip.
+	aGame skipTurnFor: aShip.
+	aGame executeTurn.
+	aGame executeTurn.
+	aGame executeTurn.
 
-    aGame := SpaceShipGame
-        completedAtLap: 1
-        with: aBoard
-        and: dices
-        and: ships.
-
-	 aGame executeTurn.
-	 aGame executeTurn.
-	 aGame skipTurnFor: aShip.
-	 aGame skipTurnFor: aShip.
-	 aGame executeTurn.
-	 aGame executeTurn.
-	 aGame executeTurn.
-		 
-	 self assert: (aGame positionOf: aShip ) equals: 5.
-	 self assert: (aGame positionOf: anotherShip ) equals: 1.
+	self assert: (aGame positionOf: aShip) equals: 5.
+	self assert: (aGame positionOf: anotherShip) equals: 1
 ]
 
 { #category : 'tests' }

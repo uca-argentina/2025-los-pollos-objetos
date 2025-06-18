@@ -10,7 +10,6 @@ Class {
 		'blackHolesFirstEntrance',
 		'blackHoleSecondEntrance',
 		'distanceFromBlackHolesFirstEntranceToSecondEntrance',
-		'chargeOfFuel',
 		'winningLaps',
 		'penalties',
 		'shipSupposedToPlay',
@@ -53,14 +52,6 @@ SpaceShipGame >> calculateTargetPositionFor: totalSteps [
 	^ (totalSteps \\ board numberOfCells) = 0
         ifTrue: [ board numberOfCells ]
         ifFalse: [ totalSteps \\ board numberOfCells ].
-
-]
-
-{ #category : 'as yet unclassified' }
-SpaceShipGame >> chargeFuelToShipsUpTo: aChargeOfFuel [
-
-    ships do: [:aShip | aShip chargeFuelUpTo: aChargeOfFuel ].
-
 
 ]
 
@@ -108,11 +99,9 @@ SpaceShipGame >> initializeWith: laps with: aBoard with: gameDices with: gameShi
     winningLaps := laps.
 
 	dices := gameDices.
-	chargeOfFuel := (self sumOfDiceSizes) * 2.
 
 	"ships := gameShips collect: [ :ship | ship deepCopy ]."
 	 ships := gameShips.
-	 self chargeFuelToShipsUpTo: chargeOfFuel.
 	
     board := aBoard.
 	 board getShipsIntoFirstCellOfTheBoard: gameShips.
@@ -224,14 +213,6 @@ SpaceShipGame >> skipTurnFor: aShip [
 SpaceShipGame >> start [
 
 	^ 'The Game Has Started'
-]
-
-{ #category : 'as yet unclassified' }
-SpaceShipGame >> sumOfDiceSizes [
-
-    ^ dices inject: 0 into: [ :sum :aDie | sum + aDie sizeOfTheDice ].
-
-
 ]
 
 { #category : 'as yet unclassified' }
