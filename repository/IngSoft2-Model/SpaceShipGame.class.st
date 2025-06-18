@@ -198,12 +198,11 @@ SpaceShipGame >> positionOf: aShip [
 SpaceShipGame >> reducePenaltyFor: aShip [
 
 	| remaining |
-remaining := (penalties at: aShip) - 1.
-remaining > 0
-	ifTrue: [ penalties at: aShip put: remaining ]
-	ifFalse: [
-		aShip restoreFuel.
-		penalties removeKey: aShip ]
+	remaining := (penalties at: aShip) - 1.
+	remaining > 0 ifTrue: [ penalties at: aShip put: remaining ]
+		ifFalse: [ 
+			aShip restoreFuel.
+			penalties removeKey: aShip ]
 
 ]
 
