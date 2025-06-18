@@ -143,8 +143,6 @@ SpaceShipGame >> move: aShip by: steps [
 
 { #category : 'accessing' }
 SpaceShipGame >> move: aShip to: targetPosition andConsume: aConsumption [
-
-	| shipsPreviousPosition |
 	
 	"aShip moveTo: targetPosition andConsume: aConsumption."
 	"shipsPreviousPosition := self positionOf: aShip."
