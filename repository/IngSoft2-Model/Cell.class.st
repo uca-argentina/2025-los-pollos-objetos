@@ -57,3 +57,9 @@ Cell >> setUpOn: aNumberOfCell [
 	ships := OrderedCollection new.
 	numberOfCell := aNumberOfCell.
 ]
+
+{ #category : 'initialization' }
+Cell >> withPositionNumber: aPositionNumber [
+
+	numberOfCell := aPositionNumber.
+]

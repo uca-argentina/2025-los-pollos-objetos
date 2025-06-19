@@ -35,24 +35,28 @@ NormalCellTest >> testWhenANormalCellIsInitializedWithANegativeNumberThenCreatio
 { #category : 'tests' }
 NormalCellTest >> testWhenAShipEntersACellThenIsEffectivelyInThere [
 
-	| aShip aNormalCell |
-	aShip := Ship named: 'Millenium Falcon'.
+	| aShip aNormalCell oneDice dices |
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 2.
+	dices := OrderedCollection with: oneDice.
+	aShip := Ship named: 'Millenium Falcon' withAChargeBasedOn: dices.
 	aNormalCell := NormalCell initializeCellOn: 1.
-	
+
 	aNormalCell enters: aShip.
-	
-	self assert: (aNormalCell includes: aShip).  
+
+	self assert: (aNormalCell includes: aShip)
 ]
 
 { #category : 'tests' }
 NormalCellTest >> testWhenAShipExitsANormalCellThenIsEffectivelyOutThere [
 
-	| aShip aNormalCell |
-	aShip := Ship named: 'Millenium Falcon'.
+	| aShip aNormalCell oneDice dices |
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 2.
+	dices := OrderedCollection with: oneDice.
+	aShip := Ship named: 'Millenium Falcon' withAChargeBasedOn: dices.
 	aNormalCell := NormalCell initializeCellOn: 1.
-	
+
 	aNormalCell enters: aShip.
 	aNormalCell leaves: aShip.
-	
-	self deny: (aNormalCell includes: aShip). 
+
+	self deny: (aNormalCell includes: aShip)
 ]

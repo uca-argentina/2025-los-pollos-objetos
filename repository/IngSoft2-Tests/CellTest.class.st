@@ -44,28 +44,28 @@ CellTest >> testWhenACellIsInitializedWithANonValidNumberThenCreationFails [
 { #category : 'tests' }
 CellTest >> testWhenAShipEntersACellThenIsEffectivelyInThere [
 
-	| aShip aCell |
-	aShip := Ship named: 'Millenium Falcon'.
+	| aShip aCell aDice dices |
+	aDice := ChargedDice withATotalNumberOfFacesOf: 5.
+	dices := OrderedCollection with: aDice.
+	aShip := Ship named: 'Millenium Falcon' withAChargeBasedOn: dices.
 	aCell := Cell initializeCellOn: 1.
-	
+
 	aCell enters: aShip.
-	
-	self assert: (aCell includes: aShip). 
-	
-	
+
+	self assert: (aCell includes: aShip)
 ]
 
 { #category : 'tests' }
 CellTest >> testWhenAShipExitsACellThenIsEffectivelyOutThere [
 
-	| aShip aCell |
-	aShip := Ship named: 'Millenium Falcon'.
+	| aShip aCell aDice dices |
+	aDice := ChargedDice withATotalNumberOfFacesOf: 5.
+	dices := OrderedCollection with: aDice.
+	aShip := Ship named: 'Millenium Falcon' withAChargeBasedOn: dices.
 	aCell := Cell initializeCellOn: 1.
-	
+
 	aCell enters: aShip.
 	aCell leaves: aShip.
-	
-	self deny: (aCell includes: aShip). 
-	
-	
+
+	self deny: (aCell includes: aShip)
 ]
