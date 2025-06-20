@@ -10,3 +10,9 @@ OverloadCard >> effect [
 
 	^ -2.
 ]
+
+{ #category : 'as yet unclassified' }
+OverloadCard >> uses: aCardPlayHandler [
+
+	aCardPlayHandler resolveAnOverloadCardPlay: self
+]

@@ -11,7 +11,8 @@ Class {
 		'lastDiceThrow',
 		'shipsCurrentLap',
 		'deck',
-		'cardManagers'
+		'cardManagers',
+		'cardPlayHandler'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -47,6 +48,18 @@ SpaceShipGame >> advanceTurnIfCurrentTurnsShipIsPenalized [
 		self advanceTurn ].
 	
 	^ ship
+]
+
+{ #category : 'as yet unclassified' }
+SpaceShipGame >> applyACardEffect: aCard to: aShip [
+
+	(self cardManagerOf: aShip ) addCardsAffecting: aCard. 
+]
+
+{ #category : 'as yet unclassified' }
+SpaceShipGame >> applyToAllSpaceShips: aCard [
+
+	cardManagers do: [ :cardManager | cardManager addCardsAffecting: aCard  ]
 ]
 
 { #category : 'accessing' }
@@ -108,12 +121,15 @@ SpaceShipGame >> executeTurn [
 SpaceShipGame >> initializeWith: laps with: aBoard with: gameDices with: gameShips with: aDeck [
 
  
+
 winningLaps := laps.
 
 	dices := gameDices.
 	
 	deck:= aDeck.
 	cardManagers := gameShips collect: [ :aShip | CardManager of: aShip with:aDeck ].
+	cardPlayHandler:= CardPlayHandler with: self.
+	
 
 	"ships := gameShips collect: [ :ship | ship deepCopy ]."
 	 ships := gameShips.
@@ -216,9 +232,12 @@ SpaceShipGame >> performMoveOf: aShip to: targetPosition [
 
 { #category : 'as yet unclassified' }
 SpaceShipGame >> playCard: aCard from: aShip to: anotherShip [
+
 	self isShipSupposedToPLay: aShip.
 	
-	(self cardManagerOf: anotherShip) addCardsAffecting: aCard.
+	"(self cardManagerOf: anotherShip) addCardsAffecting: aCard."
+	
+	cardPlayHandler handle: aCard from: aShip to: anotherShip .
 ]
 
 { #category : 'as yet unclassified' }
