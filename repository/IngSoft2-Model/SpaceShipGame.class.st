@@ -2,19 +2,16 @@ Class {
 	#name : 'SpaceShipGame',
 	#superclass : 'Object',
 	#instVars : [
-		'name',
 		'board',
 		'dices',
 		'ships',
 		'winningCell',
-		'blackHolesFirstEntrance',
-		'blackHoleSecondEntrance',
-		'distanceFromBlackHolesFirstEntranceToSecondEntrance',
 		'winningLaps',
 		'penalties',
 		'shipSupposedToPlay',
 		'lastDiceThrow',
-		'shipsCurrentLap'
+		'shipsCurrentLap',
+		'deck'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -23,7 +20,13 @@ Class {
 { #category : 'as yet unclassified' }
 SpaceShipGame class >> completedAtLap: aNumberOfLap with: aBoard and: dices and: ships [ 
 	
-	^ (self new) initializeWith: aNumberOfLap with: aBoard with: dices with: ships.   
+	^ (self new) initializeWith: aNumberOfLap with: aBoard with: dices with: ships with: (Deck with: (OrderedCollection with: '')).
+]
+
+{ #category : 'as yet unclassified' }
+SpaceShipGame class >> completedAtLap: aNumberOfLap with: aBoard and: dices and: ships and: aDeck [
+	
+	^ (self new) initializeWith: aNumberOfLap with: aBoard with: dices with: ships with: aDeck.
 ]
 
 { #category : 'as yet unclassified' }
@@ -53,6 +56,11 @@ SpaceShipGame >> calculateTargetPositionFor: totalSteps [
         ifTrue: [ board numberOfCells ]
         ifFalse: [ totalSteps \\ board numberOfCells ].
 
+]
+
+{ #category : 'as yet unclassified' }
+SpaceShipGame >> cardsOf: aShip [ 
+	^ deck cardsInHand: aShip.
 ]
 
 { #category : 'as yet unclassified' }
@@ -94,20 +102,23 @@ SpaceShipGame >> executeTurn [
 ]
 
 { #category : 'initialization' }
-SpaceShipGame >> initializeWith: laps with: aBoard with: gameDices with: gameShips [ 
+SpaceShipGame >> initializeWith: laps with: aBoard with: gameDices with: gameShips with: aDeck [
 
-    winningLaps := laps.
+   winningLaps := laps.
 
 	dices := gameDices.
+	
+	deck:= aDeck.
+	deck giveCardsTo: gameShips.
 
 	"ships := gameShips collect: [ :ship | ship deepCopy ]."
 	 ships := gameShips.
 	
-    board := aBoard.
-	 board getShipsIntoFirstCellOfTheBoard: gameShips.
-    "winningCell := board numberOfCells."
-    "blackHolesFirstEntrance := board wormsHolesFirstEntrance.
-    blackHoleSecondEntrance := board wormsHolesSecondEntrance."
+   board := aBoard.
+	board getShipsIntoFirstCellOfTheBoard: gameShips.
+   "winningCell := board numberOfCells."
+   "blackHolesFirstEntrance := board wormsHolesFirstEntrance.
+   blackHoleSecondEntrance := board wormsHolesSecondEntrance."
 	
 	shipSupposedToPlay := 1.
 	penalties := Dictionary new.
