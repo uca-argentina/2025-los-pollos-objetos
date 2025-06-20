@@ -32,19 +32,6 @@ Ship class >> shipHasAValidName: arg1 [
 		Error signal: 'Ship must be initialized with a name.' ]
 ]
 
-{ #category : 'accessing' }
-Ship >> adjustThrow:resultOfTheThrow [
-
-	^ resultOfTheThrow - throwAdjustment.
-	
-]
-
-{ #category : 'as yet unclassified' }
-Ship >> changeThrowBy: aValue [
-
-	throwAdjustment := throwAdjustment + aValue .
-]
-
 { #category : 'path commands' }
 Ship >> consumeFuel: aConsumption [
 

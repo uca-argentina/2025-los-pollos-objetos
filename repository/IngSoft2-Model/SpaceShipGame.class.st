@@ -59,11 +59,11 @@ SpaceShipGame >> calculateTargetPositionFor: totalSteps [
 ]
 
 { #category : 'as yet unclassified' }
-SpaceShipGame >> cardsOf: aShip [ 
+SpaceShipGame >> cardManagerOf: aShip [ 
 
-	| aShipCards |
-	aShipCards := cardManagers detect: [ :manager | manager ship = aShip ].
-	^ aShipCards  .
+	| aCardManager |
+	aCardManager := cardManagers detect: [ :manager | manager ship = aShip ].
+	^ aCardManager  .
 ]
 
 { #category : 'as yet unclassified' }
@@ -154,7 +154,7 @@ SpaceShipGame >> lastDiceThrow [
 SpaceShipGame >> modifyThrowFor: aShip [
 
 
-	^ (self cardsOf: aShip ) applyEffect.
+	^ (self cardManagerOf: aShip ) applyEffect.
 ]
 
 { #category : 'as yet unclassified' }
@@ -218,7 +218,7 @@ SpaceShipGame >> performMoveOf: aShip to: targetPosition [
 SpaceShipGame >> playCard: aCard from: aShip to: anotherShip [
 	self isShipSupposedToPLay: aShip.
 	
-	(self cardsOf: anotherShip) addCardsAffecting: aCard.
+	(self cardManagerOf: anotherShip) addCardsAffecting: aCard.
 ]
 
 { #category : 'as yet unclassified' }
