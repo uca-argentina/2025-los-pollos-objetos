@@ -42,7 +42,7 @@ Ship >> adjustThrow:resultOfTheThrow [
 { #category : 'as yet unclassified' }
 Ship >> changeThrowBy: aValue [
 
-	throwAdjustment := 2.
+	throwAdjustment := throwAdjustment + aValue .
 ]
 
 { #category : 'path commands' }

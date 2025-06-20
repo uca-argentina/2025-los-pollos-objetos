@@ -133,6 +133,12 @@ SpaceShipGame >> isAPositiveInteger: numberOfFaces [
 		Error signal: 'The penalty must be a positive integer.' ]
 ]
 
+{ #category : 'as yet unclassified' }
+SpaceShipGame >> isShipSupposedToPLay: aShip [
+
+	aShip = (ships at: shipSupposedToPlay ) ifFalse: [ Error signal: 'You can only play this card when its your turn' ]
+]
+
 { #category : 'accessing' }
 SpaceShipGame >> lastDiceThrow [
 
@@ -198,6 +204,7 @@ SpaceShipGame >> performMoveOf: aShip to: targetPosition [
 
 { #category : 'as yet unclassified' }
 SpaceShipGame >> playCard: anOverloadCard from: aShip to: anotherShip [
+	self isShipSupposedToPLay: aShip.
 	anOverloadCard applyFrom: aShip to: anotherShip in: self. 
 ]
 
