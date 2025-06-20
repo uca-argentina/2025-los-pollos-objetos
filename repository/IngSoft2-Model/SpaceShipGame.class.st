@@ -2,19 +2,17 @@ Class {
 	#name : 'SpaceShipGame',
 	#superclass : 'Object',
 	#instVars : [
-		'name',
 		'board',
 		'dices',
 		'ships',
-		'winningCell',
-		'blackHolesFirstEntrance',
-		'blackHoleSecondEntrance',
-		'distanceFromBlackHolesFirstEntranceToSecondEntrance',
 		'winningLaps',
 		'penalties',
 		'shipSupposedToPlay',
 		'lastDiceThrow',
-		'shipsCurrentLap'
+		'shipsCurrentLap',
+		'deck',
+		'cardManagers',
+		'cardPlayHandler'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -23,7 +21,13 @@ Class {
 { #category : 'as yet unclassified' }
 SpaceShipGame class >> completedAtLap: aNumberOfLap with: aBoard and: dices and: ships [ 
 	
-	^ (self new) initializeWith: aNumberOfLap with: aBoard with: dices with: ships.   
+	^ (self new) initializeWith: aNumberOfLap with: aBoard with: dices with: ships with: (Deck with: (OrderedCollection with: '')).
+]
+
+{ #category : 'as yet unclassified' }
+SpaceShipGame class >> completedAtLap: aNumberOfLap with: aBoard and: dices and: ships and: aDeck [
+	
+	^ (self new) initializeWith: aNumberOfLap with: aBoard with: dices with: ships with: aDeck.
 ]
 
 { #category : 'as yet unclassified' }
@@ -46,6 +50,18 @@ SpaceShipGame >> advanceTurnIfCurrentTurnsShipIsPenalized [
 	^ ship
 ]
 
+{ #category : 'as yet unclassified' }
+SpaceShipGame >> applyACardEffect: aCard to: aShip [
+
+	(self cardManagerOf: aShip ) addCardsAffecting: aCard. 
+]
+
+{ #category : 'as yet unclassified' }
+SpaceShipGame >> applyToAllSpaceShips: aCard [
+
+	cardManagers do: [ :cardManager | cardManager addCardsAffecting: aCard  ]
+]
+
 { #category : 'accessing' }
 SpaceShipGame >> calculateTargetPositionFor: totalSteps [
 
@@ -53,6 +69,14 @@ SpaceShipGame >> calculateTargetPositionFor: totalSteps [
         ifTrue: [ board numberOfCells ]
         ifFalse: [ totalSteps \\ board numberOfCells ].
 
+]
+
+{ #category : 'as yet unclassified' }
+SpaceShipGame >> cardManagerOf: aShip [ 
+
+	| aCardManager |
+	aCardManager := cardManagers detect: [ :manager | manager ship = aShip ].
+	^ aCardManager  .
 ]
 
 { #category : 'as yet unclassified' }
@@ -94,20 +118,27 @@ SpaceShipGame >> executeTurn [
 ]
 
 { #category : 'initialization' }
-SpaceShipGame >> initializeWith: laps with: aBoard with: gameDices with: gameShips [ 
+SpaceShipGame >> initializeWith: laps with: aBoard with: gameDices with: gameShips with: aDeck [
 
-    winningLaps := laps.
+ 
+
+winningLaps := laps.
 
 	dices := gameDices.
+	
+	deck:= aDeck.
+	cardManagers := gameShips collect: [ :aShip | CardManager of: aShip with:aDeck ].
+	cardPlayHandler:= CardPlayHandler with: self.
+	
 
 	"ships := gameShips collect: [ :ship | ship deepCopy ]."
 	 ships := gameShips.
 	
-    board := aBoard.
-	 board getShipsIntoFirstCellOfTheBoard: gameShips.
-    "winningCell := board numberOfCells."
-    "blackHolesFirstEntrance := board wormsHolesFirstEntrance.
-    blackHoleSecondEntrance := board wormsHolesSecondEntrance."
+   board := aBoard.
+	board getShipsIntoFirstCellOfTheBoard: gameShips.
+   "winningCell := board numberOfCells."
+   "blackHolesFirstEntrance := board wormsHolesFirstEntrance.
+   blackHoleSecondEntrance := board wormsHolesSecondEntrance."
 	
 	shipSupposedToPlay := 1.
 	penalties := Dictionary new.
@@ -123,10 +154,23 @@ SpaceShipGame >> isAPositiveInteger: numberOfFaces [
 		Error signal: 'The penalty must be a positive integer.' ]
 ]
 
+{ #category : 'as yet unclassified' }
+SpaceShipGame >> isShipSupposedToPLay: aShip [
+
+	aShip = (ships at: shipSupposedToPlay ) ifFalse: [ Error signal: 'You can only play this card when its your turn' ]
+]
+
 { #category : 'accessing' }
 SpaceShipGame >> lastDiceThrow [
 
 	^ lastDiceThrow 
+]
+
+{ #category : 'as yet unclassified' }
+SpaceShipGame >> modifyThrowFor: aShip [
+
+
+	^ (self cardManagerOf: aShip ) applyEffect.
 ]
 
 { #category : 'as yet unclassified' }
@@ -187,6 +231,16 @@ SpaceShipGame >> performMoveOf: aShip to: targetPosition [
 ]
 
 { #category : 'as yet unclassified' }
+SpaceShipGame >> playCard: aCard from: aShip to: anotherShip [
+
+	self isShipSupposedToPLay: aShip.
+	
+	"(self cardManagerOf: anotherShip) addCardsAffecting: aCard."
+	
+	cardPlayHandler handle: aCard from: aShip to: anotherShip .
+]
+
+{ #category : 'as yet unclassified' }
 SpaceShipGame >> positionOf: aShip [
 
 	^ ((board cells) detect: [ :cell | cell includes: aShip ]) number.
@@ -239,12 +293,15 @@ SpaceShipGame >> start [
 { #category : 'as yet unclassified' }
 SpaceShipGame >> throwDiceFor: aShip [
 
-	| resultOfTheThrow |
+	| resultOfTheThrow throwModified |
 	
 	resultOfTheThrow := (dices collect: [ :dice | dice beThrown ]) sum.
 	lastDiceThrow := resultOfTheThrow.
+	"resultOfMovement:=aShip adjustThrow:resultOfTheThrow."
+	throwModified := self modifyThrowFor: aShip.
 	
-	self move: aShip by: resultOfTheThrow.
+	
+	self move: aShip by: resultOfTheThrow + throwModified .
 ]
 
 { #category : 'as yet unclassified' }

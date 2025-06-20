@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'shipsName',
 		'fuelCharged',
-		'maximumFuel'
+		'maximumFuel',
+		'throwAdjustment'
 	],
 	#classInstVars : [
 		'shipsName'
@@ -61,6 +62,7 @@ Ship >> initializeWith: aShipName andAFuelCharge: aFuelCharge [
 	shipsName := aShipName.
 	fuelCharged := aFuelCharge.
 	maximumFuel := aFuelCharge.
+	throwAdjustment:=0.
 	
 	
 ]
