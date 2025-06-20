@@ -5,7 +5,6 @@ Class {
 		'board',
 		'dices',
 		'ships',
-		'winningCell',
 		'winningLaps',
 		'penalties',
 		'shipSupposedToPlay',
@@ -198,6 +197,11 @@ SpaceShipGame >> performMoveOf: aShip to: targetPosition [
 ]
 
 { #category : 'as yet unclassified' }
+SpaceShipGame >> playCard: anOverloadCard from: aShip to: anotherShip [
+	anOverloadCard applyFrom: aShip to: anotherShip in: self. 
+]
+
+{ #category : 'as yet unclassified' }
 SpaceShipGame >> positionOf: aShip [
 
 	^ ((board cells) detect: [ :cell | cell includes: aShip ]) number.
@@ -250,12 +254,14 @@ SpaceShipGame >> start [
 { #category : 'as yet unclassified' }
 SpaceShipGame >> throwDiceFor: aShip [
 
-	| resultOfTheThrow |
+	| resultOfTheThrow resultOfMovement |
 	
 	resultOfTheThrow := (dices collect: [ :dice | dice beThrown ]) sum.
 	lastDiceThrow := resultOfTheThrow.
+	resultOfMovement:=aShip adjustThrow:resultOfTheThrow.
 	
-	self move: aShip by: resultOfTheThrow.
+	
+	self move: aShip by: resultOfMovement.
 ]
 
 { #category : 'as yet unclassified' }

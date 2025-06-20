@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'shipsName',
 		'fuelCharged',
-		'maximumFuel'
+		'maximumFuel',
+		'throwAdjustment'
 	],
 	#classInstVars : [
 		'shipsName'
@@ -29,6 +30,19 @@ Ship class >> shipHasAValidName: arg1 [
 
 	(arg1 isEmpty or: [ arg1 isNil ]) ifTrue: [
 		Error signal: 'Ship must be initialized with a name.' ]
+]
+
+{ #category : 'accessing' }
+Ship >> adjustThrow:resultOfTheThrow [
+
+	^ resultOfTheThrow - throwAdjustment.
+	
+]
+
+{ #category : 'as yet unclassified' }
+Ship >> changeThrowBy: aValue [
+
+	throwAdjustment := 2.
 ]
 
 { #category : 'path commands' }
@@ -61,6 +75,7 @@ Ship >> initializeWith: aShipName andAFuelCharge: aFuelCharge [
 	shipsName := aShipName.
 	fuelCharged := aFuelCharge.
 	maximumFuel := aFuelCharge.
+	throwAdjustment:=0.
 	
 	
 ]
