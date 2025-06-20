@@ -10,7 +10,8 @@ Class {
 		'shipSupposedToPlay',
 		'lastDiceThrow',
 		'shipsCurrentLap',
-		'deck'
+		'deck',
+		'cardManagers'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -59,7 +60,10 @@ SpaceShipGame >> calculateTargetPositionFor: totalSteps [
 
 { #category : 'as yet unclassified' }
 SpaceShipGame >> cardsOf: aShip [ 
-	^ deck cardsInHand: aShip.
+
+	| aShipCards |
+	aShipCards := cardManagers detect: [ :manager | manager ship = aShip ].
+	^ aShipCards  .
 ]
 
 { #category : 'as yet unclassified' }
@@ -103,12 +107,13 @@ SpaceShipGame >> executeTurn [
 { #category : 'initialization' }
 SpaceShipGame >> initializeWith: laps with: aBoard with: gameDices with: gameShips with: aDeck [
 
-   winningLaps := laps.
+ 
+winningLaps := laps.
 
 	dices := gameDices.
 	
 	deck:= aDeck.
-	deck giveCardsTo: gameShips.
+	cardManagers := gameShips collect: [ :aShip | CardManager of: aShip with:aDeck ].
 
 	"ships := gameShips collect: [ :ship | ship deepCopy ]."
 	 ships := gameShips.
@@ -143,6 +148,13 @@ SpaceShipGame >> isShipSupposedToPLay: aShip [
 SpaceShipGame >> lastDiceThrow [
 
 	^ lastDiceThrow 
+]
+
+{ #category : 'as yet unclassified' }
+SpaceShipGame >> modifyThrowFor: aShip [
+
+
+	^ (self cardsOf: aShip ) applyEffect.
 ]
 
 { #category : 'as yet unclassified' }
@@ -203,9 +215,10 @@ SpaceShipGame >> performMoveOf: aShip to: targetPosition [
 ]
 
 { #category : 'as yet unclassified' }
-SpaceShipGame >> playCard: anOverloadCard from: aShip to: anotherShip [
+SpaceShipGame >> playCard: aCard from: aShip to: anotherShip [
 	self isShipSupposedToPLay: aShip.
-	anOverloadCard applyFrom: aShip to: anotherShip in: self. 
+	
+	(self cardsOf: anotherShip) addCardsAffecting: aCard.
 ]
 
 { #category : 'as yet unclassified' }
@@ -261,14 +274,15 @@ SpaceShipGame >> start [
 { #category : 'as yet unclassified' }
 SpaceShipGame >> throwDiceFor: aShip [
 
-	| resultOfTheThrow resultOfMovement |
+	| resultOfTheThrow throwModified |
 	
 	resultOfTheThrow := (dices collect: [ :dice | dice beThrown ]) sum.
 	lastDiceThrow := resultOfTheThrow.
-	resultOfMovement:=aShip adjustThrow:resultOfTheThrow.
+	"resultOfMovement:=aShip adjustThrow:resultOfTheThrow."
+	throwModified := self modifyThrowFor: aShip.
 	
 	
-	self move: aShip by: resultOfMovement.
+	self move: aShip by: resultOfTheThrow + throwModified .
 ]
 
 { #category : 'as yet unclassified' }

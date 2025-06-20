@@ -10,3 +10,9 @@ OverloadCard >> applyFrom: aShip to: anotherShip in: aSpaceShipGame [
 	
 	anotherShip changeThrowBy: 2.
 ]
+
+{ #category : 'as yet unclassified' }
+OverloadCard >> effect [
+
+	^ -2.
+]

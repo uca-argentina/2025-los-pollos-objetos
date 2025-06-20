@@ -144,7 +144,7 @@ CardTest >> testWhenOneShipStartsWithTwoCards [
 		         and: dices
 		         and: ships and: aDeck.
 
-	self assert: (aGame cardsOf: aShip) size  equals: 2.
+	self assert: (aGame cardsOf: aShip) cardsInHand size  equals: 2.
 
 ]
 
@@ -185,6 +185,6 @@ CardTest >> testWhenTwoShipsStartWithTwoCards [
 		         and: dices
 		         and: ships and: aDeck.
 
-	self assert: (aGame cardsOf: aShip) size  equals: 2.
-	self assert: (aGame cardsOf: anotherShip) size equals: 2.
+	self assert: (aGame cardsOf: aShip) cardsInHand size  equals: 2.
+	self assert: (aGame cardsOf: anotherShip) cardsInHand size equals: 2.
 ]
