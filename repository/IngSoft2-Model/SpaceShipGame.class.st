@@ -31,41 +31,6 @@ SpaceShipGame class >> completedAtLap: aNumberOfLap with: aBoard and: dices and:
 ]
 
 { #category : 'as yet unclassified' }
-SpaceShipGame >> AAAAAAtryToMoveUsingAllyOf: aShip to: targetPosition consuming: aConsumption [ 
-	| ally |
-	ally := aShip inAllianceWith.
-	ally currentFuel > aConsumption
-		ifTrue: [
-			ally consumeFuel: aConsumption.
-			self performMoveOf: aShip to: targetPosition
-		]
-		ifFalse: [
-			self penalize: aShip withTurns: 2.
-			self penalize: ally withTurns: 2
-		].
-
-]
-
-{ #category : 'as yet unclassified' }
-SpaceShipGame >> aatryToMoveUsingAlliesOf: aShip to: targetPosition consuming: aConsumption [ 
-	| allies usableAlly |
-	
-	allies := aShip inAllianceWith.
-	usableAlly := allies detect: [ :ally | ally currentFuel > aConsumption ] ifNone: [ nil ].
-
-	usableAlly isNil
-		ifTrue: [
-			self penalize: aShip withTurns: 2.
-			allies do: [ :ally | self penalize: ally withTurns: 2 ].
-		]
-		ifFalse: [
-			usableAlly consumeFuel: aConsumption.
-			self performMoveOf: aShip to: targetPosition.
-		].
-
-]
-
-{ #category : 'as yet unclassified' }
 SpaceShipGame >> advanceTurn [ 
 
 	shipSupposedToPlay := (shipSupposedToPlay \\ ships size) + 1.
