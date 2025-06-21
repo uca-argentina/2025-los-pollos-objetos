@@ -39,16 +39,13 @@ HyperJumpCell class >> parsecValueIsValid: aParsecValues [
 { #category : 'initialization' }
 HyperJumpCell >> applyEffectTo: aShip of: aGame [
 
-    | parsecsToJump cellsToJump newPosition |
+    | parsecsToJump cellsToJump |
 
     parsecsToJump := parsecValues at: currentParsecIndex.
     cellsToJump := parsecsToJump // cellLengthInParsecs.
-    newPosition := aGame calculateTargetPositionFor: (aShip position + cellsToJump).
-    aGame move: aShip to: newPosition andConsume: cellsToJump.
+	 aGame move: aShip by: cellsToJump.
 
-    
-    currentParsecIndex := currentParsecIndex + 1.
-    (currentParsecIndex > parsecValues size) ifTrue: [ currentParsecIndex := 1 ].
+    currentParsecIndex := (currentParsecIndex \\ parsecValues size) + 1.
 ]
 
 { #category : 'initialization' }
@@ -60,5 +57,4 @@ HyperJumpCell >> setUpOn: aNumberOfCell withParsecValues: aParsecValue withBoard
 	currentParsecIndex := 1.
 	boardLengthInParsecs := aBoardLengthInParsecs.
 	cellLengthInParsecs := boardLengthInParsecs // aNumberOfCells.
-	^ self
 ]

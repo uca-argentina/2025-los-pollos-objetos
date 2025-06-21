@@ -33,80 +33,108 @@ HyperGravityCellTest >> testWhenHyperGravityCellIsCreatedWithNegativeRequiredVal
 ]
 
 { #category : 'tests' }
-HyperGravityCellTest >> testWhenShipArrivesToHyperGravityCellWithEnoughRollThenItRemainsOnTheCell [
+HyperGravityCellTest >> testWhenShipArrivesToHyperGravityCellWithEnoughRollThenItContinuesFromThatCell [
 
-    | aGame aBoard aShip ships oneDice dices aHyperGravityCell |
-
-	 aHyperGravityCell := HyperGravityCell initializeCellOn: 5 withRequiredValue: 3.  
-    
-	 aBoard := ChargedBoardWithOneHyperGravityCell withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 15 and: 17 andAHyperGravityCell: aHyperGravityCell onCell: 5.
+	| aGame aBoard aShip ships oneDice dices numberOfCells cells |
+	cells := OrderedCollection new.
+	cells add: (NormalCell initializeCellOn: 1).
+	cells add: (NormalCell initializeCellOn: 2).
+	cells add: (NormalCell initializeCellOn: 3).
+	cells add: (NormalCell initializeCellOn: 4).
+	cells add:
+		(HyperGravityCell initializeCellOn: 5 withRequiredValue: 2).
+	cells add: (NormalCell initializeCellOn: 6).
+	cells add: (NormalCell initializeCellOn: 7).
+	numberOfCells := 7.
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          whichAre: cells
+		          andAWormHoleBetweenCells: 6
+		          and: 7.
 	
-    aShip := Ship named: 'Venture'.
-    ships := OrderedCollection with: aShip.
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 4.
+	dices := OrderedCollection with: oneDice.
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	ships := OrderedCollection with: aShip.
 
-    oneDice := ChargedDice withATotalNumberOfFacesOf: 4. 
-    dices := OrderedCollection with: oneDice.
+	aGame := SpaceShipGame
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships.
 
-    aGame := SpaceShipGame
-        completedAtLap: 1
-        with: aBoard
-        and: dices
-        and: ships.
+	aGame executeTurn.
 
-    aGame executeTurn .
-
-    self assert: (aShip position) equals: 5.
+	self assert: (aGame positionOf: aShip) equals: 5
 ]
 
 { #category : 'tests' }
-HyperGravityCellTest >> testWhenShipArrivesToHyperGravityCellWithExactRollThenItStaysOnHyperGravityCell [
+HyperGravityCellTest >> testWhenShipArrivesToHyperGravityCellWithExactRollThenItContinuesFromThatCell [
 
-    | aGame aBoard aShip ships oneDice dices aHyperGravityCell |
+	| aGame aBoard aShip ships oneDice dices numberOfCells cells |
+	cells := OrderedCollection new.
+	cells add: (NormalCell initializeCellOn: 1).
+	cells add: (NormalCell initializeCellOn: 2).
+	cells add: (NormalCell initializeCellOn: 3).
+	cells add: (NormalCell initializeCellOn: 4).
+	cells add:
+		(HyperGravityCell initializeCellOn: 5 withRequiredValue: 4).
+	cells add: (NormalCell initializeCellOn: 6).
+	cells add: (NormalCell initializeCellOn: 7).
+	numberOfCells := 7.
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          whichAre: cells
+		          andAWormHoleBetweenCells: 6
+		          and: 7.
+	
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 4.
+	dices := OrderedCollection with: oneDice.
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	ships := OrderedCollection with: aShip.
 
-    aHyperGravityCell := HyperGravityCell initializeCellOn: 5 withRequiredValue: 4.  
-    
-	 aBoard := ChargedBoardWithOneHyperGravityCell withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 15 and: 17 andAHyperGravityCell: aHyperGravityCell onCell: 5.
+	aGame := SpaceShipGame
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships.
 
-    aShip := Ship named: 'Venture'.
-    ships := OrderedCollection with: aShip.
+	aGame executeTurn.
 
-    oneDice := ChargedDice withATotalNumberOfFacesOf: 4.   
-    dices := OrderedCollection with: oneDice.
-
-    aGame := SpaceShipGame
-        completedAtLap: 1
-        with: aBoard
-        and: dices
-        and: ships.
-
-    aGame executeTurn .
-
-    self assert: (aShip position) equals: 5.   
-
+	self assert: (aGame positionOf: aShip) equals: 5
 ]
 
 { #category : 'tests' }
 HyperGravityCellTest >> testWhenShipArrivesToHyperGravityCellWithNotEnoughRollThenItDoesntMoveForward [
 
-    | aGame aBoard aShip ships oneDice dices aHyperGravityCell |
+	| aGame aBoard aShip ships oneDice dices numberOfCells cells |
+	cells := OrderedCollection new.
+	cells add: (NormalCell initializeCellOn: 1).
+	cells add: (NormalCell initializeCellOn: 2).
+	cells add: (NormalCell initializeCellOn: 3).
+	cells add: (NormalCell initializeCellOn: 4).
+	cells add:
+		(HyperGravityCell initializeCellOn: 5 withRequiredValue: 6).
+	cells add: (NormalCell initializeCellOn: 6).
+	cells add: (NormalCell initializeCellOn: 7).
+	numberOfCells := 7.
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          whichAre: cells
+		          andAWormHoleBetweenCells: 6
+		          and: 7.
 
-    aHyperGravityCell := HyperGravityCell initializeCellOn: 5 withRequiredValue: 6.  
-    
-	 aBoard := ChargedBoardWithOneHyperGravityCell withATotalNumberOfCellsOf: 20 andAWormHoleBetweenCells: 15 and: 17 andAHyperGravityCell: aHyperGravityCell onCell: 5.
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 4.
+	dices := OrderedCollection with: oneDice.
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	ships := OrderedCollection with: aShip.
+	aGame := SpaceShipGame
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships.
 
-    aShip := Ship named: 'Venture'.
-    ships := OrderedCollection with: aShip.
+	aGame executeTurn.
 
-    oneDice := ChargedDice withATotalNumberOfFacesOf: 4.   
-    dices := OrderedCollection with: oneDice.
-
-    aGame := SpaceShipGame
-        completedAtLap: 1
-        with: aBoard
-        and: dices
-        and: ships.
-
-    aGame executeTurn .
-
-    self assert: (aShip position) equals: 1.  
+	self assert: (aGame positionOf: aShip) equals: 1
 ]

@@ -2,21 +2,17 @@ Class {
 	#name : 'SpaceShipGame',
 	#superclass : 'Object',
 	#instVars : [
-		'name',
 		'board',
 		'dices',
 		'ships',
-		'winningCell',
-		'blackHolesFirstEntrance',
-		'blackHoleSecondEntrance',
-		'distanceFromBlackHolesFirstEntranceToSecondEntrance',
-		'chargeOfFuel',
 		'winningLaps',
 		'penalties',
 		'shipSupposedToPlay',
-		'positionBeforePlay',
-		'fuelBeforePlay',
-		'lastDiceThrow'
+		'lastDiceThrow',
+		'shipsCurrentLap',
+		'deck',
+		'cardManagers',
+		'cardPlayHandler'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -25,14 +21,19 @@ Class {
 { #category : 'as yet unclassified' }
 SpaceShipGame class >> completedAtLap: aNumberOfLap with: aBoard and: dices and: ships [ 
 	
-	^ (self new) initializeWith: aNumberOfLap with: aBoard with: dices with: ships.   
+	^ (self new) initializeWith: aNumberOfLap with: aBoard with: dices with: ships with: (Deck with: (OrderedCollection with: '')).
+]
+
+{ #category : 'as yet unclassified' }
+SpaceShipGame class >> completedAtLap: aNumberOfLap with: aBoard and: dices and: ships and: aDeck [
+	
+	^ (self new) initializeWith: aNumberOfLap with: aBoard with: dices with: ships with: aDeck.
 ]
 
 { #category : 'as yet unclassified' }
 SpaceShipGame >> advanceTurn [ 
 
-	shipSupposedToPlay := shipSupposedToPlay + 1.
-	shipSupposedToPlay > ships size ifTrue: [ shipSupposedToPlay := 1 ].
+	shipSupposedToPlay := (shipSupposedToPlay \\ ships size) + 1.
 ]
 
 { #category : 'as yet unclassified' }
@@ -49,25 +50,39 @@ SpaceShipGame >> advanceTurnIfCurrentTurnsShipIsPenalized [
 	^ ship
 ]
 
+{ #category : 'as yet unclassified' }
+SpaceShipGame >> applyACardEffect: aCard to: aShip [
+
+	(self cardManagerOf: aShip ) addCardsAffecting: aCard. 
+]
+
+{ #category : 'as yet unclassified' }
+SpaceShipGame >> applyToAllSpaceShips: aCard [
+
+	cardManagers do: [ :cardManager | cardManager addCardsAffecting: aCard  ]
+]
+
 { #category : 'accessing' }
 SpaceShipGame >> calculateTargetPositionFor: totalSteps [
 
-		^ totalSteps = 0
-        ifTrue: [ 0 ]
-        ifFalse: [
-            (totalSteps \\ board numberOfCells = 0)
-                ifTrue: [ board numberOfCells ]
-                ifFalse: [ totalSteps \\ board numberOfCells ]
-        ].
+	^ (totalSteps \\ board numberOfCells) = 0
+        ifTrue: [ board numberOfCells ]
+        ifFalse: [ totalSteps \\ board numberOfCells ].
 
 ]
 
 { #category : 'as yet unclassified' }
-SpaceShipGame >> chargeFuelToShipsUpTo: aChargeOfFuel [
+SpaceShipGame >> cardManagerOf: aShip [ 
 
-    ships do: [:aShip | aShip chargeFuelUpTo: aChargeOfFuel ].
+	| aCardManager |
+	aCardManager := cardManagers detect: [ :manager | manager ship = aShip ].
+	^ aCardManager  .
+]
 
+{ #category : 'as yet unclassified' }
+SpaceShipGame >> currentLapFor: aShip [
 
+	^ shipsCurrentLap at: aShip.
 ]
 
 { #category : 'as yet unclassified' }
@@ -75,18 +90,16 @@ SpaceShipGame >> determineTheConsequencesOfTheThrowIn: aNewPosition forShip: aSh
 	
 	| aShipCurrentLap |
 
-	aShipCurrentLap := aShip currentLap.
+	aShipCurrentLap := self currentLapFor: aShip.
 	(aShipCurrentLap = winningLaps ) ifTrue: [ ^ aShip name , ' won the Game!' ].
 	
 	"
 	(aNewPosition = blackHolesFirstEntrance) ifTrue: [ aShip fly: distanceFromBlackHolesFirstEntranceToSecondEntrance ].
 	(aNewPosition = blackHoleSecondEntrance ) ifTrue: [ aShip fly: (distanceFromBlackHolesFirstEntranceToSecondEntrance * (-1))].	
 	"
-	
-	(aNewPosition = blackHolesFirstEntrance) ifTrue: [ aShip moveTo: blackHoleSecondEntrance andConsume: (blackHoleSecondEntrance - blackHolesFirstEntrance)].
-	(aNewPosition = blackHoleSecondEntrance ) ifTrue: [ aShip moveTo: blackHolesFirstEntrance andConsume: (blackHoleSecondEntrance - blackHolesFirstEntrance)].	
-	
-	
+
+	"(aNewPosition = blackHolesFirstEntrance) ifTrue: [ self move: aShip to: blackHoleSecondEntrance andConsume: (blackHoleSecondEntrance - blackHolesFirstEntrance) ].
+	(aNewPosition = blackHoleSecondEntrance ) ifTrue: [ self move: aShip to: blackHolesFirstEntrance andConsume: (blackHoleSecondEntrance - blackHolesFirstEntrance) ]."	
 ]
 
 { #category : 'as yet unclassified' }
@@ -95,37 +108,42 @@ SpaceShipGame >> executeTurn [
 	| ship |
 	
 	ship := self advanceTurnIfCurrentTurnsShipIsPenalized.
-
 	ship := ships at: shipSupposedToPlay.
 
 	self throwDiceFor: ship.
-
+	board determineAndApplyEffectTo: ship atCurrentCellFrom: self.
 	self advanceTurn.
 
 	^ ship
 ]
 
 { #category : 'initialization' }
-SpaceShipGame >> initializeWith: laps with: aBoard with: gameDices with: gameShips [ 
+SpaceShipGame >> initializeWith: laps with: aBoard with: gameDices with: gameShips with: aDeck [
 
-    winningLaps := laps.
+ 
 
-    board := aBoard.
-	 board getShipsIntoFirstCellOfTheBoard: gameShips.
-    "winningCell := board numberOfCells."
-    blackHolesFirstEntrance := board wormsHolesFirstEntrance.
-    blackHoleSecondEntrance := board wormsHolesSecondEntrance.
+winningLaps := laps.
 
-    dices := gameDices.
-	 chargeOfFuel := (self sumOfDiceSizes) * 2.
+	dices := gameDices.
+	
+	deck:= aDeck.
+	cardManagers := gameShips collect: [ :aShip | CardManager of: aShip with:aDeck ].
+	cardPlayHandler:= CardPlayHandler with: self.
+	
 
-    ships := gameShips.
-	 self chargeFuelToShipsUpTo: chargeOfFuel.
+	"ships := gameShips collect: [ :ship | ship deepCopy ]."
+	 ships := gameShips.
+	
+   board := aBoard.
+	board getShipsIntoFirstCellOfTheBoard: gameShips.
+   "winningCell := board numberOfCells."
+   "blackHolesFirstEntrance := board wormsHolesFirstEntrance.
+   blackHoleSecondEntrance := board wormsHolesSecondEntrance."
 	
 	shipSupposedToPlay := 1.
 	penalties := Dictionary new.
-	
-	 
+	shipsCurrentLap := Dictionary new.
+	ships do: [ :ship | shipsCurrentLap at: ship put: 0 ].
 
 ]
 
@@ -136,38 +154,55 @@ SpaceShipGame >> isAPositiveInteger: numberOfFaces [
 		Error signal: 'The penalty must be a positive integer.' ]
 ]
 
+{ #category : 'as yet unclassified' }
+SpaceShipGame >> isShipSupposedToPLay: aShip [
+
+	aShip = (ships at: shipSupposedToPlay ) ifFalse: [ Error signal: 'You can only play this card when its your turn' ]
+]
+
 { #category : 'accessing' }
 SpaceShipGame >> lastDiceThrow [
 
 	^ lastDiceThrow 
 ]
 
-{ #category : 'accessing' }
-SpaceShipGame >> move: aShip to: targetPosition andConsume: aConsumption [
+{ #category : 'as yet unclassified' }
+SpaceShipGame >> modifyThrowFor: aShip [
 
-	| shipsPreviousPosition shipsNewPosition  |
-	
-	aShip moveTo: targetPosition andConsume: aConsumption.
 
-aShip currentFuel = 0
-	ifTrue: [ self penalize: aShip withTurns: 2 ]
-	ifFalse: [
-		shipsPreviousPosition := aShip lastPosition.
-		shipsNewPosition := aShip position.
-
-		board removeShip: aShip fromCellAt: shipsPreviousPosition.
-		board addShip: aShip toCellAt: shipsNewPosition ].
+	^ (self cardManagerOf: aShip ) applyEffect.
 ]
 
 { #category : 'as yet unclassified' }
-SpaceShipGame >> moveShipToLastPlay: aShip [
+SpaceShipGame >> move: aShip by: steps [
 
-	self move: aShip to: positionBeforePlay andConsume: 0.
-	aShip restoreFuel.
+	| totalSteps targetPosition aConsumption |
+	totalSteps := (self positionOf: aShip) + steps.
+	targetPosition := self calculateTargetPositionFor: totalSteps.
+
+	aConsumption := steps abs.
+	self move: aShip to: targetPosition andConsume: aConsumption.
+	self updateLapFor: aShip withTotalSteps: totalSteps.
+]
+
+{ #category : 'accessing' }
+SpaceShipGame >> move: aShip to: targetPosition andConsume: aConsumption [
+	
+	"aShip moveTo: targetPosition andConsume: aConsumption."
+	"shipsPreviousPosition := self positionOf: aShip."
+	aShip consumeFuel: aConsumption.
+	
+	aShip currentFuel = 0
+		ifTrue: [ self penalize: aShip withTurns: 2. ]
+		ifFalse: [
+			self performMoveOf: aShip to: targetPosition.
+			"board removeShip: aShip fromCellAt: shipsPreviousPosition.
+			board addShip: aShip toCellAt: targetPosition" ].
 ]
 
 { #category : 'initialization' }
 SpaceShipGame >> numberOfCells [ 
+
 	^ board  numberOfCells .
 ]
 
@@ -176,6 +211,7 @@ SpaceShipGame >> penalize: aShip withTurns: numberOfTurns [
 	
 	self isAPositiveInteger: numberOfTurns.
 	penalties at: aShip put: (penalties at: aShip ifAbsent: [ 0 ]) + numberOfTurns.
+	self returnToInitialPosition: aShip.
 
 ]
 
@@ -186,16 +222,53 @@ SpaceShipGame >> penaltyFor: aShip [
 ]
 
 { #category : 'as yet unclassified' }
+SpaceShipGame >> performMoveOf: aShip to: targetPosition [
+
+	| shipsPreviousPosition |
+	shipsPreviousPosition := self positionOf: aShip.
+	board removeShip: aShip fromCellAt: shipsPreviousPosition.
+	board addShip: aShip toCellAt: targetPosition.
+]
+
+{ #category : 'as yet unclassified' }
+SpaceShipGame >> playCard: aCard from: aShip to: anotherShip [
+
+	self isShipSupposedToPLay: aShip.
+	
+	"(self cardManagerOf: anotherShip) addCardsAffecting: aCard."
+	
+	cardPlayHandler handle: aCard from: aShip to: anotherShip .
+]
+
+{ #category : 'as yet unclassified' }
+SpaceShipGame >> positionOf: aShip [
+
+	^ ((board cells) detect: [ :cell | cell includes: aShip ]) number.
+]
+
+{ #category : 'as yet unclassified' }
 SpaceShipGame >> reducePenaltyFor: aShip [
 
 	| remaining |
-remaining := (penalties at: aShip) - 1.
-remaining > 0
-	ifTrue: [ penalties at: aShip put: remaining ]
-	ifFalse: [
-		aShip restoreFuel.
-		penalties removeKey: aShip ]
+	remaining := (penalties at: aShip) - 1.
+	remaining > 0 ifTrue: [ penalties at: aShip put: remaining ]
+		ifFalse: [ 
+			aShip restoreFuel.
+			penalties removeKey: aShip ]
 
+]
+
+{ #category : 'initialization' }
+SpaceShipGame >> returnToInitialPosition: aShip [
+
+	| stepsDone shipsPreviousPosition targetPosition |
+	
+	shipsPreviousPosition := self positionOf: aShip.
+	targetPosition := 1.
+	stepsDone := shipsPreviousPosition - targetPosition.
+	self performMoveOf: aShip to: targetPosition.
+	self updateLapFor: aShip withTotalSteps: (stepsDone negated). 
+	
 ]
 
 { #category : 'as yet unclassified' }
@@ -207,7 +280,7 @@ SpaceShipGame >> shipsPlaying [
 { #category : 'as yet unclassified' }
 SpaceShipGame >> skipTurnFor: aShip [
 
-	self penalize: aShip withTurns: 1. 
+	penalties at: aShip put: (penalties at: aShip ifAbsent: [ 0 ]) + 1.
 
 ]
 
@@ -218,39 +291,23 @@ SpaceShipGame >> start [
 ]
 
 { #category : 'as yet unclassified' }
-SpaceShipGame >> sumOfDiceSizes [
-
-    ^ dices inject: 0 into: [ :sum :aDie | sum + aDie sizeOfTheDice ].
-
-
-]
-
-{ #category : 'as yet unclassified' }
 SpaceShipGame >> throwDiceFor: aShip [
 
-	| resultOfTheThrow totalSteps targetPosition |
+	| resultOfTheThrow throwModified |
 	
-	positionBeforePlay := aShip position.
-	fuelBeforePlay := aShip currentFuel . 
-
 	resultOfTheThrow := (dices collect: [ :dice | dice beThrown ]) sum.
-	lastDiceThrow := resultOfTheThrow .
+	lastDiceThrow := resultOfTheThrow.
+	"resultOfMovement:=aShip adjustThrow:resultOfTheThrow."
+	throwModified := self modifyThrowFor: aShip.
 	
-	totalSteps := aShip position + resultOfTheThrow.
-
-	targetPosition := self calculateTargetPositionFor: totalSteps.
-
-	self move: aShip to: targetPosition andConsume: resultOfTheThrow.
-
-	board checkCell: aShip of: self.
-
-	self updateLapFor: aShip withTotalSteps: totalSteps.
+	
+	self move: aShip by: resultOfTheThrow + throwModified .
 ]
 
 { #category : 'as yet unclassified' }
 SpaceShipGame >> updateLapFor: aShip withTotalSteps: totalSteps [
 	
-	 aShip updateLapOn: totalSteps // board numberOfCells.
+	shipsCurrentLap at: aShip put: (shipsCurrentLap at: aShip) + (totalSteps // board numberOfCells).
 
 ]
 

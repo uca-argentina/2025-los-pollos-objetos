@@ -17,33 +17,44 @@ HyperJumpCellTest >> should: anErrorBlock raise: anErrorClass withMessageText: e
 { #category : 'tests' }
 HyperJumpCellTest >> testWhenAFourthShipArrivesToHyperJumpCellThenItAdvancesTheCorrespondingParsecs [
 
-	| aGame aBoard ships oneDice dices boardLengthInParsecs parsecValues expectedPosition cellLengthInParsecs firstShip secondShip thirdShip fourthShip aHyperJumpCell |
-	
+	| aGame aBoard ships oneDice dices boardLengthInParsecs parsecValues expectedPosition cellLengthInParsecs firstShip secondShip thirdShip fourthShip numberOfCells cells |
 	boardLengthInParsecs := 100.
 	cellLengthInParsecs := 10.
 	parsecValues := #( 25 15 10 ).
-		
-	aHyperJumpCell := HyperJumpCell
-		                 initializeCellOn: 4
-		                 withParsecValues: parsecValues
-		                 boardLength: boardLengthInParsecs
-		                 numberOfCells: 10.
-		
-	aBoard := ChargedBoardWithOneHyperJumpCell withATotalNumberOfCellsOf: 10 andAWormHoleBetweenCells: 2 and: 3 andAHyperJumpCell: aHyperJumpCell onCell: 4.
 
-
-	firstShip := Ship named: 'Venture1'.
-	secondShip := Ship named: 'Millenium Falcon1'.
-	thirdShip := Ship named: 'Venture2'.
-	fourthShip := Ship named: 'Millenium Falcon2'.
+	cells := OrderedCollection new.
+	cells add: (NormalCell initializeCellOn: 1).
+	cells add: (NormalCell initializeCellOn: 2).
+	cells add: (NormalCell initializeCellOn: 3).
+	cells add: (HyperJumpCell
+			 initializeCellOn: 4
+			 withParsecValues: parsecValues
+			 boardLength: boardLengthInParsecs
+			 numberOfCells: 10).
+	cells add: (NormalCell initializeCellOn: 5).
+	cells add: (NormalCell initializeCellOn: 6).
+	cells add: (NormalCell initializeCellOn: 7).
+	cells add: (NormalCell initializeCellOn: 8).
+	cells add: (NormalCell initializeCellOn: 9).
+	cells add: (NormalCell initializeCellOn: 10).
+	numberOfCells := 10.
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          whichAre: cells
+		          andAWormHoleBetweenCells: 6
+		          and: 7.
+	
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 3.
+	dices := OrderedCollection with: oneDice.
+	firstShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	secondShip := Ship named: 'Millenium Falcon1' withAChargeBasedOn: dices.
+	thirdShip := Ship named: 'Sulaco' withAChargeBasedOn: dices.
+	fourthShip := Ship named: 'The Batwing' withAChargeBasedOn: dices.
 	ships := OrderedCollection
 		         with: firstShip
 		         with: secondShip
 		         with: thirdShip
 		         with: fourthShip.
-
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 3.
-	dices := OrderedCollection with: oneDice.
 
 	aGame := SpaceShipGame
 		         completedAtLap: 1
@@ -58,7 +69,7 @@ HyperJumpCellTest >> testWhenAFourthShipArrivesToHyperJumpCellThenItAdvancesTheC
 
 	expectedPosition := 4 + (25 // cellLengthInParsecs).
 
-	self assert: fourthShip position equals: expectedPosition
+	self assert: (aGame positionOf: fourthShip) equals: expectedPosition
 ]
 
 { #category : 'tests' }
@@ -109,97 +120,140 @@ HyperJumpCellTest >> testWhenAHyperJumpCellIsInitializedWithNegativeTotalNumberO
 { #category : 'tests' }
 HyperJumpCellTest >> testWhenASecondShipArrivesToHyperJumpCellThenItAdvancesTheCorrespondingParsecs [
 
-| aGame aBoard aShip ships oneDice dices boardLengthInParsecs parsecValues expectedPosition cellLengthInParsecs anotherShip aHyperJumpCell |
-    
-    boardLengthInParsecs := 100.
-    cellLengthInParsecs := 10.
-    parsecValues := #(25 15 10). 
+	| aGame aBoard aShip ships oneDice dices boardLengthInParsecs parsecValues expectedPosition cellLengthInParsecs anotherShip numberOfCells cells |
+	boardLengthInParsecs := 100.
+	cellLengthInParsecs := 10.
+	parsecValues := #( 25 15 10 ).
 
-    aHyperJumpCell := HyperJumpCell initializeCellOn: 4 withParsecValues: parsecValues boardLength: boardLengthInParsecs numberOfCells: 10.
+	cells := OrderedCollection new.
+	cells add: (NormalCell initializeCellOn: 1).
+	cells add: (NormalCell initializeCellOn: 2).
+	cells add: (NormalCell initializeCellOn: 3).
+	cells add: (HyperJumpCell
+			 initializeCellOn: 4
+			 withParsecValues: parsecValues
+			 boardLength: boardLengthInParsecs
+			 numberOfCells: 10).
+	cells add: (NormalCell initializeCellOn: 5).
+	cells add: (NormalCell initializeCellOn: 6).
+	cells add: (NormalCell initializeCellOn: 7).
+	cells add: (NormalCell initializeCellOn: 8).
+	cells add: (NormalCell initializeCellOn: 9).
+	cells add: (NormalCell initializeCellOn: 10).
+	numberOfCells := 10.
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          whichAre: cells
+		          andAWormHoleBetweenCells: 6
+		          and: 7.
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 3.
+	dices := OrderedCollection with: oneDice.
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'Millenium Falcon' withAChargeBasedOn: dices.
+	ships := OrderedCollection with: aShip with: anotherShip.
 
-    aBoard := ChargedBoardWithOneHyperJumpCell withATotalNumberOfCellsOf: 10 andAWormHoleBetweenCells: 2 and: 3 andAHyperJumpCell: aHyperJumpCell onCell: 4.
+	aGame := SpaceShipGame
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships.
 
-    aShip := Ship named: 'Venture'.
-    anotherShip := Ship named: 'Millenium Falcon'.
-    ships := OrderedCollection with: aShip with: anotherShip.
+	aGame executeTurn.
+	aGame executeTurn.
 
-    oneDice := ChargedDice withATotalNumberOfFacesOf: 3.  
-    dices := OrderedCollection with: oneDice.
+	expectedPosition := 4 + (15 // cellLengthInParsecs).
 
-    aGame := SpaceShipGame
-        completedAtLap: 1
-        with: aBoard
-        and: dices
-        and: ships.
-
-    aGame executeTurn.
-	 aGame executeTurn.
-
-    expectedPosition := 4 + (15 // cellLengthInParsecs).
-    
-    self assert: anotherShip position equals: expectedPosition.
+	self assert: (aGame positionOf: anotherShip) equals: expectedPosition
 ]
 
 { #category : 'tests' }
-HyperJumpCellTest >> testWhenAShipArrivesToHyperJumpCellQAndRunsOutOfFuelToAdvanceThenItStaysOnTheCell [
+HyperJumpCellTest >> testWhenAShipArrivesToHyperJumpCellQAndRunsOutOfFuelToAdvanceThenItReturnsToTheInitialPosition [
 
-| aGame aBoard aShip ships oneDice dices boardLengthInParsecs parsecValues cellLengthInParsecs aHyperJumpCell |
-    
-    boardLengthInParsecs := 100.
-    cellLengthInParsecs := 10.
-    parsecValues := #(30 15 10). 
+	| aGame aBoard aShip ships oneDice dices boardLengthInParsecs parsecValues cellLengthInParsecs numberOfCells cells |
+	boardLengthInParsecs := 100.
+	cellLengthInParsecs := 10.
+	parsecValues := #( 30 15 10 ).
 
-    aHyperJumpCell := HyperJumpCell initializeCellOn: 4 withParsecValues: parsecValues boardLength: boardLengthInParsecs numberOfCells: 10.
+	cells := OrderedCollection new.
+	cells add: (NormalCell initializeCellOn: 1).
+	cells add: (NormalCell initializeCellOn: 2).
+	cells add: (NormalCell initializeCellOn: 3).
+	cells add: (HyperJumpCell
+			 initializeCellOn: 4
+			 withParsecValues: parsecValues
+			 boardLength: boardLengthInParsecs
+			 numberOfCells: 10).
+	cells add: (NormalCell initializeCellOn: 5).
+	cells add: (NormalCell initializeCellOn: 6).
+	cells add: (NormalCell initializeCellOn: 7).
+	cells add: (NormalCell initializeCellOn: 8).
+	cells add: (NormalCell initializeCellOn: 9).
+	cells add: (NormalCell initializeCellOn: 10).
+	numberOfCells := 10.
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          whichAre: cells
+		          andAWormHoleBetweenCells: 6
+		          and: 7.
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 3.
+	dices := OrderedCollection with: oneDice.
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	ships := OrderedCollection with: aShip.
 
-    aBoard := ChargedBoardWithOneHyperJumpCell withATotalNumberOfCellsOf: 10 andAWormHoleBetweenCells: 2 and: 3 andAHyperJumpCell: aHyperJumpCell onCell: 4.
+	aGame := SpaceShipGame
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships.
 
-    aShip := Ship named: 'Venture'.
-    ships := OrderedCollection with: aShip.
+	aGame executeTurn.
 
-    oneDice := ChargedDice withATotalNumberOfFacesOf: 3.  
-    dices := OrderedCollection with: oneDice.
-
-    aGame := SpaceShipGame
-        completedAtLap: 1
-        with: aBoard
-        and: dices
-        and: ships.
-    
-    aGame executeTurn .
-
-    "expectedPosition := 4 + (40 // cellLengthInParsecs)."
-
-    self assert: aShip position equals: 4.
+	self assert: (aGame positionOf: aShip) equals: 1.
 ]
 
 { #category : 'tests' }
 HyperJumpCellTest >> testWhenAShipArrivesToHyperJumpCellThenItAdvancesTheCorrespondingParsecs [
 
-| aGame aBoard aShip ships oneDice dices boardLengthInParsecs parsecValues expectedPosition cellLengthInParsecs aHyperJumpCell |
-    
-    boardLengthInParsecs := 100.
-    cellLengthInParsecs := 10.
-    parsecValues := #(25 15 10). 
+	| aGame aBoard aShip ships oneDice dices boardLengthInParsecs parsecValues expectedPosition cellLengthInParsecs numberOfCells cells |
+	boardLengthInParsecs := 100.
+	cellLengthInParsecs := 10.
+	parsecValues := #( 25 15 10 ).
 
-    aHyperJumpCell := HyperJumpCell initializeCellOn: 4 withParsecValues: parsecValues boardLength: boardLengthInParsecs numberOfCells: 10.
+	cells := OrderedCollection new.
+	cells add: (NormalCell initializeCellOn: 1).
+	cells add: (NormalCell initializeCellOn: 2).
+	cells add: (NormalCell initializeCellOn: 3).
+	cells add: (HyperJumpCell
+			 initializeCellOn: 4
+			 withParsecValues: parsecValues
+			 boardLength: boardLengthInParsecs
+			 numberOfCells: 10).
+	cells add: (NormalCell initializeCellOn: 5).
+	cells add: (NormalCell initializeCellOn: 6).
+	cells add: (NormalCell initializeCellOn: 7).
+	cells add: (NormalCell initializeCellOn: 8).
+	cells add: (NormalCell initializeCellOn: 9).
+	cells add: (NormalCell initializeCellOn: 10).
+	numberOfCells := 10.
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          whichAre: cells
+		          andAWormHoleBetweenCells: 6
+		          and: 7.
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 3.
+	dices := OrderedCollection with: oneDice.
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	ships := OrderedCollection with: aShip.
 
-    aBoard := ChargedBoardWithOneHyperJumpCell withATotalNumberOfCellsOf: 10 andAWormHoleBetweenCells: 2 and: 3 andAHyperJumpCell: aHyperJumpCell onCell: 4.
+	aGame := SpaceShipGame
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships.
 
-    aShip := Ship named: 'Venture'.
-    ships := OrderedCollection with: aShip.
+	aGame executeTurn.
 
-    oneDice := ChargedDice withATotalNumberOfFacesOf: 3.  
-    dices := OrderedCollection with: oneDice.
+	expectedPosition := 4 + (25 // cellLengthInParsecs).
 
-    aGame := SpaceShipGame
-        completedAtLap: 1
-        with: aBoard
-        and: dices
-        and: ships.
-    
-    aGame executeTurn .
-
-    expectedPosition := 4 + (25 // cellLengthInParsecs).
-
-    self assert: aShip position equals: expectedPosition.
+	self assert: (aGame positionOf: aShip) equals: expectedPosition
 ]

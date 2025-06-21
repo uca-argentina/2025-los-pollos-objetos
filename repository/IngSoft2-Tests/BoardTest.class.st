@@ -15,37 +15,22 @@ BoardTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMess
 ]
 
 { #category : 'tests' }
-BoardTest >> testWhenAShipEntersACellOfTheBoardThenItIsInThere [
-
-	| aBoard aShip firstCell |
-	aBoard := Board withATotalNumberOfCellsOf: 10 andAWormHoleBetweenCells: 2 and: 5.
-	aShip := Ship named: 'Executor'.
-	
-	aBoard addShip: aShip toCellAt: aShip position.
-	firstCell := aBoard cellNumber: 1.
-	
-	self assert: (firstCell includes: aShip) equals: true.
-]
-
-{ #category : 'tests' }
-BoardTest >> testWhenAShipLeavesACellOfTheBoardThenItIsNoLongerInThere [
-
-	| aBoard aShip firstCell |
-	aBoard := Board withATotalNumberOfCellsOf: 10 andAWormHoleBetweenCells: 2 and: 5.
-	aShip := Ship named: 'Venture'.
-	
-	aBoard addShip: aShip toCellAt: aShip position.
-	firstCell := aBoard cellNumber: 1.
-	aBoard removeShip: aShip fromCellAt: aShip lastPosition.
-	
-	self deny: (firstCell includes: aShip) equals: true.
-]
-
-{ #category : 'tests' }
 BoardTest >> testWhenBoardCreatedWithInvalidNumberOfCellsThenItFails [
 
+	| numberOfCells someProbabilities aCellGenerator |
+	numberOfCells := 10.
+	someProbabilities := Dictionary new
+        at: 0.4 put: (NormalCell initializeCellOn: numberOfCells) ;
+        at: 0.6 put: (BlackHoleCell initializeCellOn: numberOfCells ) ;
+        at: 0.8 put: (HyperGravityCell initializeCellOn: numberOfCells withRequiredValue: 4);
+        at: 0.9 put: (MoonWalkCell initializeCellOn: numberOfCells withRequiredValue: 4);
+        at: 0.98 put: (HyperJumpCell initializeCellOn: numberOfCells withParsecValues: #(25 10 5) boardLength: 100 numberOfCells: 100) ;
+        at: 1 put: (AtomicBombCell initializeCellOn: numberOfCells) ;
+        yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+
     self
-        should: [Board  withATotalNumberOfCellsOf: -1 andAWormHoleBetweenCells: 2 and: 11.]
+        should: [Board  withATotalNumberOfCellsOf: -1 generatedWith: aCellGenerator andAWormHoleBetweenCells: 2 and: 11.]
         raise: Error
         withMessageText: 'Number of cells must be a positive integer.'.
 ]
@@ -53,8 +38,20 @@ BoardTest >> testWhenBoardCreatedWithInvalidNumberOfCellsThenItFails [
 { #category : 'tests' }
 BoardTest >> testWhenBoardCreatedWithNonIntegerThenItFails [
 
+	| numberOfCells someProbabilities aCellGenerator |
+	numberOfCells := 10.
+	someProbabilities := Dictionary new
+        at: 0.4 put: (NormalCell initializeCellOn: numberOfCells) ;
+        at: 0.6 put: (BlackHoleCell initializeCellOn: numberOfCells ) ;
+        at: 0.8 put: (HyperGravityCell initializeCellOn: numberOfCells withRequiredValue: 4);
+        at: 0.9 put: (MoonWalkCell initializeCellOn: numberOfCells withRequiredValue: 4);
+        at: 0.98 put: (HyperJumpCell initializeCellOn: numberOfCells withParsecValues: #(25 10 5) boardLength: 100 numberOfCells: 100) ;
+        at: 1 put: (AtomicBombCell initializeCellOn: numberOfCells) ;
+        yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+
     self
-        should: [Board  withATotalNumberOfCellsOf: 'uno' andAWormHoleBetweenCells: 2 and: 11.]
+        should: [Board  withATotalNumberOfCellsOf: 'uno' generatedWith: aCellGenerator andAWormHoleBetweenCells: 2 and: 11.]
         raise: Error
         withMessageText: 'Number of cells must be a positive integer.'.
 ]
@@ -62,8 +59,20 @@ BoardTest >> testWhenBoardCreatedWithNonIntegerThenItFails [
 { #category : 'tests' }
 BoardTest >> testWhenBoardCreatedWithZeroCellsThenItFails [
 
+	| numberOfCells someProbabilities aCellGenerator |
+	numberOfCells := 10.
+	someProbabilities := Dictionary new
+        at: 0.4 put: (NormalCell initializeCellOn: numberOfCells) ;
+        at: 0.6 put: (BlackHoleCell initializeCellOn: numberOfCells ) ;
+        at: 0.8 put: (HyperGravityCell initializeCellOn: numberOfCells withRequiredValue: 4);
+        at: 0.9 put: (MoonWalkCell initializeCellOn: numberOfCells withRequiredValue: 4);
+        at: 0.98 put: (HyperJumpCell initializeCellOn: numberOfCells withParsecValues: #(25 10 5) boardLength: 100 numberOfCells: 100) ;
+        at: 1 put: (AtomicBombCell initializeCellOn: numberOfCells) ;
+        yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+
     self
-        should: [Board  withATotalNumberOfCellsOf: 0 andAWormHoleBetweenCells: 2 and: 11.]
+        should: [Board  withATotalNumberOfCellsOf: 0 generatedWith: aCellGenerator andAWormHoleBetweenCells: 2 and: 11.]
         raise: Error
         withMessageText: 'Number of cells must be a positive integer.'.
 ]
@@ -71,33 +80,65 @@ BoardTest >> testWhenBoardCreatedWithZeroCellsThenItFails [
 { #category : 'tests' }
 BoardTest >> testWhenBoardIsCreatedWithOneCellThenHasCell [
 
-    | aBoard |
+    | aBoard numberOfCells someProbabilities aCellGenerator |
     "aBoard := Board new."
 
     "aBoard := Board withATotalNumberOfCellsOf: 1."
+	numberOfCells := 10.
+	someProbabilities := Dictionary new
+        at: 0.4 put: (NormalCell initializeCellOn: numberOfCells) ;
+        at: 0.6 put: (BlackHoleCell initializeCellOn: numberOfCells ) ;
+        at: 0.8 put: (HyperGravityCell initializeCellOn: numberOfCells withRequiredValue: 4);
+        at: 0.9 put: (MoonWalkCell initializeCellOn: numberOfCells withRequiredValue: 4);
+        at: 0.98 put: (HyperJumpCell initializeCellOn: numberOfCells withParsecValues: #(25 10 5) boardLength: 100 numberOfCells: 100) ;
+        at: 1 put: (AtomicBombCell initializeCellOn: numberOfCells) ;
+        yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
 
-    aBoard := Board withATotalNumberOfCellsOf: 2 andAWormHoleBetweenCells: 1 and: 2.
-
-
-    self assert: (aBoard numberOfCells) equals: 2.
+   "aBoard := Board withATotalNumberOfCellsOf: 2 andAWormHoleBetweenCells: 1 and: 2."
+	aBoard := Board withATotalNumberOfCellsOf: 2 generatedWith: aCellGenerator andAWormHoleBetweenCells: 1 and: 2.
+	
+	self assert: (aBoard numberOfCells) equals: 2.
 ]
 
 { #category : 'tests' }
 BoardTest >> testWhenBoardIsSetWithAWormsHoleThenItHasAFirstEntrance [
 
-    | aBoard |
-
-    aBoard := Board withATotalNumberOfCellsOf: 10 andAWormHoleBetweenCells: 2  and: 6.
-
+    | aBoard numberOfCells someProbabilities aCellGenerator |
+	 numberOfCells := 10.
+	 someProbabilities := Dictionary new
+        at: 0.4 put: (NormalCell initializeCellOn: numberOfCells) ;
+        at: 0.6 put: (BlackHoleCell initializeCellOn: numberOfCells ) ;
+        at: 0.8 put: (HyperGravityCell initializeCellOn: numberOfCells withRequiredValue: 4);
+        at: 0.9 put: (MoonWalkCell initializeCellOn: numberOfCells withRequiredValue: 4);
+        at: 0.98 put: (HyperJumpCell initializeCellOn: numberOfCells withParsecValues: #(25 10 5) boardLength: 100 numberOfCells: 100) ;
+        at: 1 put: (AtomicBombCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
+    "aBoard := Board withATotalNumberOfCellsOf: 10 andAWormHoleBetweenCells: 2  and: 6."
+	 aBoard := Board withATotalNumberOfCellsOf: 10 generatedWith: aCellGenerator andAWormHoleBetweenCells: 2  and: 6.
+	
     self assert: (aBoard wormsHolesFirstEntrance) equals: 2.
 ]
 
 { #category : 'tests' }
 BoardTest >> testWhenBoardIsSetWithAWormsHoleThenItHasASecondEntrance [
 
-    | aBoard |
-
-    aBoard := Board withATotalNumberOfCellsOf: 10 andAWormHoleBetweenCells: 2  and: 6.
+    | aBoard numberOfCells someProbabilities aCellGenerator |
+	 numberOfCells := 10.
+	 someProbabilities := Dictionary new
+        at: 0.4 put: (NormalCell initializeCellOn: numberOfCells) ;
+        at: 0.6 put: (BlackHoleCell initializeCellOn: numberOfCells ) ;
+        at: 0.8 put: (HyperGravityCell initializeCellOn: numberOfCells withRequiredValue: 4);
+        at: 0.9 put: (MoonWalkCell initializeCellOn: numberOfCells withRequiredValue: 4);
+        at: 0.98 put: (HyperJumpCell initializeCellOn: numberOfCells withParsecValues: #(25 10 5) boardLength: 100 numberOfCells: 100) ;
+        at: 1 put: (AtomicBombCell initializeCellOn: numberOfCells) ;
+        yourself.
+	 aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
+    "aBoard := Board withATotalNumberOfCellsOf: 10 andAWormHoleBetweenCells: 2  and: 6."
+	 aBoard := Board withATotalNumberOfCellsOf: 10 generatedWith: aCellGenerator andAWormHoleBetweenCells: 2  and: 6.
 
     self assert: (aBoard wormsHolesSecondEntrance ) equals: 6.
 ]
@@ -105,33 +146,93 @@ BoardTest >> testWhenBoardIsSetWithAWormsHoleThenItHasASecondEntrance [
 { #category : 'tests' }
 BoardTest >> testWhenMultipleShipsEnterACellOfTheBoardThenTheyAreInThere [
 
-	| aBoard aShip firstCell anotherShip ships |
-	aBoard := Board withATotalNumberOfCellsOf: 10 andAWormHoleBetweenCells: 2 and: 5.
-	aShip := Ship named: 'Executor'.
-	anotherShip := Ship named: 'Axiom'.
+	| aBoard aShip firstCell anotherShip ships numberOfCells someProbabilities aCellGenerator aDice dices |
+	numberOfCells := 10.
+	someProbabilities := Dictionary new
+		                     at: 0.4
+		                     put:
+			                     (NormalCell initializeCellOn: numberOfCells);
+		                     at: 0.6
+		                     put:
+			                     (BlackHoleCell initializeCellOn: numberOfCells);
+		                     at: 0.8
+		                     put:
+			                     (HyperGravityCell
+				                      initializeCellOn: numberOfCells
+				                      withRequiredValue: 4);
+		                     at: 0.9
+		                     put:
+			                     (MoonWalkCell
+				                      initializeCellOn: numberOfCells
+				                      withRequiredValue: 4);
+		                     at: 0.98 put: (HyperJumpCell
+				                      initializeCellOn: numberOfCells
+				                      withParsecValues: #( 25 10 5 )
+				                      boardLength: 100
+				                      numberOfCells: 100);
+		                     at: 1
+		                     put:
+			                     (AtomicBombCell initializeCellOn:
+					                      numberOfCells);
+		                     yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+
+	aBoard := Board
+		          withATotalNumberOfCellsOf: 10
+		          generatedWith: aCellGenerator
+		          andAWormHoleBetweenCells: 2
+		          and: 5.
+	aDice := ChargedDice withATotalNumberOfFacesOf: 5.
+	dices := OrderedCollection with: aDice.
+	aShip := Ship named: 'Executor' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'Axiom' withAChargeBasedOn: dices.
 	ships := OrderedCollection with: aShip with: anotherShip.
-	
+
 	aBoard getShipsIntoFirstCellOfTheBoard: ships.
 	firstCell := aBoard cellNumber: 1.
-	
+
 	self assert: (firstCell includes: aShip) equals: true.
-	self assert: (firstCell includes: anotherShip) equals: true.
+	self assert: (firstCell includes: anotherShip) equals: true
 ]
 
 { #category : 'tests' }
 BoardTest >> testWhenWormsHolesFirstEntranceAndSecondEntranceAreEqualThenCreationFails [
 
+	| numberOfCells someProbabilities aCellGenerator |
+	numberOfCells := 10.
+	someProbabilities := Dictionary new
+        at: 0.4 put: (NormalCell initializeCellOn: numberOfCells) ;
+        at: 0.6 put: (BlackHoleCell initializeCellOn: numberOfCells ) ;
+        at: 0.8 put: (HyperGravityCell initializeCellOn: numberOfCells withRequiredValue: 4);
+        at: 0.9 put: (MoonWalkCell initializeCellOn: numberOfCells withRequiredValue: 4);
+        at: 0.98 put: (HyperJumpCell initializeCellOn: numberOfCells withParsecValues: #(25 10 5) boardLength: 100 numberOfCells: 100) ;
+        at: 1 put: (AtomicBombCell initializeCellOn: numberOfCells) ;
+        yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
 	self
-        should: [Board withATotalNumberOfCellsOf: 10 andAWormHoleBetweenCells: 1  and: 1.]
+        should: [Board withATotalNumberOfCellsOf: 10 generatedWith: aCellGenerator andAWormHoleBetweenCells: 1  and: 1.]
         raise: Error
         withMessageText: 'The entrances of the Black Hole must be in different cells.'.
 ]
 
 { #category : 'tests' }
 BoardTest >> testWhenWormsHolesFirstEntranceIsANegativeCellThenCreationFails [
-
+	
+	| numberOfCells someProbabilities aCellGenerator |
+	numberOfCells := 10.
+	someProbabilities := Dictionary new
+        at: 0.4 put: (NormalCell initializeCellOn: numberOfCells) ;
+        at: 0.6 put: (BlackHoleCell initializeCellOn: numberOfCells ) ;
+        at: 0.8 put: (HyperGravityCell initializeCellOn: numberOfCells withRequiredValue: 4);
+        at: 0.9 put: (MoonWalkCell initializeCellOn: numberOfCells withRequiredValue: 4);
+        at: 0.98 put: (HyperJumpCell initializeCellOn: numberOfCells withParsecValues: #(25 10 5) boardLength: 100 numberOfCells: 100) ;
+        at: 1 put: (AtomicBombCell initializeCellOn: numberOfCells) ;
+        yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
     self
-        should: [Board withATotalNumberOfCellsOf: 10 andAWormHoleBetweenCells: -2  and: 6.]
+        should: [Board withATotalNumberOfCellsOf: 10 generatedWith: aCellGenerator andAWormHoleBetweenCells: -2  and: 6.]
         raise: Error
         withMessageText: 'Number of cells must be a positive integer.'.
 ]
@@ -139,8 +240,20 @@ BoardTest >> testWhenWormsHolesFirstEntranceIsANegativeCellThenCreationFails [
 { #category : 'tests' }
 BoardTest >> testWhenWormsHolesFirstEntranceIsNonIntegerThenCreationFails [
 
+	| numberOfCells someProbabilities aCellGenerator |
+	numberOfCells := 10.
+	someProbabilities := Dictionary new
+        at: 0.4 put: (NormalCell initializeCellOn: numberOfCells) ;
+        at: 0.6 put: (BlackHoleCell initializeCellOn: numberOfCells ) ;
+        at: 0.8 put: (HyperGravityCell initializeCellOn: numberOfCells withRequiredValue: 4);
+        at: 0.9 put: (MoonWalkCell initializeCellOn: numberOfCells withRequiredValue: 4);
+        at: 0.98 put: (HyperJumpCell initializeCellOn: numberOfCells withParsecValues: #(25 10 5) boardLength: 100 numberOfCells: 100) ;
+        at: 1 put: (AtomicBombCell initializeCellOn: numberOfCells) ;
+        yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
     self
-        should: [Board withATotalNumberOfCellsOf: 10 andAWormHoleBetweenCells: 'dos'  and: 6.]
+        should: [Board withATotalNumberOfCellsOf: 10 generatedWith: aCellGenerator andAWormHoleBetweenCells: 'dos'  and: 6.]
         raise: Error
         withMessageText: 'Number of cells must be a positive integer.'.
 ]
@@ -148,8 +261,20 @@ BoardTest >> testWhenWormsHolesFirstEntranceIsNonIntegerThenCreationFails [
 { #category : 'tests' }
 BoardTest >> testWhenWormsHolesFirstEntranceIsOutOfBoardsRangeThenCreationFails [
 
+	| numberOfCells someProbabilities aCellGenerator |
+	numberOfCells := 10.
+	someProbabilities := Dictionary new
+        at: 0.4 put: (NormalCell initializeCellOn: numberOfCells) ;
+        at: 0.6 put: (BlackHoleCell initializeCellOn: numberOfCells ) ;
+        at: 0.8 put: (HyperGravityCell initializeCellOn: numberOfCells withRequiredValue: 4);
+        at: 0.9 put: (MoonWalkCell initializeCellOn: numberOfCells withRequiredValue: 4);
+        at: 0.98 put: (HyperJumpCell initializeCellOn: numberOfCells withParsecValues: #(25 10 5) boardLength: 100 numberOfCells: 100) ;
+        at: 1 put: (AtomicBombCell initializeCellOn: numberOfCells) ;
+        yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
     self
-        should: [Board withATotalNumberOfCellsOf: 10 andAWormHoleBetweenCells: 11  and: 2.]
+        should: [Board withATotalNumberOfCellsOf: 10 generatedWith: aCellGenerator andAWormHoleBetweenCells: 11  and: 2.]
         raise: Error
         withMessageText: 'The cells of the Black Hole must in the board.'.
 ]
@@ -157,8 +282,20 @@ BoardTest >> testWhenWormsHolesFirstEntranceIsOutOfBoardsRangeThenCreationFails 
 { #category : 'tests' }
 BoardTest >> testWhenWormsHolesSecondEntranceCellIsSmallerThanWormsHolesFirstEntranceCellThenCreationFails [
 
+	| numberOfCells someProbabilities aCellGenerator |
+	numberOfCells := 10.
+	someProbabilities := Dictionary new
+        at: 0.4 put: (NormalCell initializeCellOn: numberOfCells) ;
+        at: 0.6 put: (BlackHoleCell initializeCellOn: numberOfCells ) ;
+        at: 0.8 put: (HyperGravityCell initializeCellOn: numberOfCells withRequiredValue: 4);
+        at: 0.9 put: (MoonWalkCell initializeCellOn: numberOfCells withRequiredValue: 4);
+        at: 0.98 put: (HyperJumpCell initializeCellOn: numberOfCells withParsecValues: #(25 10 5) boardLength: 100 numberOfCells: 100) ;
+        at: 1 put: (AtomicBombCell initializeCellOn: numberOfCells) ;
+        yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
     self
-        should: [Board withATotalNumberOfCellsOf: 10 andAWormHoleBetweenCells: 6  and: 1.]
+        should: [Board withATotalNumberOfCellsOf: 10 generatedWith: aCellGenerator andAWormHoleBetweenCells: 6  and: 1.]
         raise: Error
         withMessageText: 'The First Entrance of Black Hole must come before the Second Entrance.'.
 ]
@@ -166,26 +303,62 @@ BoardTest >> testWhenWormsHolesSecondEntranceCellIsSmallerThanWormsHolesFirstEnt
 { #category : 'tests' }
 BoardTest >> testWhenWormsHolesSecondEntranceIsANegativeCellThenCreationFails [
 
+	| numberOfCells someProbabilities aCellGenerator |
+	numberOfCells := 10.
+	someProbabilities := Dictionary new
+        at: 0.4 put: (NormalCell initializeCellOn: numberOfCells) ;
+        at: 0.6 put: (BlackHoleCell initializeCellOn: numberOfCells ) ;
+        at: 0.8 put: (HyperGravityCell initializeCellOn: numberOfCells withRequiredValue: 4);
+        at: 0.9 put: (MoonWalkCell initializeCellOn: numberOfCells withRequiredValue: 4);
+        at: 0.98 put: (HyperJumpCell initializeCellOn: numberOfCells withParsecValues: #(25 10 5) boardLength: 100 numberOfCells: 100) ;
+        at: 1 put: (AtomicBombCell initializeCellOn: numberOfCells) ;
+        yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
     self
-        should: [Board withATotalNumberOfCellsOf: 10 andAWormHoleBetweenCells: 2  and: -6.]
+        should: [Board withATotalNumberOfCellsOf: 10 generatedWith: aCellGenerator andAWormHoleBetweenCells: 2  and: -6.]
         raise: Error
         withMessageText: 'Number of cells must be a positive integer.'.
 ]
 
 { #category : 'tests' }
 BoardTest >> testWhenWormsHolesSecondEntranceIsNonIntegerThenCreationFails [
-
+	
+	| numberOfCells someProbabilities aCellGenerator |
+	numberOfCells := 10.
+	someProbabilities := Dictionary new
+        at: 0.4 put: (NormalCell initializeCellOn: numberOfCells) ;
+        at: 0.6 put: (BlackHoleCell initializeCellOn: numberOfCells ) ;
+        at: 0.8 put: (HyperGravityCell initializeCellOn: numberOfCells withRequiredValue: 4);
+        at: 0.9 put: (MoonWalkCell initializeCellOn: numberOfCells withRequiredValue: 4);
+        at: 0.98 put: (HyperJumpCell initializeCellOn: numberOfCells withParsecValues: #(25 10 5) boardLength: 100 numberOfCells: 100) ;
+        at: 1 put: (AtomicBombCell initializeCellOn: numberOfCells) ;
+        yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
     self
-        should: [Board withATotalNumberOfCellsOf: 10 andAWormHoleBetweenCells: 2  and: 'seis'.]
+        should: [Board withATotalNumberOfCellsOf: 10 generatedWith: aCellGenerator andAWormHoleBetweenCells: 2  and: 'seis'.]
         raise: Error
         withMessageText: 'Number of cells must be a positive integer.'.
 ]
 
 { #category : 'tests' }
 BoardTest >> testWhenWormsHolesSecondEntrnaceIsOutOfBoardsRangeThenCreationFails [
-
+	
+	| numberOfCells someProbabilities aCellGenerator |
+	numberOfCells := 10.
+	someProbabilities := Dictionary new
+        at: 0.4 put: (NormalCell initializeCellOn: numberOfCells) ;
+        at: 0.6 put: (BlackHoleCell initializeCellOn: numberOfCells ) ;
+        at: 0.8 put: (HyperGravityCell initializeCellOn: numberOfCells withRequiredValue: 4);
+        at: 0.9 put: (MoonWalkCell initializeCellOn: numberOfCells withRequiredValue: 4);
+        at: 0.98 put: (HyperJumpCell initializeCellOn: numberOfCells withParsecValues: #(25 10 5) boardLength: 100 numberOfCells: 100) ;
+        at: 1 put: (AtomicBombCell initializeCellOn: numberOfCells) ;
+        yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+	
     self
-        should: [Board withATotalNumberOfCellsOf: 10 andAWormHoleBetweenCells: 2 and: 11.]
+        should: [Board withATotalNumberOfCellsOf: 10 generatedWith: aCellGenerator andAWormHoleBetweenCells: 2 and: 11.]
         raise: Error
         withMessageText: 'The cells of the Black Hole must in the board.'.
 ]

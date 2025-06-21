@@ -36,8 +36,8 @@ HyperGravityCell >> applyEffectTo: aShip of: aGame [
 
 	| diceThrow |
 	diceThrow := aGame lastDiceThrow.
-	diceThrow >= requiredValue ifFalse: [ 
-		aGame moveShipToLastPlay: aShip ]
+	diceThrow >= requiredValue ifTrue: [ ^ self ].
+	aGame returnToInitialPosition: aShip.
 ]
 
 { #category : 'initialization' }
@@ -46,5 +46,4 @@ HyperGravityCell >> setUpOn: aNumberOfCell withRequiredValue: aRequiredValue [
     ships := OrderedCollection new.
     numberOfCell := aNumberOfCell.
     requiredValue := aRequiredValue.
-    ^ self
 ]

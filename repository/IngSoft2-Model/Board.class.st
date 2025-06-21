@@ -6,7 +6,9 @@ Class {
 		'totalBoardCells',
 		'cells',
 		'wormsHolesFirstEntrance',
-		'wormsHolesSecondEntrance'
+		'wormsHolesSecondEntrance',
+		'aCellGenerator',
+		'someProbabilities'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -43,7 +45,33 @@ Board class >> theCell: position isOutOfRange: range [
 ]
 
 { #category : 'as yet unclassified' }
-Board class >> withATotalNumberOfCellsOf: numberOfCells andAWormHoleBetweenCells: firstEntrance and: secondEntrance [
+Board class >> withATotalNumberOfCellsOf: numberOfCells generatedWith: aCellGenerator andAWormHoleBetweenCells: firstEntrance and: secondEntrance [
+ 
+	| boardCells |
+	 self isAPositiveInteger: numberOfCells.
+    self isAPositiveInteger: firstEntrance.
+    self isAPositiveInteger: secondEntrance.
+
+    self theCell: firstEntrance isOutOfRange: numberOfCells.
+    self theCell: secondEntrance isOutOfRange: numberOfCells.
+
+    self the: firstEntrance isDifferentFrom: secondEntrance.
+    self the: secondEntrance isSmallerThan: firstEntrance.
+
+	boardCells := OrderedCollection new.
+	"1 to: numberOfCells do: [ :i | boardCells add: (aCellGenerator determineATypeOfCellOn: i) ]."
+	1 to: (firstEntrance - 1) do: [ :i | boardCells add: (aCellGenerator determineATypeOfCellOn: i) ].
+	boardCells add: (aCellGenerator generateWormHoleEntryOn: firstEntrance between: firstEntrance and: secondEntrance).
+	(firstEntrance + 1) to: (secondEntrance - 1) do: [ :i | boardCells add: (aCellGenerator determineATypeOfCellOn: i) ].
+	boardCells add: (aCellGenerator generateWormHoleEntryOn: secondEntrance between: firstEntrance and: secondEntrance).
+	(secondEntrance + 1) to: numberOfCells do: [ :i | boardCells add: (aCellGenerator determineATypeOfCellOn: i) ].
+	
+	^ self withATotalNumberOfCellsOf: numberOfCells whichAre: boardCells andAWormHoleBetweenCells: firstEntrance and: secondEntrance
+
+]
+
+{ #category : 'as yet unclassified' }
+Board class >> withATotalNumberOfCellsOf: numberOfCells whichAre: theseCells andAWormHoleBetweenCells: firstEntrance and: secondEntrance [
  
     self isAPositiveInteger: numberOfCells.
     self isAPositiveInteger: firstEntrance.
@@ -55,7 +83,8 @@ Board class >> withATotalNumberOfCellsOf: numberOfCells andAWormHoleBetweenCells
     self the: firstEntrance isDifferentFrom: secondEntrance.
     self the: secondEntrance isSmallerThan: firstEntrance.
 
-    ^ self new  initializeWith: numberOfCells
+    ^ self new initializeWith: numberOfCells
+		  andTheseCells: theseCells
         andAWormHoleBeweenCells: firstEntrance 
         and: secondEntrance.
 
@@ -77,9 +106,17 @@ Board >> cellNumber: aNumber [
 ]
 
 { #category : 'accessing' }
-Board >> checkCell: aShip of: aGame [
+Board >> cells [
 
-	(cells at: aShip position) applyEffectTo: aShip of: aGame. 
+	^ cells.
+
+
+]
+
+{ #category : 'accessing' }
+Board >> determineAndApplyEffectTo: aShip atCurrentCellFrom: aGame [
+
+	(cells at: (aGame positionOf: aShip)) applyEffectTo: aShip of: aGame. 
 ]
 
 { #category : 'accessing' }
@@ -94,12 +131,11 @@ Board >> getShipsIntoFirstCellOfTheBoard: shipsCollection [
 ]
 
 { #category : 'initialization' }
-Board >> initializeWith: numberOfCells andAWormHoleBeweenCells: firstEntrance and: secondEntrance [
+Board >> initializeWith: numberOfCells andTheseCells: someCells andAWormHoleBeweenCells: firstEntrance and: secondEntrance [
 
-	 cells := OrderedCollection new.
-    1 to: (numberOfCells) do: [:i | cells add: (NormalCell initializeCellOn: i) ].
-    wormsHolesFirstEntrance := firstEntrance.
-    wormsHolesSecondEntrance := secondEntrance.
+	cells := someCells.
+	wormsHolesFirstEntrance := firstEntrance.
+	wormsHolesSecondEntrance := secondEntrance
 ]
 
 { #category : 'initialization' }
