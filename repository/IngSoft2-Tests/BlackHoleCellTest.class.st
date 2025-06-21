@@ -37,7 +37,7 @@ BlackHoleCellTest >> testWhenAShipArrivesToABlackHoleCellInTheFollowingLapThenIt
     oneDice := ChargedDice withATotalNumberOfFacesOf: 12.  
     dices := OrderedCollection with: oneDice.
 
-    aGame := Game
+    aGame := SpaceShipGame
         completedAtLap: 2
         with: aBoard
         and: dices
@@ -62,7 +62,7 @@ BlackHoleCellTest >> testWhenAShipArrivesToABlackHoleCellInTheThirdCellThenItGoe
     oneDice := ChargedDice withATotalNumberOfFacesOf: 2.  
     dices := OrderedCollection with: oneDice.
 
-    aGame := Game
+    aGame := SpaceShipGame
         completedAtLap: 2
         with: aBoard
         and: dices
@@ -87,7 +87,7 @@ BlackHoleCellTest >> testWhenAShipArrivesToABlackHoleCellThenItGoesBackFourCells
     oneDice := ChargedDice withATotalNumberOfFacesOf: 14.  
     dices := OrderedCollection with: oneDice.
 
-    aGame := Game
+    aGame := SpaceShipGame
         completedAtLap: 1
         with: aBoard
         and: dices
@@ -111,7 +111,7 @@ BlackHoleCellTest >> testWhenAShipRunsOutOfFuelAfterArrivingToBlackHoleCellThenI
     oneDice := ChargedDice withATotalNumberOfFacesOf: 4.  
     dices := OrderedCollection with: oneDice.
 
-    aGame := Game
+    aGame := SpaceShipGame
         completedAtLap: 1
         with: aBoard
         and: dices

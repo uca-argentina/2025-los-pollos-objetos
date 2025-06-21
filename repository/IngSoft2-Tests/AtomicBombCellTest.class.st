@@ -37,7 +37,7 @@ AtomicBombCellTest >> testWhenAShipsArrivesToAtomicBombCellThenAllReturnToFirstC
 	oneDice := ChargedDice withATotalNumberOfFacesOf: 4.
 	dices := OrderedCollection with: oneDice.
 
-	aGame := Game
+	aGame := SpaceShipGame
 		         completedAtLap: 1
 		         with: aBoard
 		         and: dices
@@ -65,7 +65,7 @@ AtomicBombCellTest >> testWhenMultipleShipsArriveToAtomicBombCellThenAllReturnTo
     oneDice := ChargedDice withATotalNumberOfFacesOf: 4.   
     dices := OrderedCollection with: oneDice.
 
-    aGame := Game
+    aGame := SpaceShipGame
         completedAtLap: 1
         with: aBoard
         and: dices
@@ -92,7 +92,7 @@ AtomicBombCellTest >> testWhenShipArrivesToAtomicBombCellThenItReturnsToFirstCel
     oneDice := ChargedDice withATotalNumberOfFacesOf: 4.   
     dices := OrderedCollection with: oneDice.
 
-    aGame := Game
+    aGame := SpaceShipGame
         completedAtLap: 1
         with: aBoard
         and: dices
@@ -117,7 +117,7 @@ AtomicBombCellTest >> testWhenShipArrivesToAtomicBombCellThenItReturnsToFirstCel
     oneDice := ChargedDice withATotalNumberOfFacesOf: 4.   
     dices := OrderedCollection with: oneDice.
 
-    aGame := Game
+    aGame := SpaceShipGame
         completedAtLap: 1
         with: aBoard
         and: dices

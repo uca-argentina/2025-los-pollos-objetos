@@ -32,7 +32,7 @@ MoonWalkCellTest >> testWhenAShipArrivesToAMoonWalkCellThenTheEffectIsApplied [
     oneDice := ChargedDice withATotalNumberOfFacesOf: 4.   
     dices := OrderedCollection with: oneDice.
 
-    aGame := Game
+    aGame := SpaceShipGame
         completedAtLap: 1
         with: aBoard
         and: dices
@@ -69,7 +69,7 @@ MoonWalkCellTest >> testWhenAShipFallsIntoAMoonWalkCellAndTheSecondShipHasNoEnou
     oneDice := ChargedDice withATotalNumberOfFacesOf: 5.   
     dices := OrderedCollection with: oneDice.
 
-    aGame := Game
+    aGame := SpaceShipGame
         completedAtLap: 1
         with: aBoard
         and: dices
