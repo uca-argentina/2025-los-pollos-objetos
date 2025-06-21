@@ -80,7 +80,13 @@ CardPlayHandler >> resolveAnOverloadCardPlay: aCard [
 
 { #category : 'initialization' }
 CardPlayHandler >> resolveAnRedoCard:aCard [ 
+	
+	lastCardPlayed isNil 
+		ifTrue: [ Error signal: 'Theres no last card play. Invalid ReDo card' ] 
+		ifFalse: [ 	
+				game addAnEspecificCard: lastCardPlayed toShip: cardOwner .
+				game playCard: lastCardPlayed from: cardOwner to: cardTarget . 
+		]
 
-	game addAnEspecificCard: lastCardPlayed toShip: cardOwner .
-	game playCard: lastCardPlayed from: cardOwner to: cardTarget 
+
 ]
