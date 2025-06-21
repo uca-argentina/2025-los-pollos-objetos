@@ -17,6 +17,11 @@ CardManager class >> of: aShip with: aDeck [
 	
 ]
 
+{ #category : 'adding' }
+CardManager >> addAnEspecificCard: aCard [
+	cardsInHand add:  aCard .
+]
+
 { #category : 'initialization' }
 CardManager >> addCardsAffecting: aCard [
 

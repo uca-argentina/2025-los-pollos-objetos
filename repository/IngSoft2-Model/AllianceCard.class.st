@@ -9,7 +9,7 @@ Class {
 AllianceCard >> disableCard:aCardPlayHandler [
 
 
-	aCardPlayHandler resolveAnDisableAllianceCardPlay: self.
+	aCardPlayHandler resolveAnDisableAlliance: self.
 ]
 
 { #category : 'testing' }

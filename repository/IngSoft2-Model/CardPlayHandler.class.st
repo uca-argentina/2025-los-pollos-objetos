@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'game',
 		'cardOwner',
-		'cardTarget'
+		'cardTarget',
+		'lastCardPlayed'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -37,19 +38,22 @@ CardPlayHandler >> handleDisable: aCard from: aShip to: anotherShip [
 { #category : 'initialization' }
 CardPlayHandler >> initializeWith: aGame [
 
-	game:= aGame
+	game:= aGame.
+	lastCardPlayed := nil.
 ]
 
 { #category : 'initialization' }
 CardPlayHandler >> resolveAnAccelerationCardPlay: aCard [
 
 	game applyToAllSpaceShips: aCard.
+	lastCardPlayed := aCard.
 ]
 
 { #category : 'as yet unclassified' }
 CardPlayHandler >> resolveAnAllianceCardPlay: aCard [
 
 	game allianceBewtween: cardOwner and: cardTarget.
+	lastCardPlayed := aCard.
 
 	game applyACardEffect: aCard to: cardTarget .
 ]
@@ -57,10 +61,11 @@ CardPlayHandler >> resolveAnAllianceCardPlay: aCard [
 { #category : 'as yet unclassified' }
 CardPlayHandler >> resolveAnCancelationCardPlay: aCard [
 	game discardACardEffect: aCard .
+	lastCardPlayed := aCard.
 ]
 
 { #category : 'as yet unclassified' }
-CardPlayHandler >> resolveAnDisableAllianceCardPlay: aCard [
+CardPlayHandler >> resolveAnDisableAlliance: aCard [
 	
 		game disableAllianceof: cardOwner with: cardTarget .
 
@@ -70,4 +75,12 @@ CardPlayHandler >> resolveAnDisableAllianceCardPlay: aCard [
 CardPlayHandler >> resolveAnOverloadCardPlay: aCard [
 
 	game applyACardEffect: aCard to: cardTarget .
+	lastCardPlayed := aCard.
+]
+
+{ #category : 'initialization' }
+CardPlayHandler >> resolveAnRedoCard:aCard [ 
+
+	game addAnEspecificCard: lastCardPlayed toShip: cardOwner .
+	game playCard: lastCardPlayed from: cardOwner to: cardTarget 
 ]

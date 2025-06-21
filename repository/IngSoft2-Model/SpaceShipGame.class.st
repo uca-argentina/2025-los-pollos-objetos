@@ -30,6 +30,19 @@ SpaceShipGame class >> completedAtLap: aNumberOfLap with: aBoard and: dices and:
 	^ (self new) initializeWith: aNumberOfLap with: aBoard with: dices with: ships with: aDeck.
 ]
 
+{ #category : 'adding' }
+SpaceShipGame >> addAnEspecificCard: aCard toShip: aShip [
+
+	| targetCardManager |
+	targetCardManager  := cardManagers detect: [ :cm | cm ship = aShip ]
+		ifNone: [ self error: 'No CardManager found for the given ship.' ].
+	targetCardManager addAnEspecificCard: aCard.
+
+	
+	
+
+]
+
 { #category : 'as yet unclassified' }
 SpaceShipGame >> advanceTurn [ 
 
