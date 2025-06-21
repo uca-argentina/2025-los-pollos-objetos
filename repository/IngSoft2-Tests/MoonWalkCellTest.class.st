@@ -34,7 +34,7 @@ MoonWalkCellTest >> testWhenAShipArrivesToAMoonWalkCellAndTheEffectIsAppliedButT
 		          andAWormHoleBetweenCells: 2
 		          and: 3.
 	
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 3.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 3.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
 	anotherShip := Ship named: 'Sulaco' withAChargeBasedOn: dices.
@@ -78,7 +78,7 @@ MoonWalkCellTest >> testWhenAShipArrivesToAMoonWalkCellThenThatShipRemainsThereA
 		          andAWormHoleBetweenCells: 6
 		          and: 7.
 	
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 2.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 2.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
 	anotherShip := Ship named: 'Sulaco' withAChargeBasedOn: dices.

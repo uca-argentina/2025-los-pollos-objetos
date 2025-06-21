@@ -31,7 +31,7 @@ CardTest >> testWhenAShipDisableAllianceCardThenBothShipsHaveTheNilAlliance [
 		          andAWormHoleBetweenCells: 7
 		          and: 9.
 		
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 3.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 3.
 	dices := OrderedCollection with: oneDice.
 	
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
@@ -85,7 +85,7 @@ CardTest >> testWhenAShipInAnAllianceHaveNotEnoughtFuelToPlayAndTheFirstAlianceN
 		          andAWormHoleBetweenCells: 8
 		          and: 9.
 		
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 3.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 3.
 	dices := OrderedCollection with: oneDice.
 	
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
@@ -141,7 +141,7 @@ CardTest >> testWhenAShipInAnAllianceHaveNotEnoughtFuelToPlayThenTheFirstAllyGiv
 		          andAWormHoleBetweenCells: 8
 		          and: 9.
 		
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 3.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 3.
 	dices := OrderedCollection with: oneDice.
 	
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
@@ -189,7 +189,7 @@ CardTest >> testWhenAShipUsesAccelerationCardThenBothShipsMovesOneCellForward [
 		          andAWormHoleBetweenCells: 7
 		          and: 9.
 		
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 3.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 3.
 	dices := OrderedCollection with: oneDice.
 	
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
@@ -234,7 +234,7 @@ CardTest >> testWhenAShipUsesAllianceCardThenBothShipsHaveTheAlliance [
 		          andAWormHoleBetweenCells: 7
 		          and: 9.
 		
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 3.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 3.
 	dices := OrderedCollection with: oneDice.
 	
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
@@ -281,7 +281,7 @@ CardTest >> testWhenAShipUsesCancelattionCardOnAAcelerationCardThenTheEffectDisa
 		          andAWormHoleBetweenCells: 7
 		          and: 9.
 		
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 3.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 3.
 	dices := OrderedCollection with: oneDice.
 	
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
@@ -336,7 +336,7 @@ CardTest >> testWhenAShipUsesCancelattionCardOnANonCardPlayThenItsFailed [
 		          andAWormHoleBetweenCells: 7
 		          and: 9.
 		
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 3.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 3.
 	dices := OrderedCollection with: oneDice.
 	
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
@@ -384,7 +384,7 @@ CardTest >> testWhenAShipUsesOverloadCardThenTheAnotherShipThrowDecreaseByTwo [
 		          andAWormHoleBetweenCells: 7
 		          and: 9.
 		
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 3.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 3.
 	dices := OrderedCollection with: oneDice.
 	
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
@@ -430,7 +430,7 @@ CardTest >> testWhenAShipUsesOverloadCardWhenItsNotHisTurnThenIsInvalid [
 		          andAWormHoleBetweenCells: 7
 		          and: 9.
 		
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 3.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 3.
 	dices := OrderedCollection with: oneDice.
 	
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
@@ -480,7 +480,7 @@ CardTest >> testWhenAShipUsesReDoCardAfterAnOtherReDoCardBeforeOverloadCardThenT
 		          andAWormHoleBetweenCells: 14
 		          and: 15.
 		
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 6.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 6.
 	dices := OrderedCollection with: oneDice.
 	
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
@@ -531,7 +531,7 @@ CardTest >> testWhenAShipUsesReDoCardAfterAnOverloadCardInADifferentShipThenTheD
 		          andAWormHoleBetweenCells: 14
 		          and: 15.
 		
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 6.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 6.
 	dices := OrderedCollection with: oneDice.
 	
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
@@ -585,7 +585,7 @@ CardTest >> testWhenAShipUsesReDoCardAfterAnOverloadCardThenTheAnotherShipThrowD
 		          andAWormHoleBetweenCells: 14
 		          and: 15.
 		
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 6.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 6.
 	dices := OrderedCollection with: oneDice.
 	
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
@@ -635,7 +635,7 @@ CardTest >> testWhenAShipUsesReDoCardAfterNoPlayingCardThenItsFailed [
 		          andAWormHoleBetweenCells: 14
 		          and: 15.
 		
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 6.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 6.
 	dices := OrderedCollection with: oneDice.
 	
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
@@ -680,7 +680,7 @@ CardTest >> testWhenAnAllianceHaveNotEnoughtFuelToPlayThenTheShipsArePenalize [
 		          andAWormHoleBetweenCells: 8
 		          and: 9.
 		
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 3.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 3.
 	dices := OrderedCollection with: oneDice.
 	
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
@@ -734,7 +734,7 @@ CardTest >> testWhenOneShipStartsWithTwoCards [
 		          andAWormHoleBetweenCells: 7
 		          and: 9.
 		
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 3.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 3.
 	dices := OrderedCollection with: oneDice.
 	
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
@@ -772,7 +772,7 @@ CardTest >> testWhenTwoShipsStartWithTwoCards [
 		          andAWormHoleBetweenCells: 7
 		          and: 9.
 		
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 3.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 3.
 	dices := OrderedCollection with: oneDice.
 	
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.

@@ -52,7 +52,7 @@ HyperGravityCellTest >> testWhenShipArrivesToHyperGravityCellWithEnoughRollThenI
 		          andAWormHoleBetweenCells: 6
 		          and: 7.
 	
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 4.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 4.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
 	ships := OrderedCollection with: aShip.
@@ -88,7 +88,7 @@ HyperGravityCellTest >> testWhenShipArrivesToHyperGravityCellWithExactRollThenIt
 		          andAWormHoleBetweenCells: 6
 		          and: 7.
 	
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 4.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 4.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
 	ships := OrderedCollection with: aShip.
@@ -124,7 +124,7 @@ HyperGravityCellTest >> testWhenShipArrivesToHyperGravityCellWithNotEnoughRollTh
 		          andAWormHoleBetweenCells: 6
 		          and: 7.
 
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 4.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 4.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
 	ships := OrderedCollection with: aShip.

@@ -1,5 +1,5 @@
 Class {
-	#name : 'ChargedDice',
+	#name : 'AChargedDice',
 	#superclass : 'Object',
 	#instVars : [
 		'numberOfFacesOfTheDice'
@@ -9,14 +9,14 @@ Class {
 }
 
 { #category : 'testing' }
-ChargedDice class >> isAPositiveInteger: numberOfFaces [
+AChargedDice class >> isAPositiveInteger: numberOfFaces [
 
 	(numberOfFaces isInteger and: [ numberOfFaces > 0 ]) ifFalse: [
 		Error signal: 'Number of faces must be a positive integer.' ]
 ]
 
 { #category : 'as yet unclassified' }
-ChargedDice class >> withATotalNumberOfFacesOf: numberOfFaces [
+AChargedDice class >> withATotalNumberOfFacesOf: numberOfFaces [
 
 	self isAPositiveInteger: numberOfFaces.
 
@@ -24,19 +24,19 @@ ChargedDice class >> withATotalNumberOfFacesOf: numberOfFaces [
 ]
 
 { #category : 'initialization' }
-ChargedDice >> beThrown [
+AChargedDice >> beThrown [
 	
 	^ numberOfFacesOfTheDice .
 ]
 
 { #category : 'initialization' }
-ChargedDice >> initializeWith: numberOfFaces andAFuelCharge: anObject1 [ 
+AChargedDice >> initializeWith: numberOfFaces andAFuelCharge: anObject1 [ 
 
 	numberOfFacesOfTheDice := numberOfFaces.
 ]
 
 { #category : 'as yet unclassified' }
-ChargedDice >> sizeOfTheDice [
+AChargedDice >> sizeOfTheDice [
 
 	^ numberOfFacesOfTheDice .
 ]

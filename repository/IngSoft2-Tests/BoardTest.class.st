@@ -182,7 +182,7 @@ BoardTest >> testWhenMultipleShipsEnterACellOfTheBoardThenTheyAreInThere [
 		          generatedWith: aCellGenerator
 		          andAWormHoleBetweenCells: 2
 		          and: 5.
-	aDice := ChargedDice withATotalNumberOfFacesOf: 5.
+	aDice := AChargedDice withATotalNumberOfFacesOf: 5.
 	dices := OrderedCollection with: aDice.
 	aShip := Ship named: 'Executor' withAChargeBasedOn: dices.
 	anotherShip := Ship named: 'Axiom' withAChargeBasedOn: dices.

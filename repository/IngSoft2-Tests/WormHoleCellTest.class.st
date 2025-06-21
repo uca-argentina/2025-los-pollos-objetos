@@ -22,7 +22,7 @@ WormHoleCellTest >> testWhenOneShipGetsToTheWormsHolesFirstEntranceThenItIsForwa
 		          generatedWith: aCellGenerator
 		          andAWormHoleBetweenCells: 5
 		          and: 8.
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 4.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 4.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Serenity' withAChargeBasedOn: dices.
 	ships := OrderedCollection with: aShip.
@@ -60,7 +60,7 @@ WormHoleCellTest >> testWhenOneShipGetsToTheWormsHolesSecondEntranceThenItIsForw
 		          generatedWith: aCellGenerator
 		          andAWormHoleBetweenCells: 5
 		          and: 20.
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 19.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 19.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Elysium' withAChargeBasedOn: dices.
 	ships := OrderedCollection with: aShip.

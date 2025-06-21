@@ -42,7 +42,7 @@ GameTest >> testWhenAShipIsPenalizeWithTwoMovesThenItsIncludedInThePenalizations
 		          generatedWith: aCellGenerator
 		          andAWormHoleBetweenCells: 2
 		          and: 5.
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 6.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 6.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
 	ships := OrderedCollection with: aShip.
@@ -75,7 +75,7 @@ GameTest >> testWhenAShipIsPenalizedThenTheFuelIsRestoredAfterLosingItsTurn [
 		          generatedWith: aCellGenerator
 		          andAWormHoleBetweenCells: 17
 		          and: 20.
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 5.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 5.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
 	anotherShip := Ship named: 'Adventure' withAChargeBasedOn: dices.
@@ -114,7 +114,7 @@ GameTest >> testWhenAShipIsPenalizedWithANonIntegerThenItFails [
 		          generatedWith: aCellGenerator
 		          andAWormHoleBetweenCells: 2
 		          and: 5.
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 6.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 6.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
 	anotherShip := Ship named: 'Adventure' withAChargeBasedOn: dices.
@@ -150,7 +150,7 @@ GameTest >> testWhenAShipIsPenalizedWithANonPositiveIntegerThenItFails [
 		          generatedWith: aCellGenerator
 		          andAWormHoleBetweenCells: 2
 		          and: 5.
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 6.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 6.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
 	anotherShip := Ship named: 'Adventure' withAChargeBasedOn: dices.
@@ -186,7 +186,7 @@ GameTest >> testWhenAShipRunsOutOfFuelThenItReturnsToTheInitialCellAndIsPenalize
 		          generatedWith: aCellGenerator
 		          andAWormHoleBetweenCells: 9
 		          and: 10.
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 3.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 3.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
 	ships := OrderedCollection with: aShip.
@@ -221,7 +221,7 @@ GameTest >> testWhenAShipRunsOutOfFuelThenItsPenalizedWithTwoTurns [
 		          generatedWith: aCellGenerator
 		          andAWormHoleBetweenCells: 2
 		          and: 5.
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 6.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 6.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
 	ships := OrderedCollection with: aShip.
@@ -255,7 +255,7 @@ GameTest >> testWhenAShipWithTwoPenaltiesAreReduceByOneThenItHasOnePenaltyOnly [
 		          generatedWith: aCellGenerator
 		          andAWormHoleBetweenCells: 17
 		          and: 20.
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 5.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 5.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
 	ships := OrderedCollection with: aShip.
@@ -491,7 +491,7 @@ GameTest >> testWhenOneShipGetsToTheWinningLapThenTheGameFinishes [
 		          generatedWith: aCellGenerator
 		          andAWormHoleBetweenCells: 4
 		          and: 5.
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 7.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 7.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Apolo' withAChargeBasedOn: dices.
 	ships := OrderedCollection with: aShip.
@@ -531,7 +531,7 @@ GameTest >> testWhenOneShipGetsToTheWinningLapThenYouCanKnowWhichShipWon [
 		          generatedWith: aCellGenerator
 		          andAWormHoleBetweenCells: 5
 		          and: 6.
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 7.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 7.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
 	ships := OrderedCollection with: aShip.
@@ -570,7 +570,7 @@ GameTest >> testWhenOneShipGetsToTheWormsHolesFirstEntranceThenItIsForwardedToTh
 		          generatedWith: aCellGenerator
 		          andAWormHoleBetweenCells: 5
 		          and: 8.
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 4.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 4.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Serenity' withAChargeBasedOn: dices.
 	ships := OrderedCollection with: aShip.
@@ -613,7 +613,7 @@ GameTest >> testWhenOneShipGetsToTheWormsHolesSecondEntranceThenItIsForwardedToT
 		          generatedWith: aCellGenerator
 		          andAWormHoleBetweenCells: 5
 		          and: 20.
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 19.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 19.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Elysium' withAChargeBasedOn: dices.
 	ships := OrderedCollection with: aShip.
@@ -656,7 +656,7 @@ GameTest >> testWhenOneShipHasTwoUnitsOfFuelAndMakesOneMoveThenItConsumesOneUnit
 		          generatedWith: aCellGenerator
 		          andAWormHoleBetweenCells: 16
 		          and: 19.
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 1.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 1.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Serenity' withAChargeBasedOn: dices.
 	ships := OrderedCollection with: aShip.
@@ -690,7 +690,7 @@ GameTest >> testWhenOneShipMakesOneLapThenItReturnsToTheFirstCell [
 		          generatedWith: aCellGenerator
 		          andAWormHoleBetweenCells: 2
 		          and: 6.
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 10.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 10.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
 	anotherShip := Ship named: 'Axiom' withAChargeBasedOn: dices.
@@ -725,7 +725,7 @@ GameTest >> testWhenOneShipMakesOneLapThenTheAmountOfLapsIsUpdated [
 		          generatedWith: aCellGenerator
 		          andAWormHoleBetweenCells: 2
 		          and: 6.
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 10.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 10.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
 	anotherShip := Ship named: 'Axiom' withAChargeBasedOn: dices.
@@ -899,7 +899,7 @@ GameTest >> testWhenOneShipWinsThenYouCanKnowThePositionOfEachShipInTheGame [
 		          generatedWith: aCellGenerator
 		          andAWormHoleBetweenCells: 16
 		          and: 19.
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 19.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 19.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
 	anotherShip := Ship named: 'Axiom' withAChargeBasedOn: dices.
@@ -938,7 +938,7 @@ GameTest >> testWhenShipDecidesNotToPlayItsTurnThenItsTurnIsSkipped [
 		          generatedWith: aCellGenerator
 		          andAWormHoleBetweenCells: 2
 		          and: 5.
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 6.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 6.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
 	ships := OrderedCollection with: aShip.
@@ -971,7 +971,7 @@ GameTest >> testWhenTheCurrentShipHasTwoPenalizationsThenItLosesTwoTurns [
 		          generatedWith: aCellGenerator
 		          andAWormHoleBetweenCells: 2
 		          and: 5.
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 6.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 6.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
 	anotherShip := Ship named: 'Adventure' withAChargeBasedOn: dices.
@@ -1010,7 +1010,7 @@ GameTest >> testWhenTheCurrentShipHasTwoPenalizationsThenTheTurnIsPassedToTheNex
 		          generatedWith: aCellGenerator
 		          andAWormHoleBetweenCells: 2
 		          and: 5.
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 6.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 6.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
 	anotherShip := Ship named: 'Adventure' withAChargeBasedOn: dices.
@@ -1048,7 +1048,7 @@ GameTest >> testWhenTheCurrentShipIsPenalizedAndItsTurnIsSkippedThenPenaltiesAre
 		          generatedWith: aCellGenerator
 		          andAWormHoleBetweenCells: 2
 		          and: 5.
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 6.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 6.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
 	anotherShip := Ship named: 'Adventure' withAChargeBasedOn: dices.
@@ -1085,7 +1085,7 @@ GameTest >> testWhenTheCurrentShipIsPenalizedThenTheTurnIsPassedToTheNextShip [
 		          generatedWith: aCellGenerator
 		          andAWormHoleBetweenCells: 2
 		          and: 5.
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 6.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 6.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
 	anotherShip := Ship named: 'Adventure' withAChargeBasedOn: dices.
@@ -1121,7 +1121,7 @@ GameTest >> testWhenTheFirstTurnIsExecutedThenTheFirstShipIsReturned [
 		          generatedWith: aCellGenerator
 		          andAWormHoleBetweenCells: 2
 		          and: 5.
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 6.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 6.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
 	ships := OrderedCollection with: aShip.
@@ -1154,7 +1154,7 @@ GameTest >> testWhenTwoTurnsAreCorrectlyExecutedThenTheShipsAreMovedToTheirCorre
 		          generatedWith: aCellGenerator
 		          andAWormHoleBetweenCells: 2
 		          and: 5.
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 6.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 6.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
 	anotherShip := Ship named: 'Zorgons Ship' withAChargeBasedOn: dices.

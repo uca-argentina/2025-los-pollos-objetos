@@ -42,7 +42,7 @@ BlackHoleCellTest >> testWhenAShipArrivesToABlackHoleCellThenItGoesBackFourCells
 		          andAWormHoleBetweenCells: 6
 		          and: 7.
 	
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 6.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 6.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
 	ships := OrderedCollection with: aShip.
@@ -78,7 +78,7 @@ BlackHoleCellTest >> testWhenAShipRunsOutOfFuelAfterArrivingToBlackHoleCellThenI
 		          whichAre: cells
 		          andAWormHoleBetweenCells: 6
 		          and: 7.
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 4.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 4.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
 	ships := OrderedCollection with: aShip.
@@ -111,7 +111,7 @@ BlackHoleCellTest >> testWhenAShipRunsOutOfFuelAfterArrivingToBlackHoleCellThenI
 		          whichAre: cells
 		          andAWormHoleBetweenCells: 6
 		          and: 7.
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 4.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 4.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
 	ships := OrderedCollection with: aShip.
