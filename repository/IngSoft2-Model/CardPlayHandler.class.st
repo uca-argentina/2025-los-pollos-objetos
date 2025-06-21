@@ -62,7 +62,7 @@ CardPlayHandler >> resolveAnCancelationCardPlay: aCard [
 { #category : 'as yet unclassified' }
 CardPlayHandler >> resolveAnDisableAllianceCardPlay: aCard [
 	
-		game disableAllianceof: cardOwner.
+		game disableAllianceof: cardOwner with: cardTarget .
 
 ]
 

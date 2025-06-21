@@ -218,7 +218,8 @@ ShipTest >> testWhenShipIsInitializedThenItHasNonAlly [
 		         and: dices
 		         and: ships.
 
-	self assert: (aShip haveAllianceWith) equals: nil.
+	self assert: (aShip inAllianceWith) isEmpty.
+
 ]
 
 { #category : 'tests' }

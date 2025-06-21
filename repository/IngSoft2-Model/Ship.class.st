@@ -6,7 +6,8 @@ Class {
 		'fuelCharged',
 		'maximumFuel',
 		'throwAdjustment',
-		'ally'
+		'ally',
+		'allies'
 	],
 	#classInstVars : [
 		'shipsName'
@@ -35,7 +36,7 @@ Ship class >> shipHasAValidName: arg1 [
 
 { #category : 'as yet unclassified' }
 Ship >> AlliedWith: aShip [
-	ally := aShip .
+	allies add: aShip .
 ]
 
 { #category : 'path commands' }
@@ -54,13 +55,9 @@ Ship >> currentFuel [
 	^ fuelCharged
 ]
 
-{ #category : 'as yet unclassified' }
-Ship >> disableAlly [
-	ally ifNotNil: [  
-		ally haveAllianceWith = self ifTrue: [ ally setAllyToNil ].
-		self setAllyToNil.
-		]
-	
+{ #category : 'initialization' }
+Ship >> deleteAllianceWith: aShip [
+	allies remove: aShip.
 
 ]
 
@@ -73,8 +70,8 @@ Ship >> hasEnoughFuel: aConsumption [
 ]
 
 { #category : 'as yet unclassified' }
-Ship >> haveAllianceWith [
-	^ ally 
+Ship >> inAllianceWith [
+	^ allies. 
 ]
 
 { #category : 'accessing' }
@@ -84,7 +81,7 @@ Ship >> initializeWith: aShipName andAFuelCharge: aFuelCharge [
 	fuelCharged := aFuelCharge.
 	maximumFuel := aFuelCharge.
 	throwAdjustment:=0.
-	ally := nil.
+	allies := OrderedCollection new.
 	
 	
 ]
@@ -108,10 +105,4 @@ Ship >> restoreFuel [
 
 	fuelCharged := maximumFuel.
 	
-]
-
-{ #category : 'initialization' }
-Ship >> setAllyToNil [ 
-	ally := nil.
-
 ]
