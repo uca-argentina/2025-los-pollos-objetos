@@ -122,6 +122,12 @@ SpaceShipGame >> disableCard: aCard from: aShip to: anotherShip [
 ]
 
 { #category : 'as yet unclassified' }
+SpaceShipGame >> discardACardEffect: aCard [ 
+
+	cardManagers do: [ :cardManager | cardManager deleteCardsAffecting: aCard  ] 
+]
+
+{ #category : 'as yet unclassified' }
 SpaceShipGame >> executeTurn [
 
 	| ship |

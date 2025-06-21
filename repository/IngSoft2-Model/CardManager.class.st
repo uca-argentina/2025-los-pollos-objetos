@@ -40,6 +40,14 @@ CardManager >> cardsInHand [
 ]
 
 { #category : 'initialization' }
+CardManager >> deleteCardsAffecting: aCard [
+
+	cardsAffecting removeFirst "  ifAbsent: [
+    Error signal: 'La carta no se encuentra entre las cartas activas.'
+]."
+]
+
+{ #category : 'initialization' }
 CardManager >> giveInitialCardsFrom: aDeck [
 
 	cardsInHand add: aDeck pickCard.
