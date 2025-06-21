@@ -191,6 +191,37 @@ ShipTest >> testWhenShipIsInitializedThenItHasAChargeOfFuelTwoTimesTheMaximumThr
 ]
 
 { #category : 'tests' }
+ShipTest >> testWhenShipIsInitializedThenItHasNonAlly [
+
+	| aShip numberOfCells someProbabilities aCellGenerator aBoard ships oneDice dices aGame |
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 2.
+	dices := OrderedCollection with: oneDice.
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	numberOfCells := 10.
+	someProbabilities := Dictionary new
+		                     at: 1
+		                     put:
+			                     (NormalCell initializeCellOn: numberOfCells);
+		                     yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          generatedWith: aCellGenerator
+		          andAWormHoleBetweenCells: 2
+		          and: 6.
+	ships := OrderedCollection with: aShip.
+	oneDice := ChargedDice withATotalNumberOfFacesOf: 10.
+	dices := OrderedCollection with: oneDice.
+	aGame := SpaceShipGame
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships.
+
+	self assert: (aShip haveAllianceWith) equals: nil.
+]
+
+{ #category : 'tests' }
 ShipTest >> testWhenShipIsInitializedThenItHasNotCompletedAnyLaps [
 
 	| aShip numberOfCells someProbabilities aCellGenerator aBoard ships oneDice dices aGame |

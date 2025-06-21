@@ -51,6 +51,13 @@ SpaceShipGame >> advanceTurnIfCurrentTurnsShipIsPenalized [
 ]
 
 { #category : 'as yet unclassified' }
+SpaceShipGame >> allianceBewtween: cardOwner and: cardTarget [
+
+	cardOwner AlliedWith: cardTarget .
+	cardTarget AlliedWith: cardOwner .
+]
+
+{ #category : 'as yet unclassified' }
 SpaceShipGame >> applyACardEffect: aCard to: aShip [
 
 	(self cardManagerOf: aShip ) addCardsAffecting: aCard. 

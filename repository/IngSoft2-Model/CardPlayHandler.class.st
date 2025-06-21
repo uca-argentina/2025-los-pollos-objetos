@@ -37,6 +37,14 @@ CardPlayHandler >> resolveAnAccelerationCardPlay: aCard [
 	game applyToAllSpaceShips: aCard.
 ]
 
+{ #category : 'as yet unclassified' }
+CardPlayHandler >> resolveAnAllianceCardPlay: aCard [
+
+	game allianceBewtween: cardOwner and: cardTarget.
+
+	game applyACardEffect: aCard to: cardTarget .
+]
+
 { #category : 'initialization' }
 CardPlayHandler >> resolveAnOverloadCardPlay: aCard [
 
