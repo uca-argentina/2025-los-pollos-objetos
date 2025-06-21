@@ -40,11 +40,15 @@ CardManager >> cardsInHand [
 ]
 
 { #category : 'initialization' }
-CardManager >> deleteCardsAffecting: aCard [
+CardManager >> deleteCardsAffecting: aCardClass [
+    | found |
+    found := cardsAffecting anySatisfy: [:each | each class = aCardClass ].
 
-	cardsAffecting removeFirst "  ifAbsent: [
-    Error signal: 'La carta no se encuentra entre las cartas activas.'
-]."
+    found
+        ifFalse: [ self error: 'No hay ninguna carta activa de ese tipo.' ].
+
+    cardsAffecting removeAllSuchThat: [:each | each class = aCardClass ].
+
 ]
 
 { #category : 'initialization' }
