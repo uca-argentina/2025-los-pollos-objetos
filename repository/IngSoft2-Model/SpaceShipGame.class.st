@@ -30,6 +30,64 @@ SpaceShipGame class >> completedAtLap: aNumberOfLap with: aBoard and: dices and:
 	^ (self new) initializeWith: aNumberOfLap with: aBoard with: dices with: ships with: aDeck.
 ]
 
+{ #category : 'accessing' }
+SpaceShipGame >> AAAAAAAAAAAAAmove: aShip to: targetPosition andConsume: aConsumption [
+	
+	"aShip moveTo: targetPosition andConsume: aConsumption."
+	"shipsPreviousPosition := self positionOf: aShip."
+
+	
+	aShip currentFuel > aConsumption 
+
+		ifTrue: [
+			aShip consumeFuel: aConsumption.
+			self performMoveOf: aShip to: targetPosition.
+			]
+		
+		ifFalse: [
+			
+			aShip haveAllianceWith isNil 
+			ifTrue: [ self penalize: aShip withTurns: 2.]
+			ifFalse: [  aShip haveAllianceWith currentFuel > aConsumption 
+				ifTrue: [ 
+					aShip haveAllianceWith consumeFuel: aConsumption.
+					self performMoveOf: aShip to: targetPosition. 
+					]
+				ifFalse: [ 
+					self penalize: aShip withTurns: 2. 
+					self penalize: aShip haveAllianceWith withTurns: 2.  ]
+				 ]
+			
+			
+			]
+				  
+
+	
+	
+			"board removeShip: aShip fromCellAt: shipsPreviousPosition.
+			board addShip: aShip toCellAt: targetPosition" 
+]
+
+{ #category : 'accessing' }
+SpaceShipGame >> AAAAAAAAAAAmove: aShip to: targetPosition andConsume: aConsumption [
+	
+	"aShip moveTo: targetPosition andConsume: aConsumption."
+	"shipsPreviousPosition := self positionOf: aShip."
+	
+	aShip consumeFuel: aConsumption. 
+	
+	aShip currentFuel = 0 
+	
+		ifTrue: [ self penalize: aShip withTurns: 2. ]
+		ifFalse: [self performMoveOf: aShip to: targetPosition.]
+				  
+
+	
+	
+			"board removeShip: aShip fromCellAt: shipsPreviousPosition.
+			board addShip: aShip toCellAt: targetPosition" 
+]
+
 { #category : 'as yet unclassified' }
 SpaceShipGame >> advanceTurn [ 
 
@@ -136,6 +194,14 @@ SpaceShipGame >> executeTurn [
 	^ ship
 ]
 
+{ #category : 'as yet unclassified' }
+SpaceShipGame >> handleMoveWithoutFuelOf: aShip to: targetPosition consuming: aConsumption [ 
+	aShip haveAllianceWith isNil
+		ifTrue: [ self penalize: aShip withTurns: 2 ]
+		ifFalse: [ self tryToMoveUsingAllyOf: aShip to: targetPosition consuming: aConsumption ].
+
+]
+
 { #category : 'initialization' }
 SpaceShipGame >> initializeWith: laps with: aBoard with: gameDices with: gameShips with: aDeck [
 
@@ -185,26 +251,6 @@ SpaceShipGame >> lastDiceThrow [
 	^ lastDiceThrow 
 ]
 
-{ #category : 'accessing' }
-SpaceShipGame >> moAAAAve: aShip to: targetPosition andConsume: aConsumption [
-	
-	"aShip moveTo: targetPosition andConsume: aConsumption."
-	"shipsPreviousPosition := self positionOf: aShip."
-	
-	aShip consumeFuel: aConsumption. 
-	
-	aShip currentFuel = 0 
-	
-		ifTrue: [ self penalize: aShip withTurns: 2. ]
-		ifFalse: [self performMoveOf: aShip to: targetPosition.]
-				  
-
-	
-	
-			"board removeShip: aShip fromCellAt: shipsPreviousPosition.
-			board addShip: aShip toCellAt: targetPosition" 
-]
-
 { #category : 'as yet unclassified' }
 SpaceShipGame >> modifyThrowFor: aShip [
 
@@ -226,40 +272,22 @@ SpaceShipGame >> move: aShip by: steps [
 
 { #category : 'accessing' }
 SpaceShipGame >> move: aShip to: targetPosition andConsume: aConsumption [
-	
-	"aShip moveTo: targetPosition andConsume: aConsumption."
-	"shipsPreviousPosition := self positionOf: aShip."
 
-	
-	aShip currentFuel > aConsumption 
+	aShip currentFuel > aConsumption
+		ifTrue: [ 
+			self moveShip: aShip to: targetPosition consuming: aConsumption 
+		]
+		ifFalse: [ 
+			self handleMoveWithoutFuelOf: aShip to: targetPosition consuming: aConsumption 
+		].
 
-		ifTrue: [
-			aShip consumeFuel: aConsumption.
-			self performMoveOf: aShip to: targetPosition.
-			]
-		
-		ifFalse: [
-			
-			aShip haveAllianceWith isNil 
-			ifTrue: [ self penalize: aShip withTurns: 2.]
-			ifFalse: [  aShip haveAllianceWith currentFuel > aConsumption 
-				ifTrue: [ 
-					aShip haveAllianceWith consumeFuel: aConsumption.
-					self performMoveOf: aShip to: targetPosition. 
-					]
-				ifFalse: [ 
-					self penalize: aShip withTurns: 2. 
-					self penalize: aShip haveAllianceWith withTurns: 2.  ]
-				 ]
-			
-			
-			]
-				  
+]
 
-	
-	
-			"board removeShip: aShip fromCellAt: shipsPreviousPosition.
-			board addShip: aShip toCellAt: targetPosition" 
+{ #category : 'as yet unclassified' }
+SpaceShipGame >> moveShip: aShip to: targetPosition consuming: aConsumption [ 
+	aShip consumeFuel: aConsumption.
+	self performMoveOf: aShip to: targetPosition.
+
 ]
 
 { #category : 'initialization' }
@@ -364,6 +392,22 @@ SpaceShipGame >> throwDiceFor: aShip [
 	
 	
 	self move: aShip by: resultOfTheThrow + throwModified .
+]
+
+{ #category : 'as yet unclassified' }
+SpaceShipGame >> tryToMoveUsingAllyOf: aShip to: targetPosition consuming: aConsumption [ 
+	| ally |
+	ally := aShip haveAllianceWith.
+	ally currentFuel > aConsumption
+		ifTrue: [
+			ally consumeFuel: aConsumption.
+			self performMoveOf: aShip to: targetPosition
+		]
+		ifFalse: [
+			self penalize: aShip withTurns: 2.
+			self penalize: ally withTurns: 2
+		].
+
 ]
 
 { #category : 'as yet unclassified' }
