@@ -54,6 +54,16 @@ Ship >> currentFuel [
 	^ fuelCharged
 ]
 
+{ #category : 'as yet unclassified' }
+Ship >> disableAlly [
+	ally ifNotNil: [  
+		ally haveAllianceWith = self ifTrue: [ ally setAllyToNil ].
+		self setAllyToNil.
+		]
+	
+
+]
+
 { #category : 'path commands' }
 Ship >> hasEnoughFuel: aConsumption [
 
@@ -98,4 +108,10 @@ Ship >> restoreFuel [
 
 	fuelCharged := maximumFuel.
 	
+]
+
+{ #category : 'initialization' }
+Ship >> setAllyToNil [ 
+	ally := nil.
+
 ]

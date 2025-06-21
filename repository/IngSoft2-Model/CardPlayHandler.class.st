@@ -26,6 +26,15 @@ CardPlayHandler >> handle: aCard from: aShip to: anotherShip [
 ]
 
 { #category : 'initialization' }
+CardPlayHandler >> handleDisable: aCard from: aShip to: anotherShip [
+
+
+	cardOwner:= aShip.
+	cardTarget:= anotherShip.
+	aCard disableCard: self
+]
+
+{ #category : 'initialization' }
 CardPlayHandler >> initializeWith: aGame [
 
 	game:= aGame
@@ -43,6 +52,13 @@ CardPlayHandler >> resolveAnAllianceCardPlay: aCard [
 	game allianceBewtween: cardOwner and: cardTarget.
 
 	game applyACardEffect: aCard to: cardTarget .
+]
+
+{ #category : 'as yet unclassified' }
+CardPlayHandler >> resolveAnDisableAllianceCardPlay: aCard [
+	
+		game disableAllianceof: cardOwner.
+
 ]
 
 { #category : 'initialization' }

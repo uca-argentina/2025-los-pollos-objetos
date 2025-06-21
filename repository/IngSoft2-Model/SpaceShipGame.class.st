@@ -110,6 +110,18 @@ SpaceShipGame >> determineTheConsequencesOfTheThrowIn: aNewPosition forShip: aSh
 ]
 
 { #category : 'as yet unclassified' }
+SpaceShipGame >> disableAllianceof: aShip [
+
+	aShip disableAlly.
+]
+
+{ #category : 'as yet unclassified' }
+SpaceShipGame >> disableCard: aCard from: aShip to: anotherShip [
+
+	cardPlayHandler handleDisable: aCard from: aShip to: anotherShip .
+]
+
+{ #category : 'as yet unclassified' }
 SpaceShipGame >> executeTurn [
 
 	| ship |
@@ -173,6 +185,26 @@ SpaceShipGame >> lastDiceThrow [
 	^ lastDiceThrow 
 ]
 
+{ #category : 'accessing' }
+SpaceShipGame >> moAAAAve: aShip to: targetPosition andConsume: aConsumption [
+	
+	"aShip moveTo: targetPosition andConsume: aConsumption."
+	"shipsPreviousPosition := self positionOf: aShip."
+	
+	aShip consumeFuel: aConsumption. 
+	
+	aShip currentFuel = 0 
+	
+		ifTrue: [ self penalize: aShip withTurns: 2. ]
+		ifFalse: [self performMoveOf: aShip to: targetPosition.]
+				  
+
+	
+	
+			"board removeShip: aShip fromCellAt: shipsPreviousPosition.
+			board addShip: aShip toCellAt: targetPosition" 
+]
+
 { #category : 'as yet unclassified' }
 SpaceShipGame >> modifyThrowFor: aShip [
 
@@ -197,14 +229,37 @@ SpaceShipGame >> move: aShip to: targetPosition andConsume: aConsumption [
 	
 	"aShip moveTo: targetPosition andConsume: aConsumption."
 	"shipsPreviousPosition := self positionOf: aShip."
-	aShip consumeFuel: aConsumption.
+
 	
-	aShip currentFuel = 0
-		ifTrue: [ self penalize: aShip withTurns: 2. ]
-		ifFalse: [
+	aShip currentFuel > aConsumption 
+
+		ifTrue: [
+			aShip consumeFuel: aConsumption.
 			self performMoveOf: aShip to: targetPosition.
+			]
+		
+		ifFalse: [
+			
+			aShip haveAllianceWith isNil 
+			ifTrue: [ self penalize: aShip withTurns: 2.]
+			ifFalse: [  aShip haveAllianceWith currentFuel > aConsumption 
+				ifTrue: [ 
+					aShip haveAllianceWith consumeFuel: aConsumption.
+					self performMoveOf: aShip to: targetPosition. 
+					]
+				ifFalse: [ 
+					self penalize: aShip withTurns: 2. 
+					self penalize: aShip haveAllianceWith withTurns: 2.  ]
+				 ]
+			
+			
+			]
+				  
+
+	
+	
 			"board removeShip: aShip fromCellAt: shipsPreviousPosition.
-			board addShip: aShip toCellAt: targetPosition" ].
+			board addShip: aShip toCellAt: targetPosition" 
 ]
 
 { #category : 'initialization' }

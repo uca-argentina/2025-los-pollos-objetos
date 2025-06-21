@@ -5,6 +5,13 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
+{ #category : 'as yet unclassified' }
+AllianceCard >> disableCard:aCardPlayHandler [
+
+
+	aCardPlayHandler resolveAnDisableAllianceCardPlay: self.
+]
+
 { #category : 'testing' }
 AllianceCard >> effect [ 
 	^ 0
