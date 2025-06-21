@@ -17,6 +17,11 @@ CardManager class >> of: aShip with: aDeck [
 	
 ]
 
+{ #category : 'adding' }
+CardManager >> addAnEspecificCard: aCard [
+	cardsInHand add:  aCard .
+]
+
 { #category : 'initialization' }
 CardManager >> addCardsAffecting: aCard [
 
@@ -37,6 +42,18 @@ CardManager >> applyEffect [
 CardManager >> cardsInHand [
 
 	^ cardsInHand 
+]
+
+{ #category : 'initialization' }
+CardManager >> deleteCardsAffecting: aCardClass [
+    | found |
+    found := cardsAffecting anySatisfy: [:each | each class = aCardClass ].
+
+    found
+        ifFalse: [ self error: 'No hay ninguna carta activa de ese tipo.' ].
+
+    cardsAffecting removeAllSuchThat: [:each | each class = aCardClass ].
+
 ]
 
 { #category : 'initialization' }

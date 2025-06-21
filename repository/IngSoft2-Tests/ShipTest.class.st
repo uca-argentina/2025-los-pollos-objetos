@@ -19,7 +19,7 @@ ShipTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMessa
 ShipTest >> testWhenAShipWithAChargeOfFourFuelsMovesFromAPositionConsumingTwoFuelsAThenFuelConsumptionIsProperlyDone [
 
 	| aShip numberOfCells someProbabilities aCellGenerator aBoard ships oneDice dices aGame |
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 2.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 2.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Sulaco' withAChargeBasedOn: dices.
 	numberOfCells := 20.
@@ -35,7 +35,7 @@ ShipTest >> testWhenAShipWithAChargeOfFourFuelsMovesFromAPositionConsumingTwoFue
 		          andAWormHoleBetweenCells: 17
 		          and: 20.
 	ships := OrderedCollection with: aShip.
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 2.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 2.
 	dices := OrderedCollection with: oneDice.
 	aGame := SpaceShipGame
 		         completedAtLap: 1
@@ -53,7 +53,7 @@ ShipTest >> testWhenNewShipIsCreatedThenItHasAName [
 
 	| aShip oneDice dices |
 	"aShip := Ship new."
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 2.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 2.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Millenium Falcon' withAChargeBasedOn: dices.
 
@@ -64,7 +64,7 @@ ShipTest >> testWhenNewShipIsCreatedThenItHasAName [
 ShipTest >> testWhenNewShipIsInstancedWithANameThenItHasAName [
 
 	| aShip oneDice dices |
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 2.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 2.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'The Batwing' withAChargeBasedOn: dices.
 
@@ -75,7 +75,7 @@ ShipTest >> testWhenNewShipIsInstancedWithANameThenItHasAName [
 ShipTest >> testWhenShipConsumesANegativeAmountOfFuelThenItFails [
 
 	| aShip oneDice dices |
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 5.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 5.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Elysium' withAChargeBasedOn: dices.
 
@@ -90,7 +90,7 @@ ShipTest >> testWhenShipConsumesANegativeAmountOfFuelThenItFails [
 ShipTest >> testWhenShipConsumesANonValidAmountOfFuelThenItFails [
 
 	| aShip oneDice dices |
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 5.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 5.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Elysium' withAChargeBasedOn: dices.
 
@@ -105,7 +105,7 @@ ShipTest >> testWhenShipConsumesANonValidAmountOfFuelThenItFails [
 ShipTest >> testWhenShipHasTenUnitsOfFuelAndConsumesOneThenItHasNineUnitsOfFuel [
 
 	| aShip oneDice dices |
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 5.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 5.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Serenity' withAChargeBasedOn: dices.
 	aShip consumeFuel: 1.
@@ -117,7 +117,7 @@ ShipTest >> testWhenShipHasTenUnitsOfFuelAndConsumesOneThenItHasNineUnitsOfFuel 
 ShipTest >> testWhenShipHasTwoUnitsOfFuelAndConsumesThreeUnitsThenCurrentChargeRemainsTheSame [
 
 	| aShip oneDice dices |
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 1.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 1.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Axiom' withAChargeBasedOn: dices.
 
@@ -133,7 +133,7 @@ ShipTest >> testWhenShipHasTwoUnitsOfFuelAndConsumesThreeUnitsThenCurrentChargeR
 ShipTest >> testWhenShipIsCreatedThenItStarsAtStartingPosition [
 
 	| aShip numberOfCells someProbabilities aCellGenerator aBoard ships oneDice dices aGame |
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 2.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 2.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Discovery One' withAChargeBasedOn: dices.
 	numberOfCells := 20.
@@ -151,7 +151,7 @@ ShipTest >> testWhenShipIsCreatedThenItStarsAtStartingPosition [
 		          and: 20.
 	ships := OrderedCollection with: aShip.
 
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 5.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 5.
 	dices := OrderedCollection with: oneDice.
 
 	aGame := SpaceShipGame
@@ -168,7 +168,7 @@ ShipTest >> testWhenShipIsCreatedThenItStarsAtStartingPosition [
 ShipTest >> testWhenShipIsCreatedWithNoNameThenCreationFails [
 
 	| oneDice dices |
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 2.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 2.
 	dices := OrderedCollection with: oneDice.
 	self
 		should: [ Ship named: '' withAChargeBasedOn: dices ]
@@ -180,7 +180,7 @@ ShipTest >> testWhenShipIsCreatedWithNoNameThenCreationFails [
 ShipTest >> testWhenShipIsInitializedThenItHasAChargeOfFuelTwoTimesTheMaximumThrowOfDie [
 
 	| aShip oneDice dices twoTimesMaximumThrow |
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 2.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 2.
 	dices := OrderedCollection with: oneDice.
 	twoTimesMaximumThrow := (dices
 		                     inject: 0
@@ -191,10 +191,10 @@ ShipTest >> testWhenShipIsInitializedThenItHasAChargeOfFuelTwoTimesTheMaximumThr
 ]
 
 { #category : 'tests' }
-ShipTest >> testWhenShipIsInitializedThenItHasNotCompletedAnyLaps [
+ShipTest >> testWhenShipIsInitializedThenItHasNonAlly [
 
 	| aShip numberOfCells someProbabilities aCellGenerator aBoard ships oneDice dices aGame |
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 2.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 2.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
 	numberOfCells := 10.
@@ -210,7 +210,39 @@ ShipTest >> testWhenShipIsInitializedThenItHasNotCompletedAnyLaps [
 		          andAWormHoleBetweenCells: 2
 		          and: 6.
 	ships := OrderedCollection with: aShip.
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 10.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 10.
+	dices := OrderedCollection with: oneDice.
+	aGame := SpaceShipGame
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships.
+
+	self assert: (aShip inAllianceWith) isEmpty.
+
+]
+
+{ #category : 'tests' }
+ShipTest >> testWhenShipIsInitializedThenItHasNotCompletedAnyLaps [
+
+	| aShip numberOfCells someProbabilities aCellGenerator aBoard ships oneDice dices aGame |
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 2.
+	dices := OrderedCollection with: oneDice.
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	numberOfCells := 10.
+	someProbabilities := Dictionary new
+		                     at: 1
+		                     put:
+			                     (NormalCell initializeCellOn: numberOfCells);
+		                     yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          generatedWith: aCellGenerator
+		          andAWormHoleBetweenCells: 2
+		          and: 6.
+	ships := OrderedCollection with: aShip.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 10.
 	dices := OrderedCollection with: oneDice.
 	aGame := SpaceShipGame
 		         completedAtLap: 1
@@ -226,7 +258,7 @@ ShipTest >> testWhenShipMovesOnePositionFromStartingPositionThenItMovesAccording
 
 	| aShip numberOfCells someProbabilities aCellGenerator aBoard ships oneDice dices aGame |
 	
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 5.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 5.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Discovery One' withAChargeBasedOn: dices.
 	"aShip chargeFuelUpTo: 5.
@@ -263,7 +295,7 @@ ShipTest >> testWhenShipMovesOnePositionFromStartingPositionThenItMovesAccording
 ShipTest >> testWhenShipRunsOutOfFuelAndRestoresItThenItFillsUpTheTank [
 
 	| aShip numberOfCells someProbabilities aCellGenerator aBoard ships oneDice dices aGame initialFuel |
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 5.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 5.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Apolo' withAChargeBasedOn: dices.
 
@@ -301,7 +333,7 @@ ShipTest >> testWhenShipRunsOutOfFuelAndRestoresItThenItFillsUpTheTank [
 ShipTest >> testWhenShipRunsOutOfFuelThenItStaysAtCurrentPosition [
 
 	| aShip numberOfCells someProbabilities aCellGenerator aBoard ships oneDice dices aGame initialPosition positionAfterMoving |
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 5.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 5.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Axiom' withAChargeBasedOn: dices.
 	"aShip chargeFuelUpTo: 1.

@@ -15,6 +15,163 @@ CardTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMessa
 ]
 
 { #category : 'tests' }
+CardTest >> testWhenAShipDisableAllianceCardThenBothShipsHaveTheNilAlliance [
+	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck   anAlliancenCard |
+	numberOfCells := 10.
+	someProbabilities := Dictionary new
+		                     at: 1
+		                     put:
+			                     (NormalCell initializeCellOn: numberOfCells);
+		                     yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          generatedWith: aCellGenerator
+		          andAWormHoleBetweenCells: 7
+		          and: 9.
+		
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 3.
+	dices := OrderedCollection with: oneDice.
+	
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'Zorgons Ship' withAChargeBasedOn: dices.
+	
+	ships := OrderedCollection with: aShip.
+	ships add: anotherShip.
+	
+	anAlliancenCard:= AllianceCard new.
+	cards := OrderedCollection with: anAlliancenCard with: anAlliancenCard.
+	aDeck := Deck with: cards.
+
+	aGame := SpaceShipGame
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships and: aDeck.
+		
+	aGame playCard: anAlliancenCard from: aShip to: anotherShip .
+	
+	aGame executeTurn.
+
+	self assert: ((aShip inAllianceWith) includes: anotherShip).
+	self assert: ((anotherShip inAllianceWith) includes: aShip).
+
+	
+	aGame disableCard: anAlliancenCard from: aShip to: anotherShip .
+	
+	aGame executeTurn.
+	aGame executeTurn.
+
+	self assert: (aShip inAllianceWith) isEmpty.
+	self assert: (anotherShip inAllianceWith) isEmpty.
+
+]
+
+{ #category : 'tests' }
+CardTest >> testWhenAShipInAnAllianceHaveNotEnoughtFuelToPlayAndTheFirstAlianceNeitherThenTheSecondAllyGivesFuel [
+	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck   anAlliancenCard anotherSecondShip |
+	numberOfCells := 10.
+	someProbabilities := Dictionary new
+		                     at: 1
+		                     put:
+			                     (NormalCell initializeCellOn: numberOfCells);
+		                     yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          generatedWith: aCellGenerator
+		          andAWormHoleBetweenCells: 8
+		          and: 9.
+		
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 3.
+	dices := OrderedCollection with: oneDice.
+	
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'Zorgons Ship' withAChargeBasedOn: dices.
+	anotherSecondShip := Ship named: 'Zorgons Ship' withAChargeBasedOn: dices.
+	
+	ships := OrderedCollection with: aShip.
+	ships add: anotherShip.
+	ships add: anotherSecondShip .
+	
+	anAlliancenCard:= AllianceCard new.
+	cards := OrderedCollection with: anAlliancenCard with: anAlliancenCard.
+	aDeck := Deck with: cards.
+
+	aGame := SpaceShipGame
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships and: aDeck.
+		
+	aGame playCard: anAlliancenCard from: aShip to: anotherShip .
+	aGame playCard: anAlliancenCard from: aShip to: anotherSecondShip .
+	
+	aGame executeTurn.
+	aGame executeTurn.
+	
+	"aGame executeTurn."
+	aGame skipTurnFor: anotherSecondShip .
+	
+	aGame executeTurn.
+
+	self assert: (aGame positionOf: aShip ) equals: 7.
+	self assert: (aGame positionOf: anotherShip ) equals: 4.
+	self assert: (aGame positionOf: anotherSecondShip ) equals: 1.
+	
+
+]
+
+{ #category : 'tests' }
+CardTest >> testWhenAShipInAnAllianceHaveNotEnoughtFuelToPlayThenTheFirstAllyGivesFuel [
+	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck   anAlliancenCard |
+	numberOfCells := 10.
+	someProbabilities := Dictionary new
+		                     at: 1
+		                     put:
+			                     (NormalCell initializeCellOn: numberOfCells);
+		                     yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          generatedWith: aCellGenerator
+		          andAWormHoleBetweenCells: 8
+		          and: 9.
+		
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 3.
+	dices := OrderedCollection with: oneDice.
+	
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'Zorgons Ship' withAChargeBasedOn: dices.
+	
+	ships := OrderedCollection with: aShip.
+	ships add: anotherShip.
+	
+	anAlliancenCard:= AllianceCard new.
+	cards := OrderedCollection with: anAlliancenCard with: anAlliancenCard.
+	aDeck := Deck with: cards.
+
+	aGame := SpaceShipGame
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships and: aDeck.
+		
+	aGame playCard: anAlliancenCard from: aShip to: anotherShip .
+	
+	aGame executeTurn.
+	aGame skipTurnFor: anotherShip .
+	aGame executeTurn.
+
+	self assert: (aGame positionOf: aShip ) equals: 7.
+	
+
+]
+
+{ #category : 'tests' }
 CardTest >> testWhenAShipUsesAccelerationCardThenBothShipsMovesOneCellForward [
 
 	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck  anAccelerationCard |
@@ -32,7 +189,7 @@ CardTest >> testWhenAShipUsesAccelerationCardThenBothShipsMovesOneCellForward [
 		          andAWormHoleBetweenCells: 7
 		          and: 9.
 		
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 3.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 3.
 	dices := OrderedCollection with: oneDice.
 	
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
@@ -61,6 +218,155 @@ CardTest >> testWhenAShipUsesAccelerationCardThenBothShipsMovesOneCellForward [
 ]
 
 { #category : 'tests' }
+CardTest >> testWhenAShipUsesAllianceCardThenBothShipsHaveTheAlliance [
+	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck   anAlliancenCard |
+	numberOfCells := 10.
+	someProbabilities := Dictionary new
+		                     at: 1
+		                     put:
+			                     (NormalCell initializeCellOn: numberOfCells);
+		                     yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          generatedWith: aCellGenerator
+		          andAWormHoleBetweenCells: 7
+		          and: 9.
+		
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 3.
+	dices := OrderedCollection with: oneDice.
+	
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'Zorgons Ship' withAChargeBasedOn: dices.
+	
+	ships := OrderedCollection with: aShip.
+	ships add: anotherShip.
+	
+	anAlliancenCard:= AllianceCard new.
+	cards := OrderedCollection with: anAlliancenCard with: anAlliancenCard.
+	aDeck := Deck with: cards.
+
+	aGame := SpaceShipGame
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships and: aDeck.
+		
+	aGame playCard: anAlliancenCard from: aShip to: anotherShip .
+	
+	aGame executeTurn.
+
+	self assert: ((aShip inAllianceWith) includes: anotherShip).
+	self assert: ((anotherShip inAllianceWith) includes: aShip).
+
+
+]
+
+{ #category : 'tests' }
+CardTest >> testWhenAShipUsesCancelattionCardOnAAcelerationCardThenTheEffectDisappear [
+
+	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck  anAccelerationCard anCancelattionCard |
+	numberOfCells := 10.
+	someProbabilities := Dictionary new
+		                     at: 1
+		                     put:
+			                     (NormalCell initializeCellOn: numberOfCells);
+		                     yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          generatedWith: aCellGenerator
+		          andAWormHoleBetweenCells: 7
+		          and: 9.
+		
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 3.
+	dices := OrderedCollection with: oneDice.
+	
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'Zorgons Ship' withAChargeBasedOn: dices.
+	
+	ships := OrderedCollection with: aShip.
+	ships add: anotherShip.
+	
+	anAccelerationCard:= AccelerationCard new.
+	anCancelattionCard:= CancellationCard new.
+	cards := OrderedCollection with: anAccelerationCard with: anCancelattionCard.
+	aDeck := Deck with: cards.
+
+	aGame := SpaceShipGame
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships and: aDeck.
+		
+	aGame playCard: anAccelerationCard from: aShip to: 'everyone'.
+	
+	aGame executeTurn.
+	aGame executeTurn.
+	
+	aGame executeTurn.
+	anCancelattionCard selectedCard: AccelerationCard.
+	aGame playCard: anCancelattionCard from: anotherShip to: 'everyone'.
+	aGame executeTurn.
+	
+	aGame executeTurn.
+	aGame executeTurn.
+
+	self assert: (aGame positionOf: aShip) equals: 4.
+	self assert: (aGame positionOf: anotherShip) equals: 4.
+]
+
+{ #category : 'tests' }
+CardTest >> testWhenAShipUsesCancelattionCardOnANonCardPlayThenItsFailed [
+
+	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck anCancelattionCard |
+	numberOfCells := 10.
+	someProbabilities := Dictionary new
+		                     at: 1
+		                     put:
+			                     (NormalCell initializeCellOn: numberOfCells);
+		                     yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          generatedWith: aCellGenerator
+		          andAWormHoleBetweenCells: 7
+		          and: 9.
+		
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 3.
+	dices := OrderedCollection with: oneDice.
+	
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'Zorgons Ship' withAChargeBasedOn: dices.
+	
+	ships := OrderedCollection with: aShip.
+	ships add: anotherShip.
+	
+
+	anCancelattionCard:= CancellationCard new.
+	cards := OrderedCollection with: anCancelattionCard.
+	aDeck := Deck with: cards.
+
+	aGame := SpaceShipGame
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships and: aDeck.
+		
+	
+	aGame executeTurn.
+	anCancelattionCard selectedCard: AccelerationCard.
+	self
+  		should: [ aGame playCard: anCancelattionCard from: anotherShip to: 'everyone' ]
+  		raise: Error
+  		withMessageText: 'No hay ninguna carta activa de ese tipo.'.
+
+]
+
+{ #category : 'tests' }
 CardTest >> testWhenAShipUsesOverloadCardThenTheAnotherShipThrowDecreaseByTwo [
 
 	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck anOverloadCard |
@@ -78,7 +384,7 @@ CardTest >> testWhenAShipUsesOverloadCardThenTheAnotherShipThrowDecreaseByTwo [
 		          andAWormHoleBetweenCells: 7
 		          and: 9.
 		
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 3.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 3.
 	dices := OrderedCollection with: oneDice.
 	
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
@@ -124,7 +430,7 @@ CardTest >> testWhenAShipUsesOverloadCardWhenItsNotHisTurnThenIsInvalid [
 		          andAWormHoleBetweenCells: 7
 		          and: 9.
 		
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 3.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 3.
 	dices := OrderedCollection with: oneDice.
 	
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
@@ -157,6 +463,260 @@ CardTest >> testWhenAShipUsesOverloadCardWhenItsNotHisTurnThenIsInvalid [
 ]
 
 { #category : 'tests' }
+CardTest >> testWhenAShipUsesReDoCardAfterAnOtherReDoCardBeforeOverloadCardThenTheAnotherShipThrowDecreaseByTwo [
+
+	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck anOverloadCard anRedoCard |
+	numberOfCells := 15.
+	someProbabilities := Dictionary new
+		                     at: 1
+		                     put:
+			                     (NormalCell initializeCellOn: numberOfCells);
+		                     yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          generatedWith: aCellGenerator
+		          andAWormHoleBetweenCells: 14
+		          and: 15.
+		
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 6.
+	dices := OrderedCollection with: oneDice.
+	
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'Zorgons Ship' withAChargeBasedOn: dices.
+	
+	ships := OrderedCollection with: aShip.
+	ships add: anotherShip.
+	
+	anOverloadCard:= OverloadCard new.
+	anRedoCard:= RedoCard new.
+	
+	cards := OrderedCollection with: anOverloadCard with: anRedoCard.
+	aDeck := Deck with: cards.
+
+	aGame := SpaceShipGame
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships and: aDeck.
+		
+	aGame playCard: anOverloadCard from: aShip to: anotherShip .
+	aGame playCard: anRedoCard from: aShip to: anotherShip .
+	aGame playCard: anRedoCard from: aShip to: anotherShip .
+
+	
+	aGame executeTurn.
+	aGame executeTurn.
+	
+	self assert: (aGame positionOf: aShip) equals: 7.
+	self assert: (aGame positionOf: anotherShip) equals: 1.
+]
+
+{ #category : 'tests' }
+CardTest >> testWhenAShipUsesReDoCardAfterAnOverloadCardInADifferentShipThenTheDifferentShipThrowDecreaseByTwo [
+
+	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck anOverloadCard anRedoCard anotherShip2 |
+	numberOfCells := 15.
+	someProbabilities := Dictionary new
+		                     at: 1
+		                     put:
+			                     (NormalCell initializeCellOn: numberOfCells);
+		                     yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          generatedWith: aCellGenerator
+		          andAWormHoleBetweenCells: 14
+		          and: 15.
+		
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 6.
+	dices := OrderedCollection with: oneDice.
+	
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'Zorgons Ship' withAChargeBasedOn: dices.
+	anotherShip2 := Ship named: 'Zorgons Ship II' withAChargeBasedOn: dices.
+	
+	ships := OrderedCollection with: aShip.
+	ships add: anotherShip.
+	ships add: anotherShip2.
+	
+	anOverloadCard:= OverloadCard new.
+	anRedoCard:= RedoCard new.
+	
+	cards := OrderedCollection with: anOverloadCard with: anRedoCard.
+	aDeck := Deck with: cards.
+
+	aGame := SpaceShipGame
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships and: aDeck.
+		
+	aGame playCard: anOverloadCard from: aShip to: anotherShip .
+	aGame playCard: anRedoCard from: aShip to: anotherShip2 .
+
+	
+	aGame executeTurn.
+	aGame executeTurn.
+	aGame executeTurn.
+	
+	self assert: (aGame positionOf: aShip) equals: 7.
+	self assert: (aGame positionOf: anotherShip) equals: 5.
+	self assert: (aGame positionOf: anotherShip2) equals: 5.
+]
+
+{ #category : 'tests' }
+CardTest >> testWhenAShipUsesReDoCardAfterAnOverloadCardThenTheAnotherShipThrowDecreaseByTwo [
+
+	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck anOverloadCard anRedoCard |
+	numberOfCells := 15.
+	someProbabilities := Dictionary new
+		                     at: 1
+		                     put:
+			                     (NormalCell initializeCellOn: numberOfCells);
+		                     yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          generatedWith: aCellGenerator
+		          andAWormHoleBetweenCells: 14
+		          and: 15.
+		
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 6.
+	dices := OrderedCollection with: oneDice.
+	
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'Zorgons Ship' withAChargeBasedOn: dices.
+	
+	ships := OrderedCollection with: aShip.
+	ships add: anotherShip.
+	
+	anOverloadCard:= OverloadCard new.
+	anRedoCard:= RedoCard new.
+	
+	cards := OrderedCollection with: anOverloadCard with: anRedoCard.
+	aDeck := Deck with: cards.
+
+	aGame := SpaceShipGame
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships and: aDeck.
+		
+	aGame playCard: anOverloadCard from: aShip to: anotherShip .
+	aGame playCard: anRedoCard from: aShip to: anotherShip .
+
+	
+	aGame executeTurn.
+	aGame executeTurn.
+	
+	self assert: (aGame positionOf: aShip) equals: 7.
+	self assert: (aGame positionOf: anotherShip) equals: 3.
+]
+
+{ #category : 'tests' }
+CardTest >> testWhenAShipUsesReDoCardAfterNoPlayingCardThenItsFailed [
+
+	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck anOverloadCard anRedoCard anotherShip2 |
+	numberOfCells := 15.
+	someProbabilities := Dictionary new
+		                     at: 1
+		                     put:
+			                     (NormalCell initializeCellOn: numberOfCells);
+		                     yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          generatedWith: aCellGenerator
+		          andAWormHoleBetweenCells: 14
+		          and: 15.
+		
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 6.
+	dices := OrderedCollection with: oneDice.
+	
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'Zorgons Ship' withAChargeBasedOn: dices.
+	anotherShip2 := Ship named: 'Zorgons Ship II' withAChargeBasedOn: dices.
+	
+	ships := OrderedCollection with: aShip.
+	ships add: anotherShip.
+	ships add: anotherShip2.
+	
+	anOverloadCard:= OverloadCard new.
+	anRedoCard:= RedoCard new.
+	
+	cards := OrderedCollection with: anOverloadCard with: anRedoCard.
+	aDeck := Deck with: cards.
+
+	aGame := SpaceShipGame
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships and: aDeck.
+		
+	self should: [	aGame playCard: anRedoCard from: aShip to: anotherShip2  ]  
+		raise: Error  
+		withMessageText: 'Theres no last card play. Invalid ReDo card'.
+]
+
+{ #category : 'tests' }
+CardTest >> testWhenAnAllianceHaveNotEnoughtFuelToPlayThenTheShipsArePenalize [
+	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck   anAlliancenCard anotherShip2 |
+	numberOfCells := 10.
+	someProbabilities := Dictionary new
+		                     at: 1
+		                     put:
+			                     (NormalCell initializeCellOn: numberOfCells);
+		                     yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          generatedWith: aCellGenerator
+		          andAWormHoleBetweenCells: 8
+		          and: 9.
+		
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 3.
+	dices := OrderedCollection with: oneDice.
+	
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'Zorgons Ship' withAChargeBasedOn: dices.
+	anotherShip2 := Ship named: 'Zorgons  II Ship' withAChargeBasedOn: dices. 
+	
+	ships := OrderedCollection with: aShip.
+	ships add: anotherShip.
+	ships add: anotherShip2.
+	
+	anAlliancenCard:= AllianceCard new.
+	cards := OrderedCollection with: anAlliancenCard with: anAlliancenCard.
+	aDeck := Deck with: cards.
+
+	aGame := SpaceShipGame
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships and: aDeck.
+		
+	aGame playCard: anAlliancenCard from: aShip to: anotherShip .
+	aGame playCard: anAlliancenCard from: aShip to: anotherShip2 .
+	
+	aGame executeTurn.
+	aGame executeTurn.
+	aGame executeTurn.
+	aGame executeTurn.
+
+	self assert: (aGame positionOf: aShip ) equals: 1.
+	self assert: (aGame positionOf: anotherShip ) equals: 1.
+	self assert: (aGame positionOf: anotherShip2 ) equals: 1.
+	
+
+]
+
+{ #category : 'tests' }
 CardTest >> testWhenOneShipStartsWithTwoCards [
 
 	| ships aShip aBoard oneDice dices aGame numberOfCells someProbabilities aCellGenerator cards aDeck |
@@ -174,7 +734,7 @@ CardTest >> testWhenOneShipStartsWithTwoCards [
 		          andAWormHoleBetweenCells: 7
 		          and: 9.
 		
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 3.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 3.
 	dices := OrderedCollection with: oneDice.
 	
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
@@ -212,7 +772,7 @@ CardTest >> testWhenTwoShipsStartWithTwoCards [
 		          andAWormHoleBetweenCells: 7
 		          and: 9.
 		
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 3.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 3.
 	dices := OrderedCollection with: oneDice.
 	
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.

@@ -36,7 +36,7 @@ NormalCellTest >> testWhenANormalCellIsInitializedWithANegativeNumberThenCreatio
 NormalCellTest >> testWhenAShipEntersACellThenIsEffectivelyInThere [
 
 	| aShip aNormalCell oneDice dices |
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 2.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 2.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Millenium Falcon' withAChargeBasedOn: dices.
 	aNormalCell := NormalCell initializeCellOn: 1.
@@ -50,7 +50,7 @@ NormalCellTest >> testWhenAShipEntersACellThenIsEffectivelyInThere [
 NormalCellTest >> testWhenAShipExitsANormalCellThenIsEffectivelyOutThere [
 
 	| aShip aNormalCell oneDice dices |
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 2.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 2.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Millenium Falcon' withAChargeBasedOn: dices.
 	aNormalCell := NormalCell initializeCellOn: 1.

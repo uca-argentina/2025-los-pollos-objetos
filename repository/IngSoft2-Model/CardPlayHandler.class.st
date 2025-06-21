@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'game',
 		'cardOwner',
-		'cardTarget'
+		'cardTarget',
+		'lastCardPlayed'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -26,19 +27,65 @@ CardPlayHandler >> handle: aCard from: aShip to: anotherShip [
 ]
 
 { #category : 'initialization' }
+CardPlayHandler >> handleDisable: aCard from: aShip to: anotherShip [
+
+
+	cardOwner:= aShip.
+	cardTarget:= anotherShip.
+	aCard disableCard: self
+]
+
+{ #category : 'initialization' }
 CardPlayHandler >> initializeWith: aGame [
 
-	game:= aGame
+	game:= aGame.
+	lastCardPlayed := nil.
 ]
 
 { #category : 'initialization' }
 CardPlayHandler >> resolveAnAccelerationCardPlay: aCard [
 
 	game applyToAllSpaceShips: aCard.
+	lastCardPlayed := aCard.
+]
+
+{ #category : 'as yet unclassified' }
+CardPlayHandler >> resolveAnAllianceCardPlay: aCard [
+
+	game allianceBewtween: cardOwner and: cardTarget.
+	lastCardPlayed := aCard.
+
+]
+
+{ #category : 'as yet unclassified' }
+CardPlayHandler >> resolveAnCancelationCardPlay: aCard [
+	game discardACardEffect: aCard .
+	lastCardPlayed := aCard.
+]
+
+{ #category : 'as yet unclassified' }
+CardPlayHandler >> resolveAnDisableAlliance: aCard [
+	
+		game disableAllianceof: cardOwner with: cardTarget .
+
 ]
 
 { #category : 'initialization' }
 CardPlayHandler >> resolveAnOverloadCardPlay: aCard [
 
 	game applyACardEffect: aCard to: cardTarget .
+	lastCardPlayed := aCard.
+]
+
+{ #category : 'initialization' }
+CardPlayHandler >> resolveAnRedoCard:aCard [ 
+	
+	lastCardPlayed isNil 
+		ifTrue: [ Error signal: 'Theres no last card play. Invalid ReDo card' ] 
+		ifFalse: [ 	
+				game addAnEspecificCard: lastCardPlayed toShip: cardOwner .
+				game playCard: lastCardPlayed from: cardOwner to: cardTarget . 
+		]
+
+
 ]

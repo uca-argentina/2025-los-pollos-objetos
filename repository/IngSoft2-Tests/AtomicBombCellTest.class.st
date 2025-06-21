@@ -42,7 +42,7 @@ AtomicBombCellTest >> testWhenAShipsArrivesToAtomicBombCellThenAllReturnToFirstC
 		          andAWormHoleBetweenCells: 6
 		          and: 7.
 
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 2.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 2.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
 	anotherShip := Ship named: 'Millenium Falcon' withAChargeBasedOn: dices.
@@ -83,7 +83,7 @@ AtomicBombCellTest >> testWhenMultipleShipsArriveToAtomicBombCellThenAllReturnTo
 		          andAWormHoleBetweenCells: 6
 		          and: 7.
 	
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 4.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 4.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
 	anotherShip := Ship named: 'Millenium Falcon' withAChargeBasedOn: dices.
@@ -121,7 +121,7 @@ AtomicBombCellTest >> testWhenShipArrivesToAtomicBombCellThenItReturnsToFirstCel
 		          andAWormHoleBetweenCells: 6
 		          and: 7.
 
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 4.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 4.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
 	ships := OrderedCollection with: aShip.
@@ -156,7 +156,7 @@ AtomicBombCellTest >> testWhenShipArrivesToAtomicBombCellThenItReturnsToFirstCel
 		          andAWormHoleBetweenCells: 6
 		          and: 7.
 	
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 4.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 4.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
 	ships := OrderedCollection with: aShip.

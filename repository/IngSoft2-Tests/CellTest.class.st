@@ -45,7 +45,7 @@ CellTest >> testWhenACellIsInitializedWithANonValidNumberThenCreationFails [
 CellTest >> testWhenAShipEntersACellThenIsEffectivelyInThere [
 
 	| aShip aCell aDice dices |
-	aDice := ChargedDice withATotalNumberOfFacesOf: 5.
+	aDice := AChargedDice withATotalNumberOfFacesOf: 5.
 	dices := OrderedCollection with: aDice.
 	aShip := Ship named: 'Millenium Falcon' withAChargeBasedOn: dices.
 	aCell := Cell initializeCellOn: 1.
@@ -59,7 +59,7 @@ CellTest >> testWhenAShipEntersACellThenIsEffectivelyInThere [
 CellTest >> testWhenAShipExitsACellThenIsEffectivelyOutThere [
 
 	| aShip aCell aDice dices |
-	aDice := ChargedDice withATotalNumberOfFacesOf: 5.
+	aDice := AChargedDice withATotalNumberOfFacesOf: 5.
 	dices := OrderedCollection with: aDice.
 	aShip := Ship named: 'Millenium Falcon' withAChargeBasedOn: dices.
 	aCell := Cell initializeCellOn: 1.

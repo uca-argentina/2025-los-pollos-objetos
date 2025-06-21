@@ -44,7 +44,7 @@ HyperJumpCellTest >> testWhenAFourthShipArrivesToHyperJumpCellThenItAdvancesTheC
 		          andAWormHoleBetweenCells: 6
 		          and: 7.
 	
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 3.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 3.
 	dices := OrderedCollection with: oneDice.
 	firstShip := Ship named: 'Venture' withAChargeBasedOn: dices.
 	secondShip := Ship named: 'Millenium Falcon1' withAChargeBasedOn: dices.
@@ -146,7 +146,7 @@ HyperJumpCellTest >> testWhenASecondShipArrivesToHyperJumpCellThenItAdvancesTheC
 		          whichAre: cells
 		          andAWormHoleBetweenCells: 6
 		          and: 7.
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 3.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 3.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
 	anotherShip := Ship named: 'Millenium Falcon' withAChargeBasedOn: dices.
@@ -195,7 +195,7 @@ HyperJumpCellTest >> testWhenAShipArrivesToHyperJumpCellQAndRunsOutOfFuelToAdvan
 		          whichAre: cells
 		          andAWormHoleBetweenCells: 6
 		          and: 7.
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 3.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 3.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
 	ships := OrderedCollection with: aShip.
@@ -240,7 +240,7 @@ HyperJumpCellTest >> testWhenAShipArrivesToHyperJumpCellThenItAdvancesTheCorresp
 		          whichAre: cells
 		          andAWormHoleBetweenCells: 6
 		          and: 7.
-	oneDice := ChargedDice withATotalNumberOfFacesOf: 3.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 3.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
 	ships := OrderedCollection with: aShip.

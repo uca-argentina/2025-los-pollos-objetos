@@ -9,7 +9,7 @@ Class {
 CellGeneratorTest >> testWhenACellIsDeterminedThenItIsReturnedAndAShipCanEnter [
 
 	| aShip aCellGenerator aCell someProbabilities aDice dices |
-	aDice := ChargedDice withATotalNumberOfFacesOf: 5.
+	aDice := AChargedDice withATotalNumberOfFacesOf: 5.
 	dices := OrderedCollection with: aDice.
 	aShip := Ship named: 'The Batwing' withAChargeBasedOn: dices.
 	someProbabilities := Dictionary new
@@ -47,7 +47,7 @@ CellGeneratorTest >> testWhenACellIsDeterminedThenItIsReturnedAndAShipCanEnter [
 CellGeneratorTest >> testWhenACellIsDeterminedThenItIsReturnedAndAShipCanLeave [
 
 	| aShip aCellGenerator aCell someProbabilities aDice dices |
-	aDice := ChargedDice withATotalNumberOfFacesOf: 5.
+	aDice := AChargedDice withATotalNumberOfFacesOf: 5.
 	dices := OrderedCollection with: aDice.
 	aShip := Ship named: 'The Batwing' withAChargeBasedOn: dices.
 	someProbabilities := Dictionary new
@@ -109,7 +109,7 @@ CellGeneratorTest >> testWhenACellIsGeneratedThenItIsPropelryAssigned [
 CellGeneratorTest >> testWhenACellIsGeneratedThenItIsReturnedAndAShipCanEnter [
 
 	| aShip aCellGenerator someProbabilites aCell aDice dices |
-	aDice := ChargedDice withATotalNumberOfFacesOf: 5.
+	aDice := AChargedDice withATotalNumberOfFacesOf: 5.
 	dices := OrderedCollection with: aDice.
 	aShip := Ship named: 'The Batwing' withAChargeBasedOn: dices.
 	someProbabilites := Dictionary new
@@ -147,7 +147,7 @@ CellGeneratorTest >> testWhenACellIsGeneratedThenItIsReturnedAndAShipCanEnter [
 CellGeneratorTest >> testWhenACellIsGeneratedThenItIsReturnedAndAShipCanLeave [
 
 	| aShip aCellGenerator someProbabilites aCell aDice dices |
-	aDice := ChargedDice withATotalNumberOfFacesOf: 5.
+	aDice := AChargedDice withATotalNumberOfFacesOf: 5.
 	dices := OrderedCollection with: aDice.
 	aShip := Ship named: 'The Batwing' withAChargeBasedOn: dices.
 	someProbabilites := Dictionary new
