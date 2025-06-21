@@ -55,7 +55,6 @@ CardPlayHandler >> resolveAnAllianceCardPlay: aCard [
 	game allianceBewtween: cardOwner and: cardTarget.
 	lastCardPlayed := aCard.
 
-	game applyACardEffect: aCard to: cardTarget .
 ]
 
 { #category : 'as yet unclassified' }

@@ -13,11 +13,6 @@ AllianceCard >> disableCard:aCardPlayHandler [
 ]
 
 { #category : 'testing' }
-AllianceCard >> effect [ 
-	^ 0
-]
-
-{ #category : 'testing' }
 AllianceCard >> uses: aCardPlayHandler [
 
 	aCardPlayHandler resolveAnAllianceCardPlay: self
