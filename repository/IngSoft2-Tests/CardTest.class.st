@@ -206,7 +206,7 @@ CardTest >> testWhenAShipUsesAllianceCardThenBothShipsHaveTheAlliance [
 ]
 
 { #category : 'tests' }
-CardTest >> testWhenAShipUsesCancelattionCard [
+CardTest >> testWhenAShipUsesCancelattionCardOnAAcelerationCardThenTheEffectDisappear [
 
 	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck  anAccelerationCard anCancelattionCard |
 	numberOfCells := 10.
@@ -261,9 +261,9 @@ CardTest >> testWhenAShipUsesCancelattionCard [
 ]
 
 { #category : 'tests' }
-CardTest >> testWhenAShipUsesCancelattionCardOnAAcelerationCardThenTheEffectDisappear [
+CardTest >> testWhenAShipUsesCancelattionCardOnANonCardPlayThenItsFailed [
 
-	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck  anAccelerationCard anCancelattionCard |
+	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck anCancelattionCard |
 	numberOfCells := 10.
 	someProbabilities := Dictionary new
 		                     at: 1
@@ -287,9 +287,9 @@ CardTest >> testWhenAShipUsesCancelattionCardOnAAcelerationCardThenTheEffectDisa
 	ships := OrderedCollection with: aShip.
 	ships add: anotherShip.
 	
-	anAccelerationCard:= AccelerationCard new.
+
 	anCancelattionCard:= CancellationCard new.
-	cards := OrderedCollection with: anAccelerationCard with: anCancelattionCard.
+	cards := OrderedCollection with: anCancelattionCard.
 	aDeck := Deck with: cards.
 
 	aGame := SpaceShipGame
@@ -298,21 +298,14 @@ CardTest >> testWhenAShipUsesCancelattionCardOnAAcelerationCardThenTheEffectDisa
 		         and: dices
 		         and: ships and: aDeck.
 		
-	aGame playCard: anAccelerationCard from: aShip to: 'everyone'.
-	
-	aGame executeTurn.
-	aGame executeTurn.
 	
 	aGame executeTurn.
 	anCancelattionCard selectedCard: AccelerationCard.
-	aGame playCard: anCancelattionCard from: anotherShip to: 'everyone'.
-	aGame executeTurn.
-	
-	aGame executeTurn.
-	aGame executeTurn.
+	self
+  		should: [ aGame playCard: anCancelattionCard from: anotherShip to: 'everyone' ]
+  		raise: Error
+  		withMessageText: 'No hay ninguna carta activa de ese tipo.'.
 
-	self assert: (aGame positionOf: aShip) equals: 4.
-	self assert: (aGame positionOf: anotherShip) equals: 4.
 ]
 
 { #category : 'tests' }
