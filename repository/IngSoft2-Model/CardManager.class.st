@@ -77,6 +77,11 @@ CardManager >> initializeOf: aShip with:aDeck [
 	self giveInitialCardsFrom: aDeck.
 ]
 
+{ #category : 'as yet unclassified' }
+CardManager >> pickACard: aDeck [
+	cardsInHand add: (aDeck pickCard).
+]
+
 { #category : 'initialization' }
 CardManager >> ship [
 

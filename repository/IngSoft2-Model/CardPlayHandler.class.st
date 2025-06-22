@@ -52,7 +52,8 @@ CardPlayHandler >> resolveARepeatCardPlay: aCard [
 
 { #category : 'initialization' }
 CardPlayHandler >> resolveAnAccelerationCardPlay: aCard [
-
+	
+	game isShipSupposedToPLay: cardOwner.
 	game applyToAllSpaceShips: aCard.
 	lastCardPlayed := aCard.
 	game eliminate: aCard from: cardOwner.
@@ -61,6 +62,7 @@ CardPlayHandler >> resolveAnAccelerationCardPlay: aCard [
 { #category : 'as yet unclassified' }
 CardPlayHandler >> resolveAnAllianceCardPlay: aCard [
 
+	game isShipSupposedToPLay: cardOwner.
 	game allianceBewtween: cardOwner and: cardTarget.
 	lastCardPlayed := aCard.
 	game eliminate: aCard from: cardOwner.

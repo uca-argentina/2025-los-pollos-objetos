@@ -301,6 +301,14 @@ SpaceShipGame >> performMoveOf: aShip to: targetPosition [
 	board addShip: aShip toCellAt: targetPosition.
 ]
 
+{ #category : 'accessing' }
+SpaceShipGame >> pickACardFor: aShip [
+	| targetCardManager |
+	targetCardManager  := cardManagers detect: [ :cm | cm ship = aShip ]
+		ifNone: [ self error: 'No CardManager found for the given ship.' ].
+	targetCardManager pickACard: deck .
+]
+
 { #category : 'as yet unclassified' }
 SpaceShipGame >> playCard: aCard from: aShip to: anotherShip [
 
