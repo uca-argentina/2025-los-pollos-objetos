@@ -1,17 +1,18 @@
 Class {
 	#name : 'MoonWalkCellTest',
-	#superclass : 'TestCase',
+	#superclass : 'CellTest',
 	#category : 'IngSoft2-Tests',
 	#package : 'IngSoft2-Tests'
 }
 
 { #category : 'asserting' }
-MoonWalkCellTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMessage [ 
+MoonWalkCellTest >> should: arg1 raise: arg2 withMessageText: arg3 [
 
 	self
-		should: anErrorBlock
-		raise: anErrorClass
-		withExceptionDo: [:error | self assert: (error messageText ) equals: errorMessage]
+		should: arg1
+		raise: arg2
+		withExceptionDo: [ :arg4 |
+		self assert: arg4 messageText equals: arg3 ]
 ]
 
 { #category : 'tests' }
@@ -106,17 +107,17 @@ MoonWalkCellTest >> testWhenAShipArrivesToAMoonWalkCellThenThatShipRemainsThereA
 { #category : 'tests' }
 MoonWalkCellTest >> testWhenMoonWalkCellIsCreatedOnANegativeCellThenCreationFails [
 
-	 self
-        should: [MoonWalkCell initializeCellOn: -4 withRequiredValue: 1]
-        raise: Error
-        withMessageText: 'Required value must be a positive integer.'.
+	self
+		should: [ MoonWalkCell initializeCellOn:  -4 withRequiredValue: 1 ]
+		raise: Error
+		withMessageText: 'Required value must be a positive integer.'
 ]
 
 { #category : 'tests' }
 MoonWalkCellTest >> testWhenMoonWalkCellIsCreatedWithNegativeRequiredValueThenCreationFails [
 
-	 self
-        should: [MoonWalkCell initializeCellOn: 4 withRequiredValue: -1]
-        raise: Error
-        withMessageText: 'Required value must be a positive integer.'.
+	self
+		should: [ MoonWalkCell initializeCellOn: 4 withRequiredValue:  -1 ]
+		raise: Error
+		withMessageText: 'Required value must be a positive integer.'
 ]

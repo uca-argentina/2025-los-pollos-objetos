@@ -1,6 +1,6 @@
 Class {
 	#name : 'BlackHoleCellTest',
-	#superclass : 'TestCase',
+	#superclass : 'CellTest',
 	#category : 'IngSoft2-Tests',
 	#package : 'IngSoft2-Tests'
 }

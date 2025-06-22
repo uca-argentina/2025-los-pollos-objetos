@@ -16,16 +16,6 @@ GameTest >> should: anErrorBlock raise: anErroClass withMessageText: errorMessag
 ]
 
 { #category : 'tests' }
-GameTest >> testAAAAAAAAAAAAAAAAAAAA [
-
-	| aBlackHoleCell aGame aShip |
-	aBlackHoleCell := BlackHoleCell initializeCellOn: 3.
-	
-	
-	
-]
-
-{ #category : 'tests' }
 GameTest >> testWhenAShipIsPenalizeWithTwoMovesThenItsIncludedInThePenalizationsDictionary [
 
 	| ships aShip aBoard oneDice dices aGame numberOfCells someProbabilities aCellGenerator |
