@@ -243,9 +243,8 @@ HyperJumpCellTest >> testWhenAShipArrivesToHyperJumpCellQAndRunsOutOfFuelToAdvan
 { #category : 'tests' }
 HyperJumpCellTest >> testWhenAShipArrivesToHyperJumpCellThenItAdvancesTheCorrespondingLightYears [
 
-	| aGame aBoard aShip ships oneDice dices boardLengthInParsecs distanceValues expectedPosition cellLengthInParsecs numberOfCells cells |
-	boardLengthInParsecs := 90. "Equivale a 270 años luz"
-	cellLengthInParsecs := 10. "Cada celda mide 27 años luz"
+	| aGame aBoard aShip ships oneDice dices boardLength distanceValues expectedPosition numberOfCells cells |
+	boardLength := ParsecDistance with: 90.
 	distanceValues := OrderedCollection with: (LightYearDistance with: 81).
 
 	cells := OrderedCollection new.
@@ -255,7 +254,7 @@ HyperJumpCellTest >> testWhenAShipArrivesToHyperJumpCellThenItAdvancesTheCorresp
 	cells add: (HyperJumpCell
 				initializeCellOn: 4
 				withDistanceValues: distanceValues
-				boardLength: boardLengthInParsecs
+				boardLength: boardLength
 				numberOfCells: 9).
 	cells add: (NormalCell initializeCellOn: 5).
 	cells add: (NormalCell initializeCellOn: 6).
@@ -282,7 +281,7 @@ HyperJumpCellTest >> testWhenAShipArrivesToHyperJumpCellThenItAdvancesTheCorresp
 
 	aGame executeTurn.
 
-	expectedPosition := 4 + ((81 // 3) // cellLengthInParsecs). "81 años luz = 27 pársecs, 27 // 10 = 3 celdas"
+	expectedPosition := 4 + ((81 // 3) // (boardLength valueInParsecs // numberOfCells)). "81 años luz = 27 pársecs, 27 // 10 = 3 celdas"
 
 	self assert: (aGame positionOf: aShip) equals: expectedPosition
 
@@ -291,9 +290,9 @@ HyperJumpCellTest >> testWhenAShipArrivesToHyperJumpCellThenItAdvancesTheCorresp
 { #category : 'tests' }
 HyperJumpCellTest >> testWhenAShipArrivesToHyperJumpCellThenItAdvancesTheCorrespondingParsecs [
 
-	| aGame aBoard aShip ships oneDice dices boardLengthInParsecs expectedPosition cellLengthInParsecs numberOfCells cells distanceValues |
-	boardLengthInParsecs := 100.
-	cellLengthInParsecs := 10.
+	| aGame aBoard aShip ships oneDice dices expectedPosition numberOfCells cells distanceValues boardLength |
+	
+	boardLength := LightYearDistance with: 270.
 	"parsecValues := #( 25 15 10 )."
 	distanceValues := OrderedCollection with: (ParsecDistance with: 25).
 	
@@ -305,7 +304,7 @@ HyperJumpCellTest >> testWhenAShipArrivesToHyperJumpCellThenItAdvancesTheCorresp
 	cells add: (HyperJumpCell
 			 initializeCellOn: 4
 			 withDistanceValues: distanceValues
-			 boardLength: boardLengthInParsecs
+			 boardLength: boardLength
 			 numberOfCells: 10).
 	cells add: (NormalCell initializeCellOn: 5).
 	cells add: (NormalCell initializeCellOn: 6).
@@ -317,8 +316,8 @@ HyperJumpCellTest >> testWhenAShipArrivesToHyperJumpCellThenItAdvancesTheCorresp
 	aBoard := Board
 		          withATotalNumberOfCellsOf: numberOfCells
 		          whichAre: cells
-		          andAWormHoleBetweenCells: 6
-		          and: 7.
+		          andAWormHoleBetweenCells: 8
+		          and: 9.
 	oneDice := AChargedDice withATotalNumberOfFacesOf: 3.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
@@ -332,7 +331,7 @@ HyperJumpCellTest >> testWhenAShipArrivesToHyperJumpCellThenItAdvancesTheCorresp
 
 	aGame executeTurn.
 
-	expectedPosition := 4 + (25 // cellLengthInParsecs).
+	expectedPosition := 4 + (25 // (boardLength valueInParsecs // numberOfCells) ).
 
 	self assert: (aGame positionOf: aShip) equals: expectedPosition
 ]

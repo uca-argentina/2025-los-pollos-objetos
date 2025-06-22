@@ -14,12 +14,12 @@ Class {
 }
 
 { #category : 'initialization' }
-HyperJumpCell class >> initializeCellOn: aNumberOfCell withDistanceValues: distanceValues boardLength: aBoardLengthInParsecs numberOfCells: aNumberOfCells [
+HyperJumpCell class >> initializeCellOn: aNumberOfCell withDistanceValues: distanceValues boardLength: aBoardLength numberOfCells: aNumberOfCells [
 
 	"self parsecValueIsValid: aParsecValue."
-	self isAPositiveInteger: aNumberOfCell and: aBoardLengthInParsecs and: aNumberOfCells.
+	self isAPositiveInteger: aNumberOfCell and: aBoardLength valueInParsecs and: aNumberOfCells.
 
-	^ (self new) setUpOn: aNumberOfCell withDistanceValues: distanceValues withBoardLength: aBoardLengthInParsecs withANumberOfCells: aNumberOfCells
+	^ (self new) setUpOn: aNumberOfCell withDistanceValues: distanceValues withBoardLength: aBoardLength withANumberOfCells: aNumberOfCells
 ]
 
 { #category : 'initialization' }
@@ -60,13 +60,13 @@ HyperJumpCell >> applyEffectTo: aShip of: aGame [
 ]
 
 { #category : 'initialization' }
-HyperJumpCell >> setUpOn: aNumberOfCell withDistanceValues: distanceValues withBoardLength: aBoardLengthInParsecs withANumberOfCells: aNumberOfCells [
+HyperJumpCell >> setUpOn: aNumberOfCell withDistanceValues: distanceValues withBoardLength: aBoardLength withANumberOfCells: aNumberOfCells [
 
 	ships := OrderedCollection new.
 	numberOfCell := aNumberOfCell.
 	someDistanceValues := distanceValues.
 	currentDistanceIndex := 1.
-	boardLengthInParsecs := aBoardLengthInParsecs.
+	boardLengthInParsecs := aBoardLength valueInParsecs .
 	cellLengthInParsecs := boardLengthInParsecs // aNumberOfCells.
 ]
 
