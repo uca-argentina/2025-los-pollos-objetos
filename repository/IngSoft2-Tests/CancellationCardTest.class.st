@@ -15,6 +15,70 @@ CancellationCardTest >> should: anErrorBlock raise: anErrorClass withMessageText
 ]
 
 { #category : 'tests' }
+CancellationCardTest >> testWhenACancellationCardIsUsedThenItsEliminatedFromTheHand [
+
+	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck  anAccelerationCard anCancelattionCard |
+	numberOfCells := 10.
+	someProbabilities := Dictionary new
+		                     at: 1
+		                     put:
+			                     (NormalCell initializeCellOn: numberOfCells);
+		                     yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          generatedWith: aCellGenerator
+		          andAWormHoleBetweenCells: 7
+		          and: 9.
+		
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 3.
+	dices := OrderedCollection with: oneDice.
+	
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'Zorgons Ship' withAChargeBasedOn: dices.
+	
+	ships := OrderedCollection with: aShip.
+	ships add: anotherShip.
+	
+	anAccelerationCard := AccelerationCard new.
+	anCancelattionCard := CancellationCard new.
+
+	cards := OrderedCollection withAll: {
+		anAccelerationCard.
+		anCancelattionCard.
+	}.
+
+	aDeck := AChargedDeck cards: cards withNShips: (ships size) .
+	"self assert: (aDeck cards isEmpty) not."
+
+
+	aGame := SpaceShipGame
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships and: aDeck.
+		
+	aGame playCard: anAccelerationCard from: aShip to: 'everyone'.
+	
+	aGame executeTurn.
+	aGame executeTurn.
+	
+	aGame executeTurn.
+	anCancelattionCard selectedCard: AccelerationCard.
+	
+	self assert: (aGame shipCardsInHand: anotherShip ) equals: 2.
+	
+	aGame playCard: anCancelattionCard from: anotherShip to: 'everyone'.
+	aGame executeTurn.
+	
+	aGame executeTurn.
+	aGame executeTurn.
+
+	self assert: (aGame shipCardsInHand: anotherShip ) equals: 1.
+]
+
+{ #category : 'tests' }
 CancellationCardTest >> testWhenAShipUsesCancelattionCardOnAAcelerationCardThenTheEffectDisappear [
 
 	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck  anAccelerationCard anCancelattionCard |
