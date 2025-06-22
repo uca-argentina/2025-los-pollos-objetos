@@ -5,6 +5,6 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'initialization' }
 NormalCell >> applyEffectTo: aShip of: aGame [
 ]
