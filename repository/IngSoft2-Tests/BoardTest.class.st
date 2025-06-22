@@ -6,12 +6,13 @@ Class {
 }
 
 { #category : 'tests' }
-BoardTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMessage [ 
+BoardTest >> should: arg1 raise: arg2 withMessageText: arg3 [
 
 	self
-		should: anErrorBlock
-		raise: anErrorClass
-		withExceptionDo: [:error | self assert: (error messageText ) equals: errorMessage]
+		should: arg1
+		raise: arg2
+		withExceptionDo: [ :arg4 |
+		self assert: arg4 messageText equals: arg3 ]
 ]
 
 { #category : 'tests' }

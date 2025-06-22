@@ -1,6 +1,6 @@
 Class {
 	#name : 'HyperGravityCellTest',
-	#superclass : 'TestCase',
+	#superclass : 'CellTest',
 	#category : 'IngSoft2-Tests',
 	#package : 'IngSoft2-Tests'
 }
@@ -17,10 +17,11 @@ HyperGravityCellTest >> should: anErrorBlock raise: anErrorClass withMessageText
 { #category : 'tests' }
 HyperGravityCellTest >> testWhenAnHyperGravityCellIsInitializedWithANegativeNumberThenCreationFails [
 
-	 self
-        should: [HyperGravityCell initializeCellOn: -2 withRequiredValue: 3.]
-        raise: Error
-        withMessageText: 'Number of cell must be a positive integer.'.
+	self
+		should: [
+		HyperGravityCell initializeCellOn:  -2 withRequiredValue: 3 ]
+		raise: Error
+		withMessageText: 'Number of cell must be a positive integer.'
 ]
 
 { #category : 'tests' }

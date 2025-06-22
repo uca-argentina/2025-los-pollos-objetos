@@ -1,17 +1,18 @@
 Class {
 	#name : 'HyperJumpCellTest',
-	#superclass : 'TestCase',
+	#superclass : 'CellTest',
 	#category : 'IngSoft2-Tests',
 	#package : 'IngSoft2-Tests'
 }
 
 { #category : 'tests' }
-HyperJumpCellTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMessage [ 
+HyperJumpCellTest >> should: arg1 raise: arg2 withMessageText: arg3 [
 
 	self
-		should: anErrorBlock
-		raise: anErrorClass
-		withExceptionDo: [:error | self assert: (error messageText ) equals: errorMessage]
+		should: arg1
+		raise: arg2
+		withExceptionDo: [ :arg4 |
+		self assert: arg4 messageText equals: arg3 ]
 ]
 
 { #category : 'tests' }
@@ -75,46 +76,74 @@ HyperJumpCellTest >> testWhenAFourthShipArrivesToHyperJumpCellThenItAdvancesTheC
 { #category : 'tests' }
 HyperJumpCellTest >> testWhenAHyperJumpCellIsInitializedWithEmptyParsecValuesThenCreationFails [
 
-	 self
-        should: [HyperJumpCell initializeCellOn: 4 withParsecValues: #() boardLength: 100 numberOfCells: 10.]
-        raise: Error
-        withMessageText: 'Parsec values must be a non-empty array.'.
+	self
+		should: [
+			HyperJumpCell
+				initializeCellOn: 4
+				withParsecValues: #(  )
+				boardLength: 100
+				numberOfCells: 10 ]
+		raise: Error
+		withMessageText: 'Parsec values must be a non-empty array.'
 ]
 
 { #category : 'tests' }
 HyperJumpCellTest >> testWhenAHyperJumpCellIsInitializedWithInvalidParsecValuesThenCreationFails [
 
-	 self
-        should: [HyperJumpCell initializeCellOn: 4 withParsecValues: #('uno' 10) boardLength: 100 numberOfCells: 10.]
-        raise: Error
-        withMessageText: 'All parsec values must be integers.'.
+	self
+		should: [
+			HyperJumpCell
+				initializeCellOn: 4
+				withParsecValues: #( 'uno' 10 )
+				boardLength: 100
+				numberOfCells: 10 ]
+		raise: Error
+		withMessageText: 'All parsec values must be integers.'
 ]
 
 { #category : 'tests' }
 HyperJumpCellTest >> testWhenAHyperJumpCellIsInitializedWithNegativeBoardLengthThenCreationFails [
 
-	 self
-        should: [HyperJumpCell initializeCellOn: 9 withParsecValues: #(10 10) boardLength: -1 numberOfCells: 10.]
-        raise: Error
-        withMessageText: 'Number of cells, board lenght in parsecs and total number of cells must be a positive integer.'.
+	self
+		should: [
+			HyperJumpCell
+				initializeCellOn: 9
+				withParsecValues: #( 10 10 )
+				boardLength:  -1
+				numberOfCells: 10 ]
+		raise: Error
+		withMessageText:
+		'Number of cells, board lenght in parsecs and total number of cells must be a positive integer.'
 ]
 
 { #category : 'tests' }
 HyperJumpCellTest >> testWhenAHyperJumpCellIsInitializedWithNegativeNumberOfCellThenCreationFails [
 
-	 self
-        should: [HyperJumpCell initializeCellOn: -1 withParsecValues: #(10 10) boardLength: 100 numberOfCells: 10.]
-        raise: Error
-        withMessageText: 'Number of cells, board lenght in parsecs and total number of cells must be a positive integer.'.
+	self
+		should: [
+			HyperJumpCell
+				initializeCellOn:  -1
+				withParsecValues: #( 10 10 )
+				boardLength: 100
+				numberOfCells: 10 ]
+		raise: Error
+		withMessageText:
+		'Number of cells, board lenght in parsecs and total number of cells must be a positive integer.'
 ]
 
 { #category : 'tests' }
 HyperJumpCellTest >> testWhenAHyperJumpCellIsInitializedWithNegativeTotalNumberOfCellsThenCreationFails [
 
-	 self
-        should: [HyperJumpCell initializeCellOn: 9 withParsecValues: #(10 10) boardLength: 10 numberOfCells: -10.]
-        raise: Error
-        withMessageText: 'Number of cells, board lenght in parsecs and total number of cells must be a positive integer.'.
+	self
+		should: [
+			HyperJumpCell
+				initializeCellOn: 9
+				withParsecValues: #( 10 10 )
+				boardLength: 10
+				numberOfCells:  -10 ]
+		raise: Error
+		withMessageText:
+		'Number of cells, board lenght in parsecs and total number of cells must be a positive integer.'
 ]
 
 { #category : 'tests' }
