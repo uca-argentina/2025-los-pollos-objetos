@@ -43,6 +43,12 @@ CardPlayHandler >> initializeWith: aGame [
 ]
 
 { #category : 'initialization' }
+CardPlayHandler >> resolveARepeatCardPlay: aCard [
+
+	game applyLastEffectTo: cardTarget .
+]
+
+{ #category : 'initialization' }
 CardPlayHandler >> resolveAnAccelerationCardPlay: aCard [
 
 	game applyToAllSpaceShips: aCard.
@@ -73,6 +79,7 @@ CardPlayHandler >> resolveAnDisableAlliance: aCard [
 { #category : 'initialization' }
 CardPlayHandler >> resolveAnOverloadCardPlay: aCard [
 
+	game isShipSupposedToPLay: cardOwner.
 	game applyACardEffect: aCard to: cardTarget .
 	lastCardPlayed := aCard.
 ]
