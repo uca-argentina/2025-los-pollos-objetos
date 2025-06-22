@@ -290,10 +290,19 @@ CardTest >> testWhenAShipUsesCancelattionCardOnAAcelerationCardThenTheEffectDisa
 	ships := OrderedCollection with: aShip.
 	ships add: anotherShip.
 	
-	anAccelerationCard:= AccelerationCard new.
-	anCancelattionCard:= CancellationCard new.
-	cards := OrderedCollection with: anAccelerationCard with: anCancelattionCard.
-	aDeck := Deck with: cards.
+	anAccelerationCard := AccelerationCard new.
+	anCancelattionCard := CancellationCard new.
+
+	cards := OrderedCollection withAll: {
+		anAccelerationCard.
+		anCancelattionCard.
+		anAccelerationCard.
+		anCancelattionCard
+	}.
+
+	aDeck := AChargedDeck with: cards.
+	"self assert: (aDeck cards isEmpty) not."
+
 
 	aGame := SpaceShipGame
 		         completedAtLap: 1
@@ -492,8 +501,14 @@ CardTest >> testWhenAShipUsesReDoCardAfterAnOtherReDoCardBeforeOverloadCardThenT
 	anOverloadCard:= OverloadCard new.
 	anRedoCard:= RedoCard new.
 	
-	cards := OrderedCollection with: anOverloadCard with: anRedoCard.
-	aDeck := Deck with: cards.
+	cards := OrderedCollection withAll: {
+		anOverloadCard.
+		anRedoCard.
+		anOverloadCard.
+		anRedoCard
+	}.
+
+	aDeck := AChargedDeck with: cards.
 
 	aGame := SpaceShipGame
 		         completedAtLap: 1
@@ -545,8 +560,16 @@ CardTest >> testWhenAShipUsesReDoCardAfterAnOverloadCardInADifferentShipThenTheD
 	anOverloadCard:= OverloadCard new.
 	anRedoCard:= RedoCard new.
 	
-	cards := OrderedCollection with: anOverloadCard with: anRedoCard.
-	aDeck := Deck with: cards.
+	cards := OrderedCollection withAll: {
+		anOverloadCard.
+		anRedoCard.
+		anOverloadCard.
+		anRedoCard.
+		anOverloadCard.
+		anRedoCard
+	}.
+
+	aDeck := AChargedDeck with: cards.
 
 	aGame := SpaceShipGame
 		         completedAtLap: 1
@@ -597,8 +620,14 @@ CardTest >> testWhenAShipUsesReDoCardAfterAnOverloadCardThenTheAnotherShipThrowD
 	anOverloadCard:= OverloadCard new.
 	anRedoCard:= RedoCard new.
 	
-	cards := OrderedCollection with: anOverloadCard with: anRedoCard.
-	aDeck := Deck with: cards.
+	cards := OrderedCollection withAll: {
+		anOverloadCard.
+		anRedoCard.
+		anOverloadCard.
+		anRedoCard
+	}.
+
+	aDeck := AChargedDeck with: cards.
 
 	aGame := SpaceShipGame
 		         completedAtLap: 1

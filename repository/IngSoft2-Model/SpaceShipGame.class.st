@@ -149,6 +149,18 @@ SpaceShipGame >> discardACardEffect: aCard [
 ]
 
 { #category : 'as yet unclassified' }
+SpaceShipGame >> eliminate: aCard from: aShip [
+
+	| cardManagerShip |
+
+	cardManagerShip := cardManagers detect: [:cardManager | cardManager ship = aShip]
+		ifNone: [ self error: 'No se encontro un CardManager para la nave dada.' ].
+
+	cardManagerShip deleteAnEspecificCard: aCard.
+
+]
+
+{ #category : 'as yet unclassified' }
 SpaceShipGame >> executeTurn [
 
 	| ship |

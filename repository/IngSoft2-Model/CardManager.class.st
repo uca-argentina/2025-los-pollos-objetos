@@ -44,6 +44,11 @@ CardManager >> cardsInHand [
 	^ cardsInHand 
 ]
 
+{ #category : 'adding' }
+CardManager >> deleteAnEspecificCard: aCard [
+	cardsInHand remove:  aCard .
+]
+
 { #category : 'initialization' }
 CardManager >> deleteCardsAffecting: aCardClass [
     | found |

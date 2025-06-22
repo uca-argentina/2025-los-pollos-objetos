@@ -46,6 +46,8 @@ CardPlayHandler >> initializeWith: aGame [
 CardPlayHandler >> resolveARepeatCardPlay: aCard [
 
 	game applyLastEffectTo: cardTarget .
+	lastCardPlayed := aCard.
+	game eliminate: aCard from: cardOwner.
 ]
 
 { #category : 'initialization' }
@@ -53,6 +55,7 @@ CardPlayHandler >> resolveAnAccelerationCardPlay: aCard [
 
 	game applyToAllSpaceShips: aCard.
 	lastCardPlayed := aCard.
+	game eliminate: aCard from: cardOwner.
 ]
 
 { #category : 'as yet unclassified' }
@@ -60,13 +63,15 @@ CardPlayHandler >> resolveAnAllianceCardPlay: aCard [
 
 	game allianceBewtween: cardOwner and: cardTarget.
 	lastCardPlayed := aCard.
+	game eliminate: aCard from: cardOwner.
 
 ]
 
 { #category : 'as yet unclassified' }
-CardPlayHandler >> resolveAnCancelationCardPlay: aCard [
+CardPlayHandler >> resolveAnCancelationCardPlay: aCard and: cancelCard [
 	game discardACardEffect: aCard .
 	lastCardPlayed := aCard.
+	game eliminate: cancelCard from: cardOwner.
 ]
 
 { #category : 'as yet unclassified' }
@@ -82,6 +87,7 @@ CardPlayHandler >> resolveAnOverloadCardPlay: aCard [
 	game isShipSupposedToPLay: cardOwner.
 	game applyACardEffect: aCard to: cardTarget .
 	lastCardPlayed := aCard.
+	game eliminate: aCard from: cardOwner.
 ]
 
 { #category : 'initialization' }
@@ -92,6 +98,7 @@ CardPlayHandler >> resolveAnRedoCard:aCard [
 		ifFalse: [ 	
 				game addAnEspecificCard: lastCardPlayed toShip: cardOwner .
 				game playCard: lastCardPlayed from: cardOwner to: cardTarget . 
+				"game eliminate: aCard from: cardOwner."
 		]
 
 

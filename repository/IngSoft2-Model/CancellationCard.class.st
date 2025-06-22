@@ -16,5 +16,5 @@ CancellationCard >> selectedCard: aCard [
 { #category : 'testing' }
 CancellationCard >> uses: aCardPlayHandler [
 
-	aCardPlayHandler resolveAnCancelationCardPlay: cardToCancel
+	aCardPlayHandler resolveAnCancelationCardPlay: cardToCancel and: self.
 ]
