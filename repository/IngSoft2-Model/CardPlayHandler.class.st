@@ -56,7 +56,7 @@ CardPlayHandler >> resolveAnAccelerationCardPlay: aCard [
 	game isShipSupposedToPLay: cardOwner.
 	game applyToAllSpaceShips: aCard.
 	lastCardPlayed := aCard.
-	game eliminate: aCard from: cardOwner.
+	"game eliminate: aCard from: cardOwner."
 ]
 
 { #category : 'as yet unclassified' }
@@ -65,7 +65,7 @@ CardPlayHandler >> resolveAnAllianceCardPlay: aCard [
 	game isShipSupposedToPLay: cardOwner.
 	game allianceBewtween: cardOwner and: cardTarget.
 	lastCardPlayed := aCard.
-	game eliminate: aCard from: cardOwner.
+	"game eliminate: aCard from: cardOwner."
 
 ]
 
@@ -89,7 +89,7 @@ CardPlayHandler >> resolveAnOverloadCardPlay: aCard [
 	game isShipSupposedToPLay: cardOwner.
 	game applyACardEffect: aCard to: cardTarget .
 	lastCardPlayed := aCard.
-	game eliminate: aCard from: cardOwner.
+	"game eliminate: aCard from: cardOwner."
 ]
 
 { #category : 'initialization' }

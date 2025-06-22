@@ -15,6 +15,60 @@ RepeatCardTest >> should: anErrorBlock raise: anErrorClass withMessageText: erro
 ]
 
 { #category : 'tests' }
+RepeatCardTest >> testWhenARepeatCardIsUsedThenItsEliminatedFromTheHand [
+
+	| aGame aBoard aShip ships oneDice dices anotherShip numberOfCells cells aRepeatCard cards aDeck |
+	
+	cells := OrderedCollection new.
+	cells add: (NormalCell initializeCellOn: 1).
+	cells add: (NormalCell initializeCellOn: 2).
+	cells add: (NormalCell initializeCellOn: 3).
+	cells add: (NormalCell initializeCellOn: 4).
+	cells add: (MoonWalkCell initializeCellOn: 5 withRequiredValue: 1).
+	cells add: (NormalCell initializeCellOn: 6).
+	cells add: (NormalCell initializeCellOn: 7).
+	
+	numberOfCells := 7.
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          whichAre: cells
+		          andAWormHoleBetweenCells: 6
+		          and: 7.
+	
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 2.
+	dices := OrderedCollection with: oneDice.
+	
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'Sulaco' withAChargeBasedOn: dices.
+	
+	ships := OrderedCollection new.
+	ships add: aShip.
+	ships add: anotherShip.
+
+	aRepeatCard:= RepeatCard new.
+	cards := OrderedCollection with: aRepeatCard with: aRepeatCard.
+	aDeck := Deck with: cards.
+
+	aGame := SpaceShipGame
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships and: aDeck.
+
+	aGame executeTurn.
+	aGame skipTurnFor: aShip.
+	aGame executeTurn.
+	aGame skipTurnFor: anotherShip.
+	aGame executeTurn.
+	
+	self assert: (aGame shipCardsInHand: aShip) equals: 2.
+	
+	aGame playCard: aRepeatCard from: aShip to: anotherShip.
+	
+	self assert: (aGame shipCardsInHand: aShip) equals: 1.
+]
+
+{ #category : 'tests' }
 RepeatCardTest >> testWhenAShipUsesRepeatCardThenBlackHoleLastEffectIsAppliedToAnotherShip [
 
 	| aGame aBoard aShip ships oneDice dices numberOfCells cells anotherShip aRepeatCard cards aDeck |
