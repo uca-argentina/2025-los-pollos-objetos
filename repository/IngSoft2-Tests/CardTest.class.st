@@ -15,7 +15,7 @@ CardTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMessa
 ]
 
 { #category : 'tests' }
-CardTest >> testWhenACardIsUsedThenItsEliminatedFromTheHand [
+CardTest >> testWhenAnAllyCardIsUsedThenItsEliminatedFromTheHand [
 	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck   anAlliancenCard |
 	numberOfCells := 10.
 	someProbabilities := Dictionary new
@@ -53,6 +53,60 @@ CardTest >> testWhenACardIsUsedThenItsEliminatedFromTheHand [
 	self assert: (aGame shipCardsInHand: aShip) equals: 2.
 		
 	aGame playCard: anAlliancenCard from: aShip to: anotherShip .
+	
+	aGame executeTurn.
+
+	self assert: (aGame shipCardsInHand: aShip) equals: 1.
+
+
+
+	
+
+
+]
+
+{ #category : 'tests' }
+CardTest >> testWhenAnOverloadCardIsUsedThenItsEliminatedFromTheHand [
+
+	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck anOverloadCard |
+	numberOfCells := 10.
+	someProbabilities := Dictionary new
+		                     at: 1
+		                     put:
+			                     (NormalCell initializeCellOn: numberOfCells);
+		                     yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          generatedWith: aCellGenerator
+		          andAWormHoleBetweenCells: 7
+		          and: 9.
+		
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 3.
+	dices := OrderedCollection with: oneDice.
+	
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'Zorgons Ship' withAChargeBasedOn: dices.
+	
+	ships := OrderedCollection with: aShip.
+	ships add: anotherShip.
+	
+	anOverloadCard:= OverloadCard new.
+	cards := OrderedCollection with: anOverloadCard with: anOverloadCard.
+	aDeck := Deck with: cards.
+
+	aGame := SpaceShipGame
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships and: aDeck.
+		
+	
+		
+	self assert: (aGame shipCardsInHand: aShip) equals: 2.
+		
+	aGame playCard: anOverloadCard from: aShip to: anotherShip .
 	
 	aGame executeTurn.
 
