@@ -12,7 +12,8 @@ Class {
 		'shipsCurrentLap',
 		'deck',
 		'cardManagers',
-		'cardPlayHandler'
+		'cardPlayHandler',
+		'lastEffectApplied'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -74,6 +75,12 @@ SpaceShipGame >> allianceBewtween: cardOwner and: cardTarget [
 SpaceShipGame >> applyACardEffect: aCard to: aShip [
 
 	(self cardManagerOf: aShip ) addCardsAffecting: aCard. 
+]
+
+{ #category : 'as yet unclassified' }
+SpaceShipGame >> applyLastEffectTo: aShip [
+
+	lastEffectApplied applyEffectTo: aShip of: self.
 ]
 
 { #category : 'as yet unclassified' }
@@ -150,7 +157,7 @@ SpaceShipGame >> executeTurn [
 	ship := ships at: shipSupposedToPlay.
 
 	self throwDiceFor: ship.
-	board determineAndApplyEffectTo: ship atCurrentCellFrom: self.
+	lastEffectApplied := board determineAndApplyEffectTo: ship atCurrentCellFrom: self.
 	self advanceTurn.
 
 	^ ship
@@ -285,9 +292,8 @@ SpaceShipGame >> performMoveOf: aShip to: targetPosition [
 { #category : 'as yet unclassified' }
 SpaceShipGame >> playCard: aCard from: aShip to: anotherShip [
 
-	self isShipSupposedToPLay: aShip.
+	"self isShipSupposedToPLay: aShip."
 	
-	"(self cardManagerOf: anotherShip) addCardsAffecting: aCard."
 	
 	cardPlayHandler handle: aCard from: aShip to: anotherShip .
 ]
