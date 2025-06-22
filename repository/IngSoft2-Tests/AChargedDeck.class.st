@@ -10,13 +10,19 @@ Class {
 }
 
 { #category : 'instance creation' }
-AChargedDeck class >> with: aCollection [ 
-	^ self new initializeWith: aCollection 
-]
+AChargedDeck class >> cards: aBlockCollection withNShips: times [ 
+	| cards |
+	cards := OrderedCollection new.
+	times timesRepeat: [
+		aBlockCollection do: [:cardBlock |
+			cards add: cardBlock value.
+		].
+	].
+	^ self new initializeWith: cards
 
-{ #category : 'accessing' }
-AChargedDeck >> cards [
-^ cards 
+
+
+
 ]
 
 { #category : 'initialization' }

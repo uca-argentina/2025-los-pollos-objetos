@@ -296,11 +296,9 @@ CardTest >> testWhenAShipUsesCancelattionCardOnAAcelerationCardThenTheEffectDisa
 	cards := OrderedCollection withAll: {
 		anAccelerationCard.
 		anCancelattionCard.
-		anAccelerationCard.
-		anCancelattionCard
 	}.
 
-	aDeck := AChargedDeck with: cards.
+	aDeck := AChargedDeck cards: cards withNShips: (ships size) .
 	"self assert: (aDeck cards isEmpty) not."
 
 
@@ -504,11 +502,9 @@ CardTest >> testWhenAShipUsesReDoCardAfterAnOtherReDoCardBeforeOverloadCardThenT
 	cards := OrderedCollection withAll: {
 		anOverloadCard.
 		anRedoCard.
-		anOverloadCard.
-		anRedoCard
 	}.
 
-	aDeck := AChargedDeck with: cards.
+	aDeck := AChargedDeck cards: cards withNShips: (ships size) .
 
 	aGame := SpaceShipGame
 		         completedAtLap: 1
@@ -563,13 +559,9 @@ CardTest >> testWhenAShipUsesReDoCardAfterAnOverloadCardInADifferentShipThenTheD
 	cards := OrderedCollection withAll: {
 		anOverloadCard.
 		anRedoCard.
-		anOverloadCard.
-		anRedoCard.
-		anOverloadCard.
-		anRedoCard
 	}.
 
-	aDeck := AChargedDeck with: cards.
+	aDeck := AChargedDeck cards: cards withNShips: (ships size) .
 
 	aGame := SpaceShipGame
 		         completedAtLap: 1
@@ -623,11 +615,9 @@ CardTest >> testWhenAShipUsesReDoCardAfterAnOverloadCardThenTheAnotherShipThrowD
 	cards := OrderedCollection withAll: {
 		anOverloadCard.
 		anRedoCard.
-		anOverloadCard.
-		anRedoCard
 	}.
 
-	aDeck := AChargedDeck with: cards.
+	aDeck := AChargedDeck cards: cards withNShips: (ships size) .
 
 	aGame := SpaceShipGame
 		         completedAtLap: 1
