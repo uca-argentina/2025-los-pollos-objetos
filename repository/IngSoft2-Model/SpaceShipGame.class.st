@@ -341,6 +341,17 @@ SpaceShipGame >> returnToInitialPosition: aShip [
 	
 ]
 
+{ #category : 'adding' }
+SpaceShipGame >> shipCardsInHand: aShip [
+	| targetCardManager |
+	
+	targetCardManager := cardManagers detect: [:cm | cm ship = aShip]
+		ifNone: [ self error: 'No se encontró un CardManager para la nave indicada.' ].
+	
+	^ targetCardManager cardsInHand size.
+
+]
+
 { #category : 'as yet unclassified' }
 SpaceShipGame >> shipsPlaying [
 
