@@ -15,6 +15,57 @@ CardTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMessa
 ]
 
 { #category : 'tests' }
+CardTest >> testWhenACardIsUsedThenItsEliminatedFromTheHand [
+	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck   anAlliancenCard |
+	numberOfCells := 10.
+	someProbabilities := Dictionary new
+		                     at: 1
+		                     put:
+			                     (NormalCell initializeCellOn: numberOfCells);
+		                     yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          generatedWith: aCellGenerator
+		          andAWormHoleBetweenCells: 7
+		          and: 9.
+		
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 3.
+	dices := OrderedCollection with: oneDice.
+	
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'Zorgons Ship' withAChargeBasedOn: dices.
+	
+	ships := OrderedCollection with: aShip.
+	ships add: anotherShip.
+	
+	anAlliancenCard:= AllianceCard new.
+	cards := OrderedCollection with: anAlliancenCard with: anAlliancenCard.
+	aDeck := Deck with: cards.
+
+	aGame := SpaceShipGame
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships and: aDeck.
+		
+	self assert: (aGame shipCardsInHand: aShip) equals: 2.
+		
+	aGame playCard: anAlliancenCard from: aShip to: anotherShip .
+	
+	aGame executeTurn.
+
+	self assert: (aGame shipCardsInHand: aShip) equals: 1.
+
+
+
+	
+
+
+]
+
+{ #category : 'tests' }
 CardTest >> testWhenAShipDisableAllianceCardThenBothShipsHaveTheNilAlliance [
 	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck   anAlliancenCard |
 	numberOfCells := 10.
@@ -290,10 +341,17 @@ CardTest >> testWhenAShipUsesCancelattionCardOnAAcelerationCardThenTheEffectDisa
 	ships := OrderedCollection with: aShip.
 	ships add: anotherShip.
 	
-	anAccelerationCard:= AccelerationCard new.
-	anCancelattionCard:= CancellationCard new.
-	cards := OrderedCollection with: anAccelerationCard with: anCancelattionCard.
-	aDeck := Deck with: cards.
+	anAccelerationCard := AccelerationCard new.
+	anCancelattionCard := CancellationCard new.
+
+	cards := OrderedCollection withAll: {
+		anAccelerationCard.
+		anCancelattionCard.
+	}.
+
+	aDeck := AChargedDeck cards: cards withNShips: (ships size) .
+	"self assert: (aDeck cards isEmpty) not."
+
 
 	aGame := SpaceShipGame
 		         completedAtLap: 1
@@ -492,8 +550,12 @@ CardTest >> testWhenAShipUsesReDoCardAfterAnOtherReDoCardBeforeOverloadCardThenT
 	anOverloadCard:= OverloadCard new.
 	anRedoCard:= RedoCard new.
 	
-	cards := OrderedCollection with: anOverloadCard with: anRedoCard.
-	aDeck := Deck with: cards.
+	cards := OrderedCollection withAll: {
+		anOverloadCard.
+		anRedoCard.
+	}.
+
+	aDeck := AChargedDeck cards: cards withNShips: (ships size) .
 
 	aGame := SpaceShipGame
 		         completedAtLap: 1
@@ -545,8 +607,12 @@ CardTest >> testWhenAShipUsesReDoCardAfterAnOverloadCardInADifferentShipThenTheD
 	anOverloadCard:= OverloadCard new.
 	anRedoCard:= RedoCard new.
 	
-	cards := OrderedCollection with: anOverloadCard with: anRedoCard.
-	aDeck := Deck with: cards.
+	cards := OrderedCollection withAll: {
+		anOverloadCard.
+		anRedoCard.
+	}.
+
+	aDeck := AChargedDeck cards: cards withNShips: (ships size) .
 
 	aGame := SpaceShipGame
 		         completedAtLap: 1
@@ -597,8 +663,12 @@ CardTest >> testWhenAShipUsesReDoCardAfterAnOverloadCardThenTheAnotherShipThrowD
 	anOverloadCard:= OverloadCard new.
 	anRedoCard:= RedoCard new.
 	
-	cards := OrderedCollection with: anOverloadCard with: anRedoCard.
-	aDeck := Deck with: cards.
+	cards := OrderedCollection withAll: {
+		anOverloadCard.
+		anRedoCard.
+	}.
+
+	aDeck := AChargedDeck cards: cards withNShips: (ships size) .
 
 	aGame := SpaceShipGame
 		         completedAtLap: 1
