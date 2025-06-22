@@ -5,11 +5,22 @@ Class {
 		'parsecValues',
 		'boardLengthInParsecs',
 		'cellLengthInParsecs',
-		'currentParsecIndex'
+		'currentParsecIndex',
+		'someDistanceValues',
+		'currentDistanceIndex'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
+
+{ #category : 'initialization' }
+HyperJumpCell class >> initializeCellOn: aNumberOfCell withDistanceValues: distanceValues boardLength: aBoardLengthInParsecs numberOfCells: aNumberOfCells [
+
+	"self parsecValueIsValid: aParsecValue."
+	self isAPositiveInteger: aNumberOfCell and: aBoardLengthInParsecs and: aNumberOfCells.
+
+	^ (self new) setUpOn: aNumberOfCell withDistanceValues: distanceValues withBoardLength: aBoardLengthInParsecs withANumberOfCells: aNumberOfCells
+]
 
 { #category : 'initialization' }
 HyperJumpCell class >> initializeCellOn: aNumberOfCell withParsecValues: aParsecValue boardLength: aBoardLengthInParsecs numberOfCells: aNumberOfCells [
@@ -39,13 +50,24 @@ HyperJumpCell class >> parsecValueIsValid: aParsecValues [
 { #category : 'initialization' }
 HyperJumpCell >> applyEffectTo: aShip of: aGame [
 
-    | parsecsToJump cellsToJump |
+    | cellsToJump distanceToJump |
 
-    parsecsToJump := parsecValues at: currentParsecIndex.
-    cellsToJump := parsecsToJump // cellLengthInParsecs.
+    distanceToJump := someDistanceValues at: currentDistanceIndex.
+    cellsToJump := (distanceToJump valueInParsecs) // cellLengthInParsecs.
 	 aGame move: aShip by: cellsToJump.
 
-    currentParsecIndex := (currentParsecIndex \\ parsecValues size) + 1.
+    currentDistanceIndex := (currentDistanceIndex \\ someDistanceValues size) + 1.
+]
+
+{ #category : 'initialization' }
+HyperJumpCell >> setUpOn: aNumberOfCell withDistanceValues: distanceValues withBoardLength: aBoardLengthInParsecs withANumberOfCells: aNumberOfCells [
+
+	ships := OrderedCollection new.
+	numberOfCell := aNumberOfCell.
+	someDistanceValues := distanceValues.
+	currentDistanceIndex := 1.
+	boardLengthInParsecs := aBoardLengthInParsecs.
+	cellLengthInParsecs := boardLengthInParsecs // aNumberOfCells.
 ]
 
 { #category : 'initialization' }
