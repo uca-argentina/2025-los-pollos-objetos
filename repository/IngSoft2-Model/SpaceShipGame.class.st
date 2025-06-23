@@ -107,6 +107,16 @@ SpaceShipGame >> cardManagerOf: aShip [
 ]
 
 { #category : 'as yet unclassified' }
+SpaceShipGame >> check: aShip has: aCard [
+
+	| cardManager |
+	cardManager := self cardManagerOf: aShip .
+	(cardManager hasInHand: aCard) ifFalse: [
+		Error signal:
+			'Ship cannot throw this card because it does not have this' ]
+]
+
+{ #category : 'as yet unclassified' }
 SpaceShipGame >> currentLapFor: aShip [
 
 	^ shipsCurrentLap at: aShip.
@@ -312,8 +322,7 @@ SpaceShipGame >> pickACardFor: aShip [
 { #category : 'as yet unclassified' }
 SpaceShipGame >> playCard: aCard from: aShip to: anotherShip [
 
-	"self isShipSupposedToPLay: aShip."
-	
+	self check: aShip has: aCard.
 	
 	cardPlayHandler handle: aCard from: aShip to: anotherShip .
 ]

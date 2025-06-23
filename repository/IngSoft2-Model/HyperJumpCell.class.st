@@ -2,22 +2,44 @@ Class {
 	#name : 'HyperJumpCell',
 	#superclass : 'Cell',
 	#instVars : [
-		'parsecValues',
 		'boardLengthInParsecs',
 		'cellLengthInParsecs',
-		'currentParsecIndex'
+		'someDistanceValues',
+		'currentDistanceIndex'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'initialization' }
+HyperJumpCell class >> distanceValueIsValid: distanceValues [
+
+	distanceValues isEmpty ifTrue: [ Error signal: 'Distance values must be a non-empty array.' ].
+	(distanceValues allSatisfy: [ :val | ((val valueInParsecs) isInteger)]) ifFalse: [ Error signal: 'All values must be integers.' ].
+]
+
+{ #category : 'initialization' }
+HyperJumpCell class >> initializeCellOn: aNumberOfCell withDistanceValues: distanceValues boardLength: aBoardLength numberOfCells: aNumberOfCells [
+
+	self distanceValueIsValid: distanceValues.
+	self isAPositiveInteger: aNumberOfCell and: (aBoardLength valueInParsecs) and: aNumberOfCells.
+
+	^ (self new) setUpOn: aNumberOfCell withDistanceValues: distanceValues withBoardLength: aBoardLength withANumberOfCells: aNumberOfCells
+]
+
+{ #category : 'initialization' }
 HyperJumpCell class >> initializeCellOn: aNumberOfCell withParsecValues: aParsecValue boardLength: aBoardLengthInParsecs numberOfCells: aNumberOfCells [
 
-	self parsecValueIsValid: aParsecValue.
+	| parsecDistanceValues boardLenght |
+	parsecDistanceValues:= OrderedCollection new.
+	aParsecValue do: [ :val | parsecDistanceValues add: (ParsecDistance with: val) ].
+	
+	boardLenght := ParsecDistance with: aBoardLengthInParsecs.
+
+	self distanceValueIsValid: parsecDistanceValues.
 	self isAPositiveInteger: aNumberOfCell and: aBoardLengthInParsecs and: aNumberOfCells.
 
-	^ (self new) setUpOn: aNumberOfCell withParsecValues: aParsecValue withBoardLength: aBoardLengthInParsecs withANumberOfCells: aNumberOfCells
+	^ (self new) setUpOn: aNumberOfCell withDistanceValues: parsecDistanceValues withBoardLength: boardLenght withANumberOfCells: aNumberOfCells
 ]
 
 { #category : 'initialization' }
@@ -30,31 +52,24 @@ HyperJumpCell class >> isAPositiveInteger: aNumberOfCell and: aBoardLengthInPars
 ]
 
 { #category : 'initialization' }
-HyperJumpCell class >> parsecValueIsValid: aParsecValues [
-
-	aParsecValues isEmpty ifTrue: [ Error signal: 'Parsec values must be a non-empty array.' ].
-	(aParsecValues anySatisfy: [ :val | (val isInteger not)]) ifTrue: [ Error signal: 'All parsec values must be integers.' ].
-]
-
-{ #category : 'initialization' }
 HyperJumpCell >> applyEffectTo: aShip of: aGame [
 
-    | parsecsToJump cellsToJump |
+    | cellsToJump distanceToJump |
 
-    parsecsToJump := parsecValues at: currentParsecIndex.
-    cellsToJump := parsecsToJump // cellLengthInParsecs.
+    distanceToJump := someDistanceValues at: currentDistanceIndex.
+    cellsToJump := (distanceToJump valueInParsecs) // cellLengthInParsecs.
 	 aGame move: aShip by: cellsToJump.
 
-    currentParsecIndex := (currentParsecIndex \\ parsecValues size) + 1.
+    currentDistanceIndex := (currentDistanceIndex \\ someDistanceValues size) + 1.
 ]
 
 { #category : 'initialization' }
-HyperJumpCell >> setUpOn: aNumberOfCell withParsecValues: aParsecValue withBoardLength: aBoardLengthInParsecs withANumberOfCells: aNumberOfCells [
+HyperJumpCell >> setUpOn: aNumberOfCell withDistanceValues: distanceValues withBoardLength: aBoardLength withANumberOfCells: aNumberOfCells [
 
 	ships := OrderedCollection new.
 	numberOfCell := aNumberOfCell.
-	parsecValues := aParsecValue.
-	currentParsecIndex := 1.
-	boardLengthInParsecs := aBoardLengthInParsecs.
+	someDistanceValues := distanceValues.
+	currentDistanceIndex := 1.
+	boardLengthInParsecs := aBoardLength valueInParsecs .
 	cellLengthInParsecs := boardLengthInParsecs // aNumberOfCells.
 ]

@@ -15,8 +15,9 @@ CardTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMessa
 ]
 
 { #category : 'tests' }
-CardTest >> testWhenACardIsUsedThenItsEliminatedFromTheHand [
-	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck   anAlliancenCard |
+CardTest >> testWhenAShipThrowACardItDoesNotHaveThenIsInvalid [
+
+	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck anOverloadCard |
 	numberOfCells := 10.
 	someProbabilities := Dictionary new
 		                     at: 1
@@ -40,8 +41,8 @@ CardTest >> testWhenACardIsUsedThenItsEliminatedFromTheHand [
 	ships := OrderedCollection with: aShip.
 	ships add: anotherShip.
 	
-	anAlliancenCard:= AllianceCard new.
-	cards := OrderedCollection with: anAlliancenCard with: anAlliancenCard.
+	anOverloadCard:= OverloadCard new.
+	cards := OrderedCollection with: anOverloadCard with: anOverloadCard.
 	aDeck := Deck with: cards.
 
 	aGame := SpaceShipGame
@@ -50,19 +51,11 @@ CardTest >> testWhenACardIsUsedThenItsEliminatedFromTheHand [
 		         and: dices
 		         and: ships and: aDeck.
 		
-	self assert: (aGame shipCardsInHand: aShip) equals: 2.
-		
-	aGame playCard: anAlliancenCard from: aShip to: anotherShip .
 	
-	aGame executeTurn.
-
-	self assert: (aGame shipCardsInHand: aShip) equals: 1.
-
-
-
 	
-
-
+	self should: [ aGame playCard: (AccelerationCard new) from: aShip to: anotherShip  ]  
+	raise: Error  
+	withMessageText: 'Ship cannot throw this card because it does not have this'.
 ]
 
 { #category : 'tests' }

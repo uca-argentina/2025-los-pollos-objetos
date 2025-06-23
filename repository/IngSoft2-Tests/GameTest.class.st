@@ -267,7 +267,7 @@ GameTest >> testWhenAShipWithTwoPenaltiesAreReduceByOneThenItHasOnePenaltyOnly [
 GameTest >> testWhenGameIsCreatedThenItHasAWinningLap [
 
 	| aGame aBoard aShip anotherShip ships oneDice anotherDice dices numberOfCells someProbabilities aCellGenerator |
-	"aGame := Game new."
+	"aGame := Game new.."
 	numberOfCells := 10.
 	someProbabilities := Dictionary new
 		                     at: 1
