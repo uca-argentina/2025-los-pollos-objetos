@@ -184,7 +184,7 @@ ReDoCardTest >> testWhenAShipUsesReDoCardAfterAnOverloadCardThenTheAnotherShipTh
 { #category : 'tests' }
 ReDoCardTest >> testWhenAShipUsesReDoCardAfterNoPlayingCardThenItsFailed [
 
-	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck anOverloadCard anRedoCard anotherShip2 |
+	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck anRedoCard anotherShip2 |
 	numberOfCells := 15.
 	someProbabilities := Dictionary new
 		                     at: 1
@@ -210,10 +210,9 @@ ReDoCardTest >> testWhenAShipUsesReDoCardAfterNoPlayingCardThenItsFailed [
 	ships add: anotherShip.
 	ships add: anotherShip2.
 	
-	anOverloadCard:= OverloadCard new.
 	anRedoCard:= RedoCard new.
 	
-	cards := OrderedCollection with: anOverloadCard with: anRedoCard.
+	cards := OrderedCollection with: anRedoCard with: anRedoCard.
 	aDeck := Deck with: cards.
 
 	aGame := SpaceShipGame

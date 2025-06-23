@@ -15,7 +15,7 @@ CardTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMessa
 ]
 
 { #category : 'tests' }
-CardTest >> testWhenAShipUsesOverloadCardThenTheAnotherShipThrowDecreaseByTwo [
+CardTest >> testWhenAShipThrowACardItDoesNotHaveThenIsInvalid [
 
 	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck anOverloadCard |
 	numberOfCells := 10.
@@ -51,7 +51,11 @@ CardTest >> testWhenAShipUsesOverloadCardThenTheAnotherShipThrowDecreaseByTwo [
 		         and: dices
 		         and: ships and: aDeck.
 		
-	aGame playCard: anOverloadCard from: aShip to: anotherShip .
+	
+	
+	self should: [ aGame playCard: (AccelerationCard new) from: aShip to: anotherShip  ]  
+	raise: Error  
+	withMessageText: 'Ship cannot throw this card because it does not have this'.
 ]
 
 { #category : 'tests' }

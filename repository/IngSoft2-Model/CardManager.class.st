@@ -69,6 +69,12 @@ CardManager >> giveInitialCardsFrom: aDeck [
 ]
 
 { #category : 'initialization' }
+CardManager >> hasInHand: aCard [
+
+	^ cardsInHand includes: aCard
+]
+
+{ #category : 'initialization' }
 CardManager >> initializeOf: aShip with:aDeck [
 
 	ship:= aShip.
