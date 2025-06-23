@@ -126,8 +126,8 @@ HyperJumpCellTest >> testWhenAHyperJumpCellIsInitializedWithNegativeNumberOfCell
 		should: [
 			HyperJumpCell
 				initializeCellOn:  -1
-				withParsecValues: #( 10 10 )
-				boardLength: 100
+				withDistanceValues: (OrderedCollection with: (ParsecDistance with: 10))
+				boardLength: (ParsecDistance with: 100)
 				numberOfCells: 10 ]
 		raise: Error
 		withMessageText:
@@ -141,8 +141,8 @@ HyperJumpCellTest >> testWhenAHyperJumpCellIsInitializedWithNegativeTotalNumberO
 		should: [
 			HyperJumpCell
 				initializeCellOn: 9
-				withParsecValues: #( 10 10 )
-				boardLength: 10
+				withDistanceValues: (OrderedCollection with: (ParsecDistance with: 10))
+				boardLength: (ParsecDistance with: 10)
 				numberOfCells:  -10 ]
 		raise: Error
 		withMessageText:

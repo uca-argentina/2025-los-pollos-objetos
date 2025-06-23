@@ -32,10 +32,16 @@ HyperJumpCell class >> initializeCellOn: aNumberOfCell withDistanceValues: dista
 { #category : 'initialization' }
 HyperJumpCell class >> initializeCellOn: aNumberOfCell withParsecValues: aParsecValue boardLength: aBoardLengthInParsecs numberOfCells: aNumberOfCells [
 
-	self distanceValueIsValid: aParsecValue.
+	| parsecDistanceValues boardLenght |
+	parsecDistanceValues:= OrderedCollection new.
+	aParsecValue do: [ :val | parsecDistanceValues add: (ParsecDistance with: val) ].
+	
+	boardLenght := ParsecDistance with: aBoardLengthInParsecs.
+
+	self distanceValueIsValid: parsecDistanceValues.
 	self isAPositiveInteger: aNumberOfCell and: aBoardLengthInParsecs and: aNumberOfCells.
 
-	^ (self new) setUpOn: aNumberOfCell withParsecValues: aParsecValue withBoardLength: aBoardLengthInParsecs withANumberOfCells: aNumberOfCells
+	^ (self new) setUpOn: aNumberOfCell withDistanceValues: parsecDistanceValues withBoardLength: boardLenght withANumberOfCells: aNumberOfCells
 ]
 
 { #category : 'initialization' }
