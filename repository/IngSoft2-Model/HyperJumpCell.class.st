@@ -2,10 +2,8 @@ Class {
 	#name : 'HyperJumpCell',
 	#superclass : 'Cell',
 	#instVars : [
-		'parsecValues',
 		'boardLengthInParsecs',
 		'cellLengthInParsecs',
-		'currentParsecIndex',
 		'someDistanceValues',
 		'currentDistanceIndex'
 	],

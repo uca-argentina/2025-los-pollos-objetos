@@ -16,6 +16,67 @@ HyperJumpCellTest >> should: arg1 raise: arg2 withMessageText: arg3 [
 ]
 
 { #category : 'tests' }
+HyperJumpCellTest >> testWhenAFourthShipArrivesToHyperJumpCellThenItAdvancesTheCorrespondingLightYears [
+
+	| aGame aBoard ships oneDice dices expectedPosition firstShip secondShip thirdShip fourthShip numberOfCells cells boardLength distanceValues |
+	"boardLengthInParsecs := 100.
+	cellLengthInParsecs := 10.
+	parsecValues := #( 25 15 10 )."
+	
+	boardLength := ParsecDistance with: 100.
+	distanceValues := OrderedCollection with: (LightYearDistance with: 75) with: (LightYearDistance with: 45) with: (LightYearDistance with: 30).
+	
+	cells := OrderedCollection new.
+	cells add: (NormalCell initializeCellOn: 1).
+	cells add: (NormalCell initializeCellOn: 2).
+	cells add: (NormalCell initializeCellOn: 3).
+	cells add: (HyperJumpCell
+			 initializeCellOn: 4
+			 withDistanceValues: distanceValues
+			 boardLength: boardLength
+			 numberOfCells: 10).
+	cells add: (NormalCell initializeCellOn: 5).
+	cells add: (NormalCell initializeCellOn: 6).
+	cells add: (NormalCell initializeCellOn: 7).
+	cells add: (NormalCell initializeCellOn: 8).
+	cells add: (NormalCell initializeCellOn: 9).
+	cells add: (NormalCell initializeCellOn: 10).
+	numberOfCells := 10.
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          whichAre: cells
+		          andAWormHoleBetweenCells: 6
+		          and: 7.
+	
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 3.
+	dices := OrderedCollection with: oneDice.
+	firstShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	secondShip := Ship named: 'Millenium Falcon1' withAChargeBasedOn: dices.
+	thirdShip := Ship named: 'Sulaco' withAChargeBasedOn: dices.
+	fourthShip := Ship named: 'The Batwing' withAChargeBasedOn: dices.
+	ships := OrderedCollection
+		         with: firstShip
+		         with: secondShip
+		         with: thirdShip
+		         with: fourthShip.
+
+	aGame := SpaceShipGame
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships.
+
+	aGame executeTurn.
+	aGame executeTurn.
+	aGame executeTurn.
+	aGame executeTurn.
+
+	expectedPosition := 4 + (25 // (boardLength valueInParsecs // numberOfCells)).
+
+	self assert: (aGame positionOf: fourthShip) equals: expectedPosition
+]
+
+{ #category : 'tests' }
 HyperJumpCellTest >> testWhenAFourthShipArrivesToHyperJumpCellThenItAdvancesTheCorrespondingParsecs [
 
 	| aGame aBoard ships oneDice dices expectedPosition firstShip secondShip thirdShip fourthShip numberOfCells cells boardLength distanceValues |
