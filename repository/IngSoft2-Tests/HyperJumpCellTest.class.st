@@ -83,11 +83,11 @@ HyperJumpCellTest >> testWhenAHyperJumpCellIsInitializedWithEmptyParsecValuesThe
 		should: [
 			HyperJumpCell
 				initializeCellOn: 4
-				withParsecValues: #(  )
+				withDistanceValues: OrderedCollection new
 				boardLength: 100
 				numberOfCells: 10 ]
 		raise: Error
-		withMessageText: 'Parsec values must be a non-empty array.'
+		withMessageText: 'Distance values must be a non-empty array.'
 ]
 
 { #category : 'tests' }
@@ -97,11 +97,11 @@ HyperJumpCellTest >> testWhenAHyperJumpCellIsInitializedWithInvalidParsecValuesT
 		should: [
 			HyperJumpCell
 				initializeCellOn: 4
-				withParsecValues: #( 'uno' 10 )
+				withDistanceValues: (OrderedCollection with: (ParsecDistance with: 'one'))
 				boardLength: 100
 				numberOfCells: 10 ]
 		raise: Error
-		withMessageText: 'All parsec values must be integers.'
+		withMessageText: 'All values must be integers.'
 ]
 
 { #category : 'tests' }
@@ -111,8 +111,8 @@ HyperJumpCellTest >> testWhenAHyperJumpCellIsInitializedWithNegativeBoardLengthT
 		should: [
 			HyperJumpCell
 				initializeCellOn: 9
-				withParsecValues: #( 10 10 )
-				boardLength:  -1
+				withDistanceValues: (OrderedCollection with: (ParsecDistance with: 10))
+				boardLength:  (ParsecDistance with: -1)
 				numberOfCells: 10 ]
 		raise: Error
 		withMessageText:

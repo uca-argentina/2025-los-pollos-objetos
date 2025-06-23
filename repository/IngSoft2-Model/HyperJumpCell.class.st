@@ -14,10 +14,17 @@ Class {
 }
 
 { #category : 'initialization' }
+HyperJumpCell class >> distanceValueIsValid: distanceValues [
+
+	distanceValues isEmpty ifTrue: [ Error signal: 'Distance values must be a non-empty array.' ].
+	(distanceValues allSatisfy: [ :val | ((val valueInParsecs) isInteger)]) ifFalse: [ Error signal: 'All values must be integers.' ].
+]
+
+{ #category : 'initialization' }
 HyperJumpCell class >> initializeCellOn: aNumberOfCell withDistanceValues: distanceValues boardLength: aBoardLength numberOfCells: aNumberOfCells [
 
-	"self parsecValueIsValid: aParsecValue."
-	self isAPositiveInteger: aNumberOfCell and: aBoardLength valueInParsecs and: aNumberOfCells.
+	self distanceValueIsValid: distanceValues.
+	self isAPositiveInteger: aNumberOfCell and: (aBoardLength valueInParsecs) and: aNumberOfCells.
 
 	^ (self new) setUpOn: aNumberOfCell withDistanceValues: distanceValues withBoardLength: aBoardLength withANumberOfCells: aNumberOfCells
 ]
@@ -25,7 +32,7 @@ HyperJumpCell class >> initializeCellOn: aNumberOfCell withDistanceValues: dista
 { #category : 'initialization' }
 HyperJumpCell class >> initializeCellOn: aNumberOfCell withParsecValues: aParsecValue boardLength: aBoardLengthInParsecs numberOfCells: aNumberOfCells [
 
-	self parsecValueIsValid: aParsecValue.
+	self distanceValueIsValid: aParsecValue.
 	self isAPositiveInteger: aNumberOfCell and: aBoardLengthInParsecs and: aNumberOfCells.
 
 	^ (self new) setUpOn: aNumberOfCell withParsecValues: aParsecValue withBoardLength: aBoardLengthInParsecs withANumberOfCells: aNumberOfCells
@@ -38,13 +45,6 @@ HyperJumpCell class >> isAPositiveInteger: aNumberOfCell and: aBoardLengthInPars
 		 totalNumberOfCells > 0)) ifFalse: [
 		Error signal:
 			'Number of cells, board lenght in parsecs and total number of cells must be a positive integer.' ]
-]
-
-{ #category : 'initialization' }
-HyperJumpCell class >> parsecValueIsValid: aParsecValues [
-
-	aParsecValues isEmpty ifTrue: [ Error signal: 'Parsec values must be a non-empty array.' ].
-	(aParsecValues anySatisfy: [ :val | (val isInteger not)]) ifTrue: [ Error signal: 'All parsec values must be integers.' ].
 ]
 
 { #category : 'initialization' }
@@ -67,16 +67,5 @@ HyperJumpCell >> setUpOn: aNumberOfCell withDistanceValues: distanceValues withB
 	someDistanceValues := distanceValues.
 	currentDistanceIndex := 1.
 	boardLengthInParsecs := aBoardLength valueInParsecs .
-	cellLengthInParsecs := boardLengthInParsecs // aNumberOfCells.
-]
-
-{ #category : 'initialization' }
-HyperJumpCell >> setUpOn: aNumberOfCell withParsecValues: aParsecValue withBoardLength: aBoardLengthInParsecs withANumberOfCells: aNumberOfCells [
-
-	ships := OrderedCollection new.
-	numberOfCell := aNumberOfCell.
-	parsecValues := aParsecValue.
-	currentParsecIndex := 1.
-	boardLengthInParsecs := aBoardLengthInParsecs.
 	cellLengthInParsecs := boardLengthInParsecs // aNumberOfCells.
 ]
