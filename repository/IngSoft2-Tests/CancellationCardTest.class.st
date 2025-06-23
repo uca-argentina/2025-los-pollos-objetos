@@ -184,6 +184,6 @@ CancellationCardTest >> testWhenAShipUsesCancelattionCardOnANonCardPlayThenItsFa
 	self
   		should: [ aGame playCard: anCancelattionCard from: anotherShip to: 'everyone' ]
   		raise: Error
-  		withMessageText: 'No hay ninguna carta activa de ese tipo.'.
+  		withMessageText: 'There is no active card about this type'.
 
 ]
