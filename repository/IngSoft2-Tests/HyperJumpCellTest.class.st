@@ -149,10 +149,14 @@ HyperJumpCellTest >> testWhenAHyperJumpCellIsInitializedWithNegativeTotalNumberO
 { #category : 'tests' }
 HyperJumpCellTest >> testWhenASecondShipArrivesToHyperJumpCellThenItAdvancesTheCorrespondingParsecs [
 
-	| aGame aBoard aShip ships oneDice dices boardLengthInParsecs parsecValues expectedPosition cellLengthInParsecs anotherShip numberOfCells cells |
-	boardLengthInParsecs := 100.
+	| aGame aBoard aShip ships oneDice dices expectedPosition anotherShip numberOfCells cells boardLength distanceValues |
+	
+	"boardLengthInParsecs := 100.
 	cellLengthInParsecs := 10.
-	parsecValues := #( 25 15 10 ).
+	parsecValues := #( 25 15 10 )."
+	
+	boardLength := LightYearDistance with: 270.
+	distanceValues := OrderedCollection with: (ParsecDistance with: 25) with: (ParsecDistance with: 15).
 
 	cells := OrderedCollection new.
 	cells add: (NormalCell initializeCellOn: 1).
@@ -160,8 +164,8 @@ HyperJumpCellTest >> testWhenASecondShipArrivesToHyperJumpCellThenItAdvancesTheC
 	cells add: (NormalCell initializeCellOn: 3).
 	cells add: (HyperJumpCell
 			 initializeCellOn: 4
-			 withParsecValues: parsecValues
-			 boardLength: boardLengthInParsecs
+			 withDistanceValues: distanceValues
+			 boardLength: boardLength
 			 numberOfCells: 10).
 	cells add: (NormalCell initializeCellOn: 5).
 	cells add: (NormalCell initializeCellOn: 6).
@@ -190,7 +194,7 @@ HyperJumpCellTest >> testWhenASecondShipArrivesToHyperJumpCellThenItAdvancesTheC
 	aGame executeTurn.
 	aGame executeTurn.
 
-	expectedPosition := 4 + (15 // cellLengthInParsecs).
+	expectedPosition := 4 + (15 // (boardLength valueInParsecs // numberOfCells)).
 
 	self assert: (aGame positionOf: anotherShip) equals: expectedPosition
 ]
