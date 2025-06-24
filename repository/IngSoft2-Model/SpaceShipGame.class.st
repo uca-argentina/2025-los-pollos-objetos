@@ -285,12 +285,6 @@ SpaceShipGame >> moveShip: aShip to: targetPosition consuming: aConsumption [
 
 ]
 
-{ #category : 'initialization' }
-SpaceShipGame >> numberOfCells [ 
-
-	^ board  numberOfCells .
-]
-
 { #category : 'as yet unclassified' }
 SpaceShipGame >> penalize: aShip withTurns: numberOfTurns [
 	
