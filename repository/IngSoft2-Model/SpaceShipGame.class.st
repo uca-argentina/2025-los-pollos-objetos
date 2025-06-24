@@ -13,7 +13,8 @@ Class {
 		'deck',
 		'cardManagers',
 		'cardPlayHandler',
-		'lastEffectApplied'
+		'lastEffectApplied',
+		'maximunPosibleThrow'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -124,8 +125,11 @@ SpaceShipGame >> currentLapFor: aShip [
 
 { #category : 'as yet unclassified' }
 SpaceShipGame >> determineTheConsequencesOfTheThrowIn: aNewPosition forShip: aShip [
-	
+		
 	| aShipCurrentLap |
+	
+	(lastDiceThrow = maximunPosibleThrow ) ifTrue: [ self rewardForMaximumThrowTo: aShip ].
+
 
 	aShipCurrentLap := self currentLapFor: aShip.
 	(aShipCurrentLap = winningLaps ) ifTrue: [ ^ aShip name , ' won the Game!' ].
@@ -358,6 +362,13 @@ SpaceShipGame >> returnToInitialPosition: aShip [
 	
 ]
 
+{ #category : 'as yet unclassified' }
+SpaceShipGame >> rewardForMaximumThrowTo: aShip [
+
+	| result |
+	result := (Random new next < 0.8) ifTrue: [ aShip receiveReward ] ifFalse: [ aShip consumeFuel: 1 ].
+]
+
 { #category : 'adding' }
 SpaceShipGame >> shipCardsInHand: aShip [
 	| targetCardManager |
@@ -395,6 +406,8 @@ SpaceShipGame >> throwDiceFor: aShip [
 	
 	resultOfTheThrow := (dices collect: [ :dice | dice beThrown ]) sum.
 	lastDiceThrow := resultOfTheThrow.
+	maximunPosibleThrow := dices inject: 0 into: [:sum :dice | sum + dice sizeOfTheDice].
+	
 	"resultOfMovement:=aShip adjustThrow:resultOfTheThrow."
 	throwModified := self modifyThrowFor: aShip.
 	

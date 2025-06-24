@@ -100,6 +100,11 @@ Ship >> name [
 	^ shipsName
 ]
 
+{ #category : 'as yet unclassified' }
+Ship >> receiveReward [
+	fuelCharged := fuelCharged + 1. 
+]
+
 { #category : 'accessing' }
 Ship >> restoreFuel [
 
