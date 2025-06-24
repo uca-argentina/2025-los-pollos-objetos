@@ -873,6 +873,45 @@ GameTest >> testWhenOneShipThrowsDiceAndReturnsOneThenItIsForwardedOnePosition [
 ]
 
 { #category : 'tests' }
+GameTest >> testWhenOneShipThrowsTheBestThronwThenItsRecivedAReward [
+
+	| aGame aBoard aShip ships oneDice dices newPosition numberOfCells someProbabilities aCellGenerator |
+	numberOfCells := 6.
+	someProbabilities := Dictionary new
+		                     at: 1
+		                     put:
+			                     (NormalCell initializeCellOn: numberOfCells);
+		                     yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          generatedWith: aCellGenerator
+		          andAWormHoleBetweenCells: 5
+		          and: 6.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 7.
+	dices := OrderedCollection with: oneDice.
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	ships := OrderedCollection with: aShip.
+
+	aGame := SpaceShipGame
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships.
+
+	"aGame throwDiceFor: aShip."
+	aGame executeTurn.
+	newPosition := aGame positionOf: aShip.
+
+	self
+		assert: (aGame
+				 determineTheConsequencesOfTheThrowIn: newPosition
+				 forShip: aShip)
+		equals: 'Venture won the Game!'
+]
+
+{ #category : 'tests' }
 GameTest >> testWhenOneShipWinsThenYouCanKnowThePositionOfEachShipInTheGame [
 
 	| aGame aBoard aShip ships oneDice dices anotherShip shipPositionAfterTheDices numberOfCells someProbabilities aCellGenerator |
