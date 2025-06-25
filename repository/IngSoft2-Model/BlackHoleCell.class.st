@@ -7,12 +7,6 @@ Class {
 
 { #category : 'as yet unclassified' }
 BlackHoleCell >> applyEffectTo: aShip of: aGame [
-
-	"4 >= aShip currentFuel
-		ifTrue: [
-				aGame penalize: aShip withTurns: 2.
-		 ] ifFalse: [
-				aGame move: aShip by: (-4).]"
 			
 	aGame move: aShip by: (-4).
 ]

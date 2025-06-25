@@ -33,15 +33,6 @@ MoonWalkCell >> applyEffectTo: currentShip of: aGame [
     shipsToAffect := aGame shipsPlaying reject: [ :ship | ship = currentShip ].
     stepsBack := numberOfCellsToGoBack negated.
 
-"
-    shipsToAffect do: [ :ship |
-        (ship currentFuel >= numberOfCellsToGoBack)
-            ifTrue: [ aGame move: ship by: stepsBack ]
-            ifFalse: [
-                aGame penalize: ship withTurns: 2.
-            ].
-    ]."
-
 	shipsToAffect do: [ :ship | aGame move: ship by: stepsBack ]
 
 ]
