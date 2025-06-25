@@ -15,7 +15,7 @@ OverloadCardTest >> should: anErrorBlock raise: anErrorClass withMessageText: er
 ]
 
 { #category : 'tests' }
-OverloadCardTest >> testWhenAShipUsesOverloadCardThenTheAnotherShipThrowDecreaseByTwo [
+OverloadCardTest >> testWhenAShipUsesOverloadCardThenTheOtherShipsThrowDecreasesByTwo [
 
 	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck anOverloadCard |
 	numberOfCells := 10.

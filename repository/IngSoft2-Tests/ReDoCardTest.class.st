@@ -15,7 +15,7 @@ ReDoCardTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorM
 ]
 
 { #category : 'tests' }
-ReDoCardTest >> testWhenAShipUsesReDoCardAfterAnOtherReDoCardBeforeOverloadCardThenTheAnotherShipThrowDecreaseByTwo [
+ReDoCardTest >> testWhenAShipUsesAReDoCardAfterUsingOtherReDoCardBeforeOverloadCardThenTheOthersShipThrowIsDecreasedByTwo [
 
 	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck anOverloadCard anRedoCard |
 	numberOfCells := 15.
@@ -70,7 +70,7 @@ ReDoCardTest >> testWhenAShipUsesReDoCardAfterAnOtherReDoCardBeforeOverloadCardT
 ]
 
 { #category : 'tests' }
-ReDoCardTest >> testWhenAShipUsesReDoCardAfterAnOverloadCardInADifferentShipThenTheDifferentShipThrowDecreaseByTwo [
+ReDoCardTest >> testWhenAShipUsesReDoCardAfterAnOverloadCardInADifferentShipThenTheDifferentShipThrowDecreasesByTwo [
 
 	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck anOverloadCard anRedoCard anotherShip2 |
 	numberOfCells := 15.
@@ -117,7 +117,6 @@ ReDoCardTest >> testWhenAShipUsesReDoCardAfterAnOverloadCardInADifferentShipThen
 	aGame playCard: anOverloadCard from: aShip to: anotherShip .
 	aGame playCard: anRedoCard from: aShip to: anotherShip2 .
 
-	
 	aGame executeTurn.
 	aGame executeTurn.
 	aGame executeTurn.
@@ -128,7 +127,7 @@ ReDoCardTest >> testWhenAShipUsesReDoCardAfterAnOverloadCardInADifferentShipThen
 ]
 
 { #category : 'tests' }
-ReDoCardTest >> testWhenAShipUsesReDoCardAfterAnOverloadCardThenTheAnotherShipThrowDecreaseByTwo [
+ReDoCardTest >> testWhenAShipUsesReDoCardAfterAnOverloadCardThenTheAnotherShipThrowDecreasesByTwo [
 
 	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck anOverloadCard anRedoCard |
 	numberOfCells := 15.

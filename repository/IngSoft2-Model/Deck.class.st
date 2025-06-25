@@ -18,12 +18,12 @@ Deck class >> with: someCards [
 { #category : 'initialization' }
 Deck >> initializeWith: someCards [
 
-	cards := someCards .
+	cards := someCards.
 ]
 
 { #category : 'initialization' }
 Deck >> pickCard [
 
-	^ cards atRandom 
+	^ cards atRandom.
 
 ]

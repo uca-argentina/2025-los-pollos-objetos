@@ -15,7 +15,8 @@ AllyCardTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorM
 ]
 
 { #category : 'tests' }
-AllyCardTest >> testWhenAShipDisableAllianceCardThenBothShipsHaveTheNilAlliance [
+AllyCardTest >> testWhenAShipDisableAllianceCardThenBothShipsHaveNoLongerAnlAlliance [
+
 	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck   anAlliancenCard |
 	numberOfCells := 10.
 	someProbabilities := Dictionary new
@@ -68,61 +69,8 @@ AllyCardTest >> testWhenAShipDisableAllianceCardThenBothShipsHaveTheNilAlliance 
 ]
 
 { #category : 'tests' }
-AllyCardTest >> testWhenAShipInAnAllianceHaveNotEnoughtFuelToPlayAndTheFirstAlianceNeitherThenTheSecondAllyGivesFuel [
-	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck   anAlliancenCard anotherSecondShip |
-	numberOfCells := 10.
-	someProbabilities := Dictionary new
-		                     at: 1
-		                     put:
-			                     (NormalCell initializeCellOn: numberOfCells);
-		                     yourself.
-	aCellGenerator := CellGenerator basedOn: someProbabilities.
+AllyCardTest >> testWhenAShipInAnAllianceHasNoEnoughFuelToPlayThenTheFirstAllyGivesFuel [
 
-	aBoard := Board
-		          withATotalNumberOfCellsOf: numberOfCells
-		          generatedWith: aCellGenerator
-		          andAWormHoleBetweenCells: 8
-		          and: 9.
-		
-	oneDice := AChargedDice withATotalNumberOfFacesOf: 3.
-	dices := OrderedCollection with: oneDice.
-	
-	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
-	anotherShip := Ship named: 'Zorgons Ship' withAChargeBasedOn: dices.
-	anotherSecondShip := Ship named: 'Zorgons Ship' withAChargeBasedOn: dices.
-	
-	ships := OrderedCollection with: aShip.
-	ships add: anotherShip.
-	ships add: anotherSecondShip .
-	
-	anAlliancenCard:= AllianceCard new.
-	cards := OrderedCollection with: anAlliancenCard with: anAlliancenCard.
-	aDeck := Deck with: cards.
-
-	aGame := SpaceShipGame
-		         completedAtLap: 1
-		         with: aBoard
-		         and: dices
-		         and: ships and: aDeck.
-		
-	aGame playCard: anAlliancenCard from: aShip to: anotherShip .
-	aGame playCard: anAlliancenCard from: aShip to: anotherSecondShip .
-	
-	aGame executeTurn.
-	aGame executeTurn.
-	
-	"aGame executeTurn."
-	aGame skipTurnFor: anotherSecondShip .
-	
-	aGame executeTurn.
-
-	self assert: (aGame positionOf: aShip ) equals: 7.
-	self assert: (aGame positionOf: anotherShip ) equals: 4.
-	self assert: (aGame positionOf: anotherSecondShip ) equals: 1.
-]
-
-{ #category : 'tests' }
-AllyCardTest >> testWhenAShipInAnAllianceHaveNotEnoughtFuelToPlayThenTheFirstAllyGivesFuel [
 	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck   anAlliancenCard |
 	numberOfCells := 10.
 	someProbabilities := Dictionary new
@@ -168,6 +116,7 @@ AllyCardTest >> testWhenAShipInAnAllianceHaveNotEnoughtFuelToPlayThenTheFirstAll
 
 { #category : 'tests' }
 AllyCardTest >> testWhenAShipUsesAllianceCardThenBothShipsHaveTheAlliance [
+
 	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck   anAlliancenCard |
 	numberOfCells := 10.
 	someProbabilities := Dictionary new
@@ -255,7 +204,62 @@ AllyCardTest >> testWhenAShipUsesAllyCardWhenItsNotHisTurnThenIsInvalid [
 ]
 
 { #category : 'tests' }
-AllyCardTest >> testWhenAnAllianceHaveNotEnoughtFuelToPlayThenTheShipsArePenalize [
+AllyCardTest >> testWhenAShipWithAlliesHasNoEnoughFuelToPlayAndTheFirstAllyNeitherButTheSecondAlyDoesThenTheSecondAllyGivesFuel [
+	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck   anAlliancenCard anotherSecondShip |
+	numberOfCells := 10.
+	someProbabilities := Dictionary new
+		                     at: 1
+		                     put:
+			                     (NormalCell initializeCellOn: numberOfCells);
+		                     yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          generatedWith: aCellGenerator
+		          andAWormHoleBetweenCells: 8
+		          and: 9.
+		
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 3.
+	dices := OrderedCollection with: oneDice.
+	
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'Zorgons Ship' withAChargeBasedOn: dices.
+	anotherSecondShip := Ship named: 'Zorgons Ship' withAChargeBasedOn: dices.
+	
+	ships := OrderedCollection with: aShip.
+	ships add: anotherShip.
+	ships add: anotherSecondShip .
+	
+	anAlliancenCard:= AllianceCard new.
+	cards := OrderedCollection with: anAlliancenCard with: anAlliancenCard.
+	aDeck := Deck with: cards.
+
+	aGame := SpaceShipGame
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships and: aDeck.
+		
+	aGame playCard: anAlliancenCard from: aShip to: anotherShip .
+	aGame playCard: anAlliancenCard from: aShip to: anotherSecondShip .
+	
+	aGame executeTurn.
+	aGame executeTurn.
+	
+	"aGame executeTurn."
+	aGame skipTurnFor: anotherSecondShip .
+	
+	aGame executeTurn.
+
+	self assert: (aGame positionOf: aShip ) equals: 7.
+	self assert: (aGame positionOf: anotherShip ) equals: 4.
+	self assert: (aGame positionOf: anotherSecondShip ) equals: 1.
+]
+
+{ #category : 'tests' }
+AllyCardTest >> testWhenAnAllyHasNoEnoughFuelToPlayThenTheShipsArePenalize [
+
 	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck   anAlliancenCard anotherShip2 |
 	numberOfCells := 10.
 	someProbabilities := Dictionary new

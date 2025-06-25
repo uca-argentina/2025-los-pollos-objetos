@@ -79,7 +79,7 @@ CancellationCardTest >> testWhenACancellationCardIsUsedThenItsEliminatedFromTheH
 ]
 
 { #category : 'tests' }
-CancellationCardTest >> testWhenAShipUsesCancelattionCardOnAAcelerationCardThenTheEffectDisappear [
+CancellationCardTest >> testWhenAShipUsesCancelationCardOnAAcelerationCardThenTheEffectDisappears [
 
 	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck  anAccelerationCard anCancelattionCard |
 	numberOfCells := 10.
@@ -141,7 +141,7 @@ CancellationCardTest >> testWhenAShipUsesCancelattionCardOnAAcelerationCardThenT
 ]
 
 { #category : 'tests' }
-CancellationCardTest >> testWhenAShipUsesCancelattionCardOnANonCardPlayThenItsFailed [
+CancellationCardTest >> testWhenAShipUsesCancelationCardOnANonCardPlayThenItsFailed [
 
 	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck anCancelattionCard |
 	numberOfCells := 10.
