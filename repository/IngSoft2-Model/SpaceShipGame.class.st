@@ -379,7 +379,6 @@ SpaceShipGame >> throwDiceFor: aShip [
 	resultOfTheThrow := (dices collect: [ :dice | dice beThrown ]) sum.
 	lastDiceThrow := resultOfTheThrow.
 	
-	
 	throwModified := self modifyThrowFor: aShip.
 	
 	self move: aShip by: resultOfTheThrow + throwModified .
