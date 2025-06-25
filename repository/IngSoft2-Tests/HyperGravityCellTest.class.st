@@ -1,6 +1,6 @@
 Class {
 	#name : 'HyperGravityCellTest',
-	#superclass : 'CellTest',
+	#superclass : 'TestCase',
 	#category : 'IngSoft2-Tests',
 	#package : 'IngSoft2-Tests'
 }
