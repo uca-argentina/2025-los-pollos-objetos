@@ -387,13 +387,13 @@ SpaceShipGame >> throwDiceFor: aShip [
 { #category : 'as yet unclassified' }
 SpaceShipGame >> tryToMoveUsingAllyOf: aShip to: targetPosition consuming: aConsumption [
 
-	| allies usableAllies |
-	allies := self alliesOf: aShip.
-	usableAllies := allies select: [ :ally | ally currentFuel > aConsumption ].
+	| aShipsAllies usableAllies |
+	aShipsAllies := self alliesOf: aShip.
+	usableAllies := aShipsAllies select: [ :ally | ally currentFuel > aConsumption ].
 
 	usableAllies isEmpty
 		ifTrue: [ self penalize: aShip withTurns: 2.
-				  allies do: [ :ally | self penalize: ally withTurns: 2 ] ]
+				  aShipsAllies do: [ :ally | self penalize: ally withTurns: 2 ] ]
 		ifFalse: [ (usableAllies first) consumeFuel: aConsumption.
 				   self performMoveOf: aShip to: targetPosition ].
 
