@@ -22,7 +22,7 @@ CardPlayHandler >> handle: aCard from: aShip to: anotherShip [
 
 	cardOwner:= aShip.
 	cardTarget:= anotherShip.
-	aCard uses: self
+	aCard uses: self.
 ]
 
 { #category : 'initialization' }
@@ -30,7 +30,7 @@ CardPlayHandler >> handleDisable: aCard from: aShip to: anotherShip [
 
 	cardOwner:= aShip.
 	cardTarget:= anotherShip.
-	aCard disableCard: self
+	aCard disableCard: self.
 ]
 
 { #category : 'initialization' }
@@ -82,7 +82,6 @@ CardPlayHandler >> resolveARedoCard: aCard [
 		ifFalse: [ 	
 				game addASpecificCard: lastCardPlayed toShip: cardOwner .
 				game playCard: lastCardPlayed from: cardOwner to: cardTarget . 
-				
 		]
 
 
