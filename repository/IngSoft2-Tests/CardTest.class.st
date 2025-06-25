@@ -15,7 +15,7 @@ CardTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorMessa
 ]
 
 { #category : 'tests' }
-CardTest >> testWhenAShipThrowACardItDoesNotHaveThenIsInvalid [
+CardTest >> testWhenAShipThrowsACardItDoesNotHaveThenIsInvalid [
 
 	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck anOverloadCard |
 	numberOfCells := 10.
@@ -59,7 +59,7 @@ CardTest >> testWhenAShipThrowACardItDoesNotHaveThenIsInvalid [
 ]
 
 { #category : 'tests' }
-CardTest >> testWhenOneShipStartsWithTwoCards [
+CardTest >> testWhenOneShipStartsWithTwoCardsThenItHasTwoCardsInHand [
 
 	| ships aShip aBoard oneDice dices aGame numberOfCells someProbabilities aCellGenerator cards aDeck |
 	numberOfCells := 10.
@@ -97,7 +97,7 @@ CardTest >> testWhenOneShipStartsWithTwoCards [
 ]
 
 { #category : 'tests' }
-CardTest >> testWhenTwoShipsStartWithTwoCards [
+CardTest >> testWhenTwoShipsStartWithTwoCardsThenTheyHaveTwoCardsInHand [
 
 	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck |
 	numberOfCells := 10.
@@ -122,7 +122,6 @@ CardTest >> testWhenTwoShipsStartWithTwoCards [
 	
 	ships := OrderedCollection with: aShip.
 	ships add: anotherShip.
-	
 	
 	cards := OrderedCollection with: 'card1' with: 'card2'.
 	aDeck := Deck with: cards.

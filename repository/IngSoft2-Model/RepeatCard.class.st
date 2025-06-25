@@ -8,5 +8,5 @@ Class {
 { #category : 'testing' }
 RepeatCard >> uses: aCardPlayHandler [
 
-	aCardPlayHandler resolveARepeatCardPlay: self
+	aCardPlayHandler resolveARepeatedCardPlay: self
 ]

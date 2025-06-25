@@ -10,11 +10,12 @@ Class {
 
 { #category : 'as yet unclassified' }
 CancellationCard >> selectedCard: aCard [
+
 	cardToCancel := aCard 
 ]
 
 { #category : 'testing' }
 CancellationCard >> uses: aCardPlayHandler [
 
-	aCardPlayHandler resolveAnCancelationCardPlay: cardToCancel and: self.
+	aCardPlayHandler resolveACancellationCardPlay: cardToCancel and: self.
 ]

@@ -20,38 +20,28 @@ CardPlayHandler class >> with: aGame [
 { #category : 'initialization' }
 CardPlayHandler >> handle: aCard from: aShip to: anotherShip [
 
-
 	cardOwner:= aShip.
 	cardTarget:= anotherShip.
-	aCard uses: self
+	aCard uses: self.
 ]
 
 { #category : 'initialization' }
 CardPlayHandler >> handleDisable: aCard from: aShip to: anotherShip [
 
-
 	cardOwner:= aShip.
 	cardTarget:= anotherShip.
-	aCard disableCard: self
+	aCard disableCard: self.
 ]
 
 { #category : 'initialization' }
 CardPlayHandler >> initializeWith: aGame [
 
-	game:= aGame.
-	lastCardPlayed := nil.
+	game := aGame.
+	lastCardPlayed := Card new.
 ]
 
 { #category : 'initialization' }
-CardPlayHandler >> resolveARepeatCardPlay: aCard [
-
-	game applyLastEffectTo: cardTarget .
-	lastCardPlayed := aCard.
-	game eliminate: aCard from: cardOwner.
-]
-
-{ #category : 'initialization' }
-CardPlayHandler >> resolveAnAccelerationCardPlay: aCard [
+CardPlayHandler >> resolveAAccelerationCardPlay: aCard [
 	
 	game isShipSupposedToPLay: cardOwner.
 	game applyToAllSpaceShips: aCard.
@@ -60,27 +50,49 @@ CardPlayHandler >> resolveAnAccelerationCardPlay: aCard [
 ]
 
 { #category : 'as yet unclassified' }
-CardPlayHandler >> resolveAnAllianceCardPlay: aCard [
+CardPlayHandler >> resolveAAllianceCardPlay: aCard [
 
 	game isShipSupposedToPLay: cardOwner.
-	game allianceBewtween: cardOwner and: cardTarget.
+	game ally: cardOwner with: cardTarget.
 	lastCardPlayed := aCard.
 	
 
 ]
 
 { #category : 'as yet unclassified' }
-CardPlayHandler >> resolveAnCancelationCardPlay: aCard and: cancelCard [
+CardPlayHandler >> resolveACancellationCardPlay: aCard and: cancelCard [
+
 	game discardACardEffect: aCard .
 	lastCardPlayed := aCard.
 	game eliminate: cancelCard from: cardOwner.
 ]
 
 { #category : 'as yet unclassified' }
-CardPlayHandler >> resolveAnDisableAlliance: aCard [
+CardPlayHandler >> resolveADisableAlliance: aCard [
 	
 		game disableAllianceof: cardOwner with: cardTarget .
 
+]
+
+{ #category : 'initialization' }
+CardPlayHandler >> resolveARedoCard: aCard [ 
+	
+	(lastCardPlayed class = Card)
+		ifTrue: [ Error signal: 'Theres no last card play. Invalid ReDo card' ] 
+		ifFalse: [ 	
+				game addASpecificCard: lastCardPlayed toShip: cardOwner .
+				game playCard: lastCardPlayed from: cardOwner to: cardTarget . 
+		]
+
+
+]
+
+{ #category : 'initialization' }
+CardPlayHandler >> resolveARepeatedCardPlay: aCard [
+
+	game applyLastEffectTo: cardTarget .
+	lastCardPlayed := aCard.
+	game eliminate: aCard from: cardOwner.
 ]
 
 { #category : 'initialization' }
@@ -90,18 +102,4 @@ CardPlayHandler >> resolveAnOverloadCardPlay: aCard [
 	game applyACardEffect: aCard to: cardTarget .
 	lastCardPlayed := aCard.
 	
-]
-
-{ #category : 'initialization' }
-CardPlayHandler >> resolveAnRedoCard:aCard [ 
-	
-	lastCardPlayed isNil 
-		ifTrue: [ Error signal: 'Theres no last card play. Invalid ReDo card' ] 
-		ifFalse: [ 	
-				game addAnEspecificCard: lastCardPlayed toShip: cardOwner .
-				game playCard: lastCardPlayed from: cardOwner to: cardTarget . 
-				
-		]
-
-
 ]

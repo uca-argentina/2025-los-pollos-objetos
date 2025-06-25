@@ -4,10 +4,7 @@ Class {
 	#instVars : [
 		'shipsName',
 		'fuelCharged',
-		'maximumFuel',
-		'throwAdjustment',
-		'ally',
-		'allies'
+		'maximumFuel'
 	],
 	#classInstVars : [
 		'shipsName'
@@ -28,15 +25,10 @@ Ship class >> named: aName withAChargeBasedOn: someDices [
 ]
 
 { #category : 'instance creation' }
-Ship class >> shipHasAValidName: arg1 [
+Ship class >> shipHasAValidName: aName [
 
-	(arg1 isEmpty or: [ arg1 isNil ]) ifTrue: [
+	(aName isEmpty or: [ (aName size) < 1 ]) ifTrue: [
 		Error signal: 'Ship must be initialized with a name.' ]
-]
-
-{ #category : 'as yet unclassified' }
-Ship >> AlliedWith: aShip [
-	allies add: aShip .
 ]
 
 { #category : 'path commands' }
@@ -55,12 +47,6 @@ Ship >> currentFuel [
 	^ fuelCharged
 ]
 
-{ #category : 'initialization' }
-Ship >> deleteAllianceWith: aShip [
-	allies remove: aShip.
-
-]
-
 { #category : 'path commands' }
 Ship >> hasEnoughFuel: aConsumption [
 
@@ -69,27 +55,20 @@ Ship >> hasEnoughFuel: aConsumption [
 	
 ]
 
-{ #category : 'as yet unclassified' }
-Ship >> inAllianceWith [
-	^ allies. 
-]
-
 { #category : 'accessing' }
 Ship >> initializeWith: aShipName andAFuelCharge: aFuelCharge [
 
 	shipsName := aShipName.
 	fuelCharged := aFuelCharge.
 	maximumFuel := aFuelCharge.
-	throwAdjustment:=0.
-	allies := OrderedCollection new.
 	
 	
 ]
 
 { #category : 'accessing' }
-Ship >> isAPositiveInteger: arg1 [
+Ship >> isAPositiveInteger: aConsumption [
 
-	(arg1 isInteger and: [ arg1 >= 0 ]) ifFalse: [
+	(aConsumption isInteger and: [ aConsumption >= 0 ]) ifFalse: [
 		Error signal:
 			'Charge and consumption of fuel must be a positive amount.' ]
 ]
@@ -102,6 +81,7 @@ Ship >> name [
 
 { #category : 'as yet unclassified' }
 Ship >> receiveReward [
+
 	fuelCharged := fuelCharged + 1. 
 ]
 

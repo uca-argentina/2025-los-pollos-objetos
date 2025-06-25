@@ -15,7 +15,7 @@ AccelerationCardTest >> should: anErrorBlock raise: anErrorClass withMessageText
 ]
 
 { #category : 'tests' }
-AccelerationCardTest >> testWhenAShipUsesAccelerationCardThenBothShipsMovesOneCellForward [
+AccelerationCardTest >> testWhenAShipUsesAccelerationCardThenBothShipsMoveOneCellForward [
 
 	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck  anAccelerationCard |
 	numberOfCells := 10.

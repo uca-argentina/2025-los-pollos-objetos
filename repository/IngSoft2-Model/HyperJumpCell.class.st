@@ -43,9 +43,9 @@ HyperJumpCell class >> initializeCellOn: aNumberOfCell withParsecValues: aParsec
 ]
 
 { #category : 'initialization' }
-HyperJumpCell class >> isAPositiveInteger: arg1 and: arg2 and: arg3 [
+HyperJumpCell class >> isAPositiveInteger: aNumberOfCells and: aBoardLenghtInParsecs and: totalNumberOfCells [
 
-	(arg1 > 0 and: (arg2 > 0 and: arg3 > 0)) ifFalse: [
+	(aNumberOfCells > 0 and: (aBoardLenghtInParsecs > 0 and: totalNumberOfCells > 0)) ifFalse: [
 		Error signal:
 			'Number of cells, board lenght in parsecs and total number of cells must be a positive integer.' ]
 ]
