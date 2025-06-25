@@ -140,13 +140,6 @@ SpaceShipGame >> determineTheConsequencesOfTheThrowIn: aNewPosition forShip: aSh
 	aShipCurrentLap := self currentLapFor: aShip.
 	(aShipCurrentLap = winningLaps ) ifTrue: [ ^ aShip name , ' won the Game!' ].
 	
-	"
-	(aNewPosition = blackHolesFirstEntrance) ifTrue: [ aShip fly: distanceFromBlackHolesFirstEntranceToSecondEntrance ].
-	(aNewPosition = blackHoleSecondEntrance ) ifTrue: [ aShip fly: (distanceFromBlackHolesFirstEntranceToSecondEntrance * (-1))].	
-	"
-
-	"(aNewPosition = blackHolesFirstEntrance) ifTrue: [ self move: aShip to: blackHoleSecondEntrance andConsume: (blackHoleSecondEntrance - blackHolesFirstEntrance) ].
-	(aNewPosition = blackHoleSecondEntrance ) ifTrue: [ self move: aShip to: blackHolesFirstEntrance andConsume: (blackHoleSecondEntrance - blackHolesFirstEntrance) ]."	
 ]
 
 { #category : 'as yet unclassified' }
@@ -210,9 +203,6 @@ SpaceShipGame >> initializeWith: laps with: aBoard with: gameDices with: gameShi
 	
    board := aBoard.
 	board getShipsIntoFirstCellOfTheBoard: gameShips.
-   "winningCell := board numberOfCells."
-   "blackHolesFirstEntrance := board wormsHolesFirstEntrance.
-   blackHoleSecondEntrance := board wormsHolesSecondEntrance."
 	
 	shipSupposedToPlay := 1.
 	penalties := Dictionary new.
@@ -389,7 +379,7 @@ SpaceShipGame >> throwDiceFor: aShip [
 	resultOfTheThrow := (dices collect: [ :dice | dice beThrown ]) sum.
 	lastDiceThrow := resultOfTheThrow.
 	
-	"resultOfMovement:=aShip adjustThrow:resultOfTheThrow."
+	
 	throwModified := self modifyThrowFor: aShip.
 	
 	self move: aShip by: resultOfTheThrow + throwModified .
