@@ -54,17 +54,16 @@ AllyCardTest >> testWhenAShipDisableAllianceCardThenBothShipsHaveTheNilAlliance 
 	
 	aGame executeTurn.
 
-	self assert: ((aShip inAllianceWith) includes: anotherShip).
-	self assert: ((anotherShip inAllianceWith) includes: aShip).
+	self assert: ((aGame alliesOf: aShip) includes: anotherShip).
+	self assert: ((aGame alliesOf: anotherShip) includes: aShip).
 
-	
 	aGame disableCard: anAlliancenCard from: aShip to: anotherShip .
 	
 	aGame executeTurn.
 	aGame executeTurn.
 
-	self assert: (aShip inAllianceWith) isEmpty.
-	self assert: (anotherShip inAllianceWith) isEmpty.
+	self assert: (aGame alliesOf: aShip) isEmpty.
+	self assert: (aGame alliesOf: anotherShip) isEmpty.
 
 ]
 
@@ -120,8 +119,6 @@ AllyCardTest >> testWhenAShipInAnAllianceHaveNotEnoughtFuelToPlayAndTheFirstAlia
 	self assert: (aGame positionOf: aShip ) equals: 7.
 	self assert: (aGame positionOf: anotherShip ) equals: 4.
 	self assert: (aGame positionOf: anotherSecondShip ) equals: 1.
-	
-
 ]
 
 { #category : 'tests' }
@@ -167,8 +164,6 @@ AllyCardTest >> testWhenAShipInAnAllianceHaveNotEnoughtFuelToPlayThenTheFirstAll
 	aGame executeTurn.
 
 	self assert: (aGame positionOf: aShip ) equals: 7.
-	
-
 ]
 
 { #category : 'tests' }
@@ -211,10 +206,8 @@ AllyCardTest >> testWhenAShipUsesAllianceCardThenBothShipsHaveTheAlliance [
 	
 	aGame executeTurn.
 
-	self assert: ((aShip inAllianceWith) includes: anotherShip).
-	self assert: ((anotherShip inAllianceWith) includes: aShip).
-
-
+	self assert: ((aGame alliesOf: aShip) includes: anotherShip).
+	self assert: ((aGame alliesOf: anotherShip) includes: aShip).
 ]
 
 { #category : 'tests' }
@@ -310,6 +303,4 @@ AllyCardTest >> testWhenAnAllianceHaveNotEnoughtFuelToPlayThenTheShipsArePenaliz
 	self assert: (aGame positionOf: aShip ) equals: 1.
 	self assert: (aGame positionOf: anotherShip ) equals: 1.
 	self assert: (aGame positionOf: anotherShip2 ) equals: 1.
-	
-
 ]

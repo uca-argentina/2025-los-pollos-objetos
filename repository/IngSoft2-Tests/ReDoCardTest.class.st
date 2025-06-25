@@ -42,7 +42,7 @@ ReDoCardTest >> testWhenAShipUsesReDoCardAfterAnOtherReDoCardBeforeOverloadCardT
 	ships add: anotherShip.
 	
 	anOverloadCard:= OverloadCard new.
-	anRedoCard:= RedoCard new.
+	anRedoCard:= ReDoCard new.
 	
 	cards := OrderedCollection withAll: {
 		anOverloadCard.
@@ -99,7 +99,7 @@ ReDoCardTest >> testWhenAShipUsesReDoCardAfterAnOverloadCardInADifferentShipThen
 	ships add: anotherShip2.
 	
 	anOverloadCard:= OverloadCard new.
-	anRedoCard:= RedoCard new.
+	anRedoCard:= ReDoCard new.
 	
 	cards := OrderedCollection withAll: {
 		anOverloadCard.
@@ -155,7 +155,7 @@ ReDoCardTest >> testWhenAShipUsesReDoCardAfterAnOverloadCardThenTheAnotherShipTh
 	ships add: anotherShip.
 	
 	anOverloadCard:= OverloadCard new.
-	anRedoCard:= RedoCard new.
+	anRedoCard:= ReDoCard new.
 	
 	cards := OrderedCollection withAll: {
 		anOverloadCard.
@@ -210,7 +210,7 @@ ReDoCardTest >> testWhenAShipUsesReDoCardAfterNoPlayingCardThenItsFailed [
 	ships add: anotherShip.
 	ships add: anotherShip2.
 	
-	anRedoCard:= RedoCard new.
+	anRedoCard:= ReDoCard new.
 	
 	cards := OrderedCollection with: anRedoCard with: anRedoCard.
 	aDeck := Deck with: cards.

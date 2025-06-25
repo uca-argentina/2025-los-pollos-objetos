@@ -14,5 +14,5 @@ AccelerationCard >> effect [
 { #category : 'testing' }
 AccelerationCard >> uses: aCardPlayHandler [
 
-	aCardPlayHandler resolveAnAccelerationCardPlay: self
+	aCardPlayHandler resolveAAccelerationCardPlay: self
 ]

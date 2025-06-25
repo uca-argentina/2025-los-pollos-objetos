@@ -8,5 +8,5 @@ Class {
 { #category : 'initialization' }
 LightYearDistance >> valueInParsecs [
 
-	^ value //3.
+	^ value // 3.
 ]

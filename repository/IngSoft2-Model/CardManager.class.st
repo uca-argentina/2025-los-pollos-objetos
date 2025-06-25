@@ -18,7 +18,8 @@ CardManager class >> of: aShip with: aDeck [
 ]
 
 { #category : 'adding' }
-CardManager >> addAnEspecificCard: aCard [
+CardManager >> addASpecificCard: aCard [
+
 	cardsInHand add:  aCard .
 ]
 
@@ -32,9 +33,11 @@ CardManager >> addCardsAffecting: aCard [
 CardManager >> applyEffect [
 
 	| effectValue |
-	effectValue:=0.
-	cardsAffecting do: [ :card | effectValue:= effectValue  + (card effect) ].
-	^ effectValue
+	
+	effectValue := 0.
+	cardsAffecting do: [ :card | effectValue := effectValue + (card effect) ].
+	
+	^ effectValue.
 	
 ]
 
@@ -45,13 +48,15 @@ CardManager >> cardsInHand [
 ]
 
 { #category : 'adding' }
-CardManager >> deleteAnEspecificCard: aCard [
-	cardsInHand remove:  aCard .
+CardManager >> deleteASpecificCard: aCard [
+
+	cardsInHand remove: aCard .
 ]
 
 { #category : 'initialization' }
 CardManager >> deleteCardsAffecting: aCardClass [
     | found |
+
     found := cardsAffecting anySatisfy: [:each | each class = aCardClass ].
 
     found
@@ -75,7 +80,7 @@ CardManager >> hasInHand: aCard [
 ]
 
 { #category : 'initialization' }
-CardManager >> initializeOf: aShip with:aDeck [
+CardManager >> initializeOf: aShip with: aDeck [
 
 	ship:= aShip.
 	cardsInHand:= OrderedCollection new.
@@ -85,6 +90,7 @@ CardManager >> initializeOf: aShip with:aDeck [
 
 { #category : 'as yet unclassified' }
 CardManager >> pickACard: aDeck [
+
 	cardsInHand add: (aDeck pickCard).
 ]
 

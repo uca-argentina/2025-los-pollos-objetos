@@ -7,5 +7,6 @@ Class {
 
 { #category : 'initialization' }
 ParsecDistance >> valueInParsecs [
+
 	^ value
 ]

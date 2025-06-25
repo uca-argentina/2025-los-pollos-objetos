@@ -8,12 +8,11 @@ Class {
 { #category : 'as yet unclassified' }
 AllianceCard >> disableCard:aCardPlayHandler [
 
-
-	aCardPlayHandler resolveAnDisableAlliance: self.
+	aCardPlayHandler resolveADisableAlliance: self.
 ]
 
 { #category : 'testing' }
 AllianceCard >> uses: aCardPlayHandler [
 
-	aCardPlayHandler resolveAnAllianceCardPlay: self
+	aCardPlayHandler resolveAAllianceCardPlay: self
 ]

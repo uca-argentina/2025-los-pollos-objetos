@@ -873,9 +873,9 @@ GameTest >> testWhenOneShipThrowsDiceAndReturnsOneThenItIsForwardedOnePosition [
 ]
 
 { #category : 'tests' }
-GameTest >> testWhenOneShipThrowsTheBestThronwThenItsRecivedAReward [
+GameTest >> testWhenOneShipThrowsTheBestThronwThenItRecivesAReward [
 
-	| aGame aBoard aShip ships oneDice dices newPosition numberOfCells someProbabilities aCellGenerator |
+	| aGame aBoard aShip ships oneDice dices newPosition numberOfCells someProbabilities aCellGenerator expectedRemainedFuelIfNoRewardWasGiven |
 	numberOfCells := 6.
 	someProbabilities := Dictionary new
 		                     at: 1
@@ -895,7 +895,7 @@ GameTest >> testWhenOneShipThrowsTheBestThronwThenItsRecivedAReward [
 	ships := OrderedCollection with: aShip.
 
 	aGame := SpaceShipGame
-		         completedAtLap: 1
+		         completedAtLap: 2
 		         with: aBoard
 		         and: dices
 		         and: ships.
@@ -903,12 +903,12 @@ GameTest >> testWhenOneShipThrowsTheBestThronwThenItsRecivedAReward [
 	"aGame throwDiceFor: aShip."
 	aGame executeTurn.
 	newPosition := aGame positionOf: aShip.
-
+	
+	aGame determineTheConsequencesOfTheThrowIn: newPosition forShip: aShip.
+	expectedRemainedFuelIfNoRewardWasGiven := 7.
+	
 	self
-		assert: (aGame
-				 determineTheConsequencesOfTheThrowIn: newPosition
-				 forShip: aShip)
-		equals: 'Venture won the Game!'
+		deny: (aShip currentFuel) equals: expectedRemainedFuelIfNoRewardWasGiven.
 ]
 
 { #category : 'tests' }
@@ -981,6 +981,38 @@ GameTest >> testWhenShipDecidesNotToPlayItsTurnThenItsTurnIsSkipped [
 	aGame skipTurnFor: aShip.
 
 	self assert: (aGame penaltyFor: aShip) equals: 1
+]
+
+{ #category : 'tests' }
+GameTest >> testWhenShipIsInitializedThenItHasNonAlly [
+
+	| aShip numberOfCells someProbabilities aCellGenerator aBoard ships oneDice dices aGame |
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 2.
+	dices := OrderedCollection with: oneDice.
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	numberOfCells := 10.
+	someProbabilities := Dictionary new
+		                     at: 1
+		                     put:
+			                     (NormalCell initializeCellOn: numberOfCells);
+		                     yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          generatedWith: aCellGenerator
+		          andAWormHoleBetweenCells: 2
+		          and: 6.
+	ships := OrderedCollection with: aShip.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 10.
+	dices := OrderedCollection with: oneDice.
+	aGame := SpaceShipGame
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships.
+
+	self assert: (aGame alliesOf: aShip) isEmpty.
+
 ]
 
 { #category : 'tests' }
