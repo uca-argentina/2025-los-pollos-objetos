@@ -873,7 +873,7 @@ GameTest >> testWhenOneShipThrowsDiceAndReturnsOneThenItIsForwardedOnePosition [
 ]
 
 { #category : 'tests' }
-GameTest >> testWhenOneShipThrowsTheBestThronwThenItRecivesAReward [
+GameTest >> testWhenOneShipThrowsTheBestThrowThenItRecivesAReward [
 
 	| aGame aBoard aShip ships oneDice dices newPosition numberOfCells someProbabilities aCellGenerator expectedRemainedFuelIfNoRewardWasGiven |
 	numberOfCells := 6.
