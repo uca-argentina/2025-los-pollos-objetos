@@ -59,8 +59,7 @@ CardManager >> deleteCardsAffecting: aCardClass [
 
     found := cardsAffecting anySatisfy: [:each | each class = aCardClass ].
 
-    found
-        ifFalse: [ self error: 'There is no active card about this type' ].
+    found ifFalse: [ self error: 'There is no active card about this type' ].
 
     cardsAffecting removeAllSuchThat: [:each | each class = aCardClass ].
 
