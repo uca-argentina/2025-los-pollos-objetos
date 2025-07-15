@@ -17,6 +17,63 @@ ReDoCardTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorM
 { #category : 'tests' }
 ReDoCardTest >> testWhenAShipUsesAReDoCardAfterUsingOtherReDoCardBeforeOverloadCardThenTheOthersShipThrowIsDecreasedByTwo [
 
+	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck anOverloadCard aRedoCard anotherRedoCard |
+	numberOfCells := 15.
+	someProbabilities := Dictionary new
+		                     at: 1
+		                     put:
+			                     (NormalCell initializeCellOn: numberOfCells);
+		                     yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          generatedWith: aCellGenerator
+		          andAWormHoleBetweenCells: 14
+		          and: 15.
+		
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 6.
+	dices := OrderedCollection with: oneDice.
+	
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'Zorgons Ship' withAChargeBasedOn: dices.
+	
+	ships := OrderedCollection with: aShip.
+	ships add: anotherShip.
+	
+	anOverloadCard := OverloadCard new.
+	aRedoCard := ReDoCard new.
+	anotherRedoCard := ReDoCard new.
+	
+	cards := OrderedCollection withAll: {
+		anOverloadCard.
+		aRedoCard.
+		anotherRedoCard.
+	}.
+
+	aDeck := AChargedDeck cards: cards withNShips: (ships size) .
+
+	aGame := SpaceShipGame
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships and: aDeck.
+		
+	aGame playCard: anOverloadCard from: aShip to: anotherShip .
+	aGame playCard: aRedoCard from: aShip to: anotherShip .
+	aGame addASpecificCard: anotherRedoCard toShip: aShip.
+	aGame playCard: anotherRedoCard from: aShip to: anotherShip .
+
+	aGame executeTurn.
+	aGame executeTurn.
+	
+	self assert: (aGame positionOf: aShip) equals: 7.
+	self assert: (aGame positionOf: anotherShip) equals: 1.
+]
+
+{ #category : 'tests' }
+ReDoCardTest >> testWhenAShipUsesAReDoCardThenItsRemovedFromItsHand [
+
 	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck anOverloadCard anRedoCard |
 	numberOfCells := 15.
 	someProbabilities := Dictionary new
@@ -59,14 +116,8 @@ ReDoCardTest >> testWhenAShipUsesAReDoCardAfterUsingOtherReDoCardBeforeOverloadC
 		
 	aGame playCard: anOverloadCard from: aShip to: anotherShip .
 	aGame playCard: anRedoCard from: aShip to: anotherShip .
-	aGame playCard: anRedoCard from: aShip to: anotherShip .
-
 	
-	aGame executeTurn.
-	aGame executeTurn.
-	
-	self assert: (aGame positionOf: aShip) equals: 7.
-	self assert: (aGame positionOf: anotherShip) equals: 1.
+	self assert: (aGame shipCardsInHand: aShip ) equals: 0.
 ]
 
 { #category : 'tests' }
@@ -171,7 +222,6 @@ ReDoCardTest >> testWhenAShipUsesReDoCardAfterAnOverloadCardThenTheAnotherShipTh
 		
 	aGame playCard: anOverloadCard from: aShip to: anotherShip .
 	aGame playCard: anRedoCard from: aShip to: anotherShip .
-
 	
 	aGame executeTurn.
 	aGame executeTurn.

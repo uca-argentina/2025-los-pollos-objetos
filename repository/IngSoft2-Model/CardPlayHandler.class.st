@@ -46,6 +46,7 @@ CardPlayHandler >> resolveAAccelerationCardPlay: aCard [
 	game isShipSupposedToPLay: cardOwner.
 	game applyToAllSpaceShips: aCard.
 	lastCardPlayed := aCard.
+	game eliminate: aCard from: cardOwner.
 	
 ]
 
@@ -55,6 +56,7 @@ CardPlayHandler >> resolveAAllianceCardPlay: aCard [
 	game isShipSupposedToPLay: cardOwner.
 	game ally: cardOwner with: cardTarget.
 	lastCardPlayed := aCard.
+	game eliminate: aCard from: cardOwner.
 	
 
 ]
@@ -82,6 +84,7 @@ CardPlayHandler >> resolveARedoCard: aCard [
 		ifFalse: [ 	
 				game addASpecificCard: lastCardPlayed toShip: cardOwner .
 				game playCard: lastCardPlayed from: cardOwner to: cardTarget . 
+				game eliminate: aCard from: cardOwner.
 		]
 
 
@@ -101,5 +104,6 @@ CardPlayHandler >> resolveAnOverloadCardPlay: aCard [
 	game isShipSupposedToPLay: cardOwner.
 	game applyACardEffect: aCard to: cardTarget .
 	lastCardPlayed := aCard.
+	game eliminate: aCard from: cardOwner.
 	
 ]
