@@ -146,9 +146,10 @@ SpaceShipGame >> determineTheConsequencesOfTheThrowIn: aNewPosition forShip: aSh
 ]
 
 { #category : 'as yet unclassified' }
-SpaceShipGame >> disableAllianceOf: aShip with: anotherShip [
-	
-	allies remove: (Set with: aShip with: anotherShip).
+SpaceShipGame >> disableAllAlliancesOf: aShip [
+
+	allies := allies reject: [ :pair | pair includes: aShip ].
+
 ]
 
 { #category : 'as yet unclassified' }

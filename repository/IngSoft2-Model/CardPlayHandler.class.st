@@ -17,6 +17,12 @@ CardPlayHandler class >> with: aGame [
 	^ self new initializeWith: aGame
 ]
 
+{ #category : 'as yet unclassified' }
+CardPlayHandler >> cancelAllianceWhenCardToCancelIsAnAllianceCard: aCard [
+
+	((aCard class) = AllianceCard) ifTrue: (game disableAllAlliancesOf: cardTarget).
+]
+
 { #category : 'initialization' }
 CardPlayHandler >> handle: aCard from: aShip to: anotherShip [
 
@@ -55,7 +61,8 @@ CardPlayHandler >> resolveAAllianceCardPlay: aCard [
 
 { #category : 'as yet unclassified' }
 CardPlayHandler >> resolveACancellationCardPlay: aCard and: cancelCard [
-
+	
+	self cancelAllianceWhenCardToCancelIsAnAllianceCard: aCard.
 	game discardACardEffect: aCard.
 	lastCardPlayed := cancelCard.
 	game eliminate: cancelCard from: cardOwner.

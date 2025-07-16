@@ -179,6 +179,63 @@ CancellationCardTest >> testWhenAShipUsesCancellationCardOnAAcelerationCardThenT
 ]
 
 { #category : 'tests' }
+CancellationCardTest >> testWhenAShipUsesCancellationCardOnAAllyCardThenTheEffectDisappears [
+
+	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck aCancellationCard anAlliancenCard |
+	numberOfCells := 10.
+	someProbabilities := Dictionary new
+		                     at: 1
+		                     put:
+			                     (NormalCell initializeCellOn: numberOfCells);
+		                     yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          generatedWith: aCellGenerator
+		          andAWormHoleBetweenCells: 7
+		          and: 9.
+		
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 3.
+	dices := OrderedCollection with: oneDice.
+	
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'Zorgons Ship' withAChargeBasedOn: dices.
+	
+	ships := OrderedCollection with: aShip.
+	ships add: anotherShip.
+	
+	anAlliancenCard := AllianceCard new.
+	aCancellationCard := CancellationCard new.
+	cards := OrderedCollection withAll: {
+		anAlliancenCard.
+	}.
+	aDeck := Deck with: cards.
+
+	aGame := SpaceShipGame
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships and: aDeck.
+		
+	aGame playCard: anAlliancenCard from: aShip to: anotherShip .
+	aGame executeTurn.
+
+	self assert: ((aGame alliesOf: aShip) includes: anotherShip).
+	self assert: ((aGame alliesOf: anotherShip) includes: aShip).
+
+	aGame addASpecificCard: aCancellationCard toShip: anotherShip.
+	aCancellationCard selectedCard: aCancellationCard.
+	aGame playCard: aCancellationCard from: anotherShip to: aShip.
+	aGame executeTurn.
+	aGame executeTurn.
+
+	self assert: (aGame alliesOf: aShip) isEmpty.
+	self assert: (aGame alliesOf: anotherShip) isEmpty.
+
+]
+
+{ #category : 'tests' }
 CancellationCardTest >> testWhenAShipUsesCancellationCardOnAOverloadCardNotPlayedThenShipsMoveAccordinlgy [
 
 	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck anOverloadCard aCancellationCard |
