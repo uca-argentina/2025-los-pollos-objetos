@@ -71,9 +71,7 @@ HyperJumpCellTest >> testWhenAFourthShipArrivesToHyperJumpCellThenItAdvancesTheC
 	aGame executeTurn.
 	aGame executeTurn.
 
-	expectedPosition := 4 + (25 // (boardLength valueInParsecs // numberOfCells)).
-
-	self assert: (aGame positionOf: fourthShip) equals: expectedPosition
+	self assert: (aGame positionOf: fourthShip) equals: 6.
 ]
 
 { #category : 'tests' }
@@ -132,9 +130,7 @@ HyperJumpCellTest >> testWhenAFourthShipArrivesToHyperJumpCellThenItAdvancesTheC
 	aGame executeTurn.
 	aGame executeTurn.
 
-	expectedPosition := 4 + (25 // (boardLength valueInParsecs // numberOfCells)).
-
-	self assert: (aGame positionOf: fourthShip) equals: expectedPosition
+	self assert: (aGame positionOf: fourthShip) equals: 6.
 ]
 
 { #category : 'tests' }
@@ -258,9 +254,7 @@ HyperJumpCellTest >> testWhenASecondShipArrivesToHyperJumpCellThenItAdvancesTheC
 	aGame executeTurn.
 	aGame executeTurn.
 
-	expectedPosition := 4 + (15 // (boardLength valueInParsecs // numberOfCells)).
-
-	self assert: (aGame positionOf: anotherShip) equals: expectedPosition
+	self assert: (aGame positionOf: anotherShip) equals: 5.
 ]
 
 { #category : 'tests' }
@@ -352,10 +346,7 @@ HyperJumpCellTest >> testWhenAShipArrivesToHyperJumpCellThenItAdvancesTheCorresp
 
 	aGame executeTurn.
 
-	expectedPosition := 4 + ((81 // 3) // (boardLength valueInParsecs // numberOfCells)). "81 años luz = 27 pársecs, 27 // 10 = 2 celdas"
-
-	self assert: (aGame positionOf: aShip) equals: expectedPosition
-
+	self assert: (aGame positionOf: aShip) equals: 6.
 ]
 
 { #category : 'tests' }
@@ -402,9 +393,7 @@ HyperJumpCellTest >> testWhenAShipArrivesToHyperJumpCellThenItAdvancesTheCorresp
 
 	aGame executeTurn.
 
-	expectedPosition := 4 + (25 // (boardLength valueInParsecs // numberOfCells) ).
-
-	self assert: (aGame positionOf: aShip) equals: expectedPosition
+	self assert: (aGame positionOf: aShip) equals: 6.
 ]
 
 { #category : 'tests' }
@@ -448,8 +437,5 @@ HyperJumpCellTest >> testWhenBoardAndDistanceValuesAreBothInLightYearsThenAShipI
 
 	aGame executeTurn.
 
-	expectedPosition := 4 + ((81 // 3) // (boardLength valueInParsecs // numberOfCells)). 
-
-	self assert: (aGame positionOf: aShip) equals: expectedPosition
-
+	self assert: (aGame positionOf: aShip) equals: 6.
 ]
