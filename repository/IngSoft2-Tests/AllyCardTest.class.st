@@ -58,8 +58,7 @@ AllyCardTest >> testWhenAShipDisableAllianceCardThenBothShipsHaveNoLongerAnlAlli
 	self assert: ((aGame alliesOf: aShip) includes: anotherShip).
 	self assert: ((aGame alliesOf: anotherShip) includes: aShip).
 
-	aGame disableCard: anAlliancenCard from: aShip to: anotherShip .
-	
+	aGame disableAllianceOf: aShip with: anotherShip.
 	aGame executeTurn.
 	aGame executeTurn.
 

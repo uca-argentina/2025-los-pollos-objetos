@@ -69,14 +69,17 @@ SpaceShipGame >> advanceTurnIfCurrentTurnsShipIsPenalized [
 { #category : 'as yet unclassified' }
 SpaceShipGame >> alliesOf: aShip [
 
-	^ allies at: aShip.
+	^ (allies select: [:pair | pair includes: aShip ])
+		collect: [:pair | pair detect: [:ship | ship ~= aShip ]].
+
 ]
 
 { #category : 'as yet unclassified' }
 SpaceShipGame >> ally: cardOwner with: cardTarget [
 	
-	(allies at: cardOwner) add: cardTarget.
-	(allies at: cardTarget) add: cardOwner. 
+	"(allies at: cardOwner) add: cardTarget.
+	(allies at: cardTarget) add: cardOwner. "
+	allies add: (Set with: cardOwner with: cardTarget).
 ]
 
 { #category : 'as yet unclassified' }
@@ -143,16 +146,9 @@ SpaceShipGame >> determineTheConsequencesOfTheThrowIn: aNewPosition forShip: aSh
 ]
 
 { #category : 'as yet unclassified' }
-SpaceShipGame >> disableAllianceof: aShip with: anotherShip [
+SpaceShipGame >> disableAllianceOf: aShip with: anotherShip [
 	
-	(allies at: aShip) remove: anotherShip.
-	(allies at: anotherShip) remove: aShip. 
-]
-
-{ #category : 'as yet unclassified' }
-SpaceShipGame >> disableCard: aCard from: aShip to: anotherShip [
-
-	cardPlayHandler handleDisable: aCard from: aShip to: anotherShip .
+	allies remove: (Set with: aShip with: anotherShip).
 ]
 
 { #category : 'as yet unclassified' }
@@ -211,8 +207,8 @@ SpaceShipGame >> initializeWith: laps with: aBoard with: gameDices with: gameShi
 	shipsCurrentLap := Dictionary new.
 	ships do: [ :ship | shipsCurrentLap at: ship put: 0 ].
 	
-	allies := Dictionary new.
-	ships do: [ :ship | allies at: ship put: OrderedCollection new.].
+	allies := Set new.
+	"ships do: [ :ship | allies at: ship put: OrderedCollection new.]."
 
 ]
 
@@ -388,16 +384,20 @@ SpaceShipGame >> throwDiceFor: aShip [
 { #category : 'as yet unclassified' }
 SpaceShipGame >> tryToMoveUsingAllyOf: aShip to: targetPosition consuming: aConsumption [
 
-	| aShipAllies usableAllies |
+	| aShipAllies usableAllies allyToUse|
 	aShipAllies := self alliesOf: aShip.
 	usableAllies := aShipAllies select: [ :ally | ally currentFuel > aConsumption ].
 
 	usableAllies isEmpty
-		ifTrue: [ self penalize: aShip withTurns: 2.
-				  aShipAllies do: [ :ally | self penalize: ally withTurns: 2 ] ]
-		ifFalse: [ (usableAllies first) consumeFuel: aConsumption.
-				   self performMoveOf: aShip to: targetPosition ].
-
+		ifTrue: [
+			self penalize: aShip withTurns: 2.
+			aShipAllies do: [ :ally | self penalize: ally withTurns: 2 ]
+		]
+		ifFalse: [
+			allyToUse := usableAllies anyOne.
+			allyToUse consumeFuel: aConsumption.
+			self performMoveOf: aShip to: targetPosition
+		].
 ]
 
 { #category : 'as yet unclassified' }

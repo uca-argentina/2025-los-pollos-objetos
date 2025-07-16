@@ -26,14 +26,6 @@ CardPlayHandler >> handle: aCard from: aShip to: anotherShip [
 ]
 
 { #category : 'initialization' }
-CardPlayHandler >> handleDisable: aCard from: aShip to: anotherShip [
-
-	cardOwner:= aShip.
-	cardTarget:= anotherShip.
-	aCard disableCard: self.
-]
-
-{ #category : 'initialization' }
 CardPlayHandler >> initializeWith: aGame [
 
 	game := aGame.
@@ -67,13 +59,6 @@ CardPlayHandler >> resolveACancellationCardPlay: aCard and: cancelCard [
 	game discardACardEffect: aCard.
 	lastCardPlayed := cancelCard.
 	game eliminate: cancelCard from: cardOwner.
-]
-
-{ #category : 'as yet unclassified' }
-CardPlayHandler >> resolveADisableAlliance: aCard [
-	
-		game disableAllianceof: cardOwner with: cardTarget .
-
 ]
 
 { #category : 'initialization' }
