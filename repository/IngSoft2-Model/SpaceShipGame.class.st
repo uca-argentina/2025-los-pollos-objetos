@@ -94,7 +94,7 @@ SpaceShipGame >> applyLastEffectTo: aShip [
 { #category : 'as yet unclassified' }
 SpaceShipGame >> applyToAllSpaceShips: aCard [
 
-	cardManagers do: [ :cardManager | cardManager addCardsAffecting: aCard  ]
+	cardManagers do: [ :cardManager | cardManager addCardsAffecting: aCard ].
 ]
 
 { #category : 'accessing' }
@@ -156,11 +156,9 @@ SpaceShipGame >> disableCard: aCard from: aShip to: anotherShip [
 ]
 
 { #category : 'as yet unclassified' }
-SpaceShipGame >> discardACardEffect: aCard to: cardTarget [
-
-	| cardTargetsManager |
-	cardTargetsManager := self cardManagerOf: cardTarget.
-	cardTargetsManager deleteCardsAffecting: aCard.
+SpaceShipGame >> discardACardEffect: aCard [
+	
+	cardManagers do: [ :aCardManager | aCardManager deleteCardsAffecting: aCard ].
  
 ]
 

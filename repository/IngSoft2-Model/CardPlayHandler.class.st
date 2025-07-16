@@ -20,8 +20,8 @@ CardPlayHandler class >> with: aGame [
 { #category : 'initialization' }
 CardPlayHandler >> handle: aCard from: aShip to: anotherShip [
 
-	cardOwner:= aShip.
-	cardTarget:= anotherShip.
+	cardOwner := aShip.
+	cardTarget := anotherShip.
 	aCard uses: self.
 ]
 
@@ -64,8 +64,8 @@ CardPlayHandler >> resolveAAllianceCardPlay: aCard [
 { #category : 'as yet unclassified' }
 CardPlayHandler >> resolveACancellationCardPlay: aCard and: cancelCard [
 
-	game discardACardEffect: aCard to: cardTarget.
-	lastCardPlayed := aCard.
+	game discardACardEffect: aCard.
+	lastCardPlayed := cancelCard.
 	game eliminate: cancelCard from: cardOwner.
 ]
 
