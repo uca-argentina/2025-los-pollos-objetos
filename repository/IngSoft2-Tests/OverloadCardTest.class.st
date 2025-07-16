@@ -84,7 +84,7 @@ OverloadCardTest >> testWhenAShipUsesOverloadCardThenTheOtherShipsThrowDecreases
 	ships add: anotherShip.
 	
 	anOverloadCard:= OverloadCard new.
-	cards := OrderedCollection with: anOverloadCard with: anOverloadCard.
+	cards := OrderedCollection with: anOverloadCard.
 	aDeck := Deck with: cards.
 
 	aGame := SpaceShipGame

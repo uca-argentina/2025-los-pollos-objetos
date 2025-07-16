@@ -51,7 +51,7 @@ AccelerationCardTest >> testWhenAAccelerationCardIsUsedThenItsRemovedFromTheHand
 		         and: dices
 		         and: ships and: aDeck.
 		
-	aGame playCard: anAccelerationCard from: aShip to: 'everyone'.
+	aGame playCard: anAccelerationCard from: aShip to: anotherShip.
 	
 	aGame executeTurn.
 	aGame executeTurn.
@@ -96,7 +96,7 @@ AccelerationCardTest >> testWhenAShipUsesAccelerationCardThenBothShipsMoveOneCel
 		         and: dices
 		         and: ships and: aDeck.
 		
-	aGame playCard: anAccelerationCard from: aShip to: 'everyone'.
+	aGame playCard: anAccelerationCard from: aShip to: anotherShip.
 	
 	aGame executeTurn.
 	aGame executeTurn.
@@ -144,7 +144,7 @@ AccelerationCardTest >> testWhenAShipUsesAccelerationCardWhenItsNotHisTurnThenIs
 		
 	aGame executeTurn.
 	
-	self should: [ aGame playCard: anAccelerationCard from: aShip to: 'everyone'. ]  
+	self should: [ aGame playCard: anAccelerationCard from: aShip to: anotherShip. ]  
 	raise: Error  
 	withMessageText: 'You can only play this card when its your turn'.
 ]

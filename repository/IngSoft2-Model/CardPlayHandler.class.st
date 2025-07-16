@@ -64,7 +64,7 @@ CardPlayHandler >> resolveAAllianceCardPlay: aCard [
 { #category : 'as yet unclassified' }
 CardPlayHandler >> resolveACancellationCardPlay: aCard and: cancelCard [
 
-	game discardACardEffect: aCard .
+	game discardACardEffect: aCard to: cardTarget.
 	lastCardPlayed := aCard.
 	game eliminate: cancelCard from: cardOwner.
 ]

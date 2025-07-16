@@ -17,7 +17,7 @@ CancellationCardTest >> should: anErrorBlock raise: anErrorClass withMessageText
 { #category : 'tests' }
 CancellationCardTest >> testWhenACancellationCardIsUsedThenItsEliminatedFromTheHand [
 
-	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck  anAccelerationCard anCancelattionCard |
+	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck  anAccelerationCard anCancellationCard anotherShipsCardsBeforePlay |
 	numberOfCells := 10.
 	someProbabilities := Dictionary new
 		                     at: 1
@@ -42,16 +42,15 @@ CancellationCardTest >> testWhenACancellationCardIsUsedThenItsEliminatedFromTheH
 	ships add: anotherShip.
 	
 	anAccelerationCard := AccelerationCard new.
-	anCancelattionCard := CancellationCard new.
+	anCancellationCard := CancellationCard new.
 
 	cards := OrderedCollection withAll: {
 		anAccelerationCard.
-		anCancelattionCard.
+		anCancellationCard.
 	}.
 
 	aDeck := AChargedDeck cards: cards withNShips: (ships size) .
 	"self assert: (aDeck cards isEmpty) not."
-
 
 	aGame := SpaceShipGame
 		         completedAtLap: 1
@@ -59,27 +58,17 @@ CancellationCardTest >> testWhenACancellationCardIsUsedThenItsEliminatedFromTheH
 		         and: dices
 		         and: ships and: aDeck.
 		
-	aGame playCard: anAccelerationCard from: aShip to: 'everyone'.
-	
-	aGame executeTurn.
-	aGame executeTurn.
-	
-	aGame executeTurn.
-	anCancelattionCard selectedCard: AccelerationCard.
-	
-	self assert: (aGame shipCardsInHand: anotherShip ) equals: 2.
-	
-	aGame playCard: anCancelattionCard from: anotherShip to: 'everyone'.
-	aGame executeTurn.
-	
-	aGame executeTurn.
-	aGame executeTurn.
+	aGame playCard: anAccelerationCard from: aShip to: anotherShip.
 
-	self assert: (aGame shipCardsInHand: anotherShip ) equals: 1.
+	anotherShipsCardsBeforePlay := (aGame shipCardsInHand: anotherShip ).
+	anCancellationCard selectedCard: AccelerationCard.		
+	aGame playCard: anCancellationCard from: anotherShip to: aShip.
+
+	self assert: (aGame shipCardsInHand: anotherShip ) equals: (anotherShipsCardsBeforePlay - 1).
 ]
 
 { #category : 'tests' }
-CancellationCardTest >> testWhenAShipUsesCancelationCardOnAAcelerationCardThenTheEffectDisappears [
+CancellationCardTest >> testWhenAShipUsesCancellationCardOnAAcelerationCardThenTheEffectDisappears [
 
 	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck  anAccelerationCard anCancelattionCard |
 	numberOfCells := 10.
@@ -116,32 +105,84 @@ CancellationCardTest >> testWhenAShipUsesCancelationCardOnAAcelerationCardThenTh
 	aDeck := AChargedDeck cards: cards withNShips: (ships size) .
 	"self assert: (aDeck cards isEmpty) not."
 
-
 	aGame := SpaceShipGame
 		         completedAtLap: 1
 		         with: aBoard
 		         and: dices
 		         and: ships and: aDeck.
 		
-	aGame playCard: anAccelerationCard from: aShip to: 'everyone'.
-	
-	aGame executeTurn.
-	aGame executeTurn.
-	
-	aGame executeTurn.
+	aGame playCard: anAccelerationCard from: aShip to: anotherShip.
 	anCancelattionCard selectedCard: AccelerationCard.
-	aGame playCard: anCancelattionCard from: anotherShip to: 'everyone'.
-	aGame executeTurn.
-	
+	aGame playCard: anCancelattionCard from: anotherShip to: aShip.
 	aGame executeTurn.
 	aGame executeTurn.
 
 	self assert: (aGame positionOf: aShip) equals: 4.
-	self assert: (aGame positionOf: anotherShip) equals: 4.
+	self assert: (aGame positionOf: anotherShip) equals: 5.
 ]
 
 { #category : 'tests' }
-CancellationCardTest >> testWhenAShipUsesCancelationCardOnANonCardPlayThenItsFailed [
+CancellationCardTest >> testWhenAShipUsesCancellationCardOnAAcelerationCardThenTheEffectDisappearsOnlyOnce [
+
+	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck  anAccelerationCard anCancellationCard anotherAccelerationCard |
+	numberOfCells := 10.
+	someProbabilities := Dictionary new
+		                     at: 1
+		                     put:
+			                     (NormalCell initializeCellOn: numberOfCells);
+		                     yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          generatedWith: aCellGenerator
+		          andAWormHoleBetweenCells: 7
+		          and: 9.
+		
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 3.
+	dices := OrderedCollection with: oneDice.
+	
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'Zorgons Ship' withAChargeBasedOn: dices.
+	
+	ships := OrderedCollection with: aShip.
+	ships add: anotherShip.
+	
+	anAccelerationCard := AccelerationCard new.
+	anotherAccelerationCard := AccelerationCard new.
+	anCancellationCard := CancellationCard new.
+
+	cards := OrderedCollection withAll: {
+		anAccelerationCard.
+		anCancellationCard.
+		anotherAccelerationCard.
+	}.
+
+	aDeck := AChargedDeck cards: cards withNShips: (ships size) .
+	"self assert: (aDeck cards isEmpty) not."
+
+	aGame := SpaceShipGame
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships and: aDeck.
+		
+	aGame playCard: anAccelerationCard from: aShip to: anotherShip.
+	aGame addASpecificCard: anotherAccelerationCard toShip: aShip.
+	aGame playCard: anotherAccelerationCard from: aShip to: anotherShip.
+	anCancellationCard selectedCard: AccelerationCard.
+	aGame addASpecificCard: anCancellationCard toShip: anotherShip.
+	aGame playCard: anCancellationCard from: anotherShip to: aShip.
+	
+	aGame executeTurn.
+	aGame executeTurn.
+
+	self assert: (aGame positionOf: aShip) equals: 5.
+	self assert: (aGame positionOf: anotherShip) equals: 6.
+]
+
+{ #category : 'tests' }
+CancellationCardTest >> testWhenAShipUsesCancellationCardOnANonCardPlayThenItsFailed [
 
 	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck anCancelattionCard |
 	numberOfCells := 10.
@@ -167,7 +208,6 @@ CancellationCardTest >> testWhenAShipUsesCancelationCardOnANonCardPlayThenItsFai
 	ships := OrderedCollection with: aShip.
 	ships add: anotherShip.
 	
-
 	anCancelattionCard:= CancellationCard new.
 	cards := OrderedCollection with: anCancelattionCard.
 	aDeck := Deck with: cards.
@@ -182,7 +222,7 @@ CancellationCardTest >> testWhenAShipUsesCancelationCardOnANonCardPlayThenItsFai
 	aGame executeTurn.
 	anCancelattionCard selectedCard: AccelerationCard.
 	self
-  		should: [ aGame playCard: anCancelattionCard from: anotherShip to: 'everyone' ]
+  		should: [ aGame playCard: anCancelattionCard from: anotherShip to: aShip ]
   		raise: Error
   		withMessageText: 'There is no active card about this type'.
 

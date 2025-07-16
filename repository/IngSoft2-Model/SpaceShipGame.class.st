@@ -156,9 +156,12 @@ SpaceShipGame >> disableCard: aCard from: aShip to: anotherShip [
 ]
 
 { #category : 'as yet unclassified' }
-SpaceShipGame >> discardACardEffect: aCard [ 
+SpaceShipGame >> discardACardEffect: aCard to: cardTarget [
 
-	cardManagers do: [ :cardManager | cardManager deleteCardsAffecting: aCard  ] 
+	| cardTargetsManager |
+	cardTargetsManager := self cardManagerOf: cardTarget.
+	cardTargetsManager deleteCardsAffecting: aCard.
+ 
 ]
 
 { #category : 'as yet unclassified' }
