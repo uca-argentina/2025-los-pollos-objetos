@@ -97,7 +97,7 @@ SpaceShipGame >> applyLastEffectTo: aShip [
 { #category : 'as yet unclassified' }
 SpaceShipGame >> applyToAllSpaceShips: aCard [
 
-	cardManagers do: [ :cardManager | cardManager addCardsAffecting: aCard ].
+	ships do: [ :aShip | self applyACardEffect: aCard to: aShip ].
 ]
 
 { #category : 'accessing' }
