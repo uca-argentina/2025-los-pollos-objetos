@@ -149,11 +149,7 @@ CancellationCardTest >> testWhenAShipUsesCancellationCardOnAAcelerationCardThenT
 	anotherAccelerationCard := AccelerationCard new.
 	anCancellationCard := CancellationCard new.
 
-	cards := OrderedCollection withAll: {
-		anAccelerationCard.
-		anCancellationCard.
-		anotherAccelerationCard.
-	}.
+	cards := OrderedCollection with: anAccelerationCard with: anCancellationCard with: anotherAccelerationCard.
 
 	aDeck := AChargedDeck cards: cards withNShips: (ships size) .
 	"self assert: (aDeck cards isEmpty) not."
