@@ -107,9 +107,9 @@ CancellationCardTest >> testWhenAShipUsesCancellationCardOnAAcelerationCardThenT
 		         with: aBoard
 		         and: dices
 		         and: ships and: aDeck.
-		
+	
 	aGame playCard: anAccelerationCard from: aShip to: anotherShip.
-	anCancellationCard selectedCard: AccelerationCard.
+	anCancellationCard selectedCard: anAccelerationCard.
 	aGame playCard: anCancellationCard from: anotherShip to: aShip.
 	aGame executeTurn.
 	aGame executeTurn.
@@ -163,7 +163,7 @@ CancellationCardTest >> testWhenAShipUsesCancellationCardOnAAcelerationCardThenT
 	aGame playCard: anAccelerationCard from: aShip to: anotherShip.
 	aGame addASpecificCard: anotherAccelerationCard toShip: aShip.
 	aGame playCard: anotherAccelerationCard from: aShip to: anotherShip.
-	anCancellationCard selectedCard: AccelerationCard.
+	anCancellationCard selectedCard: anAccelerationCard.
 	aGame addASpecificCard: anCancellationCard toShip: anotherShip.
 	aGame playCard: anCancellationCard from: anotherShip to: aShip.
 	
@@ -217,8 +217,7 @@ CancellationCardTest >> testWhenAShipUsesCancellationCardOnAAllyCardThenTheEffec
 	aGame playCard: anAlliancenCard from: aShip to: anotherShip .
 	aGame executeTurn.
 
-	self assert: ((aGame alliesOf: aShip) includes: anotherShip).
-	self assert: ((aGame alliesOf: anotherShip) includes: aShip).
+	self assert: (aGame isAnAlly: aShip of: anotherShip).
 
 	aGame addASpecificCard: aCancellationCard toShip: anotherShip.
 	aCancellationCard selectedCard: aCancellationCard.
@@ -226,8 +225,7 @@ CancellationCardTest >> testWhenAShipUsesCancellationCardOnAAllyCardThenTheEffec
 	aGame executeTurn.
 	aGame executeTurn.
 
-	self assert: (aGame alliesOf: aShip) isEmpty.
-	self assert: (aGame alliesOf: anotherShip) isEmpty.
+	self deny: (aGame isAnAlly: aShip of: anotherShip).
 
 ]
 

@@ -59,7 +59,7 @@ SpaceShipGame >> advanceTurnIfCurrentTurnsShipIsPenalized [
 	
 	[
 	ship := ships at: shipSupposedToPlay.
-	penalties includesKey: ship ] whileTrue: [
+	penalties includesKey: (ship name) ] whileTrue: [
 		self reducePenaltyFor: ship.
 		self advanceTurn ].
 	
@@ -77,9 +77,10 @@ SpaceShipGame >> alliesOf: aShip [
 { #category : 'as yet unclassified' }
 SpaceShipGame >> ally: cardOwner with: cardTarget [
 	
-	"(allies at: cardOwner) add: cardTarget.
-	(allies at: cardTarget) add: cardOwner. "
-	allies add: (Set with: cardOwner with: cardTarget).
+	| aShip anotherShip |
+	aShip := self matchShipWith: cardOwner.
+	anotherShip := self matchShipWith: cardTarget.
+	allies add: (Set with: aShip with: anotherShip).
 ]
 
 { #category : 'as yet unclassified' }
@@ -128,9 +129,15 @@ SpaceShipGame >> check: aShip has: aCard [
 ]
 
 { #category : 'as yet unclassified' }
+SpaceShipGame >> currentFuelFor: aShip [
+
+	^ (ships detect: [ :gameShip | gameShip = aShip]) currentFuel.
+]
+
+{ #category : 'as yet unclassified' }
 SpaceShipGame >> currentLapFor: aShip [
 
-	^ shipsCurrentLap at: aShip.
+	^ shipsCurrentLap at: (aShip name).
 ]
 
 { #category : 'as yet unclassified' }
@@ -147,8 +154,10 @@ SpaceShipGame >> determineTheConsequencesOfTheThrowIn: aNewPosition forShip: aSh
 
 { #category : 'as yet unclassified' }
 SpaceShipGame >> disableAllAlliancesOf: aShip [
-
-	allies := allies reject: [ :pair | pair includes: aShip ].
+	
+	| ally |
+	ally := self matchShipWith: aShip.
+	allies := allies reject: [ :pair | pair includes: ally ].
 
 ]
 
@@ -193,20 +202,20 @@ SpaceShipGame >> initializeWith: laps with: aBoard with: gameDices with: gameShi
 	dices := gameDices.
 	maximumPossibleThrow := dices inject: 0 into: [:sum :dice | sum + dice sizeOfTheDice].
 	
-	deck:= aDeck.
+	deck := aDeck.
 	cardManagers := gameShips collect: [ :aShip | CardManager of: aShip with: aDeck ].
-	cardPlayHandler:= CardPlayHandler with: self.
+	cardPlayHandler := CardPlayHandler with: self.
 	
-	ships := gameShips.
+	ships := gameShips deepCopy.
 	
    board := aBoard.
-	board getShipsIntoFirstCellOfTheBoard: gameShips.
+	board getShipsIntoFirstCellOfTheBoard: ships.
 	
 	shipSupposedToPlay := 1.
 	penalties := Dictionary new.
 	
 	shipsCurrentLap := Dictionary new.
-	ships do: [ :ship | shipsCurrentLap at: ship put: 0 ].
+	ships do: [ :ship | shipsCurrentLap at: (ship name) put: 0 ].
 	
 	allies := Set new.
 	"ships do: [ :ship | allies at: ship put: OrderedCollection new.]."
@@ -220,6 +229,20 @@ SpaceShipGame >> isAPositiveInteger: numberOfFaces [
 		Error signal: 'The penalty must be a positive integer.' ]
 ]
 
+{ #category : 'adding' }
+SpaceShipGame >> isAnAlly: aShip of: anotherShip [
+
+	| anAlly anotherAlly |
+	anAlly := ships detect: [ :ship | ship = aShip ].
+	anotherAlly := ships detect: [ :ship | ship = anotherShip ].
+	
+	^ (self alliesOf: anAlly) includes: anotherAlly.
+
+	
+	
+
+]
+
 { #category : 'as yet unclassified' }
 SpaceShipGame >> isShipSupposedToPLay: aShip [
 
@@ -230,6 +253,13 @@ SpaceShipGame >> isShipSupposedToPLay: aShip [
 SpaceShipGame >> lastDiceThrow [
 
 	^ lastDiceThrow 
+]
+
+{ #category : 'as yet unclassified' }
+SpaceShipGame >> matchShipWith: aShip [
+
+	^ ships detect: [ :ship | ship = aShip ].
+
 ]
 
 { #category : 'as yet unclassified' }
@@ -266,7 +296,7 @@ SpaceShipGame >> move: aShip to: targetPosition andConsume: aConsumption [
 SpaceShipGame >> penalize: aShip withTurns: numberOfTurns [
 	
 	self isAPositiveInteger: numberOfTurns.
-	penalties at: aShip put: (penalties at: aShip ifAbsent: [ 0 ]) + numberOfTurns.
+	penalties at: (aShip name) put: (penalties at: (aShip name) ifAbsent: [ 0 ]) + numberOfTurns.
 	self returnToInitialPosition: aShip.
 
 ]
@@ -274,7 +304,7 @@ SpaceShipGame >> penalize: aShip withTurns: numberOfTurns [
 { #category : 'as yet unclassified' }
 SpaceShipGame >> penaltyFor: aShip [ 
 
-	^ penalties at: aShip.
+	^ penalties at: (aShip name).
 ]
 
 { #category : 'as yet unclassified' }
@@ -299,7 +329,7 @@ SpaceShipGame >> playCard: aCard from: aShip to: anotherShip [
 
 	self check: aShip has: aCard.
 	
-	cardPlayHandler handle: aCard from: aShip to: anotherShip .
+	cardPlayHandler handle: aCard from: aShip to: anotherShip.
 ]
 
 { #category : 'as yet unclassified' }
@@ -312,11 +342,11 @@ SpaceShipGame >> positionOf: aShip [
 SpaceShipGame >> reducePenaltyFor: aShip [
 
 	| remaining |
-	remaining := (penalties at: aShip) - 1.
-	remaining > 0 ifTrue: [ penalties at: aShip put: remaining ]
+	remaining := (penalties at: (aShip name)) - 1.
+	remaining > 0 ifTrue: [ penalties at: (aShip name) put: remaining ]
 		ifFalse: [ 
 			aShip restoreFuel.
-			penalties removeKey: aShip ]
+			penalties removeKey: (aShip name) ]
 
 ]
 
@@ -359,7 +389,7 @@ SpaceShipGame >> shipsPlaying [
 { #category : 'as yet unclassified' }
 SpaceShipGame >> skipTurnFor: aShip [
 
-	penalties at: aShip put: (penalties at: aShip ifAbsent: [ 0 ]) + 1.
+	penalties at: (aShip name) put: (penalties at: (aShip name) ifAbsent: [ 0 ]) + 1.
 
 ]
 
@@ -404,7 +434,7 @@ SpaceShipGame >> tryToMoveUsingAllyOf: aShip to: targetPosition consuming: aCons
 { #category : 'as yet unclassified' }
 SpaceShipGame >> updateLapFor: aShip withTotalSteps: totalSteps [
 	
-	shipsCurrentLap at: aShip put: (shipsCurrentLap at: aShip) + (totalSteps // board numberOfCells).
+	shipsCurrentLap at: (aShip name) put: (shipsCurrentLap at: (aShip name)) + (totalSteps // board numberOfCells).
 
 ]
 

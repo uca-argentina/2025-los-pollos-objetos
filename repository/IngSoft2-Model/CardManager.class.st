@@ -57,7 +57,7 @@ CardManager >> deleteASpecificCard: aCard [
 CardManager >> deleteCardsAffecting: aCard [
 
 	| cardToRemove |
-	cardToRemove := cardsAffecting detect: [:each | each = aCard ] ifNone: [ ^self ].
+	cardToRemove := cardsAffecting detect: [:each | each == aCard ] ifNone: [ ^self ].
 	cardsAffecting remove: cardToRemove.
 
 ]
@@ -65,8 +65,8 @@ CardManager >> deleteCardsAffecting: aCard [
 { #category : 'initialization' }
 CardManager >> giveInitialCardsFrom: aDeck [
 
-	cardsInHand add: aDeck pickCard.
-	cardsInHand add: aDeck pickCard.
+	self pickACard: aDeck.
+	self pickACard: aDeck.
 ]
 
 { #category : 'initialization' }

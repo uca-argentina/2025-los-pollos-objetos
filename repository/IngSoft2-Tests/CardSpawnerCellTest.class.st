@@ -28,7 +28,7 @@ CardSpawnerCellTest >> testWhenShipArrivesToCardSpawnerCellThenShipPickACard [
 	oneDice := AChargedDice withATotalNumberOfFacesOf: 4.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
-	anotherShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'Axiom' withAChargeBasedOn: dices.
 	ships := OrderedCollection with: aShip with:anotherShip .
 
 	cards := OrderedCollection with: 'card1' with: 'card2'.

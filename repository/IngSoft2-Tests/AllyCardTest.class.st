@@ -55,15 +55,13 @@ AllyCardTest >> testWhenAShipDisableAllianceCardThenBothShipsHaveNoLongerAnlAlli
 	
 	aGame executeTurn.
 
-	self assert: ((aGame alliesOf: aShip) includes: anotherShip).
-	self assert: ((aGame alliesOf: anotherShip) includes: aShip).
+	self assert: (aGame isAnAlly: aShip of: anotherShip).
 
 	aGame disableAllAlliancesOf: aShip.
 	aGame executeTurn.
 	aGame executeTurn.
 
-	self assert: (aGame alliesOf: aShip) isEmpty.
-	self assert: (aGame alliesOf: anotherShip) isEmpty.
+	self deny: (aGame isAnAlly: aShip of: anotherShip).
 
 ]
 
@@ -196,8 +194,7 @@ AllyCardTest >> testWhenAShipUsesAllianceCardThenBothShipsHaveTheAlliance [
 	
 	aGame executeTurn.
 
-	self assert: ((aGame alliesOf: aShip) includes: anotherShip).
-	self assert: ((aGame alliesOf: anotherShip) includes: aShip).
+	self assert: (aGame isAnAlly: aShip of: anotherShip).
 ]
 
 { #category : 'tests' }
@@ -266,7 +263,7 @@ AllyCardTest >> testWhenAShipWithAlliesHasNoEnoughFuelToPlayAndTheFirstAllyNeith
 	
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
 	anotherShip := Ship named: 'Zorgons Ship' withAChargeBasedOn: dices.
-	anotherSecondShip := Ship named: 'Zorgons Ship' withAChargeBasedOn: dices.
+	anotherSecondShip := Ship named: 'Millenium Falcon' withAChargeBasedOn: dices.
 	
 	ships := OrderedCollection with: aShip.
 	ships add: anotherShip.

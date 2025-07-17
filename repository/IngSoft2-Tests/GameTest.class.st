@@ -79,10 +79,10 @@ GameTest >> testWhenAShipIsPenalizedThenTheFuelIsRestoredAfterLosingItsTurn [
 
 	aGame executeTurn.
 	aGame executeTurn.
-	fuelBeforePenalization := aShip currentFuel.
+	fuelBeforePenalization := aGame currentFuelFor: aShip.
 	aGame penalize: aShip withTurns: 1.
 	aGame executeTurn.
-	fuelAfterPenalization := aShip currentFuel.
+	fuelAfterPenalization := aGame currentFuelFor: aShip.
 
 	self deny: fuelBeforePenalization equals: fuelAfterPenalization
 ]
@@ -660,7 +660,7 @@ GameTest >> testWhenOneShipHasTwoUnitsOfFuelAndMakesOneMoveThenItConsumesOneUnit
 	"aGame throwDiceFor: aShip."
 	aGame executeTurn.
 
-	self assert: aShip currentFuel equals: 1
+	self assert: (aGame currentFuelFor: aShip) equals: 1
 ]
 
 { #category : 'tests' }
