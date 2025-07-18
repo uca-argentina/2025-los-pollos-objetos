@@ -14,8 +14,7 @@ CardSpawnerCellTest >> testWhenShipArrivesToCardSpawnerCellThenShipPickACard [
 	cells add: (NormalCell initializeCellOn: 2).
 	cells add: (NormalCell initializeCellOn: 3).
 	cells add: (NormalCell initializeCellOn: 4).
-	cells add:
-		(CardSpawnerCell initializeCellOn: 5).
+	cells add: (CardSpawnerCell initializeCellOn: 5).
 	cells add: (NormalCell initializeCellOn: 6).
 	cells add: (NormalCell initializeCellOn: 7).
 	numberOfCells := 7.

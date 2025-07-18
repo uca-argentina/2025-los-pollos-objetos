@@ -1,12 +1,35 @@
 Class {
 	#name : 'AllianceCard',
 	#superclass : 'Card',
+	#instVars : [
+		'owner',
+		'target'
+	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
 }
 
 { #category : 'testing' }
-AllianceCard >> uses: aCardPlayHandler [
+AllianceCard >> disableAllianceIn: aGame [
+	
+	aGame disableAllianceBetween: owner and: target.
+	
+	 
+]
 
-	aCardPlayHandler resolveAAllianceCardPlay: self
+{ #category : 'testing' }
+AllianceCard >> remember: aCardOwner and: aCardTarget [
+
+	owner := aCardOwner.
+	target := aCardTarget.
+]
+
+{ #category : 'testing' }
+AllianceCard >> useFrom: aCardOwner to: aCardTarget in: aGame [
+
+	aGame isShipSupposedToPLay: aCardOwner.
+	aGame ally: aCardOwner with: aCardTarget.
+	self remember: aCardOwner and: aCardTarget.
+	aGame eliminate: self from: aCardOwner.
+	aGame lastPlayedCardWas: self.
 ]

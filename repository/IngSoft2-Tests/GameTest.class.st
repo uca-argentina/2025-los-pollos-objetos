@@ -986,10 +986,11 @@ GameTest >> testWhenShipDecidesNotToPlayItsTurnThenItsTurnIsSkipped [
 { #category : 'tests' }
 GameTest >> testWhenShipIsInitializedThenItHasNonAlly [
 
-	| aShip numberOfCells someProbabilities aCellGenerator aBoard ships oneDice dices aGame |
+	| aShip numberOfCells someProbabilities aCellGenerator aBoard ships oneDice dices aGame anotherShip |
 	oneDice := AChargedDice withATotalNumberOfFacesOf: 2.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'The Batwing' withAChargeBasedOn: dices.
 	numberOfCells := 10.
 	someProbabilities := Dictionary new
 		                     at: 1
@@ -1002,7 +1003,7 @@ GameTest >> testWhenShipIsInitializedThenItHasNonAlly [
 		          generatedWith: aCellGenerator
 		          andAWormHoleBetweenCells: 2
 		          and: 6.
-	ships := OrderedCollection with: aShip.
+	ships := OrderedCollection with: aShip with: anotherShip.
 	oneDice := AChargedDice withATotalNumberOfFacesOf: 10.
 	dices := OrderedCollection with: oneDice.
 	aGame := SpaceShipGame
@@ -1011,15 +1012,15 @@ GameTest >> testWhenShipIsInitializedThenItHasNonAlly [
 		         and: dices
 		         and: ships.
 
-	self assert: (aGame alliesOf: aShip) isEmpty.
+	self deny: (aGame isAnAlly: aShip of: anotherShip).
 
 ]
 
 { #category : 'tests' }
 GameTest >> testWhenTheCurrentShipHasTwoPenalizationsThenItLosesTwoTurns [
 
-	| ships aShip aBoard oneDice dices aGame anotherShip actualShipInGame numberOfCells someProbabilities aCellGenerator |
-	numberOfCells := 6.
+	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator |
+	numberOfCells := 20.
 	someProbabilities := Dictionary new
 		                     at: 1
 		                     put:
@@ -1030,9 +1031,9 @@ GameTest >> testWhenTheCurrentShipHasTwoPenalizationsThenItLosesTwoTurns [
 	aBoard := Board
 		          withATotalNumberOfCellsOf: numberOfCells
 		          generatedWith: aCellGenerator
-		          andAWormHoleBetweenCells: 2
-		          and: 5.
-	oneDice := AChargedDice withATotalNumberOfFacesOf: 6.
+		          andAWormHoleBetweenCells: 17
+		          and: 18.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 4.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
 	anotherShip := Ship named: 'Adventure' withAChargeBasedOn: dices.
@@ -1046,50 +1047,13 @@ GameTest >> testWhenTheCurrentShipHasTwoPenalizationsThenItLosesTwoTurns [
 		         and: ships.
 
 
-	aGame penalize: aShip withTurns: 2.
-
+	aGame penalize: anotherShip withTurns: 2.
 	aGame executeTurn.
-	actualShipInGame := aGame executeTurn.
-
-	self assert: actualShipInGame name equals: anotherShip name
-]
-
-{ #category : 'tests' }
-GameTest >> testWhenTheCurrentShipHasTwoPenalizationsThenTheTurnIsPassedToTheNextShipTwice [
-
-	| ships aShip aBoard oneDice dices aGame anotherShip actualShipInGame numberOfCells someProbabilities aCellGenerator |
-	numberOfCells := 6.
-	someProbabilities := Dictionary new
-		                     at: 1
-		                     put:
-			                     (NormalCell initializeCellOn: numberOfCells);
-		                     yourself.
-	aCellGenerator := CellGenerator basedOn: someProbabilities.
-
-	aBoard := Board
-		          withATotalNumberOfCellsOf: numberOfCells
-		          generatedWith: aCellGenerator
-		          andAWormHoleBetweenCells: 2
-		          and: 5.
-	oneDice := AChargedDice withATotalNumberOfFacesOf: 6.
-	dices := OrderedCollection with: oneDice.
-	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
-	anotherShip := Ship named: 'Adventure' withAChargeBasedOn: dices.
-	ships := OrderedCollection with: aShip.
-	ships add: anotherShip.
-
-	aGame := SpaceShipGame
-		         completedAtLap: 1
-		         with: aBoard
-		         and: dices
-		         and: ships.
-
-
-	aGame penalize: aShip withTurns: 2.
+	aGame skipTurnFor: aShip.
 	aGame executeTurn.
-	actualShipInGame := aGame executeTurn.
 
-	self assert: actualShipInGame name equals: anotherShip name
+	self assert: (aGame positionOf: aShip) equals: 9.
+	self assert: (aGame positionOf: anotherShip) equals: 1.
 ]
 
 { #category : 'tests' }
@@ -1127,75 +1091,6 @@ GameTest >> testWhenTheCurrentShipIsPenalizedAndItsTurnIsSkippedThenPenaltiesAre
 	aGame executeTurn.
 
 	self assert: (aGame penaltyFor: aShip) equals: 1
-]
-
-{ #category : 'tests' }
-GameTest >> testWhenTheCurrentShipIsPenalizedThenTheTurnIsPassedToTheNextShip [
-
-	| ships aShip aBoard oneDice dices aGame anotherShip actualShipInGame numberOfCells someProbabilities aCellGenerator |
-	numberOfCells := 6.
-	someProbabilities := Dictionary new
-		                     at: 1
-		                     put:
-			                     (NormalCell initializeCellOn: numberOfCells);
-		                     yourself.
-	aCellGenerator := CellGenerator basedOn: someProbabilities.
-
-	aBoard := Board
-		          withATotalNumberOfCellsOf: numberOfCells
-		          generatedWith: aCellGenerator
-		          andAWormHoleBetweenCells: 2
-		          and: 5.
-	oneDice := AChargedDice withATotalNumberOfFacesOf: 6.
-	dices := OrderedCollection with: oneDice.
-	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
-	anotherShip := Ship named: 'Adventure' withAChargeBasedOn: dices.
-	ships := OrderedCollection with: aShip.
-	ships add: anotherShip.
-
-	aGame := SpaceShipGame
-		         completedAtLap: 1
-		         with: aBoard
-		         and: dices
-		         and: ships.
-
-	aGame penalize: aShip withTurns: 2.
-	actualShipInGame := aGame executeTurn.
-
-	self assert: actualShipInGame name equals: anotherShip name
-]
-
-{ #category : 'tests' }
-GameTest >> testWhenTheFirstTurnIsExecutedThenTheFirstShipIsReturned [
-
-	| ships aShip actualShipTurn aBoard oneDice dices aGame numberOfCells someProbabilities aCellGenerator |
-	numberOfCells := 6.
-	someProbabilities := Dictionary new
-		                     at: 1
-		                     put:
-			                     (NormalCell initializeCellOn: numberOfCells);
-		                     yourself.
-	aCellGenerator := CellGenerator basedOn: someProbabilities.
-
-	aBoard := Board
-		          withATotalNumberOfCellsOf: numberOfCells
-		          generatedWith: aCellGenerator
-		          andAWormHoleBetweenCells: 2
-		          and: 5.
-	oneDice := AChargedDice withATotalNumberOfFacesOf: 6.
-	dices := OrderedCollection with: oneDice.
-	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
-	ships := OrderedCollection with: aShip.
-
-	aGame := SpaceShipGame
-		         completedAtLap: 1
-		         with: aBoard
-		         and: dices
-		         and: ships.
-
-	actualShipTurn := aGame executeTurn.
-
-	self assert: actualShipTurn name equals: aShip name
 ]
 
 { #category : 'tests' }

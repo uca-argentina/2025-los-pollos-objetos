@@ -8,6 +8,18 @@ Class {
 	#package : 'IngSoft2-Model'
 }
 
+{ #category : 'testing' }
+CancellationCard >> cancellationWhenCardToCancelIsAAllianceCardOf: aGame [
+
+	cardToCancel disableAllianceIn: aGame.
+]
+
+{ #category : 'as yet unclassified' }
+CancellationCard >> disableAllianceIn: aGame [
+	
+	^ self.
+]
+
 { #category : 'as yet unclassified' }
 CancellationCard >> selectedCard: aCard [
 
@@ -15,7 +27,10 @@ CancellationCard >> selectedCard: aCard [
 ]
 
 { #category : 'testing' }
-CancellationCard >> uses: aCardPlayHandler [
+CancellationCard >> useFrom: aCardOwner to: aCardTarget in: aGame [
 
-	aCardPlayHandler resolveACancellationCardPlay: cardToCancel and: self.
+	self cancellationWhenCardToCancelIsAAllianceCardOf: aGame.
+	aGame discardACardEffect: cardToCancel.
+	aGame eliminate: self from: aCardOwner.
+	aGame lastPlayedCardWas: self.
 ]

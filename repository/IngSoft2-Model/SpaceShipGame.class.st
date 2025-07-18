@@ -15,7 +15,8 @@ Class {
 		'cardPlayHandler',
 		'lastEffectApplied',
 		'allies',
-		'maximumPossibleThrow'
+		'maximumPossibleThrow',
+		'lastCardPlayed'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -77,10 +78,7 @@ SpaceShipGame >> alliesOf: aShip [
 { #category : 'as yet unclassified' }
 SpaceShipGame >> ally: cardOwner with: cardTarget [
 	
-	| aShip anotherShip |
-	aShip := self matchShipWith: cardOwner.
-	anotherShip := self matchShipWith: cardTarget.
-	allies add: (Set with: aShip with: anotherShip).
+	allies add: (Set with: cardOwner with: cardTarget).
 ]
 
 { #category : 'as yet unclassified' }
@@ -153,11 +151,14 @@ SpaceShipGame >> determineTheConsequencesOfTheThrowIn: aNewPosition forShip: aSh
 ]
 
 { #category : 'as yet unclassified' }
-SpaceShipGame >> disableAllAlliancesOf: aShip [
+SpaceShipGame >> disableAllianceBetween: aShip and: anotherShip [
 	
-	| ally |
-	ally := self matchShipWith: aShip.
-	allies := allies reject: [ :pair | pair includes: ally ].
+	allies := allies reject: [ :pair |
+	((pair includes: aShip) and: (pair includes: anotherShip))].
+
+
+
+
 
 ]
 
@@ -190,8 +191,6 @@ SpaceShipGame >> executeTurn [
 	self throwDiceFor: ship.
 	lastEffectApplied := board determineAndApplyEffectTo: ship atCurrentCellFrom: self.
 	self advanceTurn.
-
-	^ ship
 ]
 
 { #category : 'initialization' }
@@ -202,11 +201,11 @@ SpaceShipGame >> initializeWith: laps with: aBoard with: gameDices with: gameShi
 	dices := gameDices.
 	maximumPossibleThrow := dices inject: 0 into: [:sum :dice | sum + dice sizeOfTheDice].
 	
-	deck := aDeck.
-	cardManagers := gameShips collect: [ :aShip | CardManager of: aShip with: aDeck ].
-	cardPlayHandler := CardPlayHandler with: self.
-	
 	ships := gameShips deepCopy.
+	
+	deck := aDeck.
+	cardManagers := ships collect: [ :aShip | CardManager of: aShip with: aDeck ].
+	lastCardPlayed := Card new.
 	
    board := aBoard.
 	board getShipsIntoFirstCellOfTheBoard: ships.
@@ -255,11 +254,16 @@ SpaceShipGame >> lastDiceThrow [
 	^ lastDiceThrow 
 ]
 
-{ #category : 'as yet unclassified' }
-SpaceShipGame >> matchShipWith: aShip [
+{ #category : 'accessing' }
+SpaceShipGame >> lastPlayedCard [
 
-	^ ships detect: [ :ship | ship = aShip ].
+	^ lastCardPlayed.
+]
 
+{ #category : 'accessing' }
+SpaceShipGame >> lastPlayedCardWas: aCard [
+
+	lastCardPlayed := aCard.
 ]
 
 { #category : 'as yet unclassified' }
@@ -318,6 +322,7 @@ SpaceShipGame >> performMoveOf: aShip to: targetPosition [
 
 { #category : 'accessing' }
 SpaceShipGame >> pickACardFor: aShip [
+
 	| targetCardManager |
 	targetCardManager  := cardManagers detect: [ :aCardManager | aCardManager ship = aShip ]
 		ifNone: [ self error: 'No CardManager found for the given ship.' ].
@@ -327,9 +332,12 @@ SpaceShipGame >> pickACardFor: aShip [
 { #category : 'as yet unclassified' }
 SpaceShipGame >> playCard: aCard from: aShip to: anotherShip [
 
-	self check: aShip has: aCard.
+	| aCardOwner aCardTarget |
 	
-	cardPlayHandler handle: aCard from: aShip to: anotherShip.
+	aCardOwner := ships detect: [ :ship | ship = aShip ].
+	aCardTarget := ships detect: [ :ship | ship = anotherShip ].
+	self check: aShip has: aCard.
+	aCard useFrom: aCardOwner to: aCardTarget in: self.
 ]
 
 { #category : 'as yet unclassified' }

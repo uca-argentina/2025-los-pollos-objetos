@@ -10,18 +10,23 @@ Class {
 }
 
 { #category : 'instance creation' }
-AChargedDeck class >> cards: aBlockCollection withNShips: times [ 
+AChargedDeck class >> buildWith: aBlockCollection and: times [
 	| cards |
 	cards := OrderedCollection new.
 	times timesRepeat: [
-		aBlockCollection do: [:cardBlock |
-			cards add: cardBlock value.
-		].
+		cards addAll: (aBlockCollection collect: [:cardBlock | cardBlock value]).
 	].
+	^ cards.
+
+]
+
+{ #category : 'instance creation' }
+AChargedDeck class >> cards: aBlockCollection withNShips: times [
+
+	| cards |
+	cards := self buildWith: aBlockCollection and: times.
+	
 	^ self new initializeWith: cards
-
-
-
 
 ]
 
