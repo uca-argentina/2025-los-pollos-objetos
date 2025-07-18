@@ -431,3 +431,123 @@ CancellationCardTest >> testWhenAShipUsesCancellationCardOnAOverloadCardThenTheE
 	self assert: (aGame positionOf: aShip) equals: 4.
 	self assert: (aGame positionOf: anotherShip) equals: 4.
 ]
+
+{ #category : 'tests' }
+CancellationCardTest >> testWhenAShipUsesCancellationCardOnAReDoCardThenTheEffectDisappears [
+
+		| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells cards aDeck  anAccelerationCard aRedoCard aCancellationCard cells |
+	cells := OrderedCollection new.
+	cells add: (NormalCell initializeCellOn: 1).
+	cells add: (NormalCell initializeCellOn: 2).
+	cells add: (NormalCell initializeCellOn: 3).
+	cells add: (NormalCell initializeCellOn: 4).
+	cells add: (CardSpawnerCell initializeCellOn: 5).
+	cells add: (NormalCell initializeCellOn: 6).
+	cells add: (NormalCell initializeCellOn: 7).
+	cells add: (NormalCell initializeCellOn: 8).
+	cells add: (NormalCell initializeCellOn: 9).
+	cells add: (NormalCell initializeCellOn: 10).
+	cells add: (NormalCell initializeCellOn: 11).
+	cells add: (NormalCell initializeCellOn: 12).
+	cells add: (NormalCell initializeCellOn: 13).
+	cells add: (NormalCell initializeCellOn: 14).
+	numberOfCells := 14.
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          whichAre: cells
+		          andAWormHoleBetweenCells: 12
+		          and: 13.
+		
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 3.
+	dices := OrderedCollection with: oneDice.
+	
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'Zorgons Ship' withAChargeBasedOn: dices.
+	
+	ships := OrderedCollection with: aShip.
+	ships add: anotherShip.
+	
+	anAccelerationCard:= AccelerationCard new.
+	aRedoCard := ReDoCard new.
+	aCancellationCard := CancellationCard new.
+	cards := OrderedCollection with: anAccelerationCard with: aRedoCard with: aCancellationCard.
+	aDeck := AChargedDeck cards: cards withNShips: (ships size).
+
+	aGame := SpaceShipGame
+		         completedAtLap: 3
+		         with: aBoard
+		         and: dices
+		         and: ships and: aDeck.
+		
+	aGame playCard: anAccelerationCard from: aShip to: anotherShip.
+	aGame executeTurn.
+	aGame executeTurn.
+	aGame playCard: aRedoCard from: aShip to: anotherShip.
+	aGame skipTurnFor: aShip.
+	aGame skipTurnFor: anotherShip.
+	aCancellationCard selectedCard: aRedoCard.
+	aGame playCard: aCancellationCard from: anotherShip to: aShip.
+	aGame executeTurn.
+	aGame executeTurn.
+
+	self assert: (aGame positionOf: aShip) equals: 10.
+	self assert: (aGame positionOf: anotherShip) equals: 10.
+]
+
+{ #category : 'tests' }
+CancellationCardTest >> testWhenAShipUsesCancellationCardOnARepeatCardThenTheEffectDisappears [
+
+	| aGame aBoard aShip ships oneDice dices anotherShip numberOfCells cells aRepeatCard cards aDeck aCancellationCard |
+	
+	cells := OrderedCollection new.
+	cells add: (NormalCell initializeCellOn: 1).
+	cells add: (NormalCell initializeCellOn: 2).
+	cells add: (NormalCell initializeCellOn: 3).
+	cells add: (NormalCell initializeCellOn: 4).
+	cells add: (MoonWalkCell initializeCellOn: 5 withRequiredValue: 1).
+	cells add: (NormalCell initializeCellOn: 6).
+	cells add: (NormalCell initializeCellOn: 7).
+	
+	numberOfCells := 7.
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          whichAre: cells
+		          andAWormHoleBetweenCells: 6
+		          and: 7.
+	
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 2.
+	dices := OrderedCollection with: oneDice.
+	
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'Sulaco' withAChargeBasedOn: dices.
+	
+	ships := OrderedCollection new.
+	ships add: aShip.
+	ships add: anotherShip.
+
+	aRepeatCard := RepeatCard new.
+	aCancellationCard := CancellationCard new.
+	cards := OrderedCollection with: aRepeatCard with: aCancellationCard.
+	aDeck := AChargedDeck cards: cards withNShips: (ships size).
+
+	aGame := SpaceShipGame
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships and: aDeck.
+
+	aGame executeTurn.
+	aGame skipTurnFor: aShip.
+	aGame executeTurn.
+	aGame skipTurnFor: anotherShip.
+	aGame executeTurn.
+	
+	self assert: (aGame positionOf: aShip) equals: 5.
+	self assert: (aGame positionOf: anotherShip) equals: 2.
+	
+	aGame playCard: aRepeatCard from: aShip to: anotherShip.
+	aCancellationCard selectedCard: aRepeatCard.
+	aGame playCard: aCancellationCard from: anotherShip to: aShip.
+
+	self assert: (aGame positionOf: anotherShip) equals: 2.
+]
