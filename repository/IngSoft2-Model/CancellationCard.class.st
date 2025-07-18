@@ -23,7 +23,7 @@ CancellationCard >> disableAllianceIn: aGame [
 { #category : 'as yet unclassified' }
 CancellationCard >> selectedCard: aCard [
 
-	cardToCancel := aCard 
+	cardToCancel := aCard.
 ]
 
 { #category : 'testing' }
