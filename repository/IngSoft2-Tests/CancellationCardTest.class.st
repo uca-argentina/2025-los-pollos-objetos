@@ -226,7 +226,7 @@ CancellationCardTest >> testWhenAShipUsesCancellationCardOnAAllyCardThenTheEffec
 { #category : 'tests' }
 CancellationCardTest >> testWhenAShipUsesCancellationCardOnAAllyCardThenTheEffectDisappearsOnlyOnThatAlliance [
 
-	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck aCancellationCard anAlliancenCard oneMoreShip anotherAllianceCard |
+	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck aCancellationCard anAllianceCard oneMoreShip anotherAllianceCard |
 	numberOfCells := 10.
 	someProbabilities := Dictionary new
 		                     at: 1
@@ -252,11 +252,11 @@ CancellationCardTest >> testWhenAShipUsesCancellationCardOnAAllyCardThenTheEffec
 	ships add: anotherShip.
 	ships add: oneMoreShip.
 	
-	anAlliancenCard := AllianceCard new.
+	anAllianceCard := AllianceCard new.
 	anotherAllianceCard := AllianceCard new.
 	aCancellationCard := CancellationCard new.
 	cards := OrderedCollection withAll: {
-		anAlliancenCard.
+		anAllianceCard.
 		anotherAllianceCard.
 		aCancellationCard.
 	}.
@@ -268,14 +268,14 @@ CancellationCardTest >> testWhenAShipUsesCancellationCardOnAAllyCardThenTheEffec
 		         and: dices
 		         and: ships and: aDeck.
 		
-	aGame playCard: anAlliancenCard from: aShip to: anotherShip.
+	aGame playCard: anAllianceCard from: aShip to: anotherShip.
 	aGame playCard: anotherAllianceCard from: aShip to: oneMoreShip.
 	aGame executeTurn.
 
 	self assert: (aGame isAnAlly: aShip of: anotherShip).
 	self assert: (aGame isAnAlly: aShip of: oneMoreShip).
 
-	aCancellationCard selectedCard: anAlliancenCard.
+	aCancellationCard selectedCard: anAllianceCard.
 	aGame playCard: aCancellationCard from: anotherShip to: aShip.
 	aGame executeTurn.
 	aGame executeTurn.

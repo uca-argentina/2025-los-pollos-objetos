@@ -366,7 +366,6 @@ ReDoCardTest >> testWhenAShipUsesTwoReDoCardsAfterUsingAOverloadCardOnASameShipT
 		
 	aGame playCard: anOverloadCard from: aShip to: anotherShip .
 	aGame playCard: aRedoCard from: aShip to: anotherShip.
-	"aGame addASpecificCard: anotherRedoCard toShip: aShip."
 
 	aGame executeTurn.
 	aGame playCard: anotherRedoCard from: anotherShip to: anotherShip.

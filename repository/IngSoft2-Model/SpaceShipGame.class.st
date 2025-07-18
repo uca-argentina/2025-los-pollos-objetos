@@ -217,8 +217,6 @@ SpaceShipGame >> initializeWith: laps with: aBoard with: gameDices with: gameShi
 	ships do: [ :ship | shipsCurrentLap at: (ship name) put: 0 ].
 	
 	allies := Set new.
-	"ships do: [ :ship | allies at: ship put: OrderedCollection new.]."
-
 ]
 
 { #category : 'testing' }

@@ -34,7 +34,8 @@ Ship class >> shipHasAValidName: aName [
 { #category : 'path commands' }
 Ship >> = anotherObject [
 
-	^ anotherObject name = self name.
+	^ (anotherObject isKindOf: Ship) and: [anotherObject name = self name].
+
 ]
 
 { #category : 'path commands' }
