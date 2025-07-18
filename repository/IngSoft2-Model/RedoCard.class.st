@@ -19,6 +19,7 @@ ReDoCard >> disableAllianceIn: aGame [
 ReDoCard >> useFrom: aCardOwner to: aCardTarget in: aGame [
 
 	| lastCardPlayed |
+	
 	lastCardPlayed := self wasACardPreviouslyPlayedIn: aGame.
 	aGame addASpecificCard: lastCardPlayed toShip: aCardOwner.
 	aGame playCard: lastCardPlayed from: aCardOwner to: aCardTarget.
