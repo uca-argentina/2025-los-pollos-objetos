@@ -120,10 +120,10 @@ SpaceShipGame >> cardManagerOf: aShip [
 SpaceShipGame >> check: aShip has: aCard [
 
 	| cardManager |
-	cardManager := self cardManagerOf: aShip .
+	cardManager := self cardManagerOf: aShip.
 	(cardManager hasInHand: aCard) ifFalse: [
 		Error signal:
-			'Ship cannot throw this card because it does not have this' ]
+			'Ship cannot throw this card because it does not have this' ].
 ]
 
 { #category : 'as yet unclassified' }
