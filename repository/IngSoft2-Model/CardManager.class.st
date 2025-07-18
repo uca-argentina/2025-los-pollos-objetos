@@ -72,7 +72,7 @@ CardManager >> giveInitialCardsFrom: aDeck [
 { #category : 'initialization' }
 CardManager >> hasInHand: aCard [
 
-	^ cardsInHand includes: aCard
+	^ cardsInHand includes: aCard.
 ]
 
 { #category : 'initialization' }
