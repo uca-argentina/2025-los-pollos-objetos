@@ -389,7 +389,7 @@ SpaceShipGame >> shipCardsInHand: aShip [
 { #category : 'as yet unclassified' }
 SpaceShipGame >> shipsPlaying [
 
-	^ ships
+	^ ships.
 ]
 
 { #category : 'as yet unclassified' }
