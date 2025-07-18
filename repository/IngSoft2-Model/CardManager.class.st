@@ -20,7 +20,7 @@ CardManager class >> of: aShip with: aDeck [
 { #category : 'adding' }
 CardManager >> addASpecificCard: aCard [
 
-	cardsInHand add:  aCard .
+	cardsInHand add: aCard .
 ]
 
 { #category : 'initialization' }
@@ -54,28 +54,25 @@ CardManager >> deleteASpecificCard: aCard [
 ]
 
 { #category : 'initialization' }
-CardManager >> deleteCardsAffecting: aCardClass [
-    | found |
+CardManager >> deleteCardsAffecting: aCard [
 
-    found := cardsAffecting anySatisfy: [:each | each class = aCardClass ].
-
-    found ifFalse: [ self error: 'There is no active card about this type' ].
-
-    cardsAffecting removeAllSuchThat: [:each | each class = aCardClass ].
+	| cardToRemove |
+	cardToRemove := cardsAffecting detect: [:each | each == aCard ] ifNone: [ ^self ].
+	cardsAffecting remove: cardToRemove.
 
 ]
 
 { #category : 'initialization' }
 CardManager >> giveInitialCardsFrom: aDeck [
 
-	cardsInHand add: aDeck pickCard.
-	cardsInHand add: aDeck pickCard.
+	self pickACard: aDeck.
+	self pickACard: aDeck.
 ]
 
 { #category : 'initialization' }
 CardManager >> hasInHand: aCard [
 
-	^ cardsInHand includes: aCard
+	^ cardsInHand includes: aCard.
 ]
 
 { #category : 'initialization' }

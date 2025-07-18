@@ -6,7 +6,15 @@ Class {
 }
 
 { #category : 'testing' }
-RepeatCard >> uses: aCardPlayHandler [
+RepeatCard >> disableAllianceIn: aGame [
+	
+	^ self.
+]
 
-	aCardPlayHandler resolveARepeatedCardPlay: self
+{ #category : 'testing' }
+RepeatCard >> useFrom: aCardOwner to: aCardTarget in: aGame [
+
+	aGame applyLastEffectTo: aCardTarget.
+	aGame eliminate: self from: aCardOwner.
+	aGame lastPlayedCardWas: self.
 ]

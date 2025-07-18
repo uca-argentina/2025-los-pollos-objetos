@@ -32,6 +32,13 @@ Ship class >> shipHasAValidName: aName [
 ]
 
 { #category : 'path commands' }
+Ship >> = anotherObject [
+
+	^ (anotherObject isKindOf: Ship) and: [anotherObject name = self name].
+
+]
+
+{ #category : 'path commands' }
 Ship >> consumeFuel: aConsumption [
 
 	self isAPositiveInteger: aConsumption.

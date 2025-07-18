@@ -14,8 +14,7 @@ CardSpawnerCellTest >> testWhenShipArrivesToCardSpawnerCellThenShipPickACard [
 	cells add: (NormalCell initializeCellOn: 2).
 	cells add: (NormalCell initializeCellOn: 3).
 	cells add: (NormalCell initializeCellOn: 4).
-	cells add:
-		(CardSpawnerCell initializeCellOn: 5).
+	cells add: (CardSpawnerCell initializeCellOn: 5).
 	cells add: (NormalCell initializeCellOn: 6).
 	cells add: (NormalCell initializeCellOn: 7).
 	numberOfCells := 7.
@@ -28,7 +27,7 @@ CardSpawnerCellTest >> testWhenShipArrivesToCardSpawnerCellThenShipPickACard [
 	oneDice := AChargedDice withATotalNumberOfFacesOf: 4.
 	dices := OrderedCollection with: oneDice.
 	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
-	anotherShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'Axiom' withAChargeBasedOn: dices.
 	ships := OrderedCollection with: aShip with:anotherShip .
 
 	cards := OrderedCollection with: 'card1' with: 'card2'.

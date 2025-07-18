@@ -169,5 +169,5 @@ AtomicBombCellTest >> testWhenShipArrivesToAtomicBombCellThenItReturnsToFirstCel
 
 	aGame executeTurn.
 
-	self assert: aShip currentFuel equals: 4
+	self assert: (aGame currentFuelFor: aShip) equals: 4
 ]
