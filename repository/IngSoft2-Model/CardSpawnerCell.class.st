@@ -8,9 +8,7 @@ Class {
 { #category : 'initialization' }
 CardSpawnerCell >> applyEffectTo: aShip of: aGame [
 	
-	(aGame isReversed: aShip)
-	ifTrue: [ self applyReversedEffectTo: aShip from: aGame ] 
-	ifFalse: [aGame pickACardFor: aShip].
+	aGame pickACardFor: aShip.
 ]
 
 { #category : 'initialization' }

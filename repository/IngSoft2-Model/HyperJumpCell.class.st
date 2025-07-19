@@ -52,12 +52,9 @@ HyperJumpCell class >> isAPositiveInteger: aNumberOfCells and: aBoardLenghtInPar
 
 { #category : 'initialization' }
 HyperJumpCell >> applyEffectTo: aShip of: aGame [
-
-	(aGame isReversed: aShip)
-	ifTrue: [ self applyReversedEffectTo: aShip from: aGame ] 
-	ifFalse: [ aGame move: aShip by: (self cellsToJump) ].
-
-    self updateDistanceIndex.
+	
+	aGame move: aShip by: (self cellsToJump).
+   self updateDistanceIndex.
 ]
 
 { #category : 'initialization' }

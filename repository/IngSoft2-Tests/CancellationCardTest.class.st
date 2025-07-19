@@ -15,6 +15,56 @@ CancellationCardTest >> should: anErrorBlock raise: anErrorClass withMessageText
 ]
 
 { #category : 'tests' }
+CancellationCardTest >> testWhenACancellationCardIsUsedInAReversePolarityCardThenTheEffectDisappears [
+
+	| aGame aBoard aShip ships oneDice dices numberOfCells cells anotherShip aCancellationCard cards aDeck aReversePolarityCard aOverloadCard |
+	cells := OrderedCollection new.
+	cells add: (NormalCell initializeCellOn: 1).
+	cells add: (NormalCell initializeCellOn: 2).
+	cells add: (NormalCell initializeCellOn: 3).
+	cells add: (NormalCell initializeCellOn: 4).
+	cells add: (NormalCell initializeCellOn: 5).
+	cells add: (NormalCell initializeCellOn: 6).
+	cells add: (AtomicBombCell initializeCellOn: 7).
+	cells add: (NormalCell initializeCellOn: 8).
+	cells add: (NormalCell initializeCellOn: 9).
+	cells add: (NormalCell initializeCellOn: 10).
+	numberOfCells := 10.
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          whichAre: cells
+		          andAWormHoleBetweenCells: 8
+		          and: 9.
+	
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 6.
+	dices := OrderedCollection with: oneDice.
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'The Millenium Falcon' withAChargeBasedOn: dices.
+	ships := OrderedCollection with: aShip with: anotherShip.
+	aCancellationCard := CancellationCard new.
+	aReversePolarityCard := ReversePolarityCard new.
+	aOverloadCard := OverloadCard new.
+	cards := OrderedCollection with: aReversePolarityCard with: aCancellationCard with: aOverloadCard.
+	aDeck := AChargedDeck cards: cards withNShips: (ships size) .
+	aGame := SpaceShipGame
+		         completedAtLap: 2
+		         with: aBoard
+		         and: dices
+		         and: ships
+					and: aDeck.
+
+	aGame executeTurn.
+	aReversePolarityCard selectedCell: 7 of: aGame.
+	aGame playCard: aReversePolarityCard from: anotherShip to: aShip.
+	aCancellationCard selectedCard: aReversePolarityCard.
+	aGame playCard: aCancellationCard from: aShip to: anotherShip.
+	aGame executeTurn.
+
+	self assert: (aGame positionOf: aShip) equals: 1.
+	self assert: (aGame positionOf: anotherShip) equals: 1.
+]
+
+{ #category : 'tests' }
 CancellationCardTest >> testWhenACancellationCardIsUsedThenItsEliminatedFromTheHand [
 
 	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck  anAccelerationCard anCancellationCard anotherShipsCardsBeforePlay |

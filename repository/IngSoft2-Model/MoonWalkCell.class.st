@@ -31,11 +31,7 @@ MoonWalkCell >> applyEffectTo: currentShip of: aGame [
     | shipsToAffect |
     
     shipsToAffect := aGame shipsPlaying reject: [ :ship | ship = currentShip ].
-	
-	(aGame isReversed: currentShip) 
-	ifTrue: [ self applyReversedEffectTo: currentShip from: aGame ] 
-	ifFalse: [ shipsToAffect do: [ :ship | aGame move: ship by: (self stepsBack) ] ].
-
+	 shipsToAffect do: [ :ship | aGame move: ship by: (self stepsBack) ].
 ]
 
 { #category : 'initialization' }

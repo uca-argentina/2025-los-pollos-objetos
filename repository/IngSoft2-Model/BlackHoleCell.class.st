@@ -7,11 +7,8 @@ Class {
 
 { #category : 'as yet unclassified' }
 BlackHoleCell >> applyEffectTo: aShip of: aGame [
-	
-	(aGame isReversed: aShip) 
-	ifTrue: [ self applyReversedEffectTo: aShip from: aGame ] 
-	ifFalse: [ aGame move: aShip by: -4 ].
 
+	aGame move: aShip by: -4.
 ]
 
 { #category : 'as yet unclassified' }

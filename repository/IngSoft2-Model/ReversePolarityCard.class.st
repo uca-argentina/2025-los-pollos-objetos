@@ -2,7 +2,9 @@ Class {
 	#name : 'ReversePolarityCard',
 	#superclass : 'Card',
 	#instVars : [
-		'cell'
+		'cell',
+		'game',
+		'cardOwner'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
@@ -15,8 +17,14 @@ ReversePolarityCard >> cellNumberAffected [
 ]
 
 { #category : 'testing' }
-ReversePolarityCard >> effect [
+ReversePolarityCard >> disableAllianceIn: aGame [
 	
+	^ self.
+]
+
+{ #category : 'testing' }
+ReversePolarityCard >> effect [ 
+
 	^ 0.
 ]
 
