@@ -435,7 +435,7 @@ SpaceShipGame >> throwDiceFor: aShip [
 	
 	throwModified := self modifyThrowFor: aShip.
 	
-	self move: aShip by: resultOfTheThrow + throwModified .
+	self move: aShip by: resultOfTheThrow + throwModified.
 ]
 
 { #category : 'as yet unclassified' }
