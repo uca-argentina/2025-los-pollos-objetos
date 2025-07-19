@@ -53,13 +53,28 @@ HyperJumpCell class >> isAPositiveInteger: aNumberOfCells and: aBoardLenghtInPar
 { #category : 'initialization' }
 HyperJumpCell >> applyEffectTo: aShip of: aGame [
 
-    | cellsToJump distanceToJump |
+	(aGame isReversed: aShip)
+	ifTrue: [ self applyReversedEffectTo: aShip from: aGame ] 
+	ifFalse: [ aGame move: aShip by: (self cellsToJump) ].
 
-    distanceToJump := someDistanceValues at: currentDistanceIndex.
-    cellsToJump := (distanceToJump valueInParsecs) // cellLengthInParsecs.
-	 aGame move: aShip by: cellsToJump.
+    self updateDistanceIndex.
+]
 
-    currentDistanceIndex := (currentDistanceIndex \\ someDistanceValues size) + 1.
+{ #category : 'initialization' }
+HyperJumpCell >> applyReversedEffectTo: aShip from: aGame [
+
+	| shipsToAffect |
+	shipsToAffect := aGame shipsPlaying reject: [ :ship | ship = aShip].
+	shipsToAffect do: [ :ship | aGame move: ship by: (self cellsToJump) ].
+]
+
+{ #category : 'initialization' }
+HyperJumpCell >> cellsToJump [
+
+    | distanceToJump cellsToJump |
+	
+	distanceToJump := someDistanceValues at: currentDistanceIndex.
+   ^ cellsToJump := (distanceToJump valueInParsecs) // cellLengthInParsecs.
 ]
 
 { #category : 'initialization' }
@@ -71,4 +86,10 @@ HyperJumpCell >> setUpOn: aNumberOfCell withDistanceValues: distanceValues withB
 	currentDistanceIndex := 1.
 	boardLengthInParsecs := aBoardLength valueInParsecs .
 	cellLengthInParsecs := boardLengthInParsecs // aNumberOfCells.
+]
+
+{ #category : 'initialization' }
+HyperJumpCell >> updateDistanceIndex [
+
+    currentDistanceIndex := (currentDistanceIndex \\ someDistanceValues size) + 1.
 ]

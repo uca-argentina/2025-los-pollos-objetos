@@ -17,9 +17,20 @@ WormHoleCell class >> on: aNumberOfCell between: firstEntrance and: secondEntran
 
 { #category : 'initialization' }
 WormHoleCell >> applyEffectTo: aShip of: aGame [
+	
+	(aGame isReversed: aShip)
+	ifTrue: [ self applyReversedEffectTo: aShip from: aGame ] 
+	ifFalse: [ (numberOfCell = wormsHoleFirstEntrance ) ifTrue: [ aGame move: aShip by: (wormsHoleSecondEntrance - wormsHoleFirstEntrance) ].
+				  (numberOfCell = wormsHoleSecondEntrance ) ifTrue: [ aGame move: aShip by: (wormsHoleFirstEntrance - wormsHoleSecondEntrance) ].	 ].
+]
 
-	(numberOfCell = wormsHoleFirstEntrance ) ifTrue: [ aGame move: aShip by: (wormsHoleSecondEntrance - wormsHoleFirstEntrance) ].
-	(numberOfCell = wormsHoleSecondEntrance ) ifTrue: [ aGame move: aShip by: (wormsHoleFirstEntrance - wormsHoleSecondEntrance) ].	
+{ #category : 'initialization' }
+WormHoleCell >> applyReversedEffectTo: aShip from: aGame [
+
+	| shipsToAffect |
+	shipsToAffect := aGame shipsPlaying reject: [ :ship | ship = aShip].
+	shipsToAffect do: [ :ship | (numberOfCell = wormsHoleFirstEntrance ) ifTrue: [ aGame move: ship to: (wormsHoleSecondEntrance) andConsume: 0 ].
+										(numberOfCell = wormsHoleSecondEntrance ) ifTrue: [ aGame move: ship to: (wormsHoleFirstEntrance) andConsume: 0].]
 ]
 
 { #category : 'initialization' }
