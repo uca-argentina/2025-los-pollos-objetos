@@ -27,7 +27,7 @@ AllianceCard >> remember: aCardOwner and: aCardTarget [
 { #category : 'testing' }
 AllianceCard >> useFrom: aCardOwner to: aCardTarget in: aGame [
 
-	aGame isShipSupposedToPLay: aCardOwner.
+	aGame isShipSupposedToPlay: aCardOwner.
 	aGame ally: aCardOwner with: aCardTarget.
 	self remember: aCardOwner and: aCardTarget.
 	aGame eliminate: self from: aCardOwner.

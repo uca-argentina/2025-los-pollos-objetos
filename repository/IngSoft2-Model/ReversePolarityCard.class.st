@@ -37,7 +37,7 @@ ReversePolarityCard >> selectedCell: aNumberOfCell of: aGame [
 { #category : 'testing' }
 ReversePolarityCard >> useFrom: aCardOwner to: aCardTarget in: aGame [
 
-	aGame isShipSupposedToPLay: aCardOwner.
+	aGame isShipSupposedToPlay: aCardOwner.
 	aGame addACardEffect: self to: aCardOwner.
 	aGame eliminate: self from: aCardOwner.
 	aGame lastPlayedCardWas: self.

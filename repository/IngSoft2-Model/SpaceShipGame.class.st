@@ -64,11 +64,10 @@ SpaceShipGame >> advanceTurnIfCurrentTurnsShipIsPenalized [
 
 	| ship |
 	
-	[
-	ship := ships at: shipSupposedToPlay.
-	penalties includesKey: (ship name) ] whileTrue: [
-		self reducePenaltyFor: ship.
-		self advanceTurn ].
+	[ ship := ships at: shipSupposedToPlay.
+	  penalties includesKey: (ship name) ] whileTrue: [
+	  self reducePenaltyFor: ship.
+	  self advanceTurn ].
 	
 	^ ship
 ]
@@ -262,7 +261,7 @@ SpaceShipGame >> isReversed: aShip [
 ]
 
 { #category : 'as yet unclassified' }
-SpaceShipGame >> isShipSupposedToPLay: aShip [
+SpaceShipGame >> isShipSupposedToPlay: aShip [
 
 	aShip = (ships at: shipSupposedToPlay ) ifFalse: [ Error signal: 'You can only play this card when its your turn' ]
 ]

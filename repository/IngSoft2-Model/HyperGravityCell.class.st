@@ -44,7 +44,10 @@ HyperGravityCell >> applyEffectTo: aShip of: aGame [
 { #category : 'initialization' }
 HyperGravityCell >> applyReversedEffectTo: aShip from: aGame [
 	
-	| shipsToAffect |
+	| shipsToAffect diceThrow |
+	
+	diceThrow := aGame lastDiceThrow.
+	diceThrow >= requiredValue ifTrue: [ ^ self ].
 	shipsToAffect := aGame shipsPlaying reject: [ :ship | ship = aShip].
 	shipsToAffect do: [ :ship | aGame returnToInitialPosition: ship ].
 ]
