@@ -7,6 +7,16 @@ Class {
 
 { #category : 'initialization' }
 CardSpawnerCell >> applyEffectTo: aShip of: aGame [
+	
+	(aGame isReversed: aShip)
+	ifTrue: [ self applyReversedEffectTo: aShip from: aGame ] 
+	ifFalse: [aGame pickACardFor: aShip].
+]
 
-	aGame pickACardFor: aShip
+{ #category : 'initialization' }
+CardSpawnerCell >> applyReversedEffectTo: aShip from: aGame [ 
+
+	| shipsToAffect |
+	shipsToAffect := aGame shipsPlaying reject: [ :ship | ship = aShip].
+	shipsToAffect do: [ :ship | aGame pickACardFor: ship ].
 ]

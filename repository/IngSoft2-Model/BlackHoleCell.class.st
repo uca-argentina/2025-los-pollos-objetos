@@ -7,6 +7,17 @@ Class {
 
 { #category : 'as yet unclassified' }
 BlackHoleCell >> applyEffectTo: aShip of: aGame [
-			
-	aGame move: aShip by: (-4).
+	
+	(aGame isReversed: aShip) 
+	ifTrue: [ self applyReversedEffectTo: aShip from: aGame ] 
+	ifFalse: [ aGame move: aShip by: -4 ].
+
+]
+
+{ #category : 'as yet unclassified' }
+BlackHoleCell >> applyReversedEffectTo: aShip from: aGame [
+
+	| shipsToAffect |
+	shipsToAffect := aGame shipsPlaying reject: [ :ship | ship = aShip].
+	shipsToAffect do: [ :ship | aGame move: ship by: -4 ].
 ]

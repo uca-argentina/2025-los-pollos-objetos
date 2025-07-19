@@ -42,6 +42,12 @@ CardManager >> applyEffect [
 ]
 
 { #category : 'initialization' }
+CardManager >> cardsAffecting [
+
+	^ cardsAffecting.
+]
+
+{ #category : 'initialization' }
 CardManager >> cardsInHand [
 
 	^ cardsInHand 

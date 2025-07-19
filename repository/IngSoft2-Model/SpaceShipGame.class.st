@@ -34,6 +34,12 @@ SpaceShipGame class >> completedAtLap: aNumberOfLap with: aBoard and: dices and:
 	^ (self new) initializeWith: aNumberOfLap with: aBoard with: dices with: ships with: aDeck.
 ]
 
+{ #category : 'as yet unclassified' }
+SpaceShipGame >> addACardEffect: aCard to: aShip [
+
+	(self cardManagerOf: aShip ) addCardsAffecting: aCard. 
+]
+
 { #category : 'adding' }
 SpaceShipGame >> addASpecificCard: aCard toShip: aShip [
 
@@ -82,12 +88,6 @@ SpaceShipGame >> ally: cardOwner with: cardTarget [
 ]
 
 { #category : 'as yet unclassified' }
-SpaceShipGame >> applyACardEffect: aCard to: aShip [
-
-	(self cardManagerOf: aShip ) addCardsAffecting: aCard. 
-]
-
-{ #category : 'as yet unclassified' }
 SpaceShipGame >> applyLastEffectTo: aShip [
 
 	lastEffectApplied applyEffectTo: aShip of: self.
@@ -96,7 +96,7 @@ SpaceShipGame >> applyLastEffectTo: aShip [
 { #category : 'as yet unclassified' }
 SpaceShipGame >> applyToAllSpaceShips: aCard [
 
-	ships do: [ :aShip | self applyACardEffect: aCard to: aShip ].
+	ships do: [ :aShip | self addACardEffect: aCard to: aShip ].
 ]
 
 { #category : 'accessing' }
@@ -114,6 +114,13 @@ SpaceShipGame >> cardManagerOf: aShip [
 	| aCardManager |
 	aCardManager := cardManagers detect: [ :manager | manager ship = aShip ].
 	^ aCardManager  .
+]
+
+{ #category : 'as yet unclassified' }
+SpaceShipGame >> cellAt: aNumber [
+
+	^ board cellNumber: aNumber.
+
 ]
 
 { #category : 'as yet unclassified' }
@@ -238,6 +245,20 @@ SpaceShipGame >> isAnAlly: aShip of: anotherShip [
 	
 	
 
+]
+
+{ #category : 'as yet unclassified' }
+SpaceShipGame >> isReversed: aShip [
+
+	| cards position |
+	
+	cards := (self cardManagerOf: aShip) cardsAffecting.
+	position := self positionOf: aShip.
+	^ cards anySatisfy: [ :aCard | 
+		(aCard isKindOf: ReversePolarityCard) and: [
+			aCard cellNumberAffected = position
+		]
+	].
 ]
 
 { #category : 'as yet unclassified' }
