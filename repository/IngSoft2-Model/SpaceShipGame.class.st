@@ -34,6 +34,12 @@ SpaceShipGame class >> completedAtLap: aNumberOfLap with: aBoard and: dices and:
 	^ (self new) initializeWith: aNumberOfLap with: aBoard with: dices with: ships with: aDeck.
 ]
 
+{ #category : 'as yet unclassified' }
+SpaceShipGame >> addACardEffect: aCard to: aShip [
+
+	(self cardManagerOf: aShip ) addCardsAffecting: aCard. 
+]
+
 { #category : 'adding' }
 SpaceShipGame >> addASpecificCard: aCard toShip: aShip [
 
@@ -58,11 +64,10 @@ SpaceShipGame >> advanceTurnIfCurrentTurnsShipIsPenalized [
 
 	| ship |
 	
-	[
-	ship := ships at: shipSupposedToPlay.
-	penalties includesKey: (ship name) ] whileTrue: [
-		self reducePenaltyFor: ship.
-		self advanceTurn ].
+	[ ship := ships at: shipSupposedToPlay.
+	  penalties includesKey: (ship name) ] whileTrue: [
+	  self reducePenaltyFor: ship.
+	  self advanceTurn ].
 	
 	^ ship
 ]
@@ -71,7 +76,7 @@ SpaceShipGame >> advanceTurnIfCurrentTurnsShipIsPenalized [
 SpaceShipGame >> alliesOf: aShip [
 
 	^ (allies select: [:pair | pair includes: aShip ])
-		collect: [:pair | pair detect: [:ship | ship ~= aShip ]].
+		collect: [:pair | pair detect: [:ship | ship ~= aShip ] ].
 
 ]
 
@@ -79,12 +84,6 @@ SpaceShipGame >> alliesOf: aShip [
 SpaceShipGame >> ally: cardOwner with: cardTarget [
 	
 	allies add: (Set with: cardOwner with: cardTarget).
-]
-
-{ #category : 'as yet unclassified' }
-SpaceShipGame >> applyACardEffect: aCard to: aShip [
-
-	(self cardManagerOf: aShip ) addCardsAffecting: aCard. 
 ]
 
 { #category : 'as yet unclassified' }
@@ -96,7 +95,7 @@ SpaceShipGame >> applyLastEffectTo: aShip [
 { #category : 'as yet unclassified' }
 SpaceShipGame >> applyToAllSpaceShips: aCard [
 
-	ships do: [ :aShip | self applyACardEffect: aCard to: aShip ].
+	ships do: [ :aShip | self addACardEffect: aCard to: aShip ].
 ]
 
 { #category : 'accessing' }
@@ -114,6 +113,13 @@ SpaceShipGame >> cardManagerOf: aShip [
 	| aCardManager |
 	aCardManager := cardManagers detect: [ :manager | manager ship = aShip ].
 	^ aCardManager  .
+]
+
+{ #category : 'as yet unclassified' }
+SpaceShipGame >> cellAt: aNumber [
+
+	^ board cellNumber: aNumber.
+
 ]
 
 { #category : 'as yet unclassified' }
@@ -241,7 +247,21 @@ SpaceShipGame >> isAnAlly: aShip of: anotherShip [
 ]
 
 { #category : 'as yet unclassified' }
-SpaceShipGame >> isShipSupposedToPLay: aShip [
+SpaceShipGame >> isReversed: aShip [
+
+	| cards position |
+	
+	cards := (self cardManagerOf: aShip) cardsAffecting.
+	position := self positionOf: aShip.
+	^ cards anySatisfy: [ :aCard | 
+		(aCard isKindOf: ReversePolarityCard) and: [
+			aCard cellNumberAffected = position
+		]
+	].
+]
+
+{ #category : 'as yet unclassified' }
+SpaceShipGame >> isShipSupposedToPlay: aShip [
 
 	aShip = (ships at: shipSupposedToPlay ) ifFalse: [ Error signal: 'You can only play this card when its your turn' ]
 ]
@@ -415,7 +435,7 @@ SpaceShipGame >> throwDiceFor: aShip [
 	
 	throwModified := self modifyThrowFor: aShip.
 	
-	self move: aShip by: resultOfTheThrow + throwModified .
+	self move: aShip by: resultOfTheThrow + throwModified.
 ]
 
 { #category : 'as yet unclassified' }

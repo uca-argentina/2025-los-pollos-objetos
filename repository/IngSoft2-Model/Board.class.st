@@ -116,10 +116,12 @@ Board >> cells [
 { #category : 'accessing' }
 Board >> determineAndApplyEffectTo: aShip atCurrentCellFrom: aGame [
 
-
 	| specialCell |
 	specialCell := cells at: (aGame positionOf: aShip).
-	specialCell applyEffectTo: aShip of: aGame. 
+	(aGame isReversed: aShip)
+	ifTrue: [ specialCell applyReversedEffectTo: aShip from: aGame ]
+	ifFalse: [ specialCell applyEffectTo: aShip of: aGame ] .
+	
 	^ specialCell.
 ]
 

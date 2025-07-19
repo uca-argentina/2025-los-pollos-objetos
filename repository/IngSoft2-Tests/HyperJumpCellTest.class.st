@@ -308,7 +308,7 @@ HyperJumpCellTest >> testWhenAShipArrivesToHyperJumpCellAndRunsOutOfFuelToAdvanc
 { #category : 'tests' }
 HyperJumpCellTest >> testWhenAShipArrivesToHyperJumpCellThenItAdvancesTheCorrespondingLightYears [
 
-	| aGame aBoard aShip ships oneDice dices boardLength distanceValues expectedPosition numberOfCells cells |
+	| aGame aBoard aShip ships oneDice dices boardLength distanceValues numberOfCells cells |
 	boardLength := ParsecDistance with: 90.
 	distanceValues := OrderedCollection with: (LightYearDistance with: 81).
 
@@ -352,7 +352,7 @@ HyperJumpCellTest >> testWhenAShipArrivesToHyperJumpCellThenItAdvancesTheCorresp
 { #category : 'tests' }
 HyperJumpCellTest >> testWhenAShipArrivesToHyperJumpCellThenItAdvancesTheCorrespondingParsecs [
 
-	| aGame aBoard aShip ships oneDice dices expectedPosition numberOfCells cells distanceValues boardLength |
+	| aGame aBoard aShip ships oneDice dices numberOfCells cells distanceValues boardLength |
 	
 	boardLength := LightYearDistance with: 270.
 	"parsecValues := #( 25 15 10 )."
@@ -399,7 +399,7 @@ HyperJumpCellTest >> testWhenAShipArrivesToHyperJumpCellThenItAdvancesTheCorresp
 { #category : 'tests' }
 HyperJumpCellTest >> testWhenBoardAndDistanceValuesAreBothInLightYearsThenAShipItAdvancesTheCorrespondingLightYears [
 
-	| aGame aBoard aShip ships oneDice dices boardLength distanceValues expectedPosition numberOfCells cells |
+	| aGame aBoard aShip ships oneDice dices boardLength distanceValues numberOfCells cells |
 	boardLength := LightYearDistance with: 270.
 	distanceValues := OrderedCollection with: (LightYearDistance with: 81).
 

@@ -20,8 +20,8 @@ OverloadCard >> effect [
 { #category : 'as yet unclassified' }
 OverloadCard >> useFrom: aCardOwner to: aCardTarget in: aGame [
 
-	aGame isShipSupposedToPLay: aCardOwner.
-	aGame applyACardEffect: self to: aCardTarget.
+	aGame isShipSupposedToPlay: aCardOwner.
+	aGame addACardEffect: self to: aCardTarget.
 	aGame eliminate: self from: aCardOwner.
 	aGame lastPlayedCardWas: self.
 ]

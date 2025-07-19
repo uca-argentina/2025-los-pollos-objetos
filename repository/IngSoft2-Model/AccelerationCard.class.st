@@ -20,7 +20,7 @@ AccelerationCard >> effect [
 { #category : 'testing' }
 AccelerationCard >> useFrom: aCardOwner to: aCardTarget in: aGame [
 
-	aGame isShipSupposedToPLay: aCardOwner.
+	aGame isShipSupposedToPlay: aCardOwner.
 	aGame applyToAllSpaceShips: self.
 	aGame eliminate: self from: aCardOwner.
 	aGame lastPlayedCardWas: self.

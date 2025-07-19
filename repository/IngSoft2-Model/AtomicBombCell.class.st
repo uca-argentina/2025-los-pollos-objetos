@@ -8,8 +8,12 @@ Class {
 { #category : 'initialization' }
 AtomicBombCell >> applyEffectTo: aShip of: aGame [
 
-    aGame shipsPlaying do: [:eachShip | 
-		 aGame returnToInitialPosition: eachShip
-	].
+	aGame shipsPlaying do: [ :eachShip | 
+	aGame returnToInitialPosition: eachShip ].
+]
 
+{ #category : 'initialization' }
+AtomicBombCell >> applyReversedEffectTo: aShip from: aGame [
+
+	^ self.
 ]
