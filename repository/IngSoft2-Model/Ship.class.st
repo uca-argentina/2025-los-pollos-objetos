@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'shipsName',
 		'fuelCharged',
-		'maximumFuel'
+		'maximumFuel',
+		'turbines'
 	],
 	#classInstVars : [
 		'shipsName'
@@ -54,6 +55,12 @@ Ship >> currentFuel [
 	^ fuelCharged
 ]
 
+{ #category : 'as yet unclassified' }
+Ship >> currentTurbines [
+
+	^ turbines.
+]
+
 { #category : 'path commands' }
 Ship >> hasEnoughFuel: aConsumption [
 
@@ -68,8 +75,7 @@ Ship >> initializeWith: aShipName andAFuelCharge: aFuelCharge [
 	shipsName := aShipName.
 	fuelCharged := aFuelCharge.
 	maximumFuel := aFuelCharge.
-	
-	
+	turbines := 3.
 ]
 
 { #category : 'accessing' }
@@ -78,6 +84,13 @@ Ship >> isAPositiveInteger: aConsumption [
 	(aConsumption isInteger and: [ aConsumption >= 0 ]) ifFalse: [
 		Error signal:
 			'Charge and consumption of fuel must be a positive amount.' ]
+]
+
+{ #category : 'path commands' }
+Ship >> loseTurbine [
+
+	turbines := turbines - 1.
+	
 ]
 
 { #category : 'accessing' }

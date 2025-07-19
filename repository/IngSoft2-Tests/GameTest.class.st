@@ -16,6 +16,109 @@ GameTest >> should: anErrorBlock raise: anErroClass withMessageText: errorMessag
 ]
 
 { #category : 'tests' }
+GameTest >> testWhenAGameStartsThenTheShipsPlayingHaveThreeTurbines [
+
+	| ships aShip aBoard oneDice dices aGame numberOfCells someProbabilities aCellGenerator |
+	numberOfCells := 6.
+	someProbabilities := Dictionary new
+		                     at: 1
+		                     put:
+			                     (NormalCell initializeCellOn: numberOfCells);
+		                     yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          generatedWith: aCellGenerator
+		          andAWormHoleBetweenCells: 2
+		          and: 5.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 6.
+	dices := OrderedCollection with: oneDice.
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	ships := OrderedCollection with: aShip.
+
+	aGame := SpaceShipGame
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships.
+
+	self assert: (aGame remainingTurbinesOf: aShip) equals: 3.
+]
+
+{ #category : 'tests' }
+GameTest >> testWhenAShipIsAffectedByABlackHoleThenItLossesOneTurbineOutOfTheThreeAvailable [
+
+	| aGame aBoard aShip ships oneDice dices numberOfCells cells |
+	cells := OrderedCollection new.
+	cells add: (NormalCell initializeCellOn: 1).
+	cells add: (NormalCell initializeCellOn: 2).
+	cells add: (NormalCell initializeCellOn: 3).
+	cells add: (NormalCell initializeCellOn: 4).
+	cells add: (NormalCell initializeCellOn: 5).
+	cells add: (NormalCell initializeCellOn: 6).
+	cells add: (BlackHoleCell initializeCellOn: 7).
+	numberOfCells := 7.
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          whichAre: cells
+		          andAWormHoleBetweenCells: 6
+		          and: 7.
+	
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 6.
+	dices := OrderedCollection with: oneDice.
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	ships := OrderedCollection with: aShip.
+
+	aGame := SpaceShipGame
+		         completedAtLap: 2
+		         with: aBoard
+		         and: dices
+		         and: ships.
+
+	aGame executeTurn.
+
+	self assert: (aGame positionOf: aShip) equals: 3.
+	self assert: (aGame remainingTurbinesOf: aShip) equals: 2.
+]
+
+{ #category : 'tests' }
+GameTest >> testWhenAShipIsAffectedByAHyperGravityThenItLossesOneTurbineOutOfTheThreeAvailable [
+
+	| aGame aBoard aShip ships oneDice dices numberOfCells cells |
+	cells := OrderedCollection new.
+	cells add: (NormalCell initializeCellOn: 1).
+	cells add: (NormalCell initializeCellOn: 2).
+	cells add: (NormalCell initializeCellOn: 3).
+	cells add: (NormalCell initializeCellOn: 4).
+	cells add:
+		(HyperGravityCell initializeCellOn: 5 withRequiredValue: 6).
+	cells add: (NormalCell initializeCellOn: 6).
+	cells add: (NormalCell initializeCellOn: 7).
+	numberOfCells := 7.
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          whichAre: cells
+		          andAWormHoleBetweenCells: 6
+		          and: 7.
+
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 4.
+	dices := OrderedCollection with: oneDice.
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	ships := OrderedCollection with: aShip.
+	aGame := SpaceShipGame
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships.
+
+	aGame executeTurn.
+
+	self assert: (aGame positionOf: aShip) equals: 1.
+	self assert: (aGame remainingTurbinesOf: aShip) equals: 2.
+]
+
+{ #category : 'tests' }
 GameTest >> testWhenAShipIsPenalizeWithTwoMovesThenItsIncludedInThePenalizationsDictionary [
 
 	| ships aShip aBoard oneDice dices aGame numberOfCells someProbabilities aCellGenerator |
@@ -157,6 +260,40 @@ GameTest >> testWhenAShipIsPenalizedWithANonPositiveIntegerThenItFails [
 		should: [ aGame penalize: aShip withTurns: -2 ]
 		raise: Error
 		withMessageText: 'The penalty must be a positive integer.'
+]
+
+{ #category : 'tests' }
+GameTest >> testWhenAShipRunsOutFuelThenItLossesOneTurbineOutOfTheThreeAvailable [
+
+	| ships aShip aBoard oneDice dices aGame numberOfCells someProbabilities aCellGenerator |
+	numberOfCells := 6.
+	someProbabilities := Dictionary new
+		                     at: 1
+		                     put:
+			                     (NormalCell initializeCellOn: numberOfCells);
+		                     yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          generatedWith: aCellGenerator
+		          andAWormHoleBetweenCells: 2
+		          and: 5.
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 6.
+	dices := OrderedCollection with: oneDice.
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	ships := OrderedCollection with: aShip.
+
+	aGame := SpaceShipGame
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships.
+
+	aGame executeTurn.
+	aGame executeTurn.
+
+	self assert: (aGame remainingTurbinesOf: aShip) equals: 2.
 ]
 
 { #category : 'tests' }

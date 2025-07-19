@@ -66,7 +66,7 @@ HyperGravityCellTest >> testWhenShipArrivesToHyperGravityCellWithEnoughRollThenI
 
 	aGame executeTurn.
 
-	self assert: (aGame positionOf: aShip) equals: 5
+	self assert: (aGame positionOf: aShip) equals: 5.
 ]
 
 { #category : 'tests' }
@@ -137,5 +137,5 @@ HyperGravityCellTest >> testWhenShipArrivesToHyperGravityCellWithNotEnoughRollTh
 
 	aGame executeTurn.
 
-	self assert: (aGame positionOf: aShip) equals: 1
+	self assert: (aGame positionOf: aShip) equals: 1.
 ]

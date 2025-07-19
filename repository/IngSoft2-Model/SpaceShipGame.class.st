@@ -176,6 +176,12 @@ SpaceShipGame >> discardACardEffect: aCard [
 ]
 
 { #category : 'as yet unclassified' }
+SpaceShipGame >> discardOneTurbineOf: aShip [
+
+	aShip loseTurbine.
+]
+
+{ #category : 'as yet unclassified' }
 SpaceShipGame >> eliminate: aCard from: aShip [
 
 	| cardManagerShip |
@@ -303,7 +309,7 @@ SpaceShipGame >> move: aShip by: steps [
 		self move: aShip to: targetPosition andConsume: aConsumption ]
 	ifFalse: [
 		self tryToMoveUsingAllyOf: aShip to: targetPosition consuming: aConsumption ].
-	self updateLapFor: aShip withTotalSteps: totalSteps.
+		self updateLapFor: aShip withTotalSteps: totalSteps.
 ]
 
 { #category : 'accessing' }
@@ -374,6 +380,12 @@ SpaceShipGame >> reducePenaltyFor: aShip [
 			aShip restoreFuel.
 			penalties removeKey: (aShip name) ]
 
+]
+
+{ #category : 'as yet unclassified' }
+SpaceShipGame >> remainingTurbinesOf: aShip [
+
+	^ (ships detect: [ :gameShip | gameShip = aShip]) currentTurbines.
 ]
 
 { #category : 'initialization' }
@@ -448,6 +460,7 @@ SpaceShipGame >> tryToMoveUsingAllyOf: aShip to: targetPosition consuming: aCons
 	usableAllies isEmpty
 		ifTrue: [
 			self penalize: aShip withTurns: 2.
+			self discardOneTurbineOf: aShip.
 			aShipAllies do: [ :ally | self penalize: ally withTurns: 2 ]
 		]
 		ifFalse: [
