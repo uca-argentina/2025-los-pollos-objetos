@@ -60,6 +60,18 @@ SpaceShipGame >> advanceTurn [
 ]
 
 { #category : 'as yet unclassified' }
+SpaceShipGame >> advanceTurnIfCurrentTurnsShipHasRunOutOfTurbines [
+
+	| ship |
+	
+	[ ship := ships at: shipSupposedToPlay.
+	  (( self remainingTurbinesOf: ship ) <= 0) ] whileTrue: [
+	    self advanceTurn ].
+	
+	^ ship.
+]
+
+{ #category : 'as yet unclassified' }
 SpaceShipGame >> advanceTurnIfCurrentTurnsShipIsPenalized [
 
 	| ship |
@@ -198,6 +210,7 @@ SpaceShipGame >> executeTurn [
 	| ship |
 	
 	ship := self advanceTurnIfCurrentTurnsShipIsPenalized.
+	ship := self advanceTurnIfCurrentTurnsShipHasRunOutOfTurbines.
 	ship := ships at: shipSupposedToPlay.
 
 	self throwDiceFor: ship.

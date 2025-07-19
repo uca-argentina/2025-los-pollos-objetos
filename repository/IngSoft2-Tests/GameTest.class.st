@@ -366,6 +366,105 @@ GameTest >> testWhenAShipRunsOutOfFuelThenItsPenalizedWithTwoTurns [
 ]
 
 { #category : 'tests' }
+GameTest >> testWhenAShipRunsOutOfTurbinesThenItCantKeepPlayingAnymore [
+
+	| ships aShip aBoard oneDice dices aGame numberOfCells anotherShip cells anAccelerationCard aCancellationCard cards aDeck |
+	cells := OrderedCollection new.
+	cells add: (NormalCell initializeCellOn: 1).
+	cells add: (NormalCell initializeCellOn: 2).
+	cells add: (NormalCell initializeCellOn: 3).
+	cells add: (BlackHoleCell initializeCellOn: 4).
+	cells add: (NormalCell initializeCellOn: 5).
+	cells add: (NormalCell initializeCellOn: 6).
+	cells add: (NormalCell initializeCellOn: 7).
+	cells add: (NormalCell initializeCellOn: 8).
+	cells add: (NormalCell initializeCellOn: 9).
+	cells add: (NormalCell initializeCellOn: 10).
+	numberOfCells := 10.
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          whichAre: cells
+		          andAWormHoleBetweenCells: 8
+		          and: 9.	oneDice := AChargedDice withATotalNumberOfFacesOf: 2.
+	dices := OrderedCollection with: oneDice.
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'Sulaco' withAChargeBasedOn: dices.
+	ships := OrderedCollection with: aShip with: anotherShip.
+	anAccelerationCard := AccelerationCard new.
+	aCancellationCard := CancellationCard new.
+	cards := OrderedCollection with: anAccelerationCard with: aCancellationCard.
+	aDeck := AChargedDeck cards: cards withNShips: (ships size).
+
+	aGame := SpaceShipGame
+		         completedAtLap: 2
+		         with: aBoard
+		         and: dices
+		         and: ships
+				   and: aDeck.
+
+	aGame executeTurn.
+	aGame executeTurn.
+	aGame executeTurn.
+	aGame executeTurn.
+	aGame playCard: anAccelerationCard from: aShip to: anotherShip.
+	aGame executeTurn.
+	aCancellationCard selectedCard: anAccelerationCard.
+	aGame playCard: aCancellationCard from: anotherShip to: aShip.
+	aGame executeTurn.
+		
+	self assert: (aGame positionOf: aShip) equals: 1.
+	self assert: (aGame positionOf: anotherShip) equals: 3.
+	self assert: (aGame remainingTurbinesOf: aShip) equals: 0.
+]
+
+{ #category : 'tests' }
+GameTest >> testWhenAShipRunsOutOfTurbinesThenItHasNoMoreTurbines [
+
+	| ships aShip aBoard oneDice dices aGame numberOfCells anotherShip cells anAccelerationCard aCancellationCard cards aDeck |
+	cells := OrderedCollection new.
+	cells add: (NormalCell initializeCellOn: 1).
+	cells add: (NormalCell initializeCellOn: 2).
+	cells add: (NormalCell initializeCellOn: 3).
+	cells add: (BlackHoleCell initializeCellOn: 4).
+	cells add: (NormalCell initializeCellOn: 5).
+	cells add: (NormalCell initializeCellOn: 6).
+	cells add: (NormalCell initializeCellOn: 7).
+	cells add: (NormalCell initializeCellOn: 8).
+	cells add: (NormalCell initializeCellOn: 9).
+	cells add: (NormalCell initializeCellOn: 10).
+	numberOfCells := 10.
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          whichAre: cells
+		          andAWormHoleBetweenCells: 8
+		          and: 9.	oneDice := AChargedDice withATotalNumberOfFacesOf: 2.
+	dices := OrderedCollection with: oneDice.
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'Sulaco' withAChargeBasedOn: dices.
+	ships := OrderedCollection with: aShip with: anotherShip.
+	anAccelerationCard := AccelerationCard new.
+	aCancellationCard := CancellationCard new.
+	cards := OrderedCollection with: anAccelerationCard with: aCancellationCard.
+	aDeck := AChargedDeck cards: cards withNShips: (ships size).
+
+	aGame := SpaceShipGame
+		         completedAtLap: 2
+		         with: aBoard
+		         and: dices
+		         and: ships
+				   and: aDeck.
+
+	aGame executeTurn.
+	aGame executeTurn.
+	aGame executeTurn.
+	aGame executeTurn.
+	aGame playCard: anAccelerationCard from: aShip to: anotherShip.
+	aGame executeTurn.
+
+	self assert: (aGame remainingTurbinesOf: aShip) equals: 0.
+]
+
+{ #category : 'tests' }
 GameTest >> testWhenAShipWithTwoPenaltiesAreReduceByOneThenItHasOnePenaltyOnly [
 
 	| ships aShip aBoard oneDice dices aGame numberOfCells someProbabilities aCellGenerator |
