@@ -76,7 +76,7 @@ SpaceShipGame >> advanceTurnIfCurrentTurnsShipIsPenalized [
 SpaceShipGame >> alliesOf: aShip [
 
 	^ (allies select: [:pair | pair includes: aShip ])
-		collect: [:pair | pair detect: [:ship | ship ~= aShip ]].
+		collect: [:pair | pair detect: [:ship | ship ~= aShip ] ].
 
 ]
 
