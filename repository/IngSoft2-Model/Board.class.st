@@ -118,9 +118,7 @@ Board >> determineAndApplyEffectTo: aShip atCurrentCellFrom: aGame [
 
 	| specialCell |
 	specialCell := cells at: (aGame positionOf: aShip).
-	(aGame isReversed: aShip)
-	ifTrue: [ specialCell applyReversedEffectTo: aShip from: aGame ]
-	ifFalse: [ specialCell applyEffectTo: aShip of: aGame ] .
+	specialCell decideEffectoBasedOnStateOf: aShip of: aGame.
 	
 	^ specialCell.
 ]

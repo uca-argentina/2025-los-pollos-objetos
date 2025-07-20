@@ -75,6 +75,14 @@ HyperJumpCell >> cellsToJump [
 ]
 
 { #category : 'initialization' }
+HyperJumpCell >> decideEffectoBasedOnStateOf: aShip of: aGame [
+
+	(aGame isReversed: aShip)
+	ifTrue: [ self applyReversedEffectTo: aShip from: aGame ]
+	ifFalse: [ self applyEffectTo: aShip of: aGame ] .
+]
+
+{ #category : 'initialization' }
 HyperJumpCell >> setUpOn: aNumberOfCell withDistanceValues: distanceValues withBoardLength: aBoardLength withANumberOfCells: aNumberOfCells [
 
 	ships := OrderedCollection new.

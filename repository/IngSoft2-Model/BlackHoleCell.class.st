@@ -20,3 +20,11 @@ BlackHoleCell >> applyReversedEffectTo: aShip from: aGame [
 	shipsToAffect do: [ :ship | aGame move: ship by: -4.
 										aGame discardOneTurbineOf: ship ].
 ]
+
+{ #category : 'as yet unclassified' }
+BlackHoleCell >> decideEffectoBasedOnStateOf: aShip of: aGame [
+
+	(aGame isReversed: aShip)
+	ifTrue: [ self applyReversedEffectTo: aShip from: aGame ]
+	ifFalse: [ self applyEffectTo: aShip of: aGame ] .
+]

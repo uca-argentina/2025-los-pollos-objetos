@@ -42,6 +42,14 @@ MoonWalkCell >> applyReversedEffectTo: aShip from: aGame [
 ]
 
 { #category : 'initialization' }
+MoonWalkCell >> decideEffectoBasedOnStateOf: aShip of: aGame [
+
+	(aGame isReversed: aShip)
+	ifTrue: [ self applyReversedEffectTo: aShip from: aGame ]
+	ifFalse: [ self applyEffectTo: aShip of: aGame ] .
+]
+
+{ #category : 'initialization' }
 MoonWalkCell >> setUpOn: aNumberOfCell withRequiredValue: aRequiredValue [
 
     ships := OrderedCollection new.

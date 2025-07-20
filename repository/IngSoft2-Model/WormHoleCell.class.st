@@ -32,6 +32,14 @@ WormHoleCell >> applyReversedEffectTo: aShip from: aGame [
 ]
 
 { #category : 'initialization' }
+WormHoleCell >> decideEffectoBasedOnStateOf: aShip of: aGame [
+
+	(aGame isReversed: aShip)
+	ifTrue: [ self applyReversedEffectTo: aShip from: aGame ]
+	ifFalse: [ self applyEffectTo: aShip of: aGame ] .
+]
+
+{ #category : 'initialization' }
 WormHoleCell >> setUpOn: aNumberOfCell between: firstEntrance and: secondEntrance [
 
 	ships := OrderedCollection new.
