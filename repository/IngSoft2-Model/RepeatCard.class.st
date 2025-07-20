@@ -12,6 +12,12 @@ RepeatCard >> disableAllianceIn: aGame [
 ]
 
 { #category : 'testing' }
+RepeatCard >> transitionState [
+	
+	^ self.
+]
+
+{ #category : 'testing' }
 RepeatCard >> useFrom: aCardOwner to: aCardTarget in: aGame [
 
 	aGame applyLastEffectTo: aCardTarget.

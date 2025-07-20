@@ -14,6 +14,12 @@ CancellationCard >> cancellationWhenCardToCancelIsAAllianceCardOf: aGame [
 	cardToCancel disableAllianceIn: aGame.
 ]
 
+{ #category : 'testing' }
+CancellationCard >> cancellationWhenCardToCancelIsAReversedPolarityCard [
+
+	cardToCancel transitionState.
+]
+
 { #category : 'as yet unclassified' }
 CancellationCard >> disableAllianceIn: aGame [
 	
@@ -26,10 +32,17 @@ CancellationCard >> selectedCard: aCard [
 	cardToCancel := aCard.
 ]
 
+{ #category : 'as yet unclassified' }
+CancellationCard >> transitionState [
+	
+	^ self.
+]
+
 { #category : 'testing' }
 CancellationCard >> useFrom: aCardOwner to: aCardTarget in: aGame [
 
 	self cancellationWhenCardToCancelIsAAllianceCardOf: aGame.
+	self cancellationWhenCardToCancelIsAReversedPolarityCard.
 	aGame discardACardEffect: cardToCancel.
 	aGame eliminate: self from: aCardOwner.
 	aGame lastPlayedCardWas: self.

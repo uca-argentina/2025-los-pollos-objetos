@@ -12,6 +12,12 @@ ReDoCard >> disableAllianceIn: aGame [
 ]
 
 { #category : 'testing' }
+ReDoCard >> transitionState [
+	
+	^ self.
+]
+
+{ #category : 'testing' }
 ReDoCard >> useFrom: aCardOwner to: aCardTarget in: aGame [
 
 	| lastCardPlayed |

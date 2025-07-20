@@ -18,6 +18,12 @@ OverloadCard >> effect [
 ]
 
 { #category : 'as yet unclassified' }
+OverloadCard >> transitionState [
+	
+	^ self.
+]
+
+{ #category : 'as yet unclassified' }
 OverloadCard >> useFrom: aCardOwner to: aCardTarget in: aGame [
 
 	aGame isShipSupposedToPlay: aCardOwner.

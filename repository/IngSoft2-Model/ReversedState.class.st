@@ -12,3 +12,9 @@ ReversedState >> applyEffectTo: aShip in: aCell from: aGame [
 	ifTrue: [ aCell applyReversedEffectTo: aShip from: aGame ]
 	ifFalse: [ aCell applyEffectTo: aShip of: aGame ] .
 ]
+
+{ #category : 'as yet unclassified' }
+ReversedState >> reversedVersion [ 
+	
+	^ NormalState new.
+]

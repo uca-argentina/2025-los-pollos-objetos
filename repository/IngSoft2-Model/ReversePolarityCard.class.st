@@ -33,11 +33,17 @@ ReversePolarityCard >> selectedCell: aNumberOfCell of: aGame [
 ]
 
 { #category : 'testing' }
+ReversePolarityCard >> transitionState [
+
+	cell transitionToState: (cell currentState) reversedVersion.
+]
+
+{ #category : 'testing' }
 ReversePolarityCard >> useFrom: aCardOwner to: aCardTarget in: aGame [
 
 	aGame isShipSupposedToPlay: aCardOwner.
 	aGame addACardEffect: self to: aCardOwner.
-	cell transitionToState: (ReversedState new).
+	self transitionState.
 	aGame eliminate: self from: aCardOwner.
 	aGame lastPlayedCardWas: self.
 ]

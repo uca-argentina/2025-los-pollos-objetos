@@ -25,6 +25,14 @@ AllianceCard >> remember: aCardOwner and: aCardTarget [
 ]
 
 { #category : 'testing' }
+AllianceCard >> transitionState [
+	
+	^ self.
+	
+	 
+]
+
+{ #category : 'testing' }
 AllianceCard >> useFrom: aCardOwner to: aCardTarget in: aGame [
 
 	aGame isShipSupposedToPlay: aCardOwner.

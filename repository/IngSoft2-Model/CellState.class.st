@@ -10,3 +10,9 @@ CellState >> applyEffectTo: aCell in: aShip from: aGame [
 
 	self subclassResponsibility.
 ]
+
+{ #category : 'as yet unclassified' }
+CellState >> reversedVersion [
+
+	self subclassResponsibility.
+]

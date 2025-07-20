@@ -18,6 +18,12 @@ AccelerationCard >> effect [
 ]
 
 { #category : 'testing' }
+AccelerationCard >> transitionState [
+	
+	^ self.
+]
+
+{ #category : 'testing' }
 AccelerationCard >> useFrom: aCardOwner to: aCardTarget in: aGame [
 
 	aGame isShipSupposedToPlay: aCardOwner.
