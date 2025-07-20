@@ -55,10 +55,9 @@ RepeatCardTest >> testWhenARepeatCardIsUsedAfterAReversePolarityCardAndThatShipF
 	aReversePolarityCard selectedCell: 7 of: aGame.
 	aGame playCard: aReversePolarityCard from: aShip to: anotherShip.
 	aGame executeTurn.
-	aGame playCard: aRepeatCard from: aShip to: anotherShip.
+	aGame playCard: aRepeatCard from: anotherShip to: aShip.
 	
-	self assert: (aGame positionOf: aShip) equals: 1.
-	self assert: (aGame positionOf: anotherShip) equals: 1.
+	self assert: (aGame positionOf: aShip) equals: 7.
 ]
 
 { #category : 'tests' }

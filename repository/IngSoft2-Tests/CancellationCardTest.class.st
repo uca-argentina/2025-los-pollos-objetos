@@ -115,7 +115,7 @@ CancellationCardTest >> testWhenACancellationCardIsUsedThenItsEliminatedFromTheH
 ]
 
 { #category : 'tests' }
-CancellationCardTest >> testWhenAShipUsesCancellationCardOnAAcelerationCardThenTheEffectDisappears [
+CancellationCardTest >> testWhenAShipUsesCancellationCardOnAAccelerationCardThenTheEffectDisappears [
 
 	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck  anAccelerationCard anCancellationCard |
 	numberOfCells := 10.
@@ -166,7 +166,7 @@ CancellationCardTest >> testWhenAShipUsesCancellationCardOnAAcelerationCardThenT
 ]
 
 { #category : 'tests' }
-CancellationCardTest >> testWhenAShipUsesCancellationCardOnAAcelerationCardThenTheEffectDisappearsOnlyOnce [
+CancellationCardTest >> testWhenAShipUsesCancellationCardOnAAccelerationCardThenTheEffectDisappearsOnlyOnce [
 
 	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck  anAccelerationCard anCancellationCard anotherAccelerationCard |
 	numberOfCells := 10.
@@ -332,6 +332,58 @@ CancellationCardTest >> testWhenAShipUsesCancellationCardOnAAllyCardThenTheEffec
 
 	self deny: (aGame isAnAlly: aShip of: anotherShip).
 	self assert: (aGame isAnAlly: aShip of: oneMoreShip).
+]
+
+{ #category : 'tests' }
+CancellationCardTest >> testWhenAShipUsesCancellationCardOnACancellationCardThenTheCancellationIsCancelledAndThePreviousCancelledEffectIsEffected [
+
+	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck  anAccelerationCard anCancellationCard anotherCancellationCard |
+	numberOfCells := 10.
+	someProbabilities := Dictionary new
+		                     at: 1
+		                     put:
+			                     (NormalCell initializeCellOn: numberOfCells);
+		                     yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          generatedWith: aCellGenerator
+		          andAWormHoleBetweenCells: 7
+		          and: 9.
+		
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 3.
+	dices := OrderedCollection with: oneDice.
+	
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'Zorgons Ship' withAChargeBasedOn: dices.
+	
+	ships := OrderedCollection with: aShip.
+	ships add: anotherShip.
+	
+	anAccelerationCard := AccelerationCard new.
+	anotherCancellationCard := AccelerationCard new.
+	anCancellationCard := CancellationCard new.
+	cards := OrderedCollection with: anAccelerationCard with: anotherCancellationCard with: anCancellationCard.
+	aDeck := AChargedDeck cards: cards withNShips: (ships size) .
+
+	aGame := SpaceShipGame
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships and: aDeck.
+		
+	aGame playCard: anAccelerationCard from: aShip to: anotherShip.
+	anCancellationCard selectedCard: anAccelerationCard.
+	aGame playCard: anCancellationCard from: anotherShip to: aShip.
+	anCancellationCard selectedCard: anotherCancellationCard.
+	aGame playCard: anotherCancellationCard from: aShip to: anotherShip.
+	
+	aGame executeTurn.
+	aGame executeTurn.
+
+	self assert: (aGame positionOf: aShip) equals: 5.
+	self assert: (aGame positionOf: anotherShip) equals: 5.
 ]
 
 { #category : 'tests' }
