@@ -268,15 +268,11 @@ SpaceShipGame >> isAnAlly: aShip of: anotherShip [
 { #category : 'as yet unclassified' }
 SpaceShipGame >> isReversed: aShip [
 
-	| cards position |
+	| cards |
 	
 	cards := (self cardManagerOf: aShip) cardsAffecting.
-	position := self positionOf: aShip.
-	^ cards anySatisfy: [ :aCard | 
-		(aCard isKindOf: ReversePolarityCard) and: [
-			aCard cellNumberAffected = position
-		]
-	].
+
+	^ (cards count: [ :aCard | (aCard isReversePolarity) ]) odd.
 ]
 
 { #category : 'as yet unclassified' }

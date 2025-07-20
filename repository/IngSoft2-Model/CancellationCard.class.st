@@ -27,6 +27,12 @@ CancellationCard >> disableAllianceIn: aGame [
 ]
 
 { #category : 'as yet unclassified' }
+CancellationCard >> isReversePolarity [
+
+	^ false.
+]
+
+{ #category : 'as yet unclassified' }
 CancellationCard >> selectedCard: aCard [
 
 	cardToCancel := aCard.

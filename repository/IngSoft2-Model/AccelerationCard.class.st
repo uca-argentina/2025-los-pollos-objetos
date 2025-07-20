@@ -18,6 +18,12 @@ AccelerationCard >> effect [
 ]
 
 { #category : 'testing' }
+AccelerationCard >> isReversePolarity [
+
+	^ false.
+]
+
+{ #category : 'testing' }
 AccelerationCard >> transitionState [
 	
 	^ self.

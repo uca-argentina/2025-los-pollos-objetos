@@ -9,12 +9,6 @@ Class {
 }
 
 { #category : 'testing' }
-ReversePolarityCard >> cellNumberAffected [
-
-	^ cell number.
-]
-
-{ #category : 'testing' }
 ReversePolarityCard >> disableAllianceIn: aGame [
 	
 	^ self.
@@ -24,6 +18,12 @@ ReversePolarityCard >> disableAllianceIn: aGame [
 ReversePolarityCard >> effect [ 
 
 	^ 0.
+]
+
+{ #category : 'testing' }
+ReversePolarityCard >> isReversePolarity [
+
+	^ true.
 ]
 
 { #category : 'testing' }

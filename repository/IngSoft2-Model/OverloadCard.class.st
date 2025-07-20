@@ -18,6 +18,12 @@ OverloadCard >> effect [
 ]
 
 { #category : 'as yet unclassified' }
+OverloadCard >> isReversePolarity [
+
+	^ false.
+]
+
+{ #category : 'as yet unclassified' }
 OverloadCard >> transitionState [
 	
 	^ self.
