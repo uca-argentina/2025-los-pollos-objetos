@@ -15,6 +15,52 @@ ReDoCardTest >> should: anErrorBlock raise: anErrorClass withMessageText: errorM
 ]
 
 { #category : 'tests' }
+ReDoCardTest >> testWhenAReDoCardIsUsedAfterAReversePolarityCardAndThatShipFallsIntoAAtomicBombThenTheReversalIsReversed [
+
+	| aGame aBoard aShip ships oneDice dices numberOfCells cells anotherShip aReDoCard cards aDeck aReversePolarityCard |
+	cells := OrderedCollection new.
+	cells add: (NormalCell initializeCellOn: 1).
+	cells add: (NormalCell initializeCellOn: 2).
+	cells add: (NormalCell initializeCellOn: 3).
+	cells add: (NormalCell initializeCellOn: 4).
+	cells add: (NormalCell initializeCellOn: 5).
+	cells add: (NormalCell initializeCellOn: 6).
+	cells add: (AtomicBombCell initializeCellOn: 7).
+	cells add: (NormalCell initializeCellOn: 8).
+	cells add: (NormalCell initializeCellOn: 9).
+	cells add: (NormalCell initializeCellOn: 10).
+	numberOfCells := 10.
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          whichAre: cells
+		          andAWormHoleBetweenCells: 8
+		          and: 9.
+	
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 6.
+	dices := OrderedCollection with: oneDice.
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'The Millenium Falcon' withAChargeBasedOn: dices.
+	ships := OrderedCollection with: aShip with: anotherShip.
+	aReDoCard := ReDoCard new.
+	aReversePolarityCard := ReversePolarityCard new.
+	cards := OrderedCollection with: aReversePolarityCard with: aReDoCard.
+	aDeck := AChargedDeck cards: cards withNShips: (ships size) .
+	aGame := SpaceShipGame
+		         completedAtLap: 2
+		         with: aBoard
+		         and: dices
+		         and: ships
+					and: aDeck.
+
+	aReversePolarityCard selectedCell: 7 of: aGame.
+	aGame playCard: aReversePolarityCard from: aShip to: anotherShip.
+	aGame playCard: aReDoCard from: aShip to: anotherShip.
+	aGame executeTurn.
+
+	self assert: (aGame positionOf: aShip) equals: 1.
+]
+
+{ #category : 'tests' }
 ReDoCardTest >> testWhenAShipUsesAReDoCardAfterAAccelerationCardThenItsRemovedFromItsHand [
 
 	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck aAccelerationCard anRedoCard |

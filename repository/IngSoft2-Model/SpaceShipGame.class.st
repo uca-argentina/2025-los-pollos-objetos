@@ -100,8 +100,10 @@ SpaceShipGame >> ally: cardOwner with: cardTarget [
 
 { #category : 'as yet unclassified' }
 SpaceShipGame >> applyLastEffectTo: aShip [
-
-	lastEffectApplied applyEffectTo: aShip of: self.
+	
+	| cellsState |
+	cellsState := lastEffectApplied currentState.
+	cellsState applyEffectTo: aShip in: lastEffectApplied from: self.
 ]
 
 { #category : 'as yet unclassified' }
