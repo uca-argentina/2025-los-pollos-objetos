@@ -3,7 +3,8 @@ Class {
 	#superclass : 'Object',
 	#instVars : [
 		'ships',
-		'numberOfCell'
+		'numberOfCell',
+		'state'
 	],
 	#classInstVars : [
 		'ships'
@@ -25,6 +26,12 @@ Cell class >> isAPositiveInteger: aNumber [
 
     (aNumber isInteger and: [ aNumber >= 0 ]) ifFalse: [
         Error signal: 'Number of cell must be a positive integer.' ].
+]
+
+{ #category : 'initialization' }
+Cell >> currentState [ 
+
+	^ state.
 ]
 
 { #category : 'as yet unclassified' }
@@ -56,6 +63,13 @@ Cell >> setUpOn: aNumberOfCell [
 
 	ships := OrderedCollection new.
 	numberOfCell := aNumberOfCell.
+	state := NormalState new.
+]
+
+{ #category : 'initialization' }
+Cell >> transitionToState: aState [
+	
+	state := aState.
 ]
 
 { #category : 'initialization' }

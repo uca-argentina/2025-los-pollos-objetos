@@ -12,10 +12,13 @@ Class {
 { #category : 'initialization' }
 MoonWalkCell class >> initializeCellOn: aNumberOfCell withRequiredValue: aRequiredValue [
 
-    self isAPositiveInteger: aNumberOfCell.
-    self isAPositiveInteger: aRequiredValue.
+	| instance |
+	
+   self isAPositiveInteger: aNumberOfCell.
+   self isAPositiveInteger: aRequiredValue.
+	instance := super initializeCellOn: aNumberOfCell.
 
-    ^ (self new) setUpOn: aNumberOfCell withRequiredValue: aRequiredValue
+   ^ instance withRequiredValue: aRequiredValue.
 ]
 
 { #category : 'initialization' }
@@ -42,23 +45,13 @@ MoonWalkCell >> applyReversedEffectTo: aShip from: aGame [
 ]
 
 { #category : 'initialization' }
-MoonWalkCell >> decideEffectoBasedOnStateOf: aShip of: aGame [
-
-	(aGame isReversed: aShip)
-	ifTrue: [ self applyReversedEffectTo: aShip from: aGame ]
-	ifFalse: [ self applyEffectTo: aShip of: aGame ] .
-]
-
-{ #category : 'initialization' }
-MoonWalkCell >> setUpOn: aNumberOfCell withRequiredValue: aRequiredValue [
-
-    ships := OrderedCollection new.
-    numberOfCell := aNumberOfCell.
-    numberOfCellsToGoBack := aRequiredValue.
-]
-
-{ #category : 'initialization' }
 MoonWalkCell >> stepsBack [
  
     ^ numberOfCellsToGoBack negated.
+]
+
+{ #category : 'initialization' }
+MoonWalkCell >> withRequiredValue: aRequiredValue [
+
+    numberOfCellsToGoBack := aRequiredValue.
 ]

@@ -11,10 +11,13 @@ Class {
 { #category : 'initialization' }
 HyperGravityCell class >> initializeCellOn: aNumberOfCell withRequiredValue: aRequiredValue [
 
-    self isAPositiveInteger: aNumberOfCell.
-    self requiredValueIsAPositiveInteger: aRequiredValue.
+   | instance |
+	
+	self isAPositiveInteger: aNumberOfCell.
+   self requiredValueIsAPositiveInteger: aRequiredValue.
+	instance := super initializeCellOn: aNumberOfCell.
 
-    ^ (self new) setUpOn: aNumberOfCell withRequiredValue: aRequiredValue
+   ^ instance withRequiredValue: aRequiredValue
 ]
 
 { #category : 'initialization' }
@@ -55,17 +58,7 @@ HyperGravityCell >> applyReversedEffectTo: aShip from: aGame [
 ]
 
 { #category : 'initialization' }
-HyperGravityCell >> decideEffectoBasedOnStateOf: aShip of: aGame [
+HyperGravityCell >> withRequiredValue: aRequiredValue [
 
-	(aGame isReversed: aShip)
-	ifTrue: [ self applyReversedEffectTo: aShip from: aGame ]
-	ifFalse: [ self applyEffectTo: aShip of: aGame ] .
-]
-
-{ #category : 'initialization' }
-HyperGravityCell >> setUpOn: aNumberOfCell withRequiredValue: aRequiredValue [
-
-    ships := OrderedCollection new.
-    numberOfCell := aNumberOfCell.
     requiredValue := aRequiredValue.
 ]

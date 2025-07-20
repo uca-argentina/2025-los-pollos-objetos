@@ -12,7 +12,9 @@ Class {
 { #category : 'as yet unclassified' }
 WormHoleCell class >> on: aNumberOfCell between: firstEntrance and: secondEntrance [
 
-	^ (self new) setUpOn: aNumberOfCell between: firstEntrance and: secondEntrance.
+	| instance |
+	instance := super initializeCellOn: aNumberOfCell.
+	^ instance between: firstEntrance and: secondEntrance.
 ]
 
 { #category : 'initialization' }
@@ -32,18 +34,8 @@ WormHoleCell >> applyReversedEffectTo: aShip from: aGame [
 ]
 
 { #category : 'initialization' }
-WormHoleCell >> decideEffectoBasedOnStateOf: aShip of: aGame [
+WormHoleCell >> between: firstEntrance and: secondEntrance [
 
-	(aGame isReversed: aShip)
-	ifTrue: [ self applyReversedEffectTo: aShip from: aGame ]
-	ifFalse: [ self applyEffectTo: aShip of: aGame ] .
-]
-
-{ #category : 'initialization' }
-WormHoleCell >> setUpOn: aNumberOfCell between: firstEntrance and: secondEntrance [
-
-	ships := OrderedCollection new.
-	numberOfCell := aNumberOfCell.
 	wormsHoleFirstEntrance := firstEntrance.
 	wormsHoleSecondEntrance := secondEntrance.
 ]

@@ -18,11 +18,3 @@ CardSpawnerCell >> applyReversedEffectTo: aShip from: aGame [
 	shipsToAffect := aGame shipsPlaying reject: [ :ship | ship = aShip].
 	shipsToAffect do: [ :ship | aGame pickACardFor: ship ].
 ]
-
-{ #category : 'initialization' }
-CardSpawnerCell >> decideEffectoBasedOnStateOf: aShip of: aGame [
-
-	(aGame isReversed: aShip)
-	ifTrue: [ self applyReversedEffectTo: aShip from: aGame ]
-	ifFalse: [ self applyEffectTo: aShip of: aGame ] .
-]

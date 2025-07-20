@@ -17,11 +17,3 @@ AtomicBombCell >> applyReversedEffectTo: aShip from: aGame [
 
 	^ self.
 ]
-
-{ #category : 'initialization' }
-AtomicBombCell >> decideEffectoBasedOnStateOf: aShip of: aGame [
-
-	(aGame isReversed: aShip)
-	ifTrue: [ self applyReversedEffectTo: aShip from: aGame ]
-	ifFalse: [ self applyEffectTo: aShip of: aGame ] .
-]

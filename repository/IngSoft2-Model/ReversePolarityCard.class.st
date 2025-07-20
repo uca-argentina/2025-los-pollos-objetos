@@ -37,6 +37,7 @@ ReversePolarityCard >> useFrom: aCardOwner to: aCardTarget in: aGame [
 
 	aGame isShipSupposedToPlay: aCardOwner.
 	aGame addACardEffect: self to: aCardOwner.
+	cell transitionToState: (ReversedState new).
 	aGame eliminate: self from: aCardOwner.
 	aGame lastPlayedCardWas: self.
 ]

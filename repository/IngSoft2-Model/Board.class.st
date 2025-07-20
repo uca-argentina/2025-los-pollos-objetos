@@ -116,9 +116,10 @@ Board >> cells [
 { #category : 'accessing' }
 Board >> determineAndApplyEffectTo: aShip atCurrentCellFrom: aGame [
 
-	| specialCell |
+	| specialCell cellsState |
 	specialCell := cells at: (aGame positionOf: aShip).
-	specialCell decideEffectoBasedOnStateOf: aShip of: aGame.
+	cellsState := specialCell currentState.
+	cellsState applyEffectTo: aShip in: specialCell from: aGame.
 	
 	^ specialCell.
 ]
