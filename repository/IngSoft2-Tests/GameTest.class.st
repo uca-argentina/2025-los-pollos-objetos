@@ -465,6 +465,42 @@ GameTest >> testWhenAShipRunsOutOfTurbinesThenItHasNoMoreTurbines [
 ]
 
 { #category : 'tests' }
+GameTest >> testWhenAShipSuccessfullyOvercomesAHyperGravityThenItDoesntLoseAnyTurbinesOutOfTheThreeAvailable [
+
+	| aGame aBoard aShip ships oneDice dices numberOfCells cells |
+	cells := OrderedCollection new.
+	cells add: (NormalCell initializeCellOn: 1).
+	cells add: (NormalCell initializeCellOn: 2).
+	cells add: (NormalCell initializeCellOn: 3).
+	cells add: (NormalCell initializeCellOn: 4).
+	cells add:
+		(HyperGravityCell initializeCellOn: 5 withRequiredValue: 2).
+	cells add: (NormalCell initializeCellOn: 6).
+	cells add: (NormalCell initializeCellOn: 7).
+	numberOfCells := 7.
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          whichAre: cells
+		          andAWormHoleBetweenCells: 6
+		          and: 7.
+
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 4.
+	dices := OrderedCollection with: oneDice.
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	ships := OrderedCollection with: aShip.
+	aGame := SpaceShipGame
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships.
+
+	aGame executeTurn.
+
+	self assert: (aGame positionOf: aShip) equals: 5.
+	self assert: (aGame remainingTurbinesOf: aShip) equals: 3.
+]
+
+{ #category : 'tests' }
 GameTest >> testWhenAShipWithTwoPenaltiesAreReduceByOneThenItHasOnePenaltyOnly [
 
 	| ships aShip aBoard oneDice dices aGame numberOfCells someProbabilities aCellGenerator |

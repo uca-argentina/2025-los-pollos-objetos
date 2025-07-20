@@ -2,9 +2,7 @@ Class {
 	#name : 'ReversePolarityCard',
 	#superclass : 'Card',
 	#instVars : [
-		'cell',
-		'game',
-		'cardOwner'
+		'cell'
 	],
 	#category : 'IngSoft2-Model',
 	#package : 'IngSoft2-Model'
