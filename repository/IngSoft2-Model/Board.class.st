@@ -138,9 +138,9 @@ Board >> getShipsIntoFirstCellOfTheBoard: shipsCollection [
 { #category : 'initialization' }
 Board >> initializeWith: aNumberOfCells andTheseCells: someCells andAWormHoleBeweenCells: firstEntrance and: secondEntrance [
 
-	cells := someCells.
+	cells := OrderedCollection withAll: someCells.
 	wormsHolesFirstEntrance := firstEntrance.
-	wormsHolesSecondEntrance := secondEntrance
+	wormsHolesSecondEntrance := secondEntrance.
 ]
 
 { #category : 'initialization' }

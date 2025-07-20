@@ -633,10 +633,10 @@ GameTest >> testWhenGameIsStartedThenAllShipsAreAtTheFirstCell [
 		         and: dices
 		         and: ships.
 
-	firstCell := aBoard cellNumber: 1.
+	firstCell := aGame cellAt: 1.
 
 	self assert: (firstCell includes: aShip) equals: true.
-	self assert: (firstCell includes: anotherShip) equals: true
+	self assert: (firstCell includes: anotherShip) equals: true.
 ]
 
 { #category : 'tests' }
@@ -1068,9 +1068,9 @@ GameTest >> testWhenOneShipMovesOnePositionForwardThenItIsInTheNewCell [
 		         and: ships.
 
 	aGame move: aShip to: 2 andConsume: 1.
-	secondCell := aBoard cellNumber: (aGame positionOf: aShip).
+	secondCell := aGame cellAt: (aGame positionOf: aShip).
 
-	self assert: (secondCell includes: aShip) equals: true
+	self assert: (secondCell includes: aShip) equals: true.
 ]
 
 { #category : 'tests' }

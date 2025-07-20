@@ -228,11 +228,11 @@ SpaceShipGame >> initializeWith: laps with: aBoard with: gameDices with: gameShi
 	
 	ships := gameShips deepCopy.
 	
-	deck := aDeck.
+	deck := aDeck deepCopy.
 	cardManagers := ships collect: [ :aShip | CardManager of: aShip with: aDeck ].
 	lastCardPlayed := Card new.
 	
-   board := aBoard.
+   board := aBoard deepCopy.
 	board getShipsIntoFirstCellOfTheBoard: ships.
 	
 	shipSupposedToPlay := 1.
