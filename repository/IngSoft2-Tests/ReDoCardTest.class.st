@@ -210,6 +210,59 @@ ReDoCardTest >> testWhenAShipUsesAReDoCardThenItsRemovedFromItsHand [
 ]
 
 { #category : 'tests' }
+ReDoCardTest >> testWhenAShipUsesReDoCardAfterAnOverloadCardButItsNotItsTurnThenItFails [
+
+	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck anOverloadCard anRedoCard anotherShip2 |
+	numberOfCells := 15.
+	someProbabilities := Dictionary new
+		                     at: 1
+		                     put:
+			                     (NormalCell initializeCellOn: numberOfCells);
+		                     yourself.
+	aCellGenerator := CellGenerator basedOn: someProbabilities.
+
+	aBoard := Board
+		          withATotalNumberOfCellsOf: numberOfCells
+		          generatedWith: aCellGenerator
+		          andAWormHoleBetweenCells: 14
+		          and: 15.
+		
+	oneDice := AChargedDice withATotalNumberOfFacesOf: 6.
+	dices := OrderedCollection with: oneDice.
+	
+	aShip := Ship named: 'Venture' withAChargeBasedOn: dices.
+	anotherShip := Ship named: 'Zorgons Ship' withAChargeBasedOn: dices.
+	anotherShip2 := Ship named: 'Zorgons Ship II' withAChargeBasedOn: dices.
+	
+	ships := OrderedCollection with: aShip.
+	ships add: anotherShip.
+	ships add: anotherShip2.
+	
+	anOverloadCard:= OverloadCard new.
+	anRedoCard:= ReDoCard new.
+	
+	cards := OrderedCollection withAll: {
+		anOverloadCard.
+		anRedoCard.
+	}.
+
+	aDeck := AChargedDeck cards: cards withNShips: (ships size) .
+
+	aGame := SpaceShipGame
+		         completedAtLap: 1
+		         with: aBoard
+		         and: dices
+		         and: ships and: aDeck.
+		
+	aGame playCard: anOverloadCard from: aShip to: anotherShip.
+
+	self
+        should: [aGame playCard: anRedoCard from: anotherShip2 to: aShip.]
+        raise: Error
+        withMessageText: 'You can only play this card when its your turn'.
+]
+
+{ #category : 'tests' }
 ReDoCardTest >> testWhenAShipUsesReDoCardAfterAnOverloadCardInADifferentShipThenTheDifferentShipThrowDecreasesByTwo [
 
 	| ships aShip aBoard oneDice dices aGame anotherShip numberOfCells someProbabilities aCellGenerator cards aDeck anOverloadCard anRedoCard anotherShip2 |
